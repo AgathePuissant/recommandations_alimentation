@@ -10,7 +10,7 @@ from mlxtend.frequent_patterns import apriori
 
 # La base conso_pattern est préparée par R à partir de la base brute
 #conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr.csv", encoding = 'latin-1')
+conso_pattern_sougr = pd.read_csv("conso_pattern_sougr.csv",sep = ";", encoding = 'latin-1')
 #conso_pattern_sougr.head(3)
 nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
 nomenclature.head(3)
@@ -161,7 +161,7 @@ CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
             
        
-nomenclature = modif_nomenclature(nomenclature) 
+nomenclature = modif_nomenclature(nomenclature)
 #Que les adultes, que le déjeuner et le dîner    
 d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8])
 d = supprimer_motifs_inclus(d)
