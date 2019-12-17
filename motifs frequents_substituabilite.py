@@ -207,12 +207,12 @@ CODE PRINCIPAL
        
 nomenclature = modif_nomenclature(nomenclature)
 #Que les adultes, que le déjeuner et le dîner    
-d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.01)
+d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.05)
 #d = supprimer_motifs_inclus(d)
 #d = differe_de_1(d)
 #d = substituabilite(d,nomenclature)
 
-d=regles_association(d,0)
+d=regles_association(d,0.1)
 
 d=tableau_substitution(d)
 
