@@ -7,6 +7,7 @@ Ceci est un script temporaire.
 import numpy as np
 import pandas as pd
 from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
 
 # La base conso_pattern est préparée par R à partir de la base brute
 #conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
@@ -153,7 +154,8 @@ def substituabilite(d,nomenclature):
             motifs_sub.append(motif)
             
     return motifs_sub
-
+  
+        
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -164,7 +166,18 @@ CODE PRINCIPAL
 nomenclature = modif_nomenclature(nomenclature)
 #Que les adultes, que le déjeuner et le dîner    
 d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8])
-d = supprimer_motifs_inclus(d)
-d = differe_de_1(d)
-d = substituabilite(d,nomenclature)
-print(d)
+#d = supprimer_motifs_inclus(d)
+#d = differe_de_1(d)
+#d = substituabilite(d,nomenclature)
+
+rules=association_rules(d, metric="confidence", min_threshold=0.1)
+
+rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
+
+rules=rules[(rules["consequents_len"]==1)]
+
+print(rules)
+
+
+
+
