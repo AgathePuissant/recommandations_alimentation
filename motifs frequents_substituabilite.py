@@ -155,13 +155,13 @@ def substituabilite(d,nomenclature):
             
     return motifs_sub
 
-def regles_association(d) :
+def regles_association(d,confiance) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
     règles d'association à un conséquent
     """
     
-    rules=association_rules(d, metric="confidence", min_threshold=0.1)
+    rules=association_rules(d, metric="confidence", min_threshold=confiance)
 
     rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
     
@@ -207,12 +207,12 @@ CODE PRINCIPAL
        
 nomenclature = modif_nomenclature(nomenclature)
 #Que les adultes, que le déjeuner et le dîner    
-d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8])
+d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.01)
 #d = supprimer_motifs_inclus(d)
 #d = differe_de_1(d)
 #d = substituabilite(d,nomenclature)
 
-d=regles_association(d)
+d=regles_association(d,0)
 
 d=tableau_substitution(d)
 
