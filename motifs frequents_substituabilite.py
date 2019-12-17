@@ -154,6 +154,48 @@ def substituabilite(d,nomenclature):
             motifs_sub.append(motif)
             
     return motifs_sub
+
+def regles_association(d) :
+    """
+    Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
+    règles d'association à un conséquent
+    """
+    
+    rules=association_rules(d, metric="confidence", min_threshold=0.1)
+
+    rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
+    
+    rules=rules[(rules["consequents_len"]==1)]
+    
+    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+    
+    return rules
+
+def tableau_substitution(rules) :
+    """
+    Prend en entrée un dataframe des règles d'association et ressort
+    le tableau des aliments sustituables en fonction du contexte alimentaire
+    """
+    table_association=[]
+
+    for ligne in range (len(rules)) :
+        
+        aliments_subst=rules["consequents"][ligne]
+        
+        for ligne_comp in range(len(rules)) :
+            
+            if ligne!=ligne_comp :
+                
+                if rules["antecedents"][ligne].issubset(rules["antecedents"][ligne_comp]) and rules["antecedents"][ligne].issuperset(rules["antecedents"][ligne_comp]) :
+                    
+                    aliments_subst=aliments_subst.union(rules["consequents"][ligne_comp])
+                    
+        table_association.append([rules["antecedents"][ligne],aliments_subst])
+        
+    df_association=pd.DataFrame(table_association,columns=["Contexte alimentaire","Aliments substituables"])
+    df_association=df_association.drop_duplicates()
+    
+    return df_association
   
         
 
@@ -170,14 +212,9 @@ d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8])
 #d = differe_de_1(d)
 #d = substituabilite(d,nomenclature)
 
-rules=association_rules(d, metric="confidence", min_threshold=0.1)
+d=regles_association(d)
 
-rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
+d=tableau_substitution(d)
 
-rules=rules[(rules["consequents_len"]==1)]
-
-print(rules)
-
-
-
+print(d)
 
