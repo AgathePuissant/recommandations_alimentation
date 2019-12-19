@@ -173,7 +173,7 @@ def regles_association(d,confiance) :
     
     for i in range(len(rules)) :
         for j in range(len(rules)) :
-            if rules["consequents"][i].issuperset(rules["consequents"][j]) and rules["consequents"][i].issubset(rules["consequents"][j]) and rules["antecedents"][i].issuperset(rules["antecedents"][j]):
+            if rules["consequents"][i].issuperset(rules["consequents"][j]) and rules["consequents"][i].issubset(rules["consequents"][j]) and rules["antecedents"][i].issuperset(rules["antecedents"][j]) and i!=j:
                 liste_supp.append(j)
                 
     liste_supp=np.unique(liste_supp)
@@ -231,9 +231,6 @@ d=regles_association(d,0.3)
 d=tableau_substitution(d)
 
 print(d)
-
-            
-            
             
             
             
