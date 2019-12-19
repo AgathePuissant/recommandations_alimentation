@@ -158,7 +158,7 @@ def substituabilite(d,nomenclature):
 def regles_association(d,confiance) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
-    règles d'association à un conséquent
+    règles d'association à un conséquent et qui supprime les motifs inclus
     """
     
     rules=association_rules(d, metric="confidence", min_threshold=confiance)
@@ -166,6 +166,19 @@ def regles_association(d,confiance) :
     rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
     
     rules=rules[(rules["consequents_len"]==1)]
+    
+    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+    
+    liste_supp=[]
+    
+    for i in range(len(rules)) :
+        for j in range(len(rules)) :
+            if rules["consequents"][i].issuperset(rules["consequents"][j]) and rules["consequents"][i].issubset(rules["consequents"][j]) and rules["antecedents"][i].issuperset(rules["antecedents"][j]):
+                liste_supp.append(j)
+                
+    liste_supp=np.unique(liste_supp)
+    
+    rules=rules.drop(rules.index[liste_supp])
     
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     
@@ -180,20 +193,21 @@ def tableau_substitution(rules) :
 
     for ligne in range (len(rules)) :
         
-        aliments_subst=rules["consequents"][ligne]
+        if rules["antecedents"][ligne] not in [x for x in rules["antecedents"][:ligne]] :
         
-        for ligne_comp in range(len(rules)) :
+            aliments_subst=rules["consequents"][ligne]
             
-            if ligne!=ligne_comp :
+            for ligne_comp in range(len(rules)) :
                 
-                if rules["antecedents"][ligne].issubset(rules["antecedents"][ligne_comp]) and rules["antecedents"][ligne].issuperset(rules["antecedents"][ligne_comp]) :
+                if ligne!=ligne_comp :
                     
-                    aliments_subst=aliments_subst.union(rules["consequents"][ligne_comp])
-                    
-        table_association.append([rules["antecedents"][ligne],aliments_subst])
+                    if rules["antecedents"][ligne].issubset(rules["antecedents"][ligne_comp]) and rules["antecedents"][ligne].issuperset(rules["antecedents"][ligne_comp]) :
+                        
+                        aliments_subst=aliments_subst.union(rules["consequents"][ligne_comp])
+                        
+            table_association.append([rules["antecedents"][ligne],aliments_subst])
         
     df_association=pd.DataFrame(table_association,columns=["Contexte alimentaire","Aliments substituables"])
-    df_association=df_association.drop_duplicates()
     
     return df_association
   
@@ -207,14 +221,32 @@ CODE PRINCIPAL
        
 nomenclature = modif_nomenclature(nomenclature)
 #Que les adultes, que le déjeuner et le dîner    
-d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.05)
+d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.03)
 #d = supprimer_motifs_inclus(d)
 #d = differe_de_1(d)
 #d = substituabilite(d,nomenclature)
 
-d=regles_association(d,0.1)
+d=regles_association(d,0.3)
 
 d=tableau_substitution(d)
 
 print(d)
 
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
