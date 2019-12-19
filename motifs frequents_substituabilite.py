@@ -205,7 +205,7 @@ def tableau_substitution(rules) :
                         
                         aliments_subst=aliments_subst.union(rules["consequents"][ligne_comp])
                         
-            table_association.append([rules["antecedents"][ligne],aliments_subst])
+            table_association.append([list(rules["antecedents"][ligne]),list(aliments_subst)])
         
     df_association=pd.DataFrame(table_association,columns=["Contexte alimentaire","Aliments substituables"])
     
@@ -232,7 +232,8 @@ d=tableau_substitution(d)
 
 print(d)
             
-            
+
+
             
             
             
