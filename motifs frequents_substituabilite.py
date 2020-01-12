@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, fpgrowth
 from mlxtend.frequent_patterns import association_rules
+import pickle
 
 # La base conso_pattern est préparée par R à partir de la base brute
 #conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
@@ -81,7 +82,8 @@ def find_frequent(data, type_repas = 0, categorie = 0, seuil_support = 0.05, alg
         frequent_itemsets = apriori(data, min_support = seuil_support, use_colnames = True).assign(
             length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
     elif algo == 'fpgrowth' :
-        frequent_itemsets = fpgrowth(data, min_support = seuil_support, use_colnames=True)
+        frequent_itemsets = fpgrowth(data, min_support = seuil_support, use_colnames=True).assign(
+            length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
     return frequent_itemsets.sort_values('support', ascending = False)
 
 
@@ -220,8 +222,9 @@ def tableau_substitution(rules) :
         groupe=[list(nomenclature[(nomenclature["libsougr"]==df_association["Aliments substituables"][i][j])]["codrole"])[0] for j in range (len(df_association["Aliments substituables"][i]))]
         j=0
         while j!=len(groupe)-1 :
-            if groupe[j]!=None :
-                new_d.append([df_association["Contexte alimentaire"][i],[df_association["Aliments substituables"][i][x] for x in range(len(df_association["Aliments substituables"][i])) if (groupe[x]==groupe[j])]])
+            aliments_role_similaire=[df_association["Aliments substituables"][i][x] for x in range(len(df_association["Aliments substituables"][i])) if (groupe[x]==groupe[j])]
+            if groupe[j]!=None and len(aliments_role_similaire)>1 :
+                new_d.append([df_association["Contexte alimentaire"][i],aliments_role_similaire])
                 groupe=[x if x!=groupe[j] else None for x in groupe]
             j+=1
             
@@ -240,7 +243,7 @@ CODE PRINCIPAL
        
 nomenclature = modif_nomenclature(nomenclature)
 #Que les adultes, que le déjeuner et le dîner    
-d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.01, algo='fpgrowth')
+d = find_frequent(conso_pattern_sougr,0,[1,3,4,5,7,8],seuil_support=0.001, algo='fpgrowth')
 #d = supprimer_motifs_inclus(d)
 #d = differe_de_1(d)
 #d = substituabilite(d,nomenclature)
@@ -248,6 +251,7 @@ d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.01, al
 d=regles_association(d,0.3)
 
 d=tableau_substitution(d)
+
             
             
             
