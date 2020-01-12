@@ -6,7 +6,7 @@ Ceci est un script temporaire.
 """
 import numpy as np
 import pandas as pd
-from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import apriori, fpgrowth
 from mlxtend.frequent_patterns import association_rules
 
 # La base conso_pattern est préparée par R à partir de la base brute
@@ -54,7 +54,7 @@ def modif_nomenclature(nomenclature):
     return nomenclature
     
 
-def find_frequent(data, type_repas = 0, categorie = 0, seuil_support = 0.05) :
+def find_frequent(data, type_repas = 0, categorie = 0, seuil_support = 0.05, algo = 'apriori') :
     """
     La fonction qui à partir de la base conso_pattern préparée par R, retourne la base de motif fréquent avec le support
     
@@ -77,8 +77,11 @@ def find_frequent(data, type_repas = 0, categorie = 0, seuil_support = 0.05) :
             data = data[data['id_categorie'].isin(categorie)]
 
     data = data.iloc[:, 3: data.shape[1]-2]
-    frequent_itemsets = apriori(data, min_support = seuil_support, use_colnames = True).assign(
+    if algo == 'apriori' :
+        frequent_itemsets = apriori(data, min_support = seuil_support, use_colnames = True).assign(
             length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
+    elif algo == 'fpgrowth' :
+        frequent_itemsets = fpgrowth(data, min_support = seuil_support, use_colnames=True)
     return frequent_itemsets.sort_values('support', ascending = False)
 
 
@@ -107,53 +110,53 @@ def supprimer_motifs_inclus(d) :
 
 
 
-def differe_de_1(d) :
-    """
-     prend en entrée un dataframe de sortie de motifs fréquents 
-    et renvoie une liste de listes contenant :
-         - La liste des aliments composant le contexte alimentaire
-         - La liste contenant les 2 éléments potentiellement substituables 
-         i.e. qui sont consommés dans le même contexte alimentaire
-    """
+#def differe_de_1(d) :
+#    """
+#     prend en entrée un dataframe de sortie de motifs fréquents 
+#    et renvoie une liste de listes contenant :
+#         - La liste des aliments composant le contexte alimentaire
+#         - La liste contenant les 2 éléments potentiellement substituables 
+#         i.e. qui sont consommés dans le même contexte alimentaire
+#    """
+#
+#    couples=[]
+#
+#    for i in d['itemsets'] :
+#        for j in d['itemsets'] :
+#            if d.loc[d['itemsets']==i].index[0]!=d.loc[d['itemsets']==j].index[0] :
+#            #Génère chaque couple en double (dans un sens et dans l'autre)
+#                new_1=i.difference(j)
+#                new_2=j.difference(i)
+#                
+#                if len(new_1)==1 and len(new_2)==1:
+#                    
+#                    couples.append([list(i.difference(new_1.union(new_2))),[list(new_1)[0],list(new_2)[0]]])
+#                    
+#    return couples
 
-    couples=[]
-
-    for i in d['itemsets'] :
-        for j in d['itemsets'] :
-            if d.loc[d['itemsets']==i].index[0]!=d.loc[d['itemsets']==j].index[0] :
-            #Génère chaque couple en double (dans un sens et dans l'autre)
-                new_1=i.difference(j)
-                new_2=j.difference(i)
-                
-                if len(new_1)==1 and len(new_2)==1:
-                    
-                    couples.append([list(i.difference(new_1.union(new_2))),[list(new_1)[0],list(new_2)[0]]])
-                    
-    return couples
 
 
-
-def substituabilite(d,nomenclature):
-    """
-    Prend en entrée le résultat de differe_de_1 et renvoie une liste du même 
-    type ne comprenant que des couples d'aliments réellement substituables, i.e.
-    qui ont la même fonction dans le repas (selon la base role_repas)
-    """
-    
-    motifs_sub = []
-    
-    for motif in d:
-        couple = motif[1]
-        role = []
-        for rang in range(len(nomenclature)):
-            if nomenclature["libsougr"][rang] == couple[0] or nomenclature["libsougr"][rang] == couple[1]: 
-            #if nomenclature["codsougr"][rang] == couple[0] or nomenclature["codsougr"][rang] == couple[1]:
-                role.append(nomenclature["codrole"][rang])
-        
-        if role[0] == role[1]:
-            motifs_sub.append(motif)
-            
-    return motifs_sub
+#def substituabilite(d,nomenclature):
+#    """
+#    Prend en entrée le résultat de differe_de_1 et renvoie une liste du même 
+#    type ne comprenant que des couples d'aliments réellement substituables, i.e.
+#    qui ont la même fonction dans le repas (selon la base role_repas)
+#    """
+#    
+#    motifs_sub = []
+#    
+#    for motif in d:
+#        couple = motif[1]
+#        role = []
+#        for rang in range(len(nomenclature)):
+#            if nomenclature["libsougr"][rang] == couple[0] or nomenclature["libsougr"][rang] == couple[1]: 
+#            #if nomenclature["codsougr"][rang] == couple[0] or nomenclature["codsougr"][rang] == couple[1]:
+#                role.append(nomenclature["codrole"][rang])
+#        
+#        if role[0] == role[1]:
+#            motifs_sub.append(motif)
+#            
+#    return motifs_sub
 
 def regles_association(d,confiance) :
     """
@@ -209,6 +212,22 @@ def tableau_substitution(rules) :
         
     df_association=pd.DataFrame(table_association,columns=["Contexte alimentaire","Aliments substituables"])
     
+    #Séparation des aliments substituables en liste d'aliments ayant le même rôle dans le repas
+    
+    new_d=[]    
+
+    for i in range(len(df_association)) :
+        groupe=[list(nomenclature[(nomenclature["libsougr"]==df_association["Aliments substituables"][i][j])]["codrole"])[0] for j in range (len(df_association["Aliments substituables"][i]))]
+        j=0
+        while j!=len(groupe)-1 :
+            if groupe[j]!=None :
+                new_d.append([df_association["Contexte alimentaire"][i],[df_association["Aliments substituables"][i][x] for x in range(len(df_association["Aliments substituables"][i])) if (groupe[x]==groupe[j])]])
+                groupe=[x if x!=groupe[j] else None for x in groupe]
+            j+=1
+            
+    df_association=pd.DataFrame(new_d,columns=["Contexte alimentaire","Aliments substituables"])
+                
+
     return df_association
   
         
@@ -221,7 +240,7 @@ CODE PRINCIPAL
        
 nomenclature = modif_nomenclature(nomenclature)
 #Que les adultes, que le déjeuner et le dîner    
-d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.03)
+d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.01, algo='fpgrowth')
 #d = supprimer_motifs_inclus(d)
 #d = differe_de_1(d)
 #d = substituabilite(d,nomenclature)
@@ -229,19 +248,6 @@ d = find_frequent(conso_pattern_sougr,[3,5],[1,3,4,5,7,8],seuil_support=0.03)
 d=regles_association(d,0.3)
 
 d=tableau_substitution(d)
-
-print(d)
-            
-
-
-            
-            
-            
-            
-            
-            
-            
-            
             
             
             
