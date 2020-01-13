@@ -55,7 +55,7 @@ def modif_nomenclature(nomenclature):
     return nomenclature
     
 
-def find_frequent(data, type_repas = 0, categorie = 0, seuil_support = 0.05, algo = 'apriori') :
+def find_frequent(data, type_repas = 0, avec_qui = 0, categorie = 0, seuil_support = 0.05, algo = 'apriori') :
     """
     La fonction qui à partir de la base conso_pattern préparée par R, retourne la base de motif fréquent avec le support
     
@@ -73,9 +73,13 @@ def find_frequent(data, type_repas = 0, categorie = 0, seuil_support = 0.05, alg
     if type_repas != 0 :
         #data = data[data.tyrep == type_repas]
         data = data[data['tyrep'].isin(type_repas)]
-        if categorie != 0 :
-            #data = data[data.id_categorie == categorie]
-            data = data[data['id_categorie'].isin(categorie)]
+        
+    if avec_qui != 0 :
+        data = data[data['avecqui'].isin(avec_qui)]
+        
+    if categorie != 0 :
+        #data = data[data.id_categorie == categorie]
+        data = data[data['id_categorie'].isin(categorie)]
 
     data = data.iloc[:, 3: data.shape[1]-2]
     if algo == 'apriori' :
@@ -88,27 +92,27 @@ def find_frequent(data, type_repas = 0, categorie = 0, seuil_support = 0.05, alg
 
 
 
-def supprimer_motifs_inclus(d) :
-    ''' prend en entrée un dataframe de sortie de motifs fréquents 
-    et supprime les motifs compris dans d'autres motifs.'''
-
-    d = d.sort_index(axis=0)
-    
-    liste_supp=[]
-    
-    for i in d['itemsets'] :
-        for j in d['itemsets'] :
-            if d.loc[d['itemsets']==i].index[0]!=d.loc[d['itemsets']==j].index[0] :
-                if i.issubset(j) :
-                    liste_supp.append(d.index[d.loc[d['itemsets']==i].index[0]])
-                elif j.issubset(i) :
-                    liste_supp.append(d.index[d.loc[d['itemsets']==j].index[0]])
-         
-    liste_supp=np.unique(liste_supp)
-              
-    d=d.drop(d.index[liste_supp])
-    
-    return d
+#def supprimer_motifs_inclus(d) :
+#    ''' prend en entrée un dataframe de sortie de motifs fréquents 
+#    et supprime les motifs compris dans d'autres motifs.'''
+#
+#    d = d.sort_index(axis=0)
+#    
+#    liste_supp=[]
+#    
+#    for i in d['itemsets'] :
+#        for j in d['itemsets'] :
+#            if d.loc[d['itemsets']==i].index[0]!=d.loc[d['itemsets']==j].index[0] :
+#                if i.issubset(j) :
+#                    liste_supp.append(d.index[d.loc[d['itemsets']==i].index[0]])
+#                elif j.issubset(i) :
+#                    liste_supp.append(d.index[d.loc[d['itemsets']==j].index[0]])
+#         
+#    liste_supp=np.unique(liste_supp)
+#              
+#    d=d.drop(d.index[liste_supp])
+#    
+#    return d
 
 
 
@@ -189,30 +193,42 @@ def regles_association(d,confiance) :
     
     return rules
 
-def tableau_substitution(rules) :
+def tableau_substitution(rules_original) :
     """
     Prend en entrée un dataframe des règles d'association et ressort
     le tableau des aliments sustituables en fonction du contexte alimentaire
     """
+    
+    rules = rules_original.copy()
+    
     table_association=[]
 
     for ligne in range (len(rules)) :
         
-        if rules["antecedents"][ligne] not in [x for x in rules["antecedents"][:ligne]] :
+        if rules["antecedents"][ligne] != None :
         
             aliments_subst=rules["consequents"][ligne]
             
+            conf=[rules["confidence"][ligne]]
+            
             for ligne_comp in range(len(rules)) :
                 
-                if ligne!=ligne_comp :
+                if ligne!=ligne_comp and rules["antecedents"][ligne_comp] != None :
                     
                     if rules["antecedents"][ligne].issubset(rules["antecedents"][ligne_comp]) and rules["antecedents"][ligne].issuperset(rules["antecedents"][ligne_comp]) :
                         
                         aliments_subst=aliments_subst.union(rules["consequents"][ligne_comp])
                         
-            table_association.append([list(rules["antecedents"][ligne]),list(aliments_subst)])
+                        conf.append(rules["confidence"][ligne_comp])
+                        
+                        rules["antecedents"][ligne_comp]=None
+                    
+                              
+            table_association.append([list(rules["antecedents"][ligne]),list(aliments_subst),conf])
+            
+            rules["antecedents"][ligne]=None
         
-    df_association=pd.DataFrame(table_association,columns=["Contexte alimentaire","Aliments substituables"])
+    df_association=pd.DataFrame(table_association,columns=["Contexte alimentaire","Aliments substituables","Confiance associée"])
     
     #Séparation des aliments substituables en liste d'aliments ayant le même rôle dans le repas
     
@@ -223,18 +239,28 @@ def tableau_substitution(rules) :
         j=0
         while j!=len(groupe)-1 :
             aliments_role_similaire=[df_association["Aliments substituables"][i][x] for x in range(len(df_association["Aliments substituables"][i])) if (groupe[x]==groupe[j])]
+            conf_similaires=[df_association["Confiance associée"][i][x] for x in range(len(df_association["Confiance associée"][i])) if (groupe[x]==groupe[j])]
             if groupe[j]!=None and len(aliments_role_similaire)>1 :
-                new_d.append([df_association["Contexte alimentaire"][i],aliments_role_similaire])
+                new_d.append([df_association["Contexte alimentaire"][i],aliments_role_similaire,conf_similaires])
                 groupe=[x if x!=groupe[j] else None for x in groupe]
             j+=1
             
-    df_association=pd.DataFrame(new_d,columns=["Contexte alimentaire","Aliments substituables"])
+    df_association=pd.DataFrame(new_d,columns=["Contexte alimentaire","Aliments substituables","Confiance associée"])
                 
 
     return df_association
   
         
-
+def score_biblio(aliment_1,aliment_2,motifs) :
+    x_inter_y=0
+    x_union_y=0
+    A_x_y=0
+    A_y_x=0
+    
+    for motif in motifs["itemsets"] :
+        for motif_comp in motifs["itemsets"] :
+            pass
+    pass
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 CODE PRINCIPAL
@@ -242,19 +268,28 @@ CODE PRINCIPAL
             
        
 nomenclature = modif_nomenclature(nomenclature)
-#Que les adultes, que le déjeuner et le dîner    
-d = find_frequent(conso_pattern_sougr,0,[1,3,4,5,7,8],seuil_support=0.001, algo='fpgrowth')
-#d = supprimer_motifs_inclus(d)
-#d = differe_de_1(d)
-#d = substituabilite(d,nomenclature)
 
-d=regles_association(d,0.3)
+#Que les adultes, que le déjeuner et le dîner  
+  
+motifs = find_frequent(conso_pattern_sougr,0,0,[1,3,4,5,7,8],seuil_support=0.005, algo='fpgrowth')
 
-d=tableau_substitution(d)
+regles = regles_association(motifs,0.5)
 
-            
-            
-            
-            
-            
-            
+t_subst = tableau_substitution(regles)
+
+#modalites_avecqui = np.unique(conso_pattern_sougr["avecqui"].dropna())
+#modalites_tyrep = np.unique(conso_pattern_sougr["tyrep"].dropna())
+#
+#for repas in modalites_tyrep :
+#    
+#    for avecqui in modalites_avecqui :
+#        
+#        d = find_frequent(conso_pattern_sougr, [repas], [avecqui], [1,3,4,5,7,8], seuil_support=0.01, algo='fpgrowth')
+#        print("Motifs fréquents trouvés")
+#        d=regles_association(d,0.3)
+#        print("Règles d'association trouvées")
+#        d=tableau_substitution(d)
+#        print("tableau_substitution_"+str(repas)+"_"+str(avecqui)+"_supp=0,5_conf=0,5")
+#            
+#        pickle.dump(d,open("tableau_substitution_"+str(repas)+"_"+str(avecqui)+"_supp=0,5_conf=0,5","wb"))
+#            
