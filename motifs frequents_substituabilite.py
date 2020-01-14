@@ -251,16 +251,51 @@ def tableau_substitution(rules_original) :
     return df_association
   
         
-def score_biblio(aliment_1,aliment_2,motifs) :
+def score_biblio(aliment_1,aliment_2,regles_original) :
+    '''
+    Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
+    et ressort le score de substituabilité calculé selon le score trouvé dans la bibliographie.
+    ---------------
+    Variables d'entrée :
+        -aliment_1 : frozenset de longueur 1
+        -aliment_2 : frozenset de longueur 1
+        -regles_original : dataFrame contenant les règles d'association entre aliments et contextes alimentaires
+    '''
+    
+    regles=regles_original[(regles_original["consequents"]==aliment_1) | (regles_original["consequents"]==aliment_2)]
+    regles=regles.set_index(pd.Index([i for i in range(len(regles))]))
+    
+    
     x_inter_y=0
-    x_union_y=0
+    x_union_y=len(regles)
     A_x_y=0
     A_y_x=0
     
-    for motif in motifs["itemsets"] :
-        for motif_comp in motifs["itemsets"] :
-            pass
-    pass
+    
+    
+    for i in range(len(regles["antecedents"])) :
+        
+        
+        if regles["consequents"][i]==aliment_1 :
+            
+            contexte_1=regles["antecedents"][i]
+            
+            if aliment_2 in contexte_1 :
+                A_x_y+=1
+            
+            for j in range(len(regles["antecedents"])) :
+                
+                if i!=j and regles["consequents"][j]==aliment_2 :
+                    contexte_2=regles["antecedents"][j]
+                    
+                    if aliment_1 in contexte_2 :
+                        A_y_x+=1
+                        
+                    if contexte_2.issubset(contexte_1) and contexte_2.issuperset(contexte_1) and contexte_1.issubset(contexte_2) and contexte_1.issuperset(contexte_2) :
+                        x_inter_y+=1
+                    
+    return(x_inter_y/(x_union_y+A_x_y+A_y_x))
+            
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 CODE PRINCIPAL
@@ -271,9 +306,9 @@ nomenclature = modif_nomenclature(nomenclature)
 
 #Que les adultes, que le déjeuner et le dîner  
   
-motifs = find_frequent(conso_pattern_sougr,0,0,[1,3,4,5,7,8],seuil_support=0.005, algo='fpgrowth')
+motifs = find_frequent(conso_pattern_sougr,[3,5],0,[1,3,4,5,7,8],seuil_support=0.01, algo='apriori')
 
-regles = regles_association(motifs,0.5)
+regles = regles_association(motifs,0.3)
 
 t_subst = tableau_substitution(regles)
 
