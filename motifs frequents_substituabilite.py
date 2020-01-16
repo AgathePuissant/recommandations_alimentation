@@ -6,7 +6,7 @@ Ceci est un script temporaire.
 """
 import numpy as np
 import pandas as pd
-from mlxtend.frequent_patterns import apriori, fpgrowth
+from mlxtend.frequent_patterns import apriori, fpgrowth, fpmax
 from mlxtend.frequent_patterns import association_rules
 import pickle
 
@@ -82,12 +82,18 @@ def find_frequent(data, type_repas = 0, avec_qui = 0, categorie = 0, seuil_suppo
         data = data[data['id_categorie'].isin(categorie)]
 
     data = data.iloc[:, 3: data.shape[1]-2]
+
     if algo == 'apriori' :
         frequent_itemsets = apriori(data, min_support = seuil_support, use_colnames = True).assign(
             length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
     elif algo == 'fpgrowth' :
         frequent_itemsets = fpgrowth(data, min_support = seuil_support, use_colnames=True).assign(
             length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
+    elif algo == 'fpmax' :
+        frequent_itemsets = fpmax(data, min_support = seuil_support, use_colnames=True).assign(
+            length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
+        
+    
     return frequent_itemsets.sort_values('support', ascending = False)
 
 
@@ -164,13 +170,15 @@ def find_frequent(data, type_repas = 0, avec_qui = 0, categorie = 0, seuil_suppo
 #            
 #    return motifs_sub
 
-def regles_association(d,confiance) :
+def regles_association(d,confiance=0.5,support_only=False) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
     règles d'association à un conséquent et qui supprime les motifs inclus
     """
-    
-    rules=association_rules(d, metric="confidence", min_threshold=confiance)
+    if support_only==False :
+        rules=association_rules(d, metric="confidence", min_threshold=confiance)
+    else :
+        rules=association_rules(d, support_only=True, min_threshold=0.01)
 
     rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
     
@@ -178,17 +186,46 @@ def regles_association(d,confiance) :
     
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     
+    print(len(rules))
+    
+#essai qui marche passssssssss
+    
+#    rules["consequents"]=[list(x) for x in rules["consequents"]]
+#    
+#    rules["antecedents"]=[list(x) for x in rules["antecedents"]]
+#    
+#    N=len(rules)
+#    
+#    for i in range (N) :
+#        
+#        rules2=rules.copy()
+#        
+#        if i in rules2.index :
+#            
+#            rules2['antecedents']=[rules2['antecedents'][i]]*len(rules2)
+            
+#            print([rules2['antecedents'][i]])
+    
+#            mask = ((rules[['antecedents']].isin(rules2[['antecedents']])) | (rules[['consequents']]==rules2[['consequents']])).all(axis=1)
+#        
+#            rules=rules[mask]
+#            
+#            rules.dropna(axis=1, inplace=True)
+#            
+#            rules.dropna(axis=0, inplace=True)
+    
+            
+    #C'est ça qui prend du temps
+#    
     liste_supp=[]
     
     for i in range(len(rules)) :
         for j in range(len(rules)) :
-            if rules["consequents"][i].issuperset(rules["consequents"][j]) and rules["consequents"][i].issubset(rules["consequents"][j]) and rules["antecedents"][i].issuperset(rules["antecedents"][j]) and i!=j:
+            if rules["consequents"][i].symmetric_difference(rules["consequents"][j])==frozenset() and rules["antecedents"][i].issuperset(rules["antecedents"][j]) and i!=j:
                 liste_supp.append(j)
                 
     liste_supp=np.unique(liste_supp)
-    
-    rules=rules.drop(rules.index[liste_supp])
-    
+    rules.drop(liste_supp)
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     
     return rules
@@ -230,6 +267,7 @@ def tableau_substitution(rules_original) :
         
     df_association=pd.DataFrame(table_association,columns=["Contexte alimentaire","Aliments substituables","Confiance associée"])
     
+    
     #Séparation des aliments substituables en liste d'aliments ayant le même rôle dans le repas
     
     new_d=[]    
@@ -246,7 +284,7 @@ def tableau_substitution(rules_original) :
             j+=1
             
     df_association=pd.DataFrame(new_d,columns=["Contexte alimentaire","Aliments substituables","Confiance associée"])
-                
+#                
 
     return df_association
   
@@ -295,22 +333,71 @@ def score_biblio(aliment_1,aliment_2,regles_original) :
                         x_inter_y+=1
                     
     return(x_inter_y/(x_union_y+A_x_y+A_y_x))
-            
+    
 
+def matrice_scores(tableau,regles) :
+
+    t_scores=pd.DataFrame(columns=["Couples","Score confiance","Score biblio"])
+    
+    
+    for i in range(len(tableau)) :
+        for j in range(len(tableau["Aliments substituables"][i])) :
+            aliment_1=tableau["Aliments substituables"][i][j]
+            for k in range(len(tableau["Aliments substituables"][i])) :
+                if j!=k :
+                    aliment_2=tableau["Aliments substituables"][i][k]
+                    
+                    if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
+                        t_scores.loc[i]=[aliment_1+" vers "+aliment_2,[tableau["Confiance associée"][i][j]-tableau["Confiance associée"][i][k]],score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)]
+                    else :
+                        t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0].append(tableau["Confiance associée"][i][j]-tableau["Confiance associée"][i][k])
+    
+    t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.mean(x))
+    
+    t_scores["Score combiné"]=t_scores["Score biblio"]+t_scores["Score confiance"]
+    
+    return t_scores
+            
+def transfo_mod(d) :
+    
+    d['petit-dejeuner']=[0*len(d)]
+    d['dejeuner']=[0*len(d)]
+    d['gouter']=[0*len(d)]
+    d['diner']=[0*len(d)]
+    
+    d['seul']=[0*len(d)]
+    d['famille']=[0*len(d)]
+    d['amis']=[0*len(d)]
+    d['autre']=[0*len(d)]
+    
+    
+    
+    for i in range(len(conso_pattern_sougr)) :
+        d['petit-dejeuner']=1
+    
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
             
+repas=[3,5]
+avecqui=0
+supp=0.01
+conf=0.1
        
 nomenclature = modif_nomenclature(nomenclature)
 
 #Que les adultes, que le déjeuner et le dîner  
   
-motifs = find_frequent(conso_pattern_sougr,[3,5],0,[1,3,4,5,7,8],seuil_support=0.01, algo='apriori')
+motifs = find_frequent(conso_pattern_sougr,repas,avecqui,0,seuil_support=supp, algo='fpgrowth')
 
-regles = regles_association(motifs,0.3)
+regles = regles_association(motifs,conf)
 
 t_subst = tableau_substitution(regles)
+
+scores = matrice_scores(t_subst,regles)
+
+
+
 
 #modalites_avecqui = np.unique(conso_pattern_sougr["avecqui"].dropna())
 #modalites_tyrep = np.unique(conso_pattern_sougr["tyrep"].dropna())
