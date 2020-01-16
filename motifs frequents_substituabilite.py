@@ -13,7 +13,8 @@ import pickle
 # La base conso_pattern est préparée par R à partir de la base brute
 #conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr.csv",sep = ";", encoding = 'latin-1')
-#conso_pattern_sougr.head(3)
+conso = pd.read_csv("consommation.csv",sep = ",", encoding = 'latin-1')
+conso_pattern_sougr['cluster_consommateur']=conso['cluster_consommateur']
 nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
 nomenclature.head(3)
 
@@ -55,7 +56,7 @@ def modif_nomenclature(nomenclature):
     return nomenclature
     
 
-def find_frequent(data, type_repas = 0, avec_qui = 0, categorie = 0, seuil_support = 0.05, algo = 'apriori') :
+def find_frequent(conso_data, type_repas = 0, avec_qui = 0, categorie = 0, seuil_support = 0.05, algo = 'apriori') :
     """
     La fonction qui à partir de la base conso_pattern préparée par R, retourne la base de motif fréquent avec le support
     
@@ -70,6 +71,9 @@ def find_frequent(data, type_repas = 0, avec_qui = 0, categorie = 0, seuil_suppo
     4, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
 
     """
+
+    data=conso_data.copy()
+    
     if type_repas != 0 :
         #data = data[data.tyrep == type_repas]
         data = data[data['tyrep'].isin(type_repas)]
@@ -80,8 +84,16 @@ def find_frequent(data, type_repas = 0, avec_qui = 0, categorie = 0, seuil_suppo
     if categorie != 0 :
         #data = data[data.id_categorie == categorie]
         data = data[data['id_categorie'].isin(categorie)]
-
-    data = data.iloc[:, 3: data.shape[1]-2]
+        
+    del data['tyrep']
+    del data['nomen']
+    del data['avecqui']
+    del data['nojour']
+    del data['id_categorie']
+    del data['cluster_consommateur']
+        
+    
+    
 
     if algo == 'apriori' :
         frequent_itemsets = apriori(data, min_support = seuil_support, use_colnames = True).assign(
@@ -170,7 +182,7 @@ def find_frequent(data, type_repas = 0, avec_qui = 0, categorie = 0, seuil_suppo
 #            
 #    return motifs_sub
 
-def regles_association(d,confiance=0.5,support_only=False) :
+def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_maximaux=True) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
     règles d'association à un conséquent et qui supprime les motifs inclus
@@ -182,7 +194,11 @@ def regles_association(d,confiance=0.5,support_only=False) :
 
     rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
     
+    rules["antecedents_len"] = rules["antecedents"].apply(lambda x: len(x))
+    
     rules=rules[(rules["consequents_len"]==1)]
+    
+    rules.sort_values('antecedents_len', ascending = False)
     
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     
@@ -217,16 +233,31 @@ def regles_association(d,confiance=0.5,support_only=False) :
             
     #C'est ça qui prend du temps
 #    
-    liste_supp=[]
-    
-    for i in range(len(rules)) :
-        for j in range(len(rules)) :
-            if rules["consequents"][i].symmetric_difference(rules["consequents"][j])==frozenset() and rules["antecedents"][i].issuperset(rules["antecedents"][j]) and i!=j:
-                liste_supp.append(j)
+    if contexte_maximaux==True :
+        
+        
+        N=len(rules)
+        
+        for i in range(N) :
+            
+#            print(i)
+            
+            if i in rules.index :
                 
-    liste_supp=np.unique(liste_supp)
-    rules.drop(liste_supp)
-    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+                liste_supp=[]
+                
+                for j in range(len(rules)) :
+                    
+                    if rules["consequents"][i]==rules["consequents"][j] and rules["antecedents"][i].issuperset(rules["antecedents"][j]) and i!=j:
+                        
+                        liste_supp.append(j)
+                    
+                rules.drop(liste_supp, inplace=True)
+                
+#                if liste_supp!=[] :
+#                    print("nouvelle longueur : "+str(len(rules)))
+                
+                rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     
     return rules
 
@@ -238,12 +269,14 @@ def tableau_substitution(rules_original) :
     
     rules = rules_original.copy()
     
+    liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
+    
     table_association=[]
 
     for ligne in range (len(rules)) :
         
-        if rules["antecedents"][ligne] != None :
-        
+        if rules["antecedents"][ligne] != None and rules['consequents'][ligne].intersection(liste_pas_class)==frozenset():
+            
             aliments_subst=rules["consequents"][ligne]
             
             conf=[rules["confidence"][ligne]]
@@ -252,7 +285,7 @@ def tableau_substitution(rules_original) :
                 
                 if ligne!=ligne_comp and rules["antecedents"][ligne_comp] != None :
                     
-                    if rules["antecedents"][ligne].issubset(rules["antecedents"][ligne_comp]) and rules["antecedents"][ligne].issuperset(rules["antecedents"][ligne_comp]) :
+                    if rules["antecedents"][ligne].symmetric_difference(rules["antecedents"][ligne_comp])==frozenset()  and rules['consequents'][ligne_comp].intersection(liste_pas_class)==frozenset():
                         
                         aliments_subst=aliments_subst.union(rules["consequents"][ligne_comp])
                         
@@ -266,7 +299,6 @@ def tableau_substitution(rules_original) :
             rules["antecedents"][ligne]=None
         
     df_association=pd.DataFrame(table_association,columns=["Contexte alimentaire","Aliments substituables","Confiance associée"])
-    
     
     #Séparation des aliments substituables en liste d'aliments ayant le même rôle dans le repas
     
@@ -284,7 +316,7 @@ def tableau_substitution(rules_original) :
             j+=1
             
     df_association=pd.DataFrame(new_d,columns=["Contexte alimentaire","Aliments substituables","Confiance associée"])
-#                
+                
 
     return df_association
   
@@ -360,41 +392,74 @@ def matrice_scores(tableau,regles) :
             
 def transfo_mod(d) :
     
-    d['petit-dejeuner']=[0*len(d)]
-    d['dejeuner']=[0*len(d)]
-    d['gouter']=[0*len(d)]
-    d['diner']=[0*len(d)]
+    d['petit-dejeuner']=[0]*len(d)
+    d['dejeuner']=[0]*len(d)
+    d['gouter']=[0]*len(d)
+    d['diner']=[0]*len(d)
     
-    d['seul']=[0*len(d)]
-    d['famille']=[0*len(d)]
-    d['amis']=[0*len(d)]
-    d['autre']=[0*len(d)]
+    d['seul']=[0]*len(d)
+    d['famille']=[0]*len(d)
+    d['amis']=[0]*len(d)
+    d['autre']=[0]*len(d)
     
+    d['cluster_0']=[0]*len(d)
+    d['cluster_1']=[0]*len(d)
+    d['cluster_2']=[0]*len(d)
     
     
     for i in range(len(conso_pattern_sougr)) :
-        d['petit-dejeuner']=1
+        
+        if d['tyrep'][i]==1 :
+            d['petit-dejeuner'][i]=1
+        elif d['tyrep'][i]==3 :
+            d['dejeuner'][i]=1
+        elif d['tyrep'][i]==4 :
+            d['gouter'][i]=1
+        elif d['tyrep'][i]==5 :
+            d['diner'][i]=1
+            
+        if d['avecqui'][i]==1 :
+            d['seul'][i]=1
+        elif d['avecqui'][i]==2 :
+            d['famille'][i]=1
+        elif d['avecqui'][i]==3 :
+            d['amis'][i]=1
+        elif d['avecqui'][i]==4 :
+            d['autre'][i]=1
+            
+        if d['cluster_consommateur'][i]==0 :
+            d['cluster_0'][i]=1
+        elif d['cluster_consommateur'][i]==1 :
+            d['cluster_1'][i]=1
+        elif d['cluster_consommateur'][i]==2 :
+            d['cluster_2'][i]=1
+            
+    return d
+            
     
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
             
-repas=[3,5]
+repas=0
 avecqui=0
+consommateur=0
 supp=0.01
-conf=0.1
+conf=0.5
+
+conso_pattern_sougr=transfo_mod(conso_pattern_sougr)
        
 nomenclature = modif_nomenclature(nomenclature)
 
 #Que les adultes, que le déjeuner et le dîner  
   
-motifs = find_frequent(conso_pattern_sougr,repas,avecqui,0,seuil_support=supp, algo='fpgrowth')
+motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo='fpgrowth')
 
 regles = regles_association(motifs,conf)
-
+#
 t_subst = tableau_substitution(regles)
-
-scores = matrice_scores(t_subst,regles)
+#
+#scores = matrice_scores(t_subst,regles)
 
 
 
