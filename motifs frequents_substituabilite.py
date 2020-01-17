@@ -199,6 +199,8 @@ def tableau_substitution(rules_original) :
                                 liste[i]=[rules["confidence"][i],rules["confidence"][j]]
                                 rules["confidence"]=liste
                             
+                            rules['consequents']+=1
+                            
                     elif rules['consequents'][j].intersection(liste_pas_class)!=frozenset() :
                         
                         liste_supp.append(j)
@@ -266,10 +268,10 @@ def matrice_scores(tableau,regles) :
     for i in range(len(tableau)) :
         if len(tableau["consequents"][i])>1 :
             for j in range(len(tableau["consequents"][i])) :
-                aliment_1=tableau["consequents"][i][j]
+                aliment_1=list(tableau["consequents"][i])[j]
                 for k in range(len(tableau["consequents"][i])) :
                     if j!=k :
-                        aliment_2=tableau["consequents"][i][k]
+                        aliment_2=list(tableau["consequents"][i])[k]
                         
                         if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
                             t_scores.loc[i]=[aliment_1+" vers "+aliment_2,[tableau["confidence"][i][j]-tableau["confidence"][i][k]],score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)]
@@ -351,7 +353,7 @@ regles = regles_association(motifs,confiance = conf)
 ##
 t_subst = tableau_substitution(regles)
 ##
-#scores = matrice_scores(t_subst,regles)
+scores = matrice_scores(t_subst,regles)
 
 
 
