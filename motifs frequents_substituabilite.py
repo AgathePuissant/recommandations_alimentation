@@ -195,7 +195,9 @@ def tableau_substitution(rules_original) :
                             if type(rules["confidence"][i])==list :
                                 rules["confidence"][i].append(rules["confidence"][j])
                             else :
-                                rules["confidence"][i]=[rules["confidence"][i],rules["confidence"][j]]
+                                liste=rules['confidence'].values.tolist()
+                                liste[i]=[rules["confidence"][i],rules["confidence"][j]]
+                                rules["confidence"]=liste
                             
                     elif rules['consequents'][j].intersection(liste_pas_class)!=frozenset() :
                         
