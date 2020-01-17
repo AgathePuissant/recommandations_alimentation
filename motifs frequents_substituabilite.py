@@ -54,7 +54,7 @@ def modif_nomenclature(nomenclature):
     return nomenclature
     
 
-def find_frequent(conso_data, type_repas = 0, avec_qui = 0, categorie = 0, seuil_support = 0.05, algo = 'apriori') :
+def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categorie = 0, seuil_support = 0.05, algo = 'apriori') :
     """
     La fonction qui à partir de la base conso_pattern préparée par R, retourne la base de motif fréquent avec le support
     
@@ -83,16 +83,16 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, categorie = 0, seuil
         #data = data[data.id_categorie == categorie]
         data = data[data['id_categorie'].isin(categorie)]
         
+    if cluster != 0 :
+        data = data[data['cluster_consommateur'].isin(cluster)]
+        
     del data['tyrep']
     del data['nomen']
     del data['avecqui']
     del data['nojour']
     del data['id_categorie']
     del data['cluster_consommateur']
-        
-    
-    
-
+            
     if algo == 'apriori' :
         frequent_itemsets = apriori(data, min_support = seuil_support, use_colnames = True).assign(
             length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
@@ -110,7 +110,14 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, categorie = 0, seuil
 def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_maximaux=True) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
-    règles d'association à un conséquent et qui supprime les motifs inclus
+    règles d'association à un conséquent et qui supprime les motifs inclus.
+    ------------
+    Arguments : 
+        - d : pandas DataFrame contenant les motifs fréquents
+        - confiance : float. le seuil de confiance minimum si support only est False
+        - support_only : booléen. on utilise que le support comme métrique
+        - support : float. le seuil de support minimum si support only est True
+        - contexte maximaux : booléen. Si True, on ne garde que les contextes maximaux.
     """
     if support_only==False :
         rules=association_rules(d, metric="confidence", min_threshold=confiance)
@@ -341,36 +348,45 @@ consommateur=0
 supp=0.01
 conf=0.1
 
+#---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
+
 conso_pattern_sougr=transfo_mod(conso_pattern_sougr)
        
-nomenclature = modif_nomenclature(nomenclature)
-
-#Que les adultes, que le déjeuner et le dîner  
+nomenclature = modif_nomenclature(nomenclature)  
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo='fpgrowth')
 
 regles = regles_association(motifs,confiance = conf)
-##
+
 t_subst = tableau_substitution(regles)
-##
+
 scores = matrice_scores(t_subst,regles)
 
 
-
-
+#--------------Méthode en subdivisant le dataframe de base---------------------------
+#
 #modalites_avecqui = np.unique(conso_pattern_sougr["avecqui"].dropna())
 #modalites_tyrep = np.unique(conso_pattern_sougr["tyrep"].dropna())
+#modalites_cluster = np.unique(conso_pattern_sougr["cluster_consommateur"].dropna())
 #
 #for repas in modalites_tyrep :
 #    
 #    for avecqui in modalites_avecqui :
 #        
-#        d = find_frequent(conso_pattern_sougr, [repas], [avecqui], [1,3,4,5,7,8], seuil_support=0.01, algo='fpgrowth')
-#        print("Motifs fréquents trouvés")
-#        d=regles_association(d,0.3)
-#        print("Règles d'association trouvées")
-#        d=tableau_substitution(d)
-#        print("tableau_substitution_"+str(repas)+"_"+str(avecqui)+"_supp=0,5_conf=0,5")
+#        for cluster in modalites_cluster :
+#        
+#            motifs = find_frequent(conso_pattern_sougr, repas, avecqui, cluster, [1,3,4,5,7,8], seuil_support=supp, algo='fpgrowth')
+#            print("Motifs fréquents trouvés")
 #            
-#        pickle.dump(d,open("tableau_substitution_"+str(repas)+"_"+str(avecqui)+"_supp=0,5_conf=0,5","wb"))
+#            regles = regles_association(motifs, confiance = conf)
+#            print("Règles d'association trouvées")
 #            
+#            t_subst = tableau_substitution(regles)
+#            print("tableau de substitutions fait")
+#            
+#            scores = matrice_scores(t_subst,regles)
+#            print("tableau de scores fait")
+#                
+#            pickle.dump(scores,open("scores_"+str(repas)+"_"+str(avecqui)+"_supp=0,5_conf=0,5","wb"))
+#            print("scores_"+str(repas)+"_"+str(avecqui)+"_"+str(cluster)+"_supp=0,5_conf=0,5")
+#                
