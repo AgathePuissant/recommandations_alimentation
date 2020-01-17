@@ -13,8 +13,6 @@ import pickle
 # La base conso_pattern est préparée par R à partir de la base brute
 #conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr.csv",sep = ";", encoding = 'latin-1')
-conso = pd.read_csv("consommation.csv",sep = ",", encoding = 'latin-1')
-conso_pattern_sougr['cluster_consommateur']=conso['cluster_consommateur']
 nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
 nomenclature.head(3)
 
@@ -109,79 +107,6 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, categorie = 0, seuil
     return frequent_itemsets.sort_values('support', ascending = False)
 
 
-
-#def supprimer_motifs_inclus(d) :
-#    ''' prend en entrée un dataframe de sortie de motifs fréquents 
-#    et supprime les motifs compris dans d'autres motifs.'''
-#
-#    d = d.sort_index(axis=0)
-#    
-#    liste_supp=[]
-#    
-#    for i in d['itemsets'] :
-#        for j in d['itemsets'] :
-#            if d.loc[d['itemsets']==i].index[0]!=d.loc[d['itemsets']==j].index[0] :
-#                if i.issubset(j) :
-#                    liste_supp.append(d.index[d.loc[d['itemsets']==i].index[0]])
-#                elif j.issubset(i) :
-#                    liste_supp.append(d.index[d.loc[d['itemsets']==j].index[0]])
-#         
-#    liste_supp=np.unique(liste_supp)
-#              
-#    d=d.drop(d.index[liste_supp])
-#    
-#    return d
-
-
-
-#def differe_de_1(d) :
-#    """
-#     prend en entrée un dataframe de sortie de motifs fréquents 
-#    et renvoie une liste de listes contenant :
-#         - La liste des aliments composant le contexte alimentaire
-#         - La liste contenant les 2 éléments potentiellement substituables 
-#         i.e. qui sont consommés dans le même contexte alimentaire
-#    """
-#
-#    couples=[]
-#
-#    for i in d['itemsets'] :
-#        for j in d['itemsets'] :
-#            if d.loc[d['itemsets']==i].index[0]!=d.loc[d['itemsets']==j].index[0] :
-#            #Génère chaque couple en double (dans un sens et dans l'autre)
-#                new_1=i.difference(j)
-#                new_2=j.difference(i)
-#                
-#                if len(new_1)==1 and len(new_2)==1:
-#                    
-#                    couples.append([list(i.difference(new_1.union(new_2))),[list(new_1)[0],list(new_2)[0]]])
-#                    
-#    return couples
-
-
-
-#def substituabilite(d,nomenclature):
-#    """
-#    Prend en entrée le résultat de differe_de_1 et renvoie une liste du même 
-#    type ne comprenant que des couples d'aliments réellement substituables, i.e.
-#    qui ont la même fonction dans le repas (selon la base role_repas)
-#    """
-#    
-#    motifs_sub = []
-#    
-#    for motif in d:
-#        couple = motif[1]
-#        role = []
-#        for rang in range(len(nomenclature)):
-#            if nomenclature["libsougr"][rang] == couple[0] or nomenclature["libsougr"][rang] == couple[1]: 
-#            #if nomenclature["codsougr"][rang] == couple[0] or nomenclature["codsougr"][rang] == couple[1]:
-#                role.append(nomenclature["codrole"][rang])
-#        
-#        if role[0] == role[1]:
-#            motifs_sub.append(motif)
-#            
-#    return motifs_sub
-
 def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_maximaux=True) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
@@ -204,32 +129,6 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     
     print(len(rules))
     
-#essai qui marche passssssssss
-    
-#    rules["consequents"]=[list(x) for x in rules["consequents"]]
-#    
-#    rules["antecedents"]=[list(x) for x in rules["antecedents"]]
-#    
-#    N=len(rules)
-#    
-#    for i in range (N) :
-#        
-#        rules2=rules.copy()
-#        
-#        if i in rules2.index :
-#            
-#            rules2['antecedents']=[rules2['antecedents'][i]]*len(rules2)
-            
-#            print([rules2['antecedents'][i]])
-    
-#            mask = ((rules[['antecedents']].isin(rules2[['antecedents']])) | (rules[['consequents']]==rules2[['consequents']])).all(axis=1)
-#        
-#            rules=rules[mask]
-#            
-#            rules.dropna(axis=1, inplace=True)
-#            
-#            rules.dropna(axis=0, inplace=True)
-    
             
     #C'est ça qui prend du temps
 #    
@@ -240,7 +139,8 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
         
         for i in range(N) :
             
-#            print(i)
+            if i%100==0 :
+                print(i)
             
             if i in rules.index :
                 
@@ -269,56 +169,45 @@ def tableau_substitution(rules_original) :
     
     rules = rules_original.copy()
     
+    
+    N=len(rules)
+    
     liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
-    
-    table_association=[]
-
-    for ligne in range (len(rules)) :
         
-        if rules["antecedents"][ligne] != None and rules['consequents'][ligne].intersection(liste_pas_class)==frozenset():
-            
-            aliments_subst=rules["consequents"][ligne]
-            
-            conf=[rules["confidence"][ligne]]
-            
-            for ligne_comp in range(len(rules)) :
-                
-                if ligne!=ligne_comp and rules["antecedents"][ligne_comp] != None :
-                    
-                    if rules["antecedents"][ligne].symmetric_difference(rules["antecedents"][ligne_comp])==frozenset()  and rules['consequents'][ligne_comp].intersection(liste_pas_class)==frozenset():
-                        
-                        aliments_subst=aliments_subst.union(rules["consequents"][ligne_comp])
-                        
-                        conf.append(rules["confidence"][ligne_comp])
-                        
-                        rules["antecedents"][ligne_comp]=None
-                    
-                              
-            table_association.append([list(rules["antecedents"][ligne]),list(aliments_subst),conf])
-            
-            rules["antecedents"][ligne]=None
+    for i in range(N) :
         
-    df_association=pd.DataFrame(table_association,columns=["Contexte alimentaire","Aliments substituables","Confiance associée"])
-    
-    #Séparation des aliments substituables en liste d'aliments ayant le même rôle dans le repas
-    
-    new_d=[]    
-
-    for i in range(len(df_association)) :
-        groupe=[list(nomenclature[(nomenclature["libsougr"]==df_association["Aliments substituables"][i][j])]["codrole"])[0] for j in range (len(df_association["Aliments substituables"][i]))]
-        j=0
-        while j!=len(groupe)-1 :
-            aliments_role_similaire=[df_association["Aliments substituables"][i][x] for x in range(len(df_association["Aliments substituables"][i])) if (groupe[x]==groupe[j])]
-            conf_similaires=[df_association["Confiance associée"][i][x] for x in range(len(df_association["Confiance associée"][i])) if (groupe[x]==groupe[j])]
-            if groupe[j]!=None and len(aliments_role_similaire)>1 :
-                new_d.append([df_association["Contexte alimentaire"][i],aliments_role_similaire,conf_similaires])
-                groupe=[x if x!=groupe[j] else None for x in groupe]
-            j+=1
+        if i in rules.index :
             
-    df_association=pd.DataFrame(new_d,columns=["Contexte alimentaire","Aliments substituables","Confiance associée"])
+            liste_supp=[]
+            
+            if rules['consequents'][i].intersection(liste_pas_class)==frozenset() :
+            
+                for j in range(len(rules)) :
+                    
+                    if rules["antecedents"][i]==rules["antecedents"][j] and i!=j and rules['consequents'][j].intersection(liste_pas_class)==frozenset() :
+                        
+                        if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["codrole"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["codrole"]).all() :
+                        
+                            liste_supp.append(j)
+                        
+                            rules["consequents"][i]=rules["consequents"][i].union(rules["consequents"][j])
+                            
+                            if type(rules["confidence"][i])==list :
+                                rules["confidence"][i].append(rules["confidence"][j])
+                            else :
+                                rules["confidence"][i]=[rules["confidence"][i],rules["confidence"][j]]
+                            
+                    elif rules['consequents'][j].intersection(liste_pas_class)!=frozenset() :
+                        
+                        liste_supp.append(j)
+                    
+            else :
+                liste_supp.append(i)
                 
-
-    return df_association
+            rules.drop(liste_supp, inplace=True)
+            
+            rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+    return rules
   
         
 def score_biblio(aliment_1,aliment_2,regles_original) :
@@ -373,17 +262,18 @@ def matrice_scores(tableau,regles) :
     
     
     for i in range(len(tableau)) :
-        for j in range(len(tableau["Aliments substituables"][i])) :
-            aliment_1=tableau["Aliments substituables"][i][j]
-            for k in range(len(tableau["Aliments substituables"][i])) :
-                if j!=k :
-                    aliment_2=tableau["Aliments substituables"][i][k]
-                    
-                    if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
-                        t_scores.loc[i]=[aliment_1+" vers "+aliment_2,[tableau["Confiance associée"][i][j]-tableau["Confiance associée"][i][k]],score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)]
-                    else :
-                        t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0].append(tableau["Confiance associée"][i][j]-tableau["Confiance associée"][i][k])
-    
+        if len(tableau["consequents"][i])>1 :
+            for j in range(len(tableau["consequents"][i])) :
+                aliment_1=tableau["consequents"][i][j]
+                for k in range(len(tableau["consequents"][i])) :
+                    if j!=k :
+                        aliment_2=tableau["consequents"][i][k]
+                        
+                        if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
+                            t_scores.loc[i]=[aliment_1+" vers "+aliment_2,[tableau["confidence"][i][j]-tableau["confidence"][i][k]],score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)]
+                        else :
+                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0].append(tableau["confidence"][i][j]-tableau["confidence"][i][k])
+
     t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.mean(x))
     
     t_scores["Score combiné"]=t_scores["Score biblio"]+t_scores["Score confiance"]
@@ -445,7 +335,7 @@ repas=0
 avecqui=0
 consommateur=0
 supp=0.01
-conf=0.5
+conf=0.1
 
 conso_pattern_sougr=transfo_mod(conso_pattern_sougr)
        
@@ -455,10 +345,10 @@ nomenclature = modif_nomenclature(nomenclature)
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo='fpgrowth')
 
-regles = regles_association(motifs,conf)
-#
+regles = regles_association(motifs,confiance = conf)
+##
 t_subst = tableau_substitution(regles)
-#
+##
 #scores = matrice_scores(t_subst,regles)
 
 

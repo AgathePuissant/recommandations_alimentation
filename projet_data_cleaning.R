@@ -5,7 +5,7 @@
 library(magrittr)
 library(dplyr)
 
-setwd("D:/APT/3e_annee/Projet fil rouge/BDD/")
+setwd("C:/Users/agaca/Documents/GitHub/recommandations_alimentation")
 
 
 ###################
@@ -35,24 +35,24 @@ nomenclature = nomenclature %>%
   full_join(nomenclature %>%
               select(codgr, libgr) %>%
               distinct() %>%
-              mutate(group_alim = c("pain", "cÃ©rÃ©ales pdj", "pÃ¢tes",
-                                    "riz et blÃ©", "autres cÃ©rÃ©ales", "viennoiserie",
-                                    "biscuits", "pÃ¢tisseries", "lait",
+              mutate(group_alim = c("pain", "céréales pdj", "pâtes",
+                                    "riz et blé", "autres céréales", "viennoiserie",
+                                    "biscuits", "pâtisseries", "lait",
                                     "produit laitier", "fromages", "oeufs",
                                     "beurre", "huile", "margarine",
                                     "autres graisses", "viande", "volaille",
                                     "abats", "charcuterie", "poissons",
-                                    "crustacÃ©s et mollusques", "lÃ©gumes", "pommes de terre",
-                                    "lÃ©gumes secs", "fruits", "fruits secs",
+                                    "crustacés et mollusques", "légumes", "pommes de terre",
+                                    "légumes secs", "fruits", "fruits secs",
                                     "glaces", "chocolat", "sucres",
                                     "eaux", "boissons sans alcool", "alcool",
-                                    "cafÃ©", "boissons chaudes", "pizzas",
-                                    "sandwichs", "soupes", "plats composÃ©s",
+                                    "café", "boissons chaudes", "pizzas",
+                                    "sandwichs", "soupes", "plats composés",
                                     "entremets", "compotes", "condiments",
                                     "aliments particuliers", "-" )), by = c("codgr", "libgr")) %>%
   mutate(libsougr = ifelse(sougr == "99", libgr, libsougr))
 
 
-#write.table(individu, "Base Ã  analyser/individu.csv", sep = ";", row.names = FALSE)
-#write.table(nomenclature, "Base Ã  analyser/nomenclature.csv", sep = ";", row.names = FALSE)
+write.table(individu, "Base à analyser/individu.csv", sep = ";", row.names = FALSE)
+write.table(nomenclature, "Base à analyser/nomenclature.csv", sep = ";", row.names = FALSE)
 
