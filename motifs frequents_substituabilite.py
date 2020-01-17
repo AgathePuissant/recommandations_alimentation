@@ -124,6 +124,9 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     else :
         rules=association_rules(d, support_only=True, min_threshold=0.01)
 
+    
+    #On ne garde que les règles à un conséquent et on trie le dataframe avec les antécédents les plus long en haut
+    #Dans le but d'accélérer la recherche de contextes maximaux par la suite
     rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
     
     rules["antecedents_len"] = rules["antecedents"].apply(lambda x: len(x))
@@ -139,11 +142,13 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
             
     #C'est ça qui prend du temps
 #    
+    #Recherche de contextes maximaux
     if contexte_maximaux==True :
         
         
         N=len(rules)
         
+        #On parcoure le dataframe des règles d'association
         for i in range(N) :
             
             if i%100==0 :
@@ -153,12 +158,15 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
                 
                 liste_supp=[]
                 
+                #On compare avec les autres règles d'association
                 for j in range(len(rules)) :
                     
+                    #Si on a le même conséquent et que le contexte alimentaire inclue l'autre, on supprime la ligne de ce dernier
                     if rules["consequents"][i]==rules["consequents"][j] and rules["antecedents"][i].issuperset(rules["antecedents"][j]) and i!=j:
                         
                         liste_supp.append(j)
                     
+                #Le dataframe est mis à jour, et il est maintenant moins long donc la recherche suivante prendra moins de temps
                 rules.drop(liste_supp, inplace=True)
                 
 #                if liste_supp!=[] :
@@ -179,26 +187,34 @@ def tableau_substitution(rules_original) :
     
     N=len(rules)
     
+    #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
     liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
         
+    #on parcoure le dataframe des règles d'association
     for i in range(N) :
         
         if i in rules.index :
             
             liste_supp=[]
             
+            #Si il n'y a pas d'éléments autres qu'alimentaires dans les conséquents, on compare avec les autres
+            
             if rules['consequents'][i].intersection(liste_pas_class)==frozenset() :
             
                 for j in range(len(rules)) :
                     
+                    #Si le contexte alimenaire est le même, soit on unit les éléments conséquents si ils ont le même rôle
+                    #Soit on ne touche à rien
                     if rules["antecedents"][i]==rules["antecedents"][j] and i!=j and rules['consequents'][j].intersection(liste_pas_class)==frozenset() :
                         
                         if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["codrole"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["codrole"]).all() :
                         
+                            #On supprime alors la règle d'association qui va être unie
                             liste_supp.append(j)
                         
                             rules["consequents"][i]=rules["consequents"][i].union(rules["consequents"][j])
                             
+                            #Mise à jour des confiances sous forme de listes
                             if type(rules["confidence"][i])==list :
                                 rules["confidence"][i].append(rules["confidence"][j])
                             else :
@@ -206,7 +222,7 @@ def tableau_substitution(rules_original) :
                                 liste[i]=[rules["confidence"][i],rules["confidence"][j]]
                                 rules["confidence"]=liste
                             
-                            rules['consequents']+=1
+                            rules['len_consequents']+=1
                             
                     elif rules['consequents'][j].intersection(liste_pas_class)!=frozenset() :
                         
@@ -215,6 +231,8 @@ def tableau_substitution(rules_original) :
             else :
                 liste_supp.append(i)
                 
+                
+            #Mise à jour du dataframe qui va être moins long et accélèrera donc la recherche suivante
             rules.drop(liste_supp, inplace=True)
             
             rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
@@ -226,7 +244,7 @@ def score_biblio(aliment_1,aliment_2,regles_original) :
     Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
     et ressort le score de substituabilité calculé selon le score trouvé dans la bibliographie.
     ---------------
-    Variables d'entrée :
+    Arguments :
         -aliment_1 : frozenset de longueur 1
         -aliment_2 : frozenset de longueur 1
         -regles_original : dataFrame contenant les règles d'association entre aliments et contextes alimentaires
@@ -268,30 +286,56 @@ def score_biblio(aliment_1,aliment_2,regles_original) :
     
 
 def matrice_scores(tableau,regles) :
+    
+    '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
+    d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
+    substituables.
+    ---------------
+    Arguments :
+        - tableau : pandas DataFrame contenant les contextes de repas, les aliments substituables 
+        et les métriques associées.
+        -regles : pandas DataFrame contenant les règles d'association et permettant de calculer le score
+        de substituabilité trouvé dans la bibliographie.
+    '''
 
     t_scores=pd.DataFrame(columns=["Couples","Score confiance","Score biblio"])
     
+    #On parcoure le tableau des aliments sustituables
     
     for i in range(len(tableau)) :
+        
+        #Si il y'a plusieurs aliments substituables
         if len(tableau["consequents"][i])>1 :
+            
+            #On compare chaque élément substituable avec les autres
             for j in range(len(tableau["consequents"][i])) :
                 aliment_1=list(tableau["consequents"][i])[j]
+                
                 for k in range(len(tableau["consequents"][i])) :
                     if j!=k :
                         aliment_2=list(tableau["consequents"][i])[k]
+                        
+                        #Si on a pas déjà mis ce couple dans le tableau des scores, on le met dedans
+                        #Ainsi que les scores associés
                         
                         if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
                             t_scores.loc[i]=[aliment_1+" vers "+aliment_2,[tableau["confidence"][i][j]-tableau["confidence"][i][k]],score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)]
                         else :
                             t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0].append(tableau["confidence"][i][j]-tableau["confidence"][i][k])
-
+    
+    #On construit la moyenne des scores calculé par différence de confiances
     t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.mean(x))
     
+    #On construit le score combiné
     t_scores["Score combiné"]=t_scores["Score biblio"]+t_scores["Score confiance"]
     
     return t_scores
             
 def transfo_mod(d) :
+    '''
+    Fonction qui transforme le tableau de consommation pour transformer les modalités de repas, cluster et
+    social en booléens, qui pourront être utilisés dans une recherche de motifs fréquents.
+    '''
     
     d['petit-dejeuner']=[0]*len(d)
     d['dejeuner']=[0]*len(d)
