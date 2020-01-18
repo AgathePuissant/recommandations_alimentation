@@ -155,27 +155,28 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
                 if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
                     
                     rules=rules[rules['consequents']!=rules['consequents'][i]]
+                    print('vrai')
                             
                 else :
                     
                     rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))))]
                 
-                rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+#                rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
                 
     else :
         
         for i in range(N) :
             
-            if i%100==0 :
-                print(i)
-                print(len(rules))
+#            if i%100==0 :
+#                print(i)
+#                print(len(rules))
             
             if i in rules.index :
                 
                 if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
                     rules=rules[rules['consequents']!=rules['consequents'][i]]
-                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-    
+#                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     return rules
 
 def tableau_substitution(rules_original) :
@@ -192,9 +193,10 @@ def tableau_substitution(rules_original) :
     #on parcoure le dataframe des règles d'association
     for i in range(N) :
         
-        print(i)
-        print(len(rules))
-        
+        if i%100==0 :
+            print(i)
+            print(len(rules))
+            
         if i in rules.index :
             
             liste_supp=[]
@@ -323,7 +325,7 @@ def matrice_scores(tableau,regles) :
     t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.mean(x))
     
     #On construit le score combiné
-    t_scores["Score combiné"]=t_scores["Score biblio"]+t_scores["Score confiance"]
+    t_scores["Score combiné"]=(t_scores["Score biblio"]*t_scores["Score confiance"].max()+t_scores["Score confiance"]*t_scores["Score biblio"].max())/(t_scores["Score biblio"].max()*t_scores["Score confiance"].max())
     
     return t_scores
             
@@ -390,7 +392,7 @@ nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
 repas=0
 avecqui=0
 consommateur=0
-supp=0.005
+supp=0.01
 conf=0.1
 
 nomenclature = modif_nomenclature(nomenclature) 
@@ -404,7 +406,7 @@ conso_pattern_sougr=transfo_mod(conso_pattern_sougr)
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo='fpgrowth')
 
-regles = regles_association(motifs,confiance = conf, contexte_maximaux=True)
+regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 
 t_subst = tableau_substitution(regles)
  
