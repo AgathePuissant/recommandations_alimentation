@@ -303,6 +303,9 @@ def matrice_scores(tableau,regles) :
     
     for i in range(len(tableau)) :
         
+        if i%100==0 :
+            print(i)
+        
         #Si il y'a plusieurs aliments substituables
         if len(tableau["consequents"][i])>1 :
             
@@ -407,10 +410,10 @@ conso_pattern_sougr=transfo_mod(conso_pattern_sougr)
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo='fpgrowth')
 
-#regles = regles_association(motifs,confiance = conf, contexte_maximaux=True)
-##
-#t_subst = tableau_substitution(regles)
-# 
+regles = regles_association(motifs,confiance = conf, contexte_maximaux=True)
+
+t_subst = tableau_substitution(regles)
+ 
 scores = matrice_scores(t_subst,regles)
 
 
