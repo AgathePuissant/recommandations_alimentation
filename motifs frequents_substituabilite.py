@@ -133,17 +133,16 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     
     print(len(rules))
     
+     #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
+    liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
+   
+    N=len(rules)
             
     #C'est ça qui prend du temps
-#    
+   
     #Recherche de contextes maximaux
     if contexte_maximaux==True :
-        
-        #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
-        liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
-       
-        N=len(rules)
-        
+             
         #On parcoure le dataframe des règles d'association
         for i in range(N) :
             
@@ -153,35 +152,29 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
             
             if i in rules.index :
                 
-#                liste_supp=[]
-                
                 if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
-                    
-#                    print("masque")
                     
                     rules=rules[rules['consequents']!=rules['consequents'][i]]
                             
                 else :
                     
-#                    print("autre masque")
-                    
                     rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))))]
                 
-#                    #On compare avec les autres règles d'association
-#                    for j in rules.index :
-#                        
-#                        #Si on a le même conséquent et que le contexte alimentaire inclue l'autre, on supprime la ligne de ce dernier
-#                        if (rules["consequents"][i]==rules["consequents"][j] and rules["antecedents"][i].issuperset(rules["antecedents"][j]) and i!=j) :
-#                            
-#                            liste_supp.append(j)
-                    
-                #Le dataframe est mis à jour, et il est maintenant moins long donc la recherche suivante prendra moins de temps
-#                rules.drop(liste_supp, inplace=True)
-                
-#                if liste_supp!=[] :
-#                    print("nouvelle longueur : "+str(len(rules)))
-                
                 rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+                
+    else :
+        
+        for i in range(N) :
+            
+            if i%100==0 :
+                print(i)
+                print(len(rules))
+            
+            if i in rules.index :
+                
+                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
+                    rules=rules[rules['consequents']!=rules['consequents'][i]]
+                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     
     return rules
 
@@ -235,6 +228,7 @@ def tableau_substitution(rules_original) :
             rules.drop(liste_supp, inplace=True)
             
             rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+            
     return rules
   
         
