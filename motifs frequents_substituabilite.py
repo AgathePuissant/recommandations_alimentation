@@ -10,12 +10,6 @@ from mlxtend.frequent_patterns import apriori, fpgrowth, fpmax
 from mlxtend.frequent_patterns import association_rules
 import pickle
 
-# La base conso_pattern est préparée par R à partir de la base brute
-#conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr.csv",sep = ";", encoding = 'latin-1')
-nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
-nomenclature.head(3)
-
 
 
 def modif_nomenclature(nomenclature):
@@ -79,9 +73,9 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categor
     if avec_qui != 0 :
         data = data[data['avecqui'].isin(avec_qui)]
         
-    if categorie != 0 :
+#    if categorie != 0 :
         #data = data[data.id_categorie == categorie]
-        data = data[data['id_categorie'].isin(categorie)]
+#        data = data[data['id_categorie'].isin(categorie)]
         
     if cluster != 0 :
         data = data[data['cluster_consommateur'].isin(cluster)]
@@ -90,7 +84,7 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categor
     del data['nomen']
     del data['avecqui']
     del data['nojour']
-    del data['id_categorie']
+#    del data['id_categorie']
     del data['cluster_consommateur']
             
     if algo == 'apriori' :
@@ -145,7 +139,9 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     #Recherche de contextes maximaux
     if contexte_maximaux==True :
         
-        
+        #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
+        liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
+       
         N=len(rules)
         
         #On parcoure le dataframe des règles d'association
@@ -153,21 +149,34 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
             
             if i%100==0 :
                 print(i)
+                print(len(rules))
             
             if i in rules.index :
                 
-                liste_supp=[]
+#                liste_supp=[]
                 
-                #On compare avec les autres règles d'association
-                for j in range(len(rules)) :
+                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
                     
-                    #Si on a le même conséquent et que le contexte alimentaire inclue l'autre, on supprime la ligne de ce dernier
-                    if rules["consequents"][i]==rules["consequents"][j] and rules["antecedents"][i].issuperset(rules["antecedents"][j]) and i!=j:
-                        
-                        liste_supp.append(j)
+#                    print("masque")
+                    
+                    rules=rules[rules['consequents']!=rules['consequents'][i]]
+                            
+                else :
+                    
+#                    print("autre masque")
+                    
+                    rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))))]
+                
+#                    #On compare avec les autres règles d'association
+#                    for j in rules.index :
+#                        
+#                        #Si on a le même conséquent et que le contexte alimentaire inclue l'autre, on supprime la ligne de ce dernier
+#                        if (rules["consequents"][i]==rules["consequents"][j] and rules["antecedents"][i].issuperset(rules["antecedents"][j]) and i!=j) :
+#                            
+#                            liste_supp.append(j)
                     
                 #Le dataframe est mis à jour, et il est maintenant moins long donc la recherche suivante prendra moins de temps
-                rules.drop(liste_supp, inplace=True)
+#                rules.drop(liste_supp, inplace=True)
                 
 #                if liste_supp!=[] :
 #                    print("nouvelle longueur : "+str(len(rules)))
@@ -186,50 +195,40 @@ def tableau_substitution(rules_original) :
     
     
     N=len(rules)
-    
-    #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
-    liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
-        
+     
     #on parcoure le dataframe des règles d'association
     for i in range(N) :
+        
+        print(i)
+        print(len(rules))
         
         if i in rules.index :
             
             liste_supp=[]
             
-            #Si il n'y a pas d'éléments autres qu'alimentaires dans les conséquents, on compare avec les autres
             
-            if rules['consequents'][i].intersection(liste_pas_class)==frozenset() :
-            
-                for j in range(len(rules)) :
+            for j in range(len(rules)) :
+                
+                #Si le contexte alimenaire est le même, soit on unit les éléments conséquents si ils ont le même rôle
+                #Soit on ne touche à rien
+                if rules["antecedents"][i]==rules["antecedents"][j] and i!=j :
                     
-                    #Si le contexte alimenaire est le même, soit on unit les éléments conséquents si ils ont le même rôle
-                    #Soit on ne touche à rien
-                    if rules["antecedents"][i]==rules["antecedents"][j] and i!=j and rules['consequents'][j].intersection(liste_pas_class)==frozenset() :
-                        
-                        if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["codrole"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["codrole"]).all() :
-                        
-                            #On supprime alors la règle d'association qui va être unie
-                            liste_supp.append(j)
-                        
-                            rules["consequents"][i]=rules["consequents"][i].union(rules["consequents"][j])
-                            
-                            #Mise à jour des confiances sous forme de listes
-                            if type(rules["confidence"][i])==list :
-                                rules["confidence"][i].append(rules["confidence"][j])
-                            else :
-                                liste=rules['confidence'].values.tolist()
-                                liste[i]=[rules["confidence"][i],rules["confidence"][j]]
-                                rules["confidence"]=liste
-                            
-                            rules['len_consequents']+=1
-                            
-                    elif rules['consequents'][j].intersection(liste_pas_class)!=frozenset() :
-                        
+                    if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["codrole"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["codrole"]).all() :
+                    
+                        #On supprime alors la règle d'association qui va être unie
                         liste_supp.append(j)
                     
-            else :
-                liste_supp.append(i)
+                        rules["consequents"][i]=rules["consequents"][i].union(rules["consequents"][j])
+                        
+                        #Mise à jour des confiances sous forme de listes
+                        if type(rules["confidence"][i])==list :
+                            rules["confidence"][i].append(rules["confidence"][j])
+                        else :
+                            liste=rules['confidence'].values.tolist()
+                            liste[i]=[rules["confidence"][i],rules["confidence"][j]]
+                            rules["confidence"]=liste
+                        
+                        rules['consequents_len'][i]+=1
                 
                 
             #Mise à jour du dataframe qui va être moins long et accélèrera donc la recherche suivante
@@ -385,25 +384,33 @@ def transfo_mod(d) :
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-            
+# La base conso_pattern est préparée par R à partir de la base brute
+#conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
+conso_pattern_sougr = pd.read_csv("conso_pattern_sougr.csv",sep = ";", encoding = 'latin-1')
+nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
+#nomenclature.head(3)
+
 repas=0
 avecqui=0
 consommateur=0
-supp=0.01
+supp=0.005
 conf=0.1
+
+nomenclature = modif_nomenclature(nomenclature) 
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
 
-conso_pattern_sougr=transfo_mod(conso_pattern_sougr)
-       
-nomenclature = modif_nomenclature(nomenclature)  
+#Modification pour que les modalités de cluster, type de repas et modalités sociale soient mises sous 
+#forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
+#la recheche de motifs fréquents.
+conso_pattern_sougr=transfo_mod(conso_pattern_sougr) 
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo='fpgrowth')
 
-regles = regles_association(motifs,confiance = conf)
-
-t_subst = tableau_substitution(regles)
-
+#regles = regles_association(motifs,confiance = conf, contexte_maximaux=True)
+##
+#t_subst = tableau_substitution(regles)
+# 
 scores = matrice_scores(t_subst,regles)
 
 
