@@ -81,7 +81,6 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, seuil_s
             
     frequent_itemsets = algo(data, min_support = seuil_support, use_colnames = True).assign(
         length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
-        
     
     return frequent_itemsets.sort_values('support', ascending = False)
 
@@ -389,7 +388,7 @@ nomenclature = modif_nomenclature(nomenclature)
 #la recheche de motifs fréquents.
 conso_pattern_sougr=transfo_mod(conso_pattern_sougr) 
   
-motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo='fpgrowth')
+motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo=fpgrowth)
 
 regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 
