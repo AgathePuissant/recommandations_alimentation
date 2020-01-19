@@ -25,10 +25,10 @@ def modif_nomenclature(nomenclature):
 
     for rang in range(1,len(nomenclature)):
         #Renomme les sous-groupes "sans" dans la table par le nom du groupe
-        if nomenclature['libsougr'][rang] == 'sans':
-            nomenclature['libsougr'][rang] = nomenclature['libgr'][rang]
-            #Renomérote les codes 99 des sous-groupes par 0
-            nomenclature['sougr'][rang] = 0
+#        if nomenclature['libsougr'][rang] == 'sans':
+#            nomenclature['libsougr'][rang] = nomenclature['libgr'][rang]
+#            #Renomérote les codes 99 des sous-groupes par 0
+#            nomenclature['sougr'][rang] = 0
         
         #Supprime les lignes redondantes 
         if nomenclature['libsougr'][rang] == ref:
