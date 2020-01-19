@@ -59,7 +59,7 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, seuil_s
     3, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
 
     """
-
+    
     data=conso_data.copy()
     
     if type_repas != 0 :
