@@ -48,7 +48,7 @@ def modif_nomenclature(nomenclature):
     return nomenclature
     
 
-def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categorie = 0, seuil_support = 0.05, algo = 'apriori') :
+def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, seuil_support = 0.05, algo = apriori) :
     """
     La fonction qui à partir de la base conso_pattern préparée par R, retourne la base de motif fréquent avec le support
     
@@ -56,11 +56,7 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categor
     2, type_repas :
         0 on prend tous les repas ; 1 petit-déjeuner ; 2 collation matin
         3 déjeuner ; 4 collation après-midi ; 5 diner ; 6 collation soir -- list
-    3, categorie :
-        0 : On prend tous les catégories
-        Homme : 1 adulte (36-60) ; 2 enfant (0-17) ; 3 jeune adulte (18-35) ; 4 personne âgée (> 60)
-        Femme : 5 adulte (36-60) ; 6 enfant (0-17) ; 7 jeune adulte (18-35) ; 8 personne âgée (> 60) -- list
-    4, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
+    3, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
 
     """
 
@@ -73,10 +69,6 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categor
     if avec_qui != 0 :
         data = data[data['avecqui'].isin(avec_qui)]
         
-#    if categorie != 0 :
-        #data = data[data.id_categorie == categorie]
-#        data = data[data['id_categorie'].isin(categorie)]
-        
     if cluster != 0 :
         data = data[data['cluster_consommateur'].isin(cluster)]
         
@@ -87,15 +79,8 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categor
 #    del data['id_categorie']
     del data['cluster_consommateur']
             
-    if algo == 'apriori' :
-        frequent_itemsets = apriori(data, min_support = seuil_support, use_colnames = True).assign(
-            length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
-    elif algo == 'fpgrowth' :
-        frequent_itemsets = fpgrowth(data, min_support = seuil_support, use_colnames=True).assign(
-            length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
-    elif algo == 'fpmax' :
-        frequent_itemsets = fpmax(data, min_support = seuil_support, use_colnames=True).assign(
-            length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
+    frequent_itemsets = algo(data, min_support = seuil_support, use_colnames = True).assign(
+        length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
         
     
     return frequent_itemsets.sort_values('support', ascending = False)
