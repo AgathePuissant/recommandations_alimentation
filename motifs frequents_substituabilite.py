@@ -119,31 +119,43 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     #C'est ça qui prend du temps
    
     #Recherche de contextes maximaux
-    if contexte_maximaux :
+    if contexte_maximaux==True :
              
         #On parcoure le dataframe des règles d'association
-        for i in range(len(rules)) :
-            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
+        for i in range(N) :
+            
+            if i%100==0 :
+                print(i)
+                print(len(rules))
+            
+            if i in rules.index :
+                
+                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
                     
-                rules=rules[rules['consequents']!=rules['consequents'][i]]
-                print('vrai')
+                    rules=rules[rules['consequents']!=rules['consequents'][i]]
+                    print('vrai')
                             
-            else :
+                else :
                     
-                rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))))]
-  
+                    rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))))]
+                
 #                rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
                 
     else :
         
-        for i in range(len(rules)) :            
-            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
-                rules=rules[rules['consequents']!=rules['consequents'][i]]
+        for i in range(N) :
+            
+#            if i%100==0 :
+#                print(i)
+#                print(len(rules))
+            
+            if i in rules.index :
+                
+                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
+                    rules=rules[rules['consequents']!=rules['consequents'][i]]
 #                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+    rules=rules.reset_index(drop=True)
     return rules
-
-
 
 def tableau_substitution(rules_original) :
     """
