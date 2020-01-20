@@ -103,19 +103,13 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
         rules=association_rules(d, support_only=True, min_threshold=0.01)
 
     
-    #On ne garde que les règles à un conséquent et on trie le dataframe avec les antécédents les plus long en haut
-    #Dans le but d'accélérer la recherche de contextes maximaux par la suite
-    rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
+    #On ne garde que les règles à un conséquent et...
+    rules = rules[rules['consequents'].str.len() == 1]
     
-    rules["antecedents_len"] = rules["antecedents"].apply(lambda x: len(x))
-    
-    rules=rules[(rules["consequents_len"]==1)]
-    
-    rules.sort_values('antecedents_len', ascending = False)
-    
-    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-    
-    print(len(rules))
+    # ...on trie le dataframe avec les antécédents les plus long en haut
+    # dans le but d'accélérer la recherche de contextes maximaux par la suite
+    rules.index = rules['antecedents'].str.len()
+    rules = rules.sort_index(ascending=False).reset_index(drop=True)
     
      #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
     liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
