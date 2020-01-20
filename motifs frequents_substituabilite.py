@@ -97,7 +97,7 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
         - support : float. le seuil de support minimum si support only est True
         - contexte maximaux : booléen. Si True, on ne garde que les contextes maximaux.
     """
-
+    global test_rules
     if support_only==False :
         rules=association_rules(d, metric="confidence", min_threshold=confiance)
     else :
@@ -110,10 +110,10 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     # dans le but d'accélérer la recherche de contextes maximaux par la suite
     rules.index = rules['antecedents'].str.len()
     rules = rules.sort_index(ascending=False).reset_index(drop=True)
-
+    test_rules = rules
      #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
     liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
-            
+    
     #C'est ça qui prend du temps
    
     #Recherche de contextes maximaux
@@ -121,23 +121,24 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
              
         #On parcoure le dataframe des règles d'association
         for i in range(len(rules)) :
-            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
-                    
-                rules=rules[rules['consequents']!=rules['consequents'][i]]
-                print('vrai')
-                            
-            else :
-                    
-                rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))))]
-  
+            if i in rules.index :
+                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
+                        
+                    rules=rules[rules['consequents']!=rules['consequents'][i]]
+                    print('vrai')
+                                
+                else :
+                        
+                    rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))))]
+      
 #                rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
                 
     else :
-        
-        for i in range(len(rules)) :            
-            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
-                rules=rules[rules['consequents']!=rules['consequents'][i]]
-#                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+        for i in range(len(rules)) :
+            if i in rules.index :
+                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
+                    rules=rules[rules['consequents']!=rules['consequents'][i]]
+            #                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     rules=rules.reset_index(drop=True)
     return rules
 
@@ -148,7 +149,7 @@ def tableau_substitution(rules_original) :
     """
     
     rules = rules_original.copy()
-    
+    rules['consequents_len'] = rules['consequents'].apply(lambda x : len(x))
     
     N=len(rules)
      
@@ -313,7 +314,7 @@ def transfo_mod(d) :
     
     
     for i in range(len(conso_pattern_sougr)) :
-        
+        print(i)
         if d['tyrep'][i]==1 :
             d['petit-dejeuner'][i]=1
         elif d['tyrep'][i]==3 :
@@ -365,7 +366,8 @@ nomenclature = modif_nomenclature(nomenclature)
 #forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
 #la recheche de motifs fréquents.
 conso_pattern_sougr=transfo_mod(conso_pattern_sougr) 
-  
+#conso_pattern_sougr.to_csv('conso_pattern_sougr_transfo.csv',index = False)
+
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo=fpgrowth)
 
 regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
