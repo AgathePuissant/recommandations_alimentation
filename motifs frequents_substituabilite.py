@@ -97,11 +97,11 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
         - support : float. le seuil de support minimum si support only est True
         - contexte maximaux : booléen. Si True, on ne garde que les contextes maximaux.
     """
+
     if support_only==False :
         rules=association_rules(d, metric="confidence", min_threshold=confiance)
     else :
         rules=association_rules(d, support_only=True, min_threshold=0.01)
-
     
     #On ne garde que les règles à un conséquent et...
     rules = rules[rules['consequents'].str.len() == 1]
@@ -110,49 +110,33 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     # dans le but d'accélérer la recherche de contextes maximaux par la suite
     rules.index = rules['antecedents'].str.len()
     rules = rules.sort_index(ascending=False).reset_index(drop=True)
-    
+
      #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
     liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
-   
-    N=len(rules)
             
     #C'est ça qui prend du temps
    
     #Recherche de contextes maximaux
-    if contexte_maximaux==True :
+    if contexte_maximaux :
              
         #On parcoure le dataframe des règles d'association
-        for i in range(N) :
-            
-            if i%100==0 :
-                print(i)
-                print(len(rules))
-            
-            if i in rules.index :
-                
-                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
+        for i in range(len(rules)) :
+            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
                     
-                    rules=rules[rules['consequents']!=rules['consequents'][i]]
-                    print('vrai')
+                rules=rules[rules['consequents']!=rules['consequents'][i]]
+                print('vrai')
                             
-                else :
+            else :
                     
-                    rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))))]
-                
+                rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))))]
+  
 #                rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
                 
     else :
         
-        for i in range(N) :
-            
-#            if i%100==0 :
-#                print(i)
-#                print(len(rules))
-            
-            if i in rules.index :
-                
-                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
-                    rules=rules[rules['consequents']!=rules['consequents'][i]]
+        for i in range(len(rules)) :            
+            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
+                rules=rules[rules['consequents']!=rules['consequents'][i]]
 #                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     rules=rules.reset_index(drop=True)
     return rules
