@@ -156,7 +156,7 @@ def tableau_substitution(rules_original) :
     """
     
     rules = rules_original.copy()
-    
+    rules['consequents_len'] = 1
     
     N=len(rules)
      
