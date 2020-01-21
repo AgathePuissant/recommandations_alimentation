@@ -186,9 +186,9 @@ def tableau_sub2(rules_ori, nomen_ori) :
     #apply(lambda x: "{%s}" % ', '.join(x))
     
     return rules
-test = test1
-test['union'] = test.groupby('antecedents')['consequents'].count()
-test = tableau_sub2(regles, nomenclature)
+#test = test1
+#test['union'] = test.groupby('antecedents')['consequents'].count()
+#test = tableau_sub2(regles, nomenclature)
 
 #test = tableau_sub2(regles, nomenclature)
 #test = nomenclature.loc[:,['code_role', 'libsougr']].drop_duplicates()
@@ -474,7 +474,7 @@ repas=0
 avecqui=0
 consommateur=0
 supp=0.001
-conf=0.1
+conf=0.01
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
 
@@ -484,14 +484,14 @@ conf=0.1
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo= fpgrowth)
 print("Motifs fréquents trouvés")
-regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
-print("Règles d'association trouvées")
-regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
-print("Règles d'association filtrées")
-t_subst = tableau_substitution(regles_filtre)
- print("Tableau de substitutions fait")
-scores = matrice_scores_diff_moy(t_subst,regles_filtre)
-print("Tableau de scores fait")
+#regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
+#print("Règles d'association trouvées")
+#regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
+#print("Règles d'association filtrées")
+#t_subst = tableau_substitution(regles_filtre)
+# print("Tableau de substitutions fait")
+#scores = matrice_scores_diff_moy(t_subst,regles_filtre)
+#print("Tableau de scores fait")
 
 #---------------Code pour test des scores-------------------
 
@@ -500,11 +500,11 @@ print("Tableau de scores fait")
 #scores_dmed = scores = matrice_scores_diff_med(t_subst,regles_filtre)
 #scores_medd = matrice_scores_med_diff(t_subst,regles_filtre)
 #
-#scores_conf=pd.DataFrame(columns=['Différence des moyennes','Moyenne des différences','Différence des médianes','Moyenne des différences'])
+#scores_conf=pd.DataFrame(columns=['Différence des moyennes','Moyenne des différences','Différence des médianes','Médiane des différences'])
 #scores_conf['Différence des moyennes']=scores_dmoy['Score confiance']
 #scores_conf['Différence des médianes']=scores_dmed['Score confiance']
 #scores_conf['Moyenne des différences']=scores_moyd['Score confiance']
-#scores_conf['Moyenne des différences']=scores_medd['Score confiance']
+#scores_conf['Médiane des différences']=scores_medd['Score confiance']
 #
 #import matplotlib.pyplot as plt
 #
