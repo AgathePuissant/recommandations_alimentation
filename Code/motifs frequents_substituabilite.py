@@ -244,11 +244,16 @@ def score_biblio(aliment_1,aliment_2,regles_original) :
                     if aliment_1 in contexte_2 :
                         A_y_x+=1
                         
-                    if contexte_2.issubset(contexte_1) and contexte_2.issuperset(contexte_1) and contexte_1.issubset(contexte_2) and contexte_1.issuperset(contexte_2) :
+                    if contexte_1==contexte_2 :
                         x_inter_y+=1
                     
     return(x_inter_y/(x_union_y+A_x_y+A_y_x))
     
+def filtrage(t_subst, tyrep, cluster, avecqui) :
+    
+    t_subst_filtre=t_subst.loc[(tyrep in t_subst['antecedents']) & (cluster in t_subst['antecedents']) & (avecqui in t_subst['antecedents'])]
+        
+    return t_subst_filtre
 
 def matrice_scores(tableau,regles) :
     
