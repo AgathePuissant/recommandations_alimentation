@@ -237,16 +237,16 @@ def score_biblio(aliment_1,aliment_2,regles_original) :
                     
     return(x_inter_y/(x_union_y+A_x_y+A_y_x))
     
-def filtrage(t_subst, tyrep, cluster, avecqui) :
-    t_subst_filtre = t_subst.loc[t_subst['antecedents'].astype(str).str.contains(tyrep) &
+def filtrage(data, tyrep, cluster, avecqui) :
+    data_filtre = data.loc[t_subst['antecedents'].astype(str).str.contains(tyrep) &
                                t_subst['antecedents'].astype(str).str.contains(cluster) &
                                t_subst['antecedents'].astype(str).str.contains(avecqui)]
     if tyrep == 'dejeuner' :
-        t_subst_filtre = t_subst_filtre.loc[~(t_subst_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
+        data_filtre = data_filtre.loc[~(data_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
     
-    t_subst_filtre=t_subst_filtre.set_index(pd.Index([i for i in range(len(t_subst_filtre))]))
+    data_filtre=data_filtre.set_index(pd.Index([i for i in range(len(data_filtre))]))
     
-    return t_subst_filtre
+    return data_filtre
 
 
 
@@ -379,11 +379,11 @@ motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_supp
 
 regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 
-t_subst = tableau_substitution(regles)
+regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
 
-test = filtrage(t_subst, 'dejeuner', 'cluster_1', 'famille')
+t_subst = tableau_substitution(regles_filtre)
  
-scores = matrice_scores_diff_moy(test,regles)
+scores = matrice_scores_diff_moy(t_subst,regles_filtre)
 
 
 #--------------Méthode en subdivisant le dataframe de base---------------------------
