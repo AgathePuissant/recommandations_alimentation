@@ -174,11 +174,18 @@ def tableau_substitution(rules_original) :
 
 
 def tableau_sub2(rules_ori, nomen_ori) :
+    global test1
     rules = rules_ori.copy()
     nomen = nomen_ori.copy()
     nomen = nomen.loc[:,['codrole', 'libsougr']]
-    rules = pd.DataFrame.merge(rules, nomen, left_on = 'consequents', right_on = 'libsougr')
+    rules['consequents2'] = [list(x)[0] for x in rules['consequents']]
+    rules = pd.DataFrame.merge(rules, nomen, left_on = 'consequents2', right_on = 'libsougr')
+    test1 = rules
+    rules['union'] = rules.groupby(['antecedents', 'codrole'])['consequents2'].apply(lambda x: "{%s}" % ', '.join(x)).reset_index()
     
+    return rules
+
+test = tableau_sub2(regles, nomenclature)
     
 
         
