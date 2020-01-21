@@ -202,7 +202,15 @@ def tableau_substitution(rules_original) :
             rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
             
     return rules
-  
+
+
+def tableau_sub2(rules_ori, nomen_ori) :
+    rules = rules_ori.copy()
+    nomen = nomen_ori.copy()
+    nomen = nomen.loc[:,['codrole', 'libsougr']]
+    
+    
+
         
 def score_biblio(aliment_1,aliment_2,regles_original) :
     '''
@@ -322,7 +330,7 @@ nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
 repas=0
 avecqui=0
 consommateur=0
-supp=0.01
+supp=0.005
 conf=0.1
 
 nomenclature = modif_nomenclature(nomenclature) 
@@ -335,7 +343,7 @@ nomenclature = modif_nomenclature(nomenclature)
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo= fpgrowth)
 
-regles = regles_association(motifs,confiance = conf, contexte_maximaux=True)
+regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 
 t_subst = tableau_substitution(regles)
 # 
