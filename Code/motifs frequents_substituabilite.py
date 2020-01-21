@@ -250,10 +250,14 @@ def score_biblio(aliment_1,aliment_2,regles_original) :
     return(x_inter_y/(x_union_y+A_x_y+A_y_x))
     
 def filtrage(t_subst, tyrep, cluster, avecqui) :
-    
-    t_subst_filtre=t_subst.loc[(tyrep in t_subst['antecedents']) & (cluster in t_subst['antecedents']) & (avecqui in t_subst['antecedents'])]
-        
+    t_subst_filtre = t_subst.loc[t_subst['antecedents'].astype(str).str.contains(tyrep) &
+                               t_subst['antecedents'].astype(str).str.contains(cluster) &
+                               t_subst['antecedents'].astype(str).str.contains(avecqui)]
+    if tyrep == 'dejeuner' :
+        t_subst_filtre = t_subst_filtre.loc[~(t_subst_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
     return t_subst_filtre
+
+test = filtrage(t_subst, 'dejeuner', 'cluster_1', 'famille')
 
 def matrice_scores(tableau,regles) :
     
@@ -365,3 +369,6 @@ scores = matrice_scores(t_subst,regles)
 #            pickle.dump(scores,open("scores_"+str(repas)+"_"+str(avecqui)+"_supp=0,5_conf=0,5","wb"))
 #            print("scores_"+str(repas)+"_"+str(avecqui)+"_"+str(cluster)+"_supp=0,5_conf=0,5")
 #                
+
+l = frozenset({'cluster_1', 'famille', 'sauces', 'dejeuner'})
+l.issuperset(frozenset({'cluster_1', 'famille', 'dejeuner'}))
