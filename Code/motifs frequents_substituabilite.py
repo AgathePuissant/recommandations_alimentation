@@ -188,7 +188,12 @@ def tableau_sub2(rules_ori, nomen_ori) :
     
     return rules
 
+
 test = tableau_sub2(regles, nomenclature)
+
+#test = tableau_sub2(regles, nomenclature)
+#test = nomenclature.loc[:,['code_role', 'libsougr']].drop_duplicates()
+
 
         
 def score_biblio(aliment_1,aliment_2,regles_original) :
@@ -379,10 +384,10 @@ motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_supp
 regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 
 regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
-
-t_subst = tableau_substitution(regles_filtre)
- 
-scores = matrice_scores_diff_moy(t_subst,regles_filtre)
+#
+#t_subst = tableau_substitution(regles_filtre)
+# 
+#scores = matrice_scores_diff_moy(t_subst,regles_filtre)
 
 
 #--------------Méthode en subdivisant le dataframe de base---------------------------
