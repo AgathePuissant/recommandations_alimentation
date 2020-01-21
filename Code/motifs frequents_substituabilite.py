@@ -177,16 +177,19 @@ def tableau_sub2(rules_ori, nomen_ori) :
     global test1
     rules = rules_ori.copy()
     nomen = nomen_ori.copy()
-    nomen = nomen.loc[:,['codrole', 'libsougr']]
-    rules['consequents2'] = [list(x)[0] for x in rules['consequents']]
-    rules = pd.DataFrame.merge(rules, nomen, left_on = 'consequents2', right_on = 'libsougr')
+    nomen = nomen.loc[:,['codrole', 'libsougr']].drop_duplicates()
+    rules['consequents2'] = [list(x)[0] for x in rules['consequents'].values]
     test1 = rules
-    rules['union'] = rules.groupby(['antecedents', 'codrole'])['consequents2'].apply(lambda x: "{%s}" % ', '.join(x)).reset_index()
+    rules = pd.DataFrame.merge(rules, nomen, left_on = 'consequents2', right_on = 'libsougr', how = 'left')
+    
+    #rules['union'] = rules.groupby(['antecedents', 'codrole']).count()
+    #agg(lambda col : ''.join(col))
+    #apply(lambda x: "{%s}" % ', '.join(x))
     
     return rules
 
 test = tableau_sub2(regles, nomenclature)
-    
+test = nomenclature.loc[:,['codrole', 'libsougr']].drop_duplicates()
 
         
 def score_biblio(aliment_1,aliment_2,regles_original) :
@@ -353,7 +356,7 @@ CODE PRINCIPAL
 # La base conso_pattern est préparée par R à partir de la base brute
 #conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
+nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 #nomenclature.head(3)
 
 repas=0
