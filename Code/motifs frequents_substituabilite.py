@@ -482,14 +482,14 @@ conf=0.01
 #forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
 #la recheche de motifs fréquents.
   
-motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo= fpgrowth)
-print("Motifs fréquents trouvés")
+#motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo= fpgrowth)
+#print("Motifs fréquents trouvés")
 #regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 #print("Règles d'association trouvées")
 #regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
 #print("Règles d'association filtrées")
 #t_subst = tableau_substitution(regles_filtre)
-# print("Tableau de substitutions fait")
+#print("Tableau de substitutions fait")
 #scores = matrice_scores_diff_moy(t_subst,regles_filtre)
 #print("Tableau de scores fait")
 
@@ -514,3 +514,11 @@ print("Motifs fréquents trouvés")
 #
 #plt.show()
 
+
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(15,10))
+
+regles_var_pain=regles[regles['consequents']==frozenset(['fromages affinés'])]
+
+plt.hist(regles_var_pain['confidence'].values,bins=150)
