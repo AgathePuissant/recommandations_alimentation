@@ -257,13 +257,14 @@ def filtrage(t_subst, tyrep, cluster, avecqui) :
         t_subst_filtre = t_subst_filtre.loc[~(t_subst_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
     return t_subst_filtre
 
-test = filtrage(t_subst, 'dejeuner', 'cluster_1', 'famille')
 
-def matrice_scores(tableau,regles) :
+
+def matrice_scores_diff_moy(tableau,regles) :
     
     '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
     d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
     substituables.
+    Méthode : différence des moyennes
     ---------------
     Arguments :
         - tableau : pandas DataFrame contenant les contextes de repas, les aliments substituables 
@@ -308,6 +309,57 @@ def matrice_scores(tableau,regles) :
     t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
     
     return t_scores
+
+
+def matrice_scores_moy_diff(tableau,regles) :
+    
+    '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
+    d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
+    substituables.
+    Méthode : moyenne des différences
+    ---------------
+    Arguments :
+        - tableau : pandas DataFrame contenant les contextes de repas, les aliments substituables 
+        et les métriques associées.
+        -regles : pandas DataFrame contenant les règles d'association et permettant de calculer le score
+        de substituabilité trouvé dans la bibliographie.
+    '''
+
+    t_scores=pd.DataFrame(columns=["Couples","Score confiance","Score biblio"])
+    
+    #On parcoure le tableau des aliments sustituables
+    
+    for i in range(len(tableau)) :
+        
+        if i%100==0 :
+            print(i)
+        
+        #Si il y'a plusieurs aliments substituables
+        if len(tableau["consequents"][i])>1 :
+            
+            #On compare chaque élément substituable avec les autres
+            for j in range(len(tableau["consequents"][i])) :
+                aliment_1=list(tableau["consequents"][i])[j]
+                
+                for k in range(len(tableau["consequents"][i])) :
+                    if j!=k :
+                        aliment_2=list(tableau["consequents"][i])[k]
+                        
+                        #Si on a pas déjà mis ce couple dans le tableau des scores, on le met dedans
+                        #Ainsi que les scores associés
+                        
+                        if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
+                            t_scores.loc[i]=[aliment_1+" vers "+aliment_2,[tableau["confidence"][i][j]-tableau["confidence"][i][k]],score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)]
+                        else :
+                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0].append(tableau["confidence"][i][j]-tableau["confidence"][i][k])
+    
+    #On construit la moyenne des scores calculé par différence de confiances
+    t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.mean(x))
+    
+    #On construit le score combiné
+    t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
+    
+    return t_scores
             
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -322,7 +374,7 @@ nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
 repas=0
 avecqui=0
 consommateur=0
-supp=0.01
+supp=0.005
 conf=0.1
 
 nomenclature = modif_nomenclature(nomenclature) 
@@ -335,11 +387,13 @@ nomenclature = modif_nomenclature(nomenclature)
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo= fpgrowth)
 
-regles = regles_association(motifs,confiance = conf, contexte_maximaux=True)
+regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 
 t_subst = tableau_substitution(regles)
-# 
-scores = matrice_scores(t_subst,regles)
+#
+#test = filtrage(t_subst, 'dejeuner', 'cluster_1', 'famille')
+## 
+#scores = matrice_scores(test,regles)
 
 
 #--------------Méthode en subdivisant le dataframe de base---------------------------
@@ -370,5 +424,5 @@ scores = matrice_scores(t_subst,regles)
 #            print("scores_"+str(repas)+"_"+str(avecqui)+"_"+str(cluster)+"_supp=0,5_conf=0,5")
 #                
 
-l = frozenset({'cluster_1', 'famille', 'sauces', 'dejeuner'})
-l.issuperset(frozenset({'cluster_1', 'famille', 'dejeuner'}))
+
+
