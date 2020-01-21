@@ -179,17 +179,20 @@ def tableau_sub2(rules_ori, nomen_ori) :
     nomen = nomen_ori.copy()
     nomen = nomen.loc[:,['code_role', 'libsougr']].drop_duplicates()
     rules['consequents2'] = [list(x)[0] for x in rules['consequents'].values]
+    rules = pd.DataFrame.merge(rules, nomen, left_on = 'consequents2', right_on = 'libsougr', how = 'left').drop_duplicates().reset_index()
     test1 = rules
-    rules = pd.DataFrame.merge(rules, nomen, left_on = 'consequents2', right_on = 'libsougr', how = 'left')
-    
-    #rules['union'] = rules.groupby(['antecedents', 'codrole']).count()
+    rules['union'] = rules.groupby('antecedents')['consequents'].agg('count')
     #agg(lambda col : ''.join(col))
     #apply(lambda x: "{%s}" % ', '.join(x))
     
     return rules
+test = test1
+test['union'] = test.groupby('antecedents')['consequents'].count()
+test = tableau_sub2(regles, nomenclature)
 
 #test = tableau_sub2(regles, nomenclature)
 #test = nomenclature.loc[:,['code_role', 'libsougr']].drop_duplicates()
+
 
         
 def score_biblio(aliment_1,aliment_2,regles_original) :
