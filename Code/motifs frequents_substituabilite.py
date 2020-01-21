@@ -147,7 +147,7 @@ def tableau_substitution(rules_original) :
                 #Soit on ne touche à rien
                 if rules["antecedents"][i]==rules["antecedents"][j] and i!=j :
                     
-                    if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["code_role"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["codrole"]).all() :
+                    if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["code_role"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["code_role"]).all() :
                     
                         #On supprime alors la règle d'association qui va être unie
                         liste_supp.append(j)
@@ -238,9 +238,9 @@ def score_biblio(aliment_1,aliment_2,regles_original) :
     return(x_inter_y/(x_union_y+A_x_y+A_y_x))
     
 def filtrage(data, tyrep, cluster, avecqui) :
-    data_filtre = data.loc[t_subst['antecedents'].astype(str).str.contains(tyrep) &
-                               t_subst['antecedents'].astype(str).str.contains(cluster) &
-                               t_subst['antecedents'].astype(str).str.contains(avecqui)]
+    data_filtre = data.loc[data['antecedents'].astype(str).str.contains(tyrep) &
+                               data['antecedents'].astype(str).str.contains(cluster) &
+                               data['antecedents'].astype(str).str.contains(avecqui)]
     if tyrep == 'dejeuner' :
         data_filtre = data_filtre.loc[~(data_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
     
@@ -304,6 +304,60 @@ def matrice_scores_diff_moy(tableau,regles) :
     return t_scores
 
 
+def matrice_scores_diff_med(tableau,regles) :
+    
+    '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
+    d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
+    substituables.
+    Méthode : différence des médianes
+    ---------------
+    Arguments :
+        - tableau : pandas DataFrame contenant les contextes de repas, les aliments substituables 
+        et les métriques associées.
+        -regles : pandas DataFrame contenant les règles d'association et permettant de calculer le score
+        de substituabilité trouvé dans la bibliographie.
+    '''
+
+    t_scores=pd.DataFrame(columns=["Couples","Score confiance","Score biblio"])
+    
+    #On parcoure le tableau des aliments sustituables
+    
+    for i in range(len(tableau)) :
+        
+        print(i)
+        
+        #Si il y'a plusieurs aliments substituables
+        if len(tableau["consequents"][i])>1 :
+            
+            #On compare chaque élément substituable avec les autres
+            for j in range(len(tableau["consequents"][i])) :
+            
+                
+                aliment_1=list(tableau["consequents"][i])[j]
+                
+                for k in range(len(tableau["consequents"][i])) :
+                    
+                    if j!=k :
+                        aliment_2=list(tableau["consequents"][i])[k]
+                        
+                        #Si on a pas déjà mis ce couple dans le tableau des scores, on le met dedans
+                        #Ainsi que les scores associés
+                        
+                        if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
+                            t_scores.loc[i]=[aliment_1+" vers "+aliment_2,[[tableau["confidence"][i][j]],[tableau["confidence"][i][k]]],score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)]
+                        else :
+                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0][0].append(tableau["confidence"][i][j])
+                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0][1].append(tableau["confidence"][i][k])
+    
+    #On construit la moyenne des scores calculé par différence de confiances
+    t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.median(x[0])-np.median(x[1]))
+    
+    #On construit le score combiné
+    t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
+    
+    return t_scores
+
+
 def matrice_scores_moy_diff(tableau,regles) :
     
     '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
@@ -352,6 +406,56 @@ def matrice_scores_moy_diff(tableau,regles) :
     t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
     
     return t_scores
+
+
+def matrice_scores_med_diff(tableau,regles) :
+    
+    '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
+    d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
+    substituables.
+    Méthode : médiane des différences
+    ---------------
+    Arguments :
+        - tableau : pandas DataFrame contenant les contextes de repas, les aliments substituables 
+        et les métriques associées.
+        -regles : pandas DataFrame contenant les règles d'association et permettant de calculer le score
+        de substituabilité trouvé dans la bibliographie.
+    '''
+
+    t_scores=pd.DataFrame(columns=["Couples","Score confiance","Score biblio"])
+    
+    #On parcoure le tableau des aliments sustituables
+    
+    for i in range(len(tableau)) :
+        
+        print(i)
+        
+        #Si il y'a plusieurs aliments substituables
+        if len(tableau["consequents"][i])>1 :
+            
+            #On compare chaque élément substituable avec les autres
+            for j in range(len(tableau["consequents"][i])) :
+                aliment_1=list(tableau["consequents"][i])[j]
+                
+                for k in range(len(tableau["consequents"][i])) :
+                    if j!=k :
+                        aliment_2=list(tableau["consequents"][i])[k]
+                        
+                        #Si on a pas déjà mis ce couple dans le tableau des scores, on le met dedans
+                        #Ainsi que les scores associés
+                        
+                        if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
+                            t_scores.loc[i]=[aliment_1+" vers "+aliment_2,[tableau["confidence"][i][j]-tableau["confidence"][i][k]],score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)]
+                        else :
+                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0].append(tableau["confidence"][i][j]-tableau["confidence"][i][k])
+    
+    #On construit la moyenne des scores calculé par différence de confiances
+    t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.median(x))
+    
+    #On construit le score combiné
+    t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
+    
+    return t_scores
             
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -366,7 +470,7 @@ nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 repas=0
 avecqui=0
 consommateur=0
-supp=0.005
+supp=0.001
 conf=0.1
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
@@ -376,43 +480,34 @@ conf=0.1
 #la recheche de motifs fréquents.
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo= fpgrowth)
-
+print("Motifs fréquents trouvés")
 regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
-
+print("Règles d'association trouvées")
 regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
+print("Règles d'association filtrées")
+t_subst = tableau_substitution(regles_filtre)
+ print("Tableau de substitutions fait")
+scores = matrice_scores_diff_moy(t_subst,regles_filtre)
+print("Tableau de scores fait")
+
+#---------------Code pour test des scores-------------------
+
+#scores_dmoy = scores
+#scores_moyd = matrice_scores_moy_diff(t_subst,regles_filtre)
+#scores_dmed = scores = matrice_scores_diff_med(t_subst,regles_filtre)
+#scores_medd = matrice_scores_med_diff(t_subst,regles_filtre)
 #
-#t_subst = tableau_substitution(regles_filtre)
-# 
-#scores = matrice_scores_diff_moy(t_subst,regles_filtre)
-
-
-#--------------Méthode en subdivisant le dataframe de base---------------------------
+#scores_conf=pd.DataFrame(columns=['Différence des moyennes','Moyenne des différences','Différence des médianes','Moyenne des différences'])
+#scores_conf['Différence des moyennes']=scores_dmoy['Score confiance']
+#scores_conf['Différence des médianes']=scores_dmed['Score confiance']
+#scores_conf['Moyenne des différences']=scores_moyd['Score confiance']
+#scores_conf['Moyenne des différences']=scores_medd['Score confiance']
 #
-#modalites_avecqui = np.unique(conso_pattern_sougr["avecqui"].dropna())
-#modalites_tyrep = np.unique(conso_pattern_sougr["tyrep"].dropna())
-#modalites_cluster = np.unique(conso_pattern_sougr["cluster_consommateur"].dropna())
+#import matplotlib.pyplot as plt
 #
-#for repas in modalites_tyrep :
-#    
-#    for avecqui in modalites_avecqui :
-#        
-#        for cluster in modalites_cluster :
-#        
-#            motifs = find_frequent(conso_pattern_sougr, repas, avecqui, cluster, [1,3,4,5,7,8], seuil_support=supp, algo='fpgrowth')
-#            print("Motifs fréquents trouvés")
-#            
-#            regles = regles_association(motifs, confiance = conf)
-#            print("Règles d'association trouvées")
-#            
-#            t_subst = tableau_substitution(regles)
-#            print("tableau de substitutions fait")
-#            
-#            scores = matrice_scores(t_subst,regles)
-#            print("tableau de scores fait")
-#                
-#            pickle.dump(scores,open("scores_"+str(repas)+"_"+str(avecqui)+"_supp=0,5_conf=0,5","wb"))
-#            print("scores_"+str(repas)+"_"+str(avecqui)+"_"+str(cluster)+"_supp=0,5_conf=0,5")
-#                
-
-
+#plt.figure(figsize=(15,10))
+#
+#scores_conf.boxplot().set_xticklabels(scores_conf.boxplot().get_xticklabels(),rotation=45)
+#
+#plt.show()
 
