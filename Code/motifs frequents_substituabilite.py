@@ -324,7 +324,7 @@ nomenclature = modif_nomenclature(nomenclature)
 #forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
 #la recheche de motifs fréquents.
   
-motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo='fpgrowth')
+motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo= fpgrowth)
 
 regles = regles_association(motifs,confiance = conf, contexte_maximaux=True)
 
