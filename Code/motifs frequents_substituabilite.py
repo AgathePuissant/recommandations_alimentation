@@ -263,6 +263,9 @@ def filtrage(t_subst, tyrep, cluster, avecqui) :
                                t_subst['antecedents'].astype(str).str.contains(avecqui)]
     if tyrep == 'dejeuner' :
         t_subst_filtre = t_subst_filtre.loc[~(t_subst_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
+    
+    t_subst_filtre=t_subst_filtre.set_index(pd.Index([i for i in range(len(t_subst_filtre))]))
+    
     return t_subst_filtre
 
 
@@ -287,17 +290,19 @@ def matrice_scores_diff_moy(tableau,regles) :
     
     for i in range(len(tableau)) :
         
-        if i%100==0 :
-            print(i)
+        print(i)
         
         #Si il y'a plusieurs aliments substituables
         if len(tableau["consequents"][i])>1 :
             
             #On compare chaque élément substituable avec les autres
             for j in range(len(tableau["consequents"][i])) :
+            
+                
                 aliment_1=list(tableau["consequents"][i])[j]
                 
                 for k in range(len(tableau["consequents"][i])) :
+                    
                     if j!=k :
                         aliment_2=list(tableau["consequents"][i])[k]
                         
@@ -339,8 +344,7 @@ def matrice_scores_moy_diff(tableau,regles) :
     
     for i in range(len(tableau)) :
         
-        if i%100==0 :
-            print(i)
+        print(i)
         
         #Si il y'a plusieurs aliments substituables
         if len(tableau["consequents"][i])>1 :
@@ -398,10 +402,10 @@ motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_supp
 regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 
 t_subst = tableau_substitution(regles)
-#
-#test = filtrage(t_subst, 'dejeuner', 'cluster_1', 'famille')
-## 
-#scores = matrice_scores(test,regles)
+
+test = filtrage(t_subst, 'dejeuner', 'cluster_1', 'famille')
+ 
+scores = matrice_scores_diff_moy(test,regles)
 
 
 #--------------Méthode en subdivisant le dataframe de base---------------------------
