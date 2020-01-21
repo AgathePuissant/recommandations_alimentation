@@ -147,7 +147,7 @@ def tableau_substitution(rules_original) :
                 #Soit on ne touche à rien
                 if rules["antecedents"][i]==rules["antecedents"][j] and i!=j :
                     
-                    if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["codrole"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["codrole"]).all() :
+                    if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["code_role"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["codrole"]).all() :
                     
                         #On supprime alors la règle d'association qui va être unie
                         liste_supp.append(j)
@@ -177,7 +177,7 @@ def tableau_sub2(rules_ori, nomen_ori) :
     global test1
     rules = rules_ori.copy()
     nomen = nomen_ori.copy()
-    nomen = nomen.loc[:,['codrole', 'libsougr']].drop_duplicates()
+    nomen = nomen.loc[:,['code_role', 'libsougr']].drop_duplicates()
     rules['consequents2'] = [list(x)[0] for x in rules['consequents'].values]
     test1 = rules
     rules = pd.DataFrame.merge(rules, nomen, left_on = 'consequents2', right_on = 'libsougr', how = 'left')
@@ -189,7 +189,7 @@ def tableau_sub2(rules_ori, nomen_ori) :
     return rules
 
 test = tableau_sub2(regles, nomenclature)
-test = nomenclature.loc[:,['codrole', 'libsougr']].drop_duplicates()
+test = nomenclature.loc[:,['code_role', 'libsougr']].drop_duplicates()
 
         
 def score_biblio(aliment_1,aliment_2,regles_original) :
