@@ -9,37 +9,6 @@ import pandas as pd
 from mlxtend.frequent_patterns import apriori, fpgrowth, fpmax
 from mlxtend.frequent_patterns import association_rules
 
-
-
-def modif_nomenclature(nomenclature):
-    """
-    Modifie la table nomenclature pour qu'elle soit utilisable dans la fonction
-    substituabilité
-    i.e. garde une ligne par sous-groupe, renomme les "sans" et créé le code des sous-groupes
-    """
-    
-    codsougr = [11]
-    nomenclature = nomenclature.iloc[:, 0:5]
-    ref = nomenclature['libsougr'][0]
-
-    for rang in range(1,len(nomenclature)):
-        
-        #Supprime les lignes redondantes 
-        if nomenclature['libsougr'][rang] == ref:
-            nomenclature = nomenclature.drop(rang)
-            
-        else:
-            ref = nomenclature['libsougr'][rang]
-            #Créé le code des sous-groupes en concaténant le code du groupe et du sous-groupe existant
-            codsougr.append(int(str(nomenclature['codgr'][rang])+str(nomenclature['sougr'][rang])))
-    
-    nomenclature['codsougr'] = codsougr
-    
-    #Renumérote les indexs des lignes
-    for i in range(len(nomenclature)) :
-        nomenclature = nomenclature.rename(index = {nomenclature.index[i]:i})
-
-    return nomenclature
     
 
 def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, seuil_support = 0.05, algo = apriori) :
@@ -208,6 +177,7 @@ def tableau_sub2(rules_ori, nomen_ori) :
     rules = rules_ori.copy()
     nomen = nomen_ori.copy()
     nomen = nomen.loc[:,['codrole', 'libsougr']]
+    rules = pd.DataFrame.merge(rules, nomen, left_on = 'consequents', right_on = 'libsougr')
     
     
 
@@ -332,8 +302,6 @@ avecqui=0
 consommateur=0
 supp=0.005
 conf=0.1
-
-nomenclature = modif_nomenclature(nomenclature) 
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
 
