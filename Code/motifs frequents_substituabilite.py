@@ -8,7 +8,6 @@ import numpy as np
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, fpgrowth, fpmax
 from mlxtend.frequent_patterns import association_rules
-import pickle
 
 
 
@@ -24,11 +23,6 @@ def modif_nomenclature(nomenclature):
     ref = nomenclature['libsougr'][0]
 
     for rang in range(1,len(nomenclature)):
-        #Renomme les sous-groupes "sans" dans la table par le nom du groupe
-        if nomenclature['libsougr'][rang] == 'sans':
-            nomenclature['libsougr'][rang] = nomenclature['libgr'][rang]
-            #Renomérote les codes 99 des sous-groupes par 0
-            nomenclature['sougr'][rang] = 0
         
         #Supprime les lignes redondantes 
         if nomenclature['libsougr'][rang] == ref:
@@ -48,7 +42,7 @@ def modif_nomenclature(nomenclature):
     return nomenclature
     
 
-def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categorie = 0, seuil_support = 0.05, algo = 'apriori') :
+def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, seuil_support = 0.05, algo = apriori) :
     """
     La fonction qui à partir de la base conso_pattern préparée par R, retourne la base de motif fréquent avec le support
     
@@ -56,14 +50,10 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categor
     2, type_repas :
         0 on prend tous les repas ; 1 petit-déjeuner ; 2 collation matin
         3 déjeuner ; 4 collation après-midi ; 5 diner ; 6 collation soir -- list
-    3, categorie :
-        0 : On prend tous les catégories
-        Homme : 1 adulte (36-60) ; 2 enfant (0-17) ; 3 jeune adulte (18-35) ; 4 personne âgée (> 60)
-        Femme : 5 adulte (36-60) ; 6 enfant (0-17) ; 7 jeune adulte (18-35) ; 8 personne âgée (> 60) -- list
-    4, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
+    3, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
 
     """
-
+    
     data=conso_data.copy()
     
     if type_repas != 0 :
@@ -73,10 +63,6 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categor
     if avec_qui != 0 :
         data = data[data['avecqui'].isin(avec_qui)]
         
-#    if categorie != 0 :
-        #data = data[data.id_categorie == categorie]
-#        data = data[data['id_categorie'].isin(categorie)]
-        
     if cluster != 0 :
         data = data[data['cluster_consommateur'].isin(cluster)]
         
@@ -84,21 +70,13 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, categor
     del data['nomen']
     del data['avecqui']
     del data['nojour']
-#    del data['id_categorie']
     del data['cluster_consommateur']
             
-    if algo == 'apriori' :
-        frequent_itemsets = apriori(data, min_support = seuil_support, use_colnames = True).assign(
-            length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
-    elif algo == 'fpgrowth' :
-        frequent_itemsets = fpgrowth(data, min_support = seuil_support, use_colnames=True).assign(
-            length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
-    elif algo == 'fpmax' :
-        frequent_itemsets = fpmax(data, min_support = seuil_support, use_colnames=True).assign(
-            length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
-        
+    frequent_itemsets = algo(data, min_support = seuil_support, use_colnames = True).assign(
+        length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
     
     return frequent_itemsets.sort_values('support', ascending = False)
+
 
 
 def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_maximaux=True) :
@@ -113,29 +91,23 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
         - support : float. le seuil de support minimum si support only est True
         - contexte maximaux : booléen. Si True, on ne garde que les contextes maximaux.
     """
-    if support_only==False :
+    
+    if support_only == False :
         rules=association_rules(d, metric="confidence", min_threshold=confiance)
     else :
         rules=association_rules(d, support_only=True, min_threshold=0.01)
-
     
-    #On ne garde que les règles à un conséquent et on trie le dataframe avec les antécédents les plus long en haut
-    #Dans le but d'accélérer la recherche de contextes maximaux par la suite
-    rules["consequents_len"] = rules["consequents"].apply(lambda x: len(x))
+    #On ne garde que les règles à un conséquent et...
+    rules = rules[rules['consequents'].str.len() == 1]
     
-    rules["antecedents_len"] = rules["antecedents"].apply(lambda x: len(x))
-    
-    rules=rules[(rules["consequents_len"]==1)]
-    
-    rules.sort_values('antecedents_len', ascending = False)
-    
-    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-    
-    print(len(rules))
+    # ...on trie le dataframe avec les antécédents les plus long en haut
+    # dans le but d'accélérer la recherche de contextes maximaux par la suite
+    rules.index = rules['antecedents'].str.len()
+    rules = rules.sort_index(ascending=False).reset_index(drop=True)
     
      #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
     liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
-   
+    
     N=len(rules)
             
     #C'est ça qui prend du temps
@@ -167,10 +139,7 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     else :
         
         for i in range(N) :
-            
-#            if i%100==0 :
-#                print(i)
-#                print(len(rules))
+
             
             if i in rules.index :
                 
@@ -331,63 +300,13 @@ def matrice_scores(tableau,regles) :
     
     return t_scores
             
-def transfo_mod(d) :
-    '''
-    Fonction qui transforme le tableau de consommation pour transformer les modalités de repas, cluster et
-    social en booléens, qui pourront être utilisés dans une recherche de motifs fréquents.
-    '''
-    
-    d['petit-dejeuner']=[0]*len(d)
-    d['dejeuner']=[0]*len(d)
-    d['gouter']=[0]*len(d)
-    d['diner']=[0]*len(d)
-    
-    d['seul']=[0]*len(d)
-    d['famille']=[0]*len(d)
-    d['amis']=[0]*len(d)
-    d['autre']=[0]*len(d)
-    
-    d['cluster_0']=[0]*len(d)
-    d['cluster_1']=[0]*len(d)
-    d['cluster_2']=[0]*len(d)
-    
-    
-    for i in range(len(conso_pattern_sougr)) :
-        
-        if d['tyrep'][i]==1 :
-            d['petit-dejeuner'][i]=1
-        elif d['tyrep'][i]==3 :
-            d['dejeuner'][i]=1
-        elif d['tyrep'][i]==4 :
-            d['gouter'][i]=1
-        elif d['tyrep'][i]==5 :
-            d['diner'][i]=1
-            
-        if d['avecqui'][i]==1 :
-            d['seul'][i]=1
-        elif d['avecqui'][i]==2 :
-            d['famille'][i]=1
-        elif d['avecqui'][i]==3 :
-            d['amis'][i]=1
-        elif d['avecqui'][i]==4 :
-            d['autre'][i]=1
-            
-        if d['cluster_consommateur'][i]==0 :
-            d['cluster_0'][i]=1
-        elif d['cluster_consommateur'][i]==1 :
-            d['cluster_1'][i]=1
-        elif d['cluster_consommateur'][i]==2 :
-            d['cluster_2'][i]=1
-            
-    return d
-            
-    
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # La base conso_pattern est préparée par R à partir de la base brute
 #conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr.csv",sep = ";", encoding = 'latin-1')
+conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
 #nomenclature.head(3)
 
@@ -404,7 +323,6 @@ nomenclature = modif_nomenclature(nomenclature)
 #Modification pour que les modalités de cluster, type de repas et modalités sociale soient mises sous 
 #forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
 #la recheche de motifs fréquents.
-conso_pattern_sougr=transfo_mod(conso_pattern_sougr) 
   
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo='fpgrowth')
 
