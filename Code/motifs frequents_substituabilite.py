@@ -465,10 +465,8 @@ def matrice_scores_med_diff(tableau,regles) :
 CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # La base conso_pattern est préparée par R à partir de la base brute
-#conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-#nomenclature.head(3)
 
 repas=0
 avecqui=0
@@ -514,11 +512,12 @@ conf=0.01
 #
 #plt.show()
 
+#----------Code pour test de la distribution des variances--------------------
 
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(15,10))
-
-regles_var_pain=regles[regles['consequents']==frozenset(['fromages affinés'])]
-
-plt.hist(regles_var_pain['confidence'].values,bins=150)
+#import matplotlib.pyplot as plt
+#
+#plt.figure(figsize=(15,10))
+#
+#regles_var_pain=regles[regles['consequents']==frozenset(['riz'])]
+#
+#plt.hist(regles_var_pain['confidence'].values,bins=150)
