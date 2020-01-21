@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, fpgrowth, fpmax
 from mlxtend.frequent_patterns import association_rules
-import pickle
+#import pickle
 
 
 
@@ -349,6 +349,8 @@ CODE PRINCIPAL
 # La base conso_pattern est préparée par R à partir de la base brute
 #conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr.csv",sep = ";", encoding = 'latin-1')
+conso_pattern_sougr = conso_pattern_sougr.rename(columns = {"b\x9cuf en pièces ou haché" : "boeuf en pièces ou haché"})
+
 nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
 #nomenclature.head(3)
 
