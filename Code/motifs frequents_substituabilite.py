@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, fpgrowth, fpmax
 from mlxtend.frequent_patterns import association_rules
-#import pickle
+import pickle
 
 
 
@@ -291,66 +291,14 @@ def matrice_scores(tableau,regles) :
     t_scores["Score combiné"]=(t_scores["Score biblio"]*t_scores["Score confiance"].max()+t_scores["Score confiance"]*t_scores["Score biblio"].max())/(t_scores["Score biblio"].max()*t_scores["Score confiance"].max())
     
     return t_scores
-            
-def transfo_mod(d) :
-    '''
-    Fonction qui transforme le tableau de consommation pour transformer les modalités de repas, cluster et
-    social en booléens, qui pourront être utilisés dans une recherche de motifs fréquents.
-    '''
-    
-    d['petit-dejeuner']=[0]*len(d)
-    d['dejeuner']=[0]*len(d)
-    d['gouter']=[0]*len(d)
-    d['diner']=[0]*len(d)
-    
-    d['seul']=[0]*len(d)
-    d['famille']=[0]*len(d)
-    d['amis']=[0]*len(d)
-    d['autre']=[0]*len(d)
-    
-    d['cluster_0']=[0]*len(d)
-    d['cluster_1']=[0]*len(d)
-    d['cluster_2']=[0]*len(d)
-    
-    
-    for i in range(len(conso_pattern_sougr)) :
-        print(i)
-        if d['tyrep'][i]==1 :
-            d['petit-dejeuner'][i]=1
-        elif d['tyrep'][i]==3 :
-            d['dejeuner'][i]=1
-        elif d['tyrep'][i]==4 :
-            d['gouter'][i]=1
-        elif d['tyrep'][i]==5 :
-            d['diner'][i]=1
-            
-        if d['avecqui'][i]==1 :
-            d['seul'][i]=1
-        elif d['avecqui'][i]==2 :
-            d['famille'][i]=1
-        elif d['avecqui'][i]==3 :
-            d['amis'][i]=1
-        elif d['avecqui'][i]==4 :
-            d['autre'][i]=1
-            
-        if d['cluster_consommateur'][i]==0 :
-            d['cluster_0'][i]=1
-        elif d['cluster_consommateur'][i]==1 :
-            d['cluster_1'][i]=1
-        elif d['cluster_consommateur'][i]==2 :
-            d['cluster_2'][i]=1
-            
-    return d
-            
+         
     
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # La base conso_pattern est préparée par R à partir de la base brute
 #conso_pattern_grp = pd.read_csv("conso_pattern_grp.csv", sep = ";", encoding = 'latin-1')
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr.csv",sep = ";", encoding = 'latin-1')
-conso_pattern_sougr = conso_pattern_sougr.rename(columns = {"b\x9cuf en pièces ou haché" : "boeuf en pièces ou haché"})
-
+conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("Nomenclature_3.csv",sep = ";",encoding = 'latin-1')
 #nomenclature.head(3)
 
@@ -367,7 +315,7 @@ nomenclature = modif_nomenclature(nomenclature)
 #Modification pour que les modalités de cluster, type de repas et modalités sociale soient mises sous 
 #forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
 #la recheche de motifs fréquents.
-conso_pattern_sougr=transfo_mod(conso_pattern_sougr) 
+#conso_pattern_sougr=transfo_mod(conso_pattern_sougr) 
 #conso_pattern_sougr.to_csv('conso_pattern_sougr_transfo.csv',index = False)
 
 motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo=fpgrowth)
