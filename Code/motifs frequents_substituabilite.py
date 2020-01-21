@@ -202,7 +202,15 @@ def tableau_substitution(rules_original) :
             rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
             
     return rules
-  
+
+
+def tableau_sub2(rules_ori, nomen_ori) :
+    rules = rules_ori.copy()
+    nomen = nomen_ori.copy()
+    nomen = nomen.loc[:,['codrole', 'libsougr']]
+    
+    
+
         
 def score_biblio(aliment_1,aliment_2,regles_original) :
     '''
