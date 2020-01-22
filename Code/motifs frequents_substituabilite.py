@@ -118,83 +118,94 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     return rules
 
-def tableau_substitution(rules_original) :
-    """
-    Prend en entrée un dataframe des règles d'association et ressort
-    le tableau des aliments sustituables en fonction du contexte alimentaire
-    """
-    
-    rules = rules_original.copy()
-    rules['consequents_len'] = 1
-    
-    N=len(rules)
-     
-    #on parcoure le dataframe des règles d'association
-    for i in range(N) :
-        
-        if i%100==0 :
-            print(i)
-            print(len(rules))
-            
-        if i in rules.index :
-            
-            liste_supp=[]
-            
-            
-            for j in range(len(rules)) :
-                
-                #Si le contexte alimenaire est le même, soit on unit les éléments conséquents si ils ont le même rôle
-                #Soit on ne touche à rien
-                if rules["antecedents"][i]==rules["antecedents"][j] and i!=j :
-                    
-                    if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["code_role"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["code_role"]).all() :
-                    
-                        #On supprime alors la règle d'association qui va être unie
-                        liste_supp.append(j)
-                    
-                        rules["consequents"][i]=rules["consequents"][i].union(rules["consequents"][j])
-                        
-                        #Mise à jour des confiances sous forme de listes
-                        if type(rules["confidence"][i])==list :
-                            rules["confidence"][i].append(rules["confidence"][j])
-                        else :
-                            liste=rules['confidence'].values.tolist()
-                            liste[i]=[rules["confidence"][i],rules["confidence"][j]]
-                            rules["confidence"]=liste
-                        
-                        rules['consequents_len'][i]+=1
-                
-                
-            #Mise à jour du dataframe qui va être moins long et accélèrera donc la recherche suivante
-            rules.drop(liste_supp, inplace=True)
-            
-            rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-            
-    return rules
+#def tableau_substitution(rules_original) :
+#    """
+#    Prend en entrée un dataframe des règles d'association et ressort
+#    le tableau des aliments sustituables en fonction du contexte alimentaire
+#    """
+#    
+#    rules = rules_original.copy()
+#    rules['consequents_len'] = 1
+#    
+#    N=len(rules)
+#     
+#    #on parcoure le dataframe des règles d'association
+#    for i in range(N) :
+#        
+#        if i%100==0 :
+#            print(i)
+#            print(len(rules))
+#            
+#        if i in rules.index :
+#            
+#            liste_supp=[]
+#            
+#            
+#            for j in range(len(rules)) :
+#                
+#                #Si le contexte alimenaire est le même, soit on unit les éléments conséquents si ils ont le même rôle
+#                #Soit on ne touche à rien
+#                if rules["antecedents"][i]==rules["antecedents"][j] and i!=j :
+#                    
+#                    if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["code_role"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["code_role"]).all() :
+#                    
+#                        #On supprime alors la règle d'association qui va être unie
+#                        liste_supp.append(j)
+#                    
+#                        rules["consequents"][i]=rules["consequents"][i].union(rules["consequents"][j])
+#                        
+#                        #Mise à jour des confiances sous forme de listes
+#                        if type(rules["confidence"][i])==list :
+#                            rules["confidence"][i].append(rules["confidence"][j])
+#                        else :
+#                            liste=rules['confidence'].values.tolist()
+#                            liste[i]=[rules["confidence"][i],rules["confidence"][j]]
+#                            rules["confidence"]=liste
+#                        
+#                        rules['consequents_len'][i]+=1
+#                
+#                
+#            #Mise à jour du dataframe qui va être moins long et accélèrera donc la recherche suivante
+#            rules.drop(liste_supp, inplace=True)
+#            
+#            rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+#            
+#    return rules
 
-
-def tableau_sub2(rules_ori, nomen_ori) :
+def tableau_substitution(rules_ori, nomen_ori) :
+    # Version vectorisée de la fonction tableau _substitution pour optimiser le temps (environ 10 minutes à 3-4 secondes) 
     global test1
     rules = rules_ori.copy()
+    rules = rules.loc[:, ['antecedents', 'consequents', 'confidence']]
+    
     nomen = nomen_ori.copy()
     nomen = nomen.loc[:,['code_role', 'libsougr']].drop_duplicates()
-    rules['consequents2'] = [list(x)[0] for x in rules['consequents'].values]
-    rules = pd.DataFrame.merge(rules, nomen, left_on = 'consequents2', right_on = 'libsougr', how = 'left').drop_duplicates().reset_index()
-    test1 = rules
-    rules['union'] = rules.groupby('antecedents')['consequents'].agg('count')
-    #agg(lambda col : ''.join(col))
-    #apply(lambda x: "{%s}" % ', '.join(x))
+    
+    rules['libsougr'] = [list(x)[0] for x in rules['consequents'].values]
+    rules = pd.DataFrame.merge(rules, nomen, on = 'libsougr', how = 'left')
+    
+    # data sort by values of confidence by group of antecedents
+    rules = rules.groupby(['antecedents', 'code_role'])
+    rules = rules.apply(lambda df : df.sort_values('confidence')).reset_index(drop = True)
+    
+    # add two columns of union of sous-groupe and confidence by group of antecedents
+    rules = pd.DataFrame.merge(rules.drop('libsougr', axis=1), rules.groupby(['antecedents', 'code_role'])['libsougr'].unique().reset_index())
+    rules = pd.DataFrame.merge(rules.drop('confidence', axis=1),rules.groupby(['antecedents', 'code_role'])['confidence'].unique().reset_index())
+    
+    # remove duplicate rows (transform to tuple...
+    rules['consequents'] = rules['libsougr'].apply(lambda con : tuple(con))
+    rules['antecedents'] = rules['antecedents'].apply(lambda ant : tuple(sorted(list(ant))))
+    rules['confidence'] = rules['confidence'].apply(lambda conf : list(conf))
+    rules = rules.drop('libsougr', axis = 1)
+    
+    rules = rules.drop_duplicates(['antecedents', 'consequents'])
+    
+    #... retransform to fronzenset)
+    rules['consequents'] = rules['consequents'].apply(lambda con : frozenset(con))
+    rules['antecedents'] = rules['antecedents'].apply(lambda ant : frozenset(ant)) 
     
     return rules
-#test = test1
-#test['union'] = test.groupby('antecedents')['consequents'].count()
-#test = tableau_sub2(regles, nomenclature)
-
-#test = tableau_sub2(regles, nomenclature)
-#test = nomenclature.loc[:,['code_role', 'libsougr']].drop_duplicates()
-
-
-        
+     
 def score_biblio(aliment_1,aliment_2,regles_original) :
     '''
     Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
