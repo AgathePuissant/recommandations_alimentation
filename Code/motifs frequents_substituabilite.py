@@ -173,8 +173,8 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
 #    return rules
 
 def tableau_substitution(rules_ori, nomen_ori) :
-    # Version vectorisée de la fonction tableau _substitution pour optimiser le temps (environ 10 minutes à 3-4 secondes) 
-    global test1
+    
+    # data manipulation
     rules = rules_ori.copy()
     rules = rules.loc[:, ['antecedents', 'consequents', 'confidence']]
     
