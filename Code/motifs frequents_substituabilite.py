@@ -198,7 +198,7 @@ def tableau_substitution(rules_ori, nomen_ori) :
     rules['confidence'] = rules['confidence'].apply(lambda conf : list(conf))
     rules = rules.drop('libsougr', axis = 1)
     
-    rules = rules.drop_duplicates(['antecedents', 'consequents'])
+    rules = rules.drop_duplicates(['antecedents', 'consequents']).reset_index(drop = True)
     
     #... retransform to fronzenset)
     rules['consequents'] = rules['consequents'].apply(lambda con : frozenset(con))
@@ -497,7 +497,8 @@ conf=0.01
 #print("Règles d'association trouvées")
 #regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
 #print("Règles d'association filtrées")
-#t_subst = tableau_substitution(regles_filtre)
+#t_subst_test = tableau_substitution(regles, nomenclature)
+#t_subst = tableau_substitution(regles_filtre, nomenclature)
 #print("Tableau de substitutions fait")
 #scores = matrice_scores_diff_moy(t_subst,regles_filtre)
 #print("Tableau de scores fait")
