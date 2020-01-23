@@ -6,6 +6,7 @@ Ceci est un script temporaire.
 """
 import numpy as np
 import pandas as pd
+import itertools
 from mlxtend.frequent_patterns import apriori, fpgrowth, fpmax
 from mlxtend.frequent_patterns import association_rules
 
@@ -108,60 +109,6 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     return rules
 
-#def tableau_substitution(rules_original) :
-#    """
-#    Prend en entrée un dataframe des règles d'association et ressort
-#    le tableau des aliments sustituables en fonction du contexte alimentaire
-#    """
-#    
-#    rules = rules_original.copy()
-#    rules['consequents_len'] = 1
-#    
-#    N=len(rules)
-#     
-#    #on parcoure le dataframe des règles d'association
-#    for i in range(N) :
-#        
-#        if i%100==0 :
-#            print(i)
-#            print(len(rules))
-#            
-#        if i in rules.index :
-#            
-#            liste_supp=[]
-#            
-#            
-#            for j in range(len(rules)) :
-#                
-#                #Si le contexte alimenaire est le même, soit on unit les éléments conséquents si ils ont le même rôle
-#                #Soit on ne touche à rien
-#                if rules["antecedents"][i]==rules["antecedents"][j] and i!=j :
-#                    
-#                    if (nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][i])[0])]["code_role"]).all()==(nomenclature[(nomenclature["libsougr"]==list(rules["consequents"][j])[0])]["code_role"]).all() :
-#                    
-#                        #On supprime alors la règle d'association qui va être unie
-#                        liste_supp.append(j)
-#                    
-#                        rules["consequents"][i]=rules["consequents"][i].union(rules["consequents"][j])
-#                        
-#                        #Mise à jour des confiances sous forme de listes
-#                        if type(rules["confidence"][i])==list :
-#                            rules["confidence"][i].append(rules["confidence"][j])
-#                        else :
-#                            liste=rules['confidence'].values.tolist()
-#                            liste[i]=[rules["confidence"][i],rules["confidence"][j]]
-#                            rules["confidence"]=liste
-#                        
-#                        rules['consequents_len'][i]+=1
-#                
-#                
-#            #Mise à jour du dataframe qui va être moins long et accélèrera donc la recherche suivante
-#            rules.drop(liste_supp, inplace=True)
-#            
-#            rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-#            
-#    return rules
-
 def tableau_substitution(rules_ori, nomen_ori) :
     
     # data manipulation
@@ -196,6 +143,19 @@ def tableau_substitution(rules_ori, nomen_ori) :
     
     return rules
      
+
+def filtrage(data, tyrep, cluster, avecqui) :
+    data_filtre = data.loc[data['antecedents'].astype(str).str.contains(tyrep) &
+                               data['antecedents'].astype(str).str.contains(cluster) &
+                               data['antecedents'].astype(str).str.contains(avecqui)]
+    if tyrep == 'dejeuner' :
+        data_filtre = data_filtre.loc[~(data_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
+    
+    data_filtre=data_filtre.set_index(pd.Index([i for i in range(len(data_filtre))]))
+    
+    return data_filtre
+
+
 def score_biblio(aliment_1,aliment_2,regles_original) :
     '''
     Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
@@ -241,21 +201,8 @@ def score_biblio(aliment_1,aliment_2,regles_original) :
                     
     return(x_inter_y/(x_union_y+A_x_y+A_y_x))
     
-def filtrage(data, tyrep, cluster, avecqui) :
-    data_filtre = data.loc[data['antecedents'].astype(str).str.contains(tyrep) &
-                               data['antecedents'].astype(str).str.contains(cluster) &
-                               data['antecedents'].astype(str).str.contains(avecqui)]
-    if tyrep == 'dejeuner' :
-        data_filtre = data_filtre.loc[~(data_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
-    
-    data_filtre=data_filtre.set_index(pd.Index([i for i in range(len(data_filtre))]))
-    
-    return data_filtre
 
-
-
-def matrice_scores_diff_moy(tableau,regles) :
-    
+def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
     '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
     d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
     substituables.
@@ -267,46 +214,86 @@ def matrice_scores_diff_moy(tableau,regles) :
         -regles : pandas DataFrame contenant les règles d'association et permettant de calculer le score
         de substituabilité trouvé dans la bibliographie.
     '''
+    
+    tab_subst = tab_subst_ori.copy()
+    tab_subst = tab_subst[tab_subst['consequents'].str.len() > 1]
+    
+    tab_subst['pair_index'] = tab_subst['consequents'].str.len()
+    tab_subst['pair_index'] = tab_subst['pair_index'].transform(lambda x : [ind for ind in itertools.permutations(range(x), 2)])
+    #tab_subst['pair_index'] = [x for x in itertools.permutations(range(tab_subst['pair_index']),2)]
+    
+    
+    lst_col = 'pair_index'
+    tab_subst = pd.DataFrame({
+          col:np.repeat(tab_subst[col].values, tab_subst[lst_col].str.len())
+          for col in tab_subst.columns.drop(lst_col)}
+        ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_subst[lst_col].values)).values.tolist()})
+    
+    tab_subst['consequents'] = tab_subst.apply(lambda df : (df.consequents[df.pair_index[0]], df.consequents[df.pair_index[1]]), axis = 1)
+    tab_subst['confidence'] = tab_subst.apply(lambda df : np.array((df.confidence[df.pair_index[0]], df.confidence[df.pair_index[1]])), axis = 1)
+    
+    # Score de confiance
+    tab_subst = tab_subst.groupby('consequents')['confidence'].apply(np.mean).reset_index()
+    tab_subst['Score confiance'] = tab_subst.confidence.apply(lambda conf : conf[0] - conf[1])
+    
+    # score biblio
+    tab_subst['Score biblio'] = tab_subst['consequents'].apply(lambda cons : score_biblio(frozenset([cons[0]]), frozenset([cons[1]]), tab_reg))
+    
+    return tab_subst
 
-    t_scores=pd.DataFrame(columns=["Couples","Score confiance","Score biblio"])
-    
-    #On parcoure le tableau des aliments sustituables
-    
-    for i in range(len(tableau)) :
-        
-        print(i)
-        
-        #Si il y'a plusieurs aliments substituables
-        if len(tableau["consequents"][i])>1 :
-            
-            #On compare chaque élément substituable avec les autres
-            for j in range(len(tableau["consequents"][i])) :
-            
-                
-                aliment_1=list(tableau["consequents"][i])[j]
-                
-                for k in range(len(tableau["consequents"][i])) :
-                    
-                    if j!=k :
-                        aliment_2=list(tableau["consequents"][i])[k]
-                        
-                        #Si on a pas déjà mis ce couple dans le tableau des scores, on le met dedans
-                        #Ainsi que les scores associés
-                        
-                        if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
-                            t_scores=t_scores.append({"Couples" : aliment_1+" vers "+aliment_2,"Score confiance" : [[tableau["confidence"][i][j]],[tableau["confidence"][i][k]]], "Score biblio" : score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)},ignore_index=True)
-                        else :
-                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0][0].append(tableau["confidence"][i][j])
-                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0][1].append(tableau["confidence"][i][k])
-    
-    #On construit la moyenne des scores calculé par différence de confiances
-    t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.mean(x[0])-np.mean(x[1]))
-    
-    #On construit le score combiné
-    t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
-    
-    return t_scores
-
+#def matrice_scores_diff_moy(tableau,regles) :
+#    
+#    '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
+#    d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
+#    substituables.
+#    Méthode : différence des moyennes
+#    ---------------
+#    Arguments :
+#        - tableau : pandas DataFrame contenant les contextes de repas, les aliments substituables 
+#        et les métriques associées.
+#        -regles : pandas DataFrame contenant les règles d'association et permettant de calculer le score
+#        de substituabilité trouvé dans la bibliographie.
+#    '''
+#
+#    t_scores=pd.DataFrame(columns=["Couples","Score confiance","Score biblio"])
+#    
+#    #On parcoure le tableau des aliments sustituables
+#    
+#    for i in range(len(tableau)) :
+#        
+#        print(i)
+#        
+#        #Si il y'a plusieurs aliments substituables
+#        if len(tableau["consequents"][i])>1 :
+#            
+#            #On compare chaque élément substituable avec les autres
+#            for j in range(len(tableau["consequents"][i])) :
+#            
+#                
+#                aliment_1=list(tableau["consequents"][i])[j]
+#                
+#                for k in range(len(tableau["consequents"][i])) :
+#                    
+#                    if j!=k :
+#                        aliment_2=list(tableau["consequents"][i])[k]
+#                        
+#                        #Si on a pas déjà mis ce couple dans le tableau des scores, on le met dedans
+#                        #Ainsi que les scores associés
+#                        
+#                        if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
+#                            t_scores=t_scores.append({"Couples" : aliment_1+" vers "+aliment_2,"Score confiance" : [[tableau["confidence"][i][j]],[tableau["confidence"][i][k]]], "Score biblio" : score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)},ignore_index=True)
+#                        else :
+#                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0][0].append(tableau["confidence"][i][j])
+#                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0][1].append(tableau["confidence"][i][k])
+#    
+#    #On construit la moyenne des scores calculé par différence de confiances
+#    t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.mean(x[0])-np.mean(x[1]))
+#    
+#    #On construit le score combiné
+#    t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
+#    
+#    return t_scores
+#
 
 #def matrice_scores_diff_med(tableau,regles) :
 #    
@@ -469,7 +456,7 @@ CODE PRINCIPAL
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 
-supp=0.001
+supp=0.002
 conf=0.01
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
