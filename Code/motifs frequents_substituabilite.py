@@ -132,14 +132,12 @@ def tableau_substitution(rules_ori, nomen_ori) :
     # remove duplicate rows (transform to tuple...
     rules['consequents'] = rules['libsougr'].apply(lambda con : tuple(con))
     rules['antecedents'] = rules['antecedents'].apply(lambda ant : tuple(sorted(list(ant))))
-    rules['confidence'] = rules['confidence'].apply(lambda conf : list(conf))
+    rules['confidence'] = rules['confidence'].apply(lambda conf : tuple(conf))
     rules = rules.drop('libsougr', axis = 1)
     
+    #... and drop duplicates)
+    # tuple / list is better for the rest (frozenset doesn't keep the order) 
     rules = rules.drop_duplicates(['antecedents', 'consequents']).reset_index(drop = True)
-    
-    #... retransform to fronzenset)
-    rules['consequents'] = rules['consequents'].apply(lambda con : frozenset(con))
-    rules['antecedents'] = rules['antecedents'].apply(lambda ant : frozenset(ant)) 
     
     return rules
      
@@ -215,6 +213,7 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
         de substituabilité trouvé dans la bibliographie.
     '''
     
+    # Filter number of elements in consequents >  1
     tab_subst = tab_subst_ori.copy()
     tab_subst = tab_subst[tab_subst['consequents'].str.len() > 1]
     
