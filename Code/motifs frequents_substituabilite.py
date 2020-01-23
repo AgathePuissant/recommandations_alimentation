@@ -11,7 +11,7 @@ from mlxtend.frequent_patterns import association_rules
 
     
 
-def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, seuil_support = 0.05, algo = apriori) :
+def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
     """
     La fonction qui à partir de la base conso_pattern préparée par R, retourne la base de motif fréquent avec le support
     
@@ -24,16 +24,6 @@ def find_frequent(conso_data, type_repas = 0, avec_qui = 0, cluster = 0, seuil_s
     """
     
     data=conso_data.copy()
-    
-    if type_repas != 0 :
-        #data = data[data.tyrep == type_repas]
-        data = data[data['tyrep'].isin(type_repas)]
-        
-    if avec_qui != 0 :
-        data = data[data['avecqui'].isin(avec_qui)]
-        
-    if cluster != 0 :
-        data = data[data['cluster_consommateur'].isin(cluster)]
         
     del data['tyrep']
     del data['nomen']
@@ -479,9 +469,6 @@ CODE PRINCIPAL
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 
-repas=0
-avecqui=0
-consommateur=0
 supp=0.001
 conf=0.01
 
@@ -491,8 +478,8 @@ conf=0.01
 #forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
 #la recheche de motifs fréquents.
   
-motifs = find_frequent(conso_pattern_sougr,repas,avecqui,consommateur,seuil_support=supp, algo= fpgrowth)
-print("Motifs fréquents trouvés")
+motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+print("Motifs fréquents trouvés") 
 regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 print("Règles d'association trouvées")
 regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
