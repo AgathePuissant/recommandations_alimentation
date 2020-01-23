@@ -213,29 +213,30 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
         de substituabilité trouvé dans la bibliographie.
     '''
     
-    # Filter number of elements in consequents >  1
+    # Nombre d'éléments dans "conséquents" >  1
     tab_subst = tab_subst_ori.copy()
     tab_subst = tab_subst[tab_subst['consequents'].str.len() > 1]
     
+    # La liste des paires d'indices (tuple) d'aliments substituables
     tab_subst['pair_index'] = tab_subst['consequents'].str.len()
     tab_subst['pair_index'] = tab_subst['pair_index'].transform(lambda x : [ind for ind in itertools.permutations(range(x), 2)])
-    #tab_subst['pair_index'] = [x for x in itertools.permutations(range(tab_subst['pair_index']),2)]
     
-    
+    # Déplacer chacune des paires d'indices en une ligne séparément 
     lst_col = 'pair_index'
     tab_subst = pd.DataFrame({
           col:np.repeat(tab_subst[col].values, tab_subst[lst_col].str.len())
           for col in tab_subst.columns.drop(lst_col)}
         ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_subst[lst_col].values)).values.tolist()})
     
+    # Transforer les colonnes 'conséquents' et 'confidence' en extrayant les éléments qui correspondent à des paires d'indices 
     tab_subst['consequents'] = tab_subst.apply(lambda df : (df.consequents[df.pair_index[0]], df.consequents[df.pair_index[1]]), axis = 1)
     tab_subst['confidence'] = tab_subst.apply(lambda df : np.array((df.confidence[df.pair_index[0]], df.confidence[df.pair_index[1]])), axis = 1)
     
-    # Score de confiance
+    # Calcul du score de confiance comme la différence de la moyenne de la confiance de deux aliments substituables
     tab_subst = tab_subst.groupby('consequents')['confidence'].apply(np.mean).reset_index()
     tab_subst['Score confiance'] = tab_subst.confidence.apply(lambda conf : conf[0] - conf[1])
     
-    # score biblio
+    # Calcul du score de bibliothèque grace à la fonction score_biblio
     tab_subst['Score biblio'] = tab_subst['consequents'].apply(lambda cons : score_biblio(frozenset([cons[0]]), frozenset([cons[1]]), tab_reg))
     
     return tab_subst
