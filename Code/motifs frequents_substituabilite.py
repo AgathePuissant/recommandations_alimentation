@@ -198,7 +198,22 @@ def score_biblio(aliment_1,aliment_2,regles_original) :
                         x_inter_y+=1
                     
     return(x_inter_y/(x_union_y+A_x_y+A_y_x))
+
+
+def score_biblio2(aliment_1, aliment_2, rules_ori) :
     
+    rules = rules_ori[(rules_ori["consequents"]==aliment_1) | (rules_ori["consequents"]==aliment_2)].reset_index(drop = True)
+    rules = rules[['antecedents', 'consequents']]
+    
+    ## add two columns test if antecedents (contexte) contiennent alim1 et alim2 (1 si oui et 2 sinon)
+    
+    ## calcul Axy, Ayx et x_inter_y à partir de ces deux colonnes
+    
+    # return la formule
+    score = 0.5
+    
+    return score
+   
 
 def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
     '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
