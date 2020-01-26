@@ -21,7 +21,6 @@ def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
         0 on prend tous les repas ; 1 petit-déjeuner ; 2 collation matin
         3 déjeuner ; 4 collation après-midi ; 5 diner ; 6 collation soir -- list
     3, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
-
     """
     
     data=conso_data.copy()
@@ -154,65 +153,68 @@ def filtrage(data, tyrep, cluster, avecqui) :
     return data_filtre
 
 
-def score_biblio(aliment_1,aliment_2,regles_original) :
-    '''
-    Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
-    et ressort le score de substituabilité calculé selon le score trouvé dans la bibliographie.
-    ---------------
-    Arguments :
-        -aliment_1 : frozenset de longueur 1
-        -aliment_2 : frozenset de longueur 1
-        -regles_original : dataFrame contenant les règles d'association entre aliments et contextes alimentaires
-    '''
-    
-    regles=regles_original[(regles_original["consequents"]==aliment_1) | (regles_original["consequents"]==aliment_2)]
-    regles=regles.set_index(pd.Index([i for i in range(len(regles))]))
-    
-    
-    x_inter_y=0
-    x_union_y=len(regles)
-    A_x_y=0
-    A_y_x=0
-    
-    
-    
-    for i in range(len(regles["antecedents"])) :
-        
-        
-        if regles["consequents"][i]==aliment_1 :
-            
-            contexte_1=regles["antecedents"][i]
-            
-            if aliment_2 in contexte_1 :
-                A_x_y+=1
-            
-            for j in range(len(regles["antecedents"])) :
-                
-                if i!=j and regles["consequents"][j]==aliment_2 :
-                    contexte_2=regles["antecedents"][j]
-                    
-                    if aliment_1 in contexte_2 :
-                        A_y_x+=1
-                        
-                    if contexte_1==contexte_2 :
-                        x_inter_y+=1
-                    
-    return(x_inter_y/(x_union_y+A_x_y+A_y_x))
+#def score_biblio(aliment_1,aliment_2,regles_original) :
+#    '''
+#    Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
+#    et ressort le score de substituabilité calculé selon le score trouvé dans la bibliographie.
+#    ---------------
+#    Arguments :
+#        -aliment_1 : frozenset de longueur 1
+#        -aliment_2 : frozenset de longueur 1
+#        -regles_original : dataFrame contenant les règles d'association entre aliments et contextes alimentaires
+#    '''
+#    
+#    regles=regles_original[(regles_original["consequents"]==aliment_1) | (regles_original["consequents"]==aliment_2)]
+#    regles=regles.set_index(pd.Index([i for i in range(len(regles))]))
+#    
+#    
+#    x_inter_y=0
+#    x_union_y=len(regles)
+#    A_x_y=0
+#    A_y_x=0
+#    
+#    
+#    
+#    for i in range(len(regles["antecedents"])) :
+#        
+#        
+#        if regles["consequents"][i]==aliment_1 :
+#            
+#            contexte_1=regles["antecedents"][i]
+#            
+#            if aliment_2 in contexte_1 :
+#                A_x_y+=1
+#            
+#            for j in range(len(regles["antecedents"])) :
+#                
+#                if i!=j and regles["consequents"][j]==aliment_2 :
+#                    contexte_2=regles["antecedents"][j]
+#                    
+#                    if aliment_1 in contexte_2 :
+#                        A_y_x+=1
+#                        
+#                    if contexte_1==contexte_2 :
+#                        x_inter_y+=1
+#                    
+#    return(x_inter_y/(x_union_y+A_x_y+A_y_x))
 
 
 def score_biblio2(aliment_1, aliment_2, rules_ori) :
     
     rules = rules_ori[(rules_ori["consequents"]==aliment_1) | (rules_ori["consequents"]==aliment_2)].reset_index(drop = True)
-    rules = rules[['antecedents', 'consequents']]
     
-    ## add two columns test if antecedents (contexte) contiennent alim1 et alim2 (1 si oui et 2 sinon)
+    #inter
+    inter = (rules.groupby('antecedents').size().values == 2).sum()
+
+    # Somme A = A_alim1_alim2 + A_alim2_alim1
+    # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
+    # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
+    A = rules[rules['antecedents'].astype(str).str.contains(list(aliment_1)[0]) | rules['antecedents'].astype(str).str.contains(list(aliment_2)[0])]['antecedents'].nunique()
     
-    ## calcul Axy, Ayx et x_inter_y à partir de ces deux colonnes
+    # Calcul de union
+    union = len(rules)
     
-    # return la formule
-    score = 0.5
-    
-    return score
+    return inter / (union + A)
    
 
 def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
