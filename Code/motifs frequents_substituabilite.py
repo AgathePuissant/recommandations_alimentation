@@ -199,11 +199,11 @@ def filtrage(data, tyrep, cluster, avecqui) :
 #    return(x_inter_y/(x_union_y+A_x_y+A_y_x))
 
 
-def score_biblio2(aliment_1, aliment_2, rules_ori) :
-    
+def score_biblio(aliment_1, aliment_2, rules_ori) :
+    print('aliments : ', aliment_1, aliment_2)
     rules = rules_ori[(rules_ori["consequents"]==aliment_1) | (rules_ori["consequents"]==aliment_2)].reset_index(drop = True)
     
-    #inter
+    # inter : Les contextes dans lesquels aliment_1 ET aliment_2 sont substituables
     inter = (rules.groupby('antecedents').size().values == 2).sum()
 
     # Somme A = A_alim1_alim2 + A_alim2_alim1
@@ -211,11 +211,10 @@ def score_biblio2(aliment_1, aliment_2, rules_ori) :
     # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
     A = rules[rules['antecedents'].astype(str).str.contains(list(aliment_1)[0]) | rules['antecedents'].astype(str).str.contains(list(aliment_2)[0])]['antecedents'].nunique()
     
-    # Calcul de union
+    # union : Les contextes dans lesquels aliment_1 OU aliment_2 sont substituables
     union = len(rules)
     
     return inter / (union + A)
-   
 
 def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
     '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
@@ -256,61 +255,10 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
     # Calcul du score de bibliothèque grace à la fonction score_biblio
     tab_subst['Score biblio'] = tab_subst['consequents'].apply(lambda cons : score_biblio(frozenset([cons[0]]), frozenset([cons[1]]), tab_reg))
     
+    # Calcul du score combiné
+    tab_subst["Score combiné"] = tab_subst["Score biblio"]+(((tab_subst["Score confiance"])/2)+0.5)
+    
     return tab_subst
-
-#def matrice_scores_diff_moy(tableau,regles) :
-#    
-#    '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
-#    d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
-#    substituables.
-#    Méthode : différence des moyennes
-#    ---------------
-#    Arguments :
-#        - tableau : pandas DataFrame contenant les contextes de repas, les aliments substituables 
-#        et les métriques associées.
-#        -regles : pandas DataFrame contenant les règles d'association et permettant de calculer le score
-#        de substituabilité trouvé dans la bibliographie.
-#    '''
-#
-#    t_scores=pd.DataFrame(columns=["Couples","Score confiance","Score biblio"])
-#    
-#    #On parcoure le tableau des aliments sustituables
-#    
-#    for i in range(len(tableau)) :
-#        
-#        print(i)
-#        
-#        #Si il y'a plusieurs aliments substituables
-#        if len(tableau["consequents"][i])>1 :
-#            
-#            #On compare chaque élément substituable avec les autres
-#            for j in range(len(tableau["consequents"][i])) :
-#            
-#                
-#                aliment_1=list(tableau["consequents"][i])[j]
-#                
-#                for k in range(len(tableau["consequents"][i])) :
-#                    
-#                    if j!=k :
-#                        aliment_2=list(tableau["consequents"][i])[k]
-#                        
-#                        #Si on a pas déjà mis ce couple dans le tableau des scores, on le met dedans
-#                        #Ainsi que les scores associés
-#                        
-#                        if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
-#                            t_scores=t_scores.append({"Couples" : aliment_1+" vers "+aliment_2,"Score confiance" : [[tableau["confidence"][i][j]],[tableau["confidence"][i][k]]], "Score biblio" : score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)},ignore_index=True)
-#                        else :
-#                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0][0].append(tableau["confidence"][i][j])
-#                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0][1].append(tableau["confidence"][i][k])
-#    
-#    #On construit la moyenne des scores calculé par différence de confiances
-#    t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.mean(x[0])-np.mean(x[1]))
-#    
-#    #On construit le score combiné
-#    t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
-#    
-#    return t_scores
-#
 
 #def matrice_scores_diff_med(tableau,regles) :
 #    
@@ -365,56 +313,7 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
 #    
 #    return t_scores
 #
-#
-#def matrice_scores_moy_diff(tableau,regles) :
-#    
-#    '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
-#    d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
-#    substituables.
-#    Méthode : moyenne des différences
-#    ---------------
-#    Arguments :
-#        - tableau : pandas DataFrame contenant les contextes de repas, les aliments substituables 
-#        et les métriques associées.
-#        -regles : pandas DataFrame contenant les règles d'association et permettant de calculer le score
-#        de substituabilité trouvé dans la bibliographie.
-#    '''
-#
-#    t_scores=pd.DataFrame(columns=["Couples","Score confiance","Score biblio"])
-#    
-#    #On parcoure le tableau des aliments sustituables
-#    
-#    for i in range(len(tableau)) :
-#        
-#        print(i)
-#        
-#        #Si il y'a plusieurs aliments substituables
-#        if len(tableau["consequents"][i])>1 :
-#            
-#            #On compare chaque élément substituable avec les autres
-#            for j in range(len(tableau["consequents"][i])) :
-#                aliment_1=list(tableau["consequents"][i])[j]
-#                
-#                for k in range(len(tableau["consequents"][i])) :
-#                    if j!=k :
-#                        aliment_2=list(tableau["consequents"][i])[k]
-#                        
-#                        #Si on a pas déjà mis ce couple dans le tableau des scores, on le met dedans
-#                        #Ainsi que les scores associés
-#                        
-#                        if len(t_scores[t_scores["Couples"]== aliment_1+" vers "+aliment_2])==0:
-#                            t_scores.loc[i]=[aliment_1+" vers "+aliment_2,[tableau["confidence"][i][j]-tableau["confidence"][i][k]],score_biblio(frozenset([aliment_1]),frozenset([aliment_2]),regles)]
-#                        else :
-#                            t_scores.loc[t_scores["Couples"] == aliment_1+" vers "+aliment_2]["Score confiance"].values[0].append(tableau["confidence"][i][j]-tableau["confidence"][i][k])
-#    
-#    #On construit la moyenne des scores calculé par différence de confiances
-#    t_scores["Score confiance"]=t_scores["Score confiance"].apply(lambda x : np.mean(x))
-#    
-#    #On construit le score combiné
-#    t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
-#    
-#    return t_scores
-#
+
 #
 #def matrice_scores_med_diff(tableau,regles) :
 #    
@@ -496,7 +395,7 @@ print("Tableau de scores fait")
 #---------------Code pour test des scores-------------------
 
 #scores_dmoy = scores
-#scores_moyd = matrice_scores_moy_diff(t_subst,regles_filtre)
+#scores_moyd = scores # (différence de la moyenne = moyenne des différences)
 #scores_dmed = scores = matrice_scores_diff_med(t_subst,regles_filtre)
 #scores_medd = matrice_scores_med_diff(t_subst,regles_filtre)
 #
