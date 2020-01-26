@@ -51,6 +51,7 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
         - contexte maximaux : booléen. Si True, on ne garde que les contextes maximaux.
     """
     
+    #Si on a décidé support only, le support uniquement éest utilisé comme métrique pour trouvers les règles sinon c'est la confiance
     if support_only == False :
         rules=association_rules(d, metric="confidence", min_threshold=confiance)
     else :
@@ -83,25 +84,26 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
             
             if i in rules.index :
                 
+                #si le conséquent est pas un aliment, on filtre les valeurs du tableau qui ont des conséquents similaires
                 if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
                     
                     rules=rules[rules['consequents']!=rules['consequents'][i]]
                     print('conséquent erronné')
                             
                 else :
-                    
+                    #si le conséquent est un aliment, on filtre les règles qui ont le même conséquent et un antécédent inclus dans l'antécédent original
                     rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))) & (rules['consequents'].index!=i))]
 #                    (rules.index.get_loc(rules['consequents']==rules['consequents'][i])!=i)
                     print('contexte non maximal')
 #                rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
                 
-    else :
+    else : #Si on ne filtre pas les contextes maximaux, on filtre juste les conséquents qui ne sont pas des aliments
         
         for i in range(N) :
 
             
             if i in rules.index :
-                
+                 #On filtre les conséquents qui sont pas des aliments
                 if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
                     rules=rules[rules['consequents']!=rules['consequents'][i]]
 #                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
