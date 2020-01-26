@@ -200,7 +200,7 @@ def filtrage(data, tyrep, cluster, avecqui) :
 
 
 def score_biblio(aliment_1, aliment_2, rules_ori) :
-    print('aliments : ', aliment_1, aliment_2)
+    
     rules = rules_ori[(rules_ori["consequents"]==aliment_1) | (rules_ori["consequents"]==aliment_2)].reset_index(drop = True)
     
     # inter : Les contextes dans lesquels aliment_1 ET aliment_2 sont substituables
