@@ -31,10 +31,9 @@ def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
     del data['nojour']
     del data['cluster_consommateur']
             
-    frequent_itemsets = algo(data, min_support = seuil_support, use_colnames = True).assign(
-        length_item = lambda dataframe: dataframe['itemsets'].map(lambda item: len(item)))
+    frequent_itemsets = algo(data, min_support = seuil_support, use_colnames = True)
     
-    return frequent_itemsets.sort_values('support', ascending = False)
+    return frequent_itemsets
 
 
 
