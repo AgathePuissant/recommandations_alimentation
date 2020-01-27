@@ -8,7 +8,7 @@ Created on Mon Jan 27 14:10:12 2020
 import numpy as np
 import pandas as pd
 
-ciqual = pd.read_csv("tableciqual2017.csv",sep = ";",decimal=",",encoding = 'latin-1')
+ciqual = pd.read_csv("tableciqual2017.csv",sep = ";",encoding = 'latin-1')
 #print(ciqual.head())
 
 #i = 0
@@ -31,29 +31,32 @@ def calcul_sainlim(data):
     liste_lim = []
     
     for i in range(len(data)):
+
         try:
             rap = [float(ciqual.iloc[[i],13])/65,float(ciqual.iloc[[i],19])/25,float(ciqual.iloc[[i],43])/900,float(ciqual.iloc[[i],46])/12.5,float(ciqual.iloc[[i],57])/5,float(ciqual.iloc[[i],61])/110]
             sain = ((((rap[0]+rap[1]+rap[2]+rap[3]+rap[4]+rap[5]-min(rap))/5)*100)/float(ciqual.iloc[[i],9]))*100
-            liste_sain.append(sain)
-            if i == 59:
-                print(sain)
-            
+            if pd.isnull(sain) == True:
+                liste_sain.append('NA')
+            else:
+                liste_sain.append(sain)          
         except:
-            #print(i)
-            if i == 59:
-                print('crash')
             liste_sain.append('NA')
-        
+    
         try:
             lim = (((float(ciqual.iloc[[i],53])/3153)+(float(ciqual.iloc[[i],24])/22)+(float(ciqual.iloc[[i],17])/50))/3)*100
-            liste_lim.append(lim)
+            if pd.isnull(sain) == True:
+                liste_lim.append('NA')
+            else:
+                liste_lim.append(lim)  
             
-        except:
+        except :
             liste_lim.append('NA')
+
             
     data['SAIN5opt'] = liste_sain
     data['LIM3'] = liste_lim
-    return liste_sain
+    
+    return(liste_sain,liste_lim)
 
 
 
@@ -107,12 +110,14 @@ def sainlim_moyenne(data):
 
 
 
+
 sain = calcul_sainlim(ciqual)
+
 
 moy = sainlim_moyenne(ciqual)
 print(moy)
 
 df = pd.DataFrame(moy, index=[0])
 
-#export_csv = ciqual.to_csv('tableciqual2017_sainlim.csv',index=False)
+export_csv = ciqual.to_csv('tableciqual2017_sainlim.csv',index=False)
 #export_csv = df.to_csv('ssgrp_ciqual.csv',index=False)
