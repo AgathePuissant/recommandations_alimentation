@@ -44,7 +44,7 @@ def calcul_sainlim(data):
     
         try:
             lim = (((float(ciqual.iloc[[i],53])/3153)+(float(ciqual.iloc[[i],24])/22)+(float(ciqual.iloc[[i],17])/50))/3)*100
-            if pd.isnull(sain) == True:
+            if pd.isnull(lim) == True:
                 liste_lim.append('NA')
             else:
                 liste_lim.append(lim)  
@@ -106,7 +106,7 @@ def sainlim_moyenne(data):
                 somme_lim = 0
                 
     
-    return(sain_moyenne)
+    return(lim_moyenne)
 
 
 
@@ -119,5 +119,5 @@ print(moy)
 
 df = pd.DataFrame(moy, index=[0])
 
-export_csv = ciqual.to_csv('tableciqual2017_sainlim.csv',index=False)
-#export_csv = df.to_csv('ssgrp_ciqual.csv',index=False)
+#export_csv = ciqual.to_csv('tableciqual2017_sainlim.csv',index=False)
+export_csv = df.to_csv('lim_ciqual.csv',index=False)
