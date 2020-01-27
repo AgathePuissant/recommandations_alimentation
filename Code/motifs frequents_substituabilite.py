@@ -245,6 +245,44 @@ print("Tableau de substitutions fait")
 scores = matrice_scores_diff_moy(t_subst,regles_filtre)
 print("Tableau de scores fait")
 
+#--------------Code pour faire une heatmap du nombre de couples en fonction de la confiance et du support---
+#axe_support=np.geomspace(0.01,0.002,5)
+#axe_confiance=np.geomspace(0.2,0.01,5)
+#
+#matrice_nb_couples = np.zeros((len(axe_support),len(axe_confiance)))
+#
+#for i in range (len(axe_support)) :
+#    for j in range (len(axe_confiance)) :
+#        
+#        supp=axe_support[i]
+#        conf=axe_confiance[j]
+#        print("Support : "+str(supp)+" Confiance : "+str(conf))
+#        
+#        motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+#        print("Motifs fréquents trouvés") 
+#        regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
+#        print("Règles d'association trouvées")
+#        regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
+#        print("Règles d'association filtrées")
+#        
+#        if len(regles_filtre) > 1 :
+#            t_subst = tableau_substitution(regles_filtre, nomenclature)
+#            print("Tableau de substitutions fait")
+#            scores = matrice_scores_diff_moy(t_subst,regles_filtre)
+#            print("Tableau de scores fait")
+#            nb_couples=len(scores)
+#        else :
+#            nb_couples = 0
+#            
+#        matrice_nb_couples[i,j]=nb_couples
+#        
+#import seaborn as sns
+#import matplotlib.pyplot as plt
+#
+#plt.cla()
+#plt.clf()
+#sns.heatmap(matrice_nb_couples,annot=True,xticklabels=axe_confiance,yticklabels=axe_support)
+
 #---------------Code pour test des scores-------------------
 
 #def matrice_scores_diff_med(tableau,regles) :
