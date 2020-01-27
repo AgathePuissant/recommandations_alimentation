@@ -219,53 +219,16 @@ def filtrage(data, tyrep, cluster, avecqui) :
     return data_filtre
 
 
-#def score_biblio(aliment_1,aliment_2,regles_original) :
-#    '''
-#    Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
-#    et ressort le score de substituabilité calculé selon le score trouvé dans la bibliographie.
-#    ---------------
-#    Arguments :
-#        -aliment_1 : frozenset de longueur 1
-#        -aliment_2 : frozenset de longueur 1
-#        -regles_original : dataFrame contenant les règles d'association entre aliments et contextes alimentaires
-#    '''
-#    
-#    regles=regles_original[(regles_original["consequents"]==aliment_1) | (regles_original["consequents"]==aliment_2)]
-#    regles=regles.set_index(pd.Index([i for i in range(len(regles))]))
-#    
-#    
-#    x_inter_y=0
-#    x_union_y=len(regles)
-#    A_x_y=0
-#    A_y_x=0
-#    
-#    
-#    
-#    for i in range(len(regles["antecedents"])) :
-#        
-#        
-#        if regles["consequents"][i]==aliment_1 :
-#            
-#            contexte_1=regles["antecedents"][i]
-#            
-#            if aliment_2 in contexte_1 :
-#                A_x_y+=1
-#            
-#            for j in range(len(regles["antecedents"])) :
-#                
-#                if i!=j and regles["consequents"][j]==aliment_2 :
-#                    contexte_2=regles["antecedents"][j]
-#                    
-#                    if aliment_1 in contexte_2 :
-#                        A_y_x+=1
-#                        
-#                    if contexte_1==contexte_2 :
-#                        x_inter_y+=1
-#                    
-#    return(x_inter_y/(x_union_y+A_x_y+A_y_x))
-
-
 def score_biblio(aliment_1, aliment_2, rules_ori) :
+    '''
+    Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
+    et ressort le score de substituabilité calculé selon le score trouvé dans la bibliographie.
+    ---------------
+    Arguments :
+        -aliment_1 : frozenset de longueur 1
+        -aliment_2 : frozenset de longueur 1
+        -regles_original : dataFrame contenant les règles d'association entre aliments et contextes alimentaires
+    '''
     
     rules = rules_ori[(rules_ori["consequents"]==aliment_1) | (rules_ori["consequents"]==aliment_2)].reset_index(drop = True)
     
@@ -325,6 +288,38 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
     tab_subst["Score combiné"] = tab_subst["Score biblio"]+(((tab_subst["Score confiance"])/2)+0.5)
     
     return tab_subst
+
+
+            
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+CODE PRINCIPAL
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+# La base conso_pattern est préparée par R à partir de la base brute
+conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
+nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+
+supp=0.002
+conf=0.01
+
+#---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
+
+#Modification pour que les modalités de cluster, type de repas et modalités sociale soient mises sous 
+#forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
+#la recheche de motifs fréquents.
+  
+motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+print("Motifs fréquents trouvés") 
+regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
+print("Règles d'association trouvées")
+regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
+print("Règles d'association filtrées")
+t_subst = tableau_substitution(regles_filtre, nomenclature)
+print("Tableau de substitutions fait")
+scores = matrice_scores_diff_moy(t_subst,regles_filtre)
+print("Tableau de scores fait")
+
+#---------------Code pour test des scores-------------------
 
 #def matrice_scores_diff_med(tableau,regles) :
 #    
@@ -429,36 +424,6 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
 #    t_scores["Score combiné"]=t_scores["Score biblio"]+(((t_scores["Score confiance"])/2)+0.5)
 #    
 #    return t_scores
-            
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-CODE PRINCIPAL
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-# La base conso_pattern est préparée par R à partir de la base brute
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-
-supp=0.002
-conf=0.01
-
-#---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
-
-#Modification pour que les modalités de cluster, type de repas et modalités sociale soient mises sous 
-#forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
-#la recheche de motifs fréquents.
-  
-motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-print("Motifs fréquents trouvés") 
-regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
-print("Règles d'association trouvées")
-regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
-print("Règles d'association filtrées")
-t_subst = tableau_substitution(regles_filtre, nomenclature)
-print("Tableau de substitutions fait")
-scores = matrice_scores_diff_moy(t_subst,regles_filtre)
-print("Tableau de scores fait")
-
-#---------------Code pour test des scores-------------------
 
 #scores_dmoy = scores
 #scores_moyd = scores # (différence de la moyenne = moyenne des différences)
