@@ -55,7 +55,7 @@ def regles_association(d, confiance=0.5, support_only=False, support=0.1, contex
     # dans le but d'accélérer la recherche de contextes maximaux par la suite
     rules.index = rules['antecedents'].str.len()
     rules = rules.sort_index(ascending=False).reset_index(drop=True)
-    
+
      #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
     liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
     
@@ -99,6 +99,80 @@ def regles_association(d, confiance=0.5, support_only=False, support=0.1, contex
 #                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     return rules
+
+def regles_association2(d, confiance=0.5, support_only=False, support=0.1, contexte_maximaux=True) :
+    """
+    Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
+    règles d'association à un conséquent et qui supprime les motifs inclus.
+    ------------
+    Arguments : 
+        - d : pandas DataFrame contenant les motifs fréquents
+        - confiance : float. le seuil de confiance minimum si support only est False
+        - support_only : booléen. on utilise que le support comme métrique
+        - support : float. le seuil de support minimum si support only est True
+        - contexte maximaux : booléen. Si True, on ne garde que les contextes maximaux.
+    """
+    global test_rules
+    
+    #Si on a décidé support only, le support uniquement éest utilisé comme métrique pour trouvers les règles...
+    if support_only :
+        rules = association_rules(d, support_only = True, min_threshold=0.01)
+    # ...sinon c'est la confiance
+    else :
+        rules = association_rules(d, metric = "confidence", min_threshold=confiance)
+    
+    #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
+    liste_contexte = ['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner']
+    
+    #On ne garde que les règles à un conséquent et...
+    rules = rules[rules['consequents'].str.len() == 1]
+    rules['consequents'] = rules['consequents'].apply(lambda con : list(con)[0])
+    # ...appartient pas dans la liste des contextes
+    rules =  rules[~rules['consequents'].isin(liste_contexte)].reset_index(drop = True)
+
+    # on enlève les règles qui ont le même conséquent et un antécédent inclus dans l'antécédent original
+    # à tester si c'est plus rapide si c'est fait directement sur les frozensets puis convertir à tuples ou si c'est en inverse
+    if contexte_maximaux :
+
+        # add a new column test si [ante inclus dans (groupby(ante) unique)]
+        #...
+        # drop True
+        #...
+        
+        pass
+
+    return rules
+
+
+#test = regles_association2(motifs,confiance = conf, contexte_maximaux=False)
+#regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
+#regles['consequents'] = regles['consequents'].apply(lambda con : list(con)[0])
+
+# =============================================================================
+# import timeit
+# liste_par_class =frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
+# liste = ['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner']
+# def datafilter1(data) :
+#     data = data.copy()
+#     data['consequents'] = data['consequents'].apply(lambda con : list(con)[0])
+#     data =  data[data['consequents'].isin(liste)]
+#     return data 
+# 
+# def datafilter2(data) :
+#     data = data.copy()
+#     data['inter'] = data['consequents'].apply(lambda con : con & liste_par_class)
+#     data = data[data['inter'].str.len() > 0]
+#     return data
+# 
+# def myfunction() :
+#     datafilter1(test)
+# 
+# def myfunction2() :
+#     datafilter2(test)
+# 
+# print('test1 : ', timeit.timeit(myfunction, number = 100)) #6.075
+# print('test2 : ', timeit.timeit(myfunction2, number = 100)) #10.113
+# =============================================================================
 
 def tableau_substitution(rules_ori, nomen_ori) :
     
@@ -225,7 +299,7 @@ CODE PRINCIPAL
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 
-supp=0.002
+supp=0.001
 conf=0.01
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
@@ -245,7 +319,45 @@ print("Tableau de substitutions fait")
 scores = matrice_scores_diff_moy(t_subst,regles_filtre)
 print("Tableau de scores fait")
 
-#---------------Code pour test des scores-------------------
+#--------------Code pour faire une heatmap du nombre de couples en fonction de la confiance et du support---
+#axe_support=np.geomspace(0.01,0.002,5)
+#axe_confiance=np.geomspace(0.2,0.01,5)
+#
+#matrice_nb_couples = np.zeros((len(axe_support),len(axe_confiance)))
+#
+#for i in range (len(axe_support)) :
+#    for j in range (len(axe_confiance)) :
+#        
+#        supp=axe_support[i]
+#        conf=axe_confiance[j]
+#        print("Support : "+str(supp)+" Confiance : "+str(conf))
+#        
+#        motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+#        print("Motifs fréquents trouvés") 
+#        regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
+#        print("Règles d'association trouvées")
+#        regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
+#        print("Règles d'association filtrées")
+#        
+#        if len(regles_filtre) > 1 :
+#            t_subst = tableau_substitution(regles_filtre, nomenclature)
+#            print("Tableau de substitutions fait")
+#            scores = matrice_scores_diff_moy(t_subst,regles_filtre)
+#            print("Tableau de scores fait")
+#            nb_couples=len(scores)
+#        else :
+#            nb_couples = 0
+#            
+#        matrice_nb_couples[i,j]=nb_couples
+#        
+#import seaborn as sns
+#import matplotlib.pyplot as plt
+#
+#plt.cla()
+#plt.clf()
+#sns.heatmap(matrice_nb_couples,annot=True,xticklabels=axe_confiance,yticklabels=axe_support)
+
+#---------------Code pour test des scores-----------------------------------------------------
 
 #def matrice_scores_diff_med(tableau,regles) :
 #    
@@ -370,7 +482,7 @@ print("Tableau de scores fait")
 #
 #plt.show()
 
-#----------Code pour test de la distribution des variances--------------------
+#----------Code pour test de la distribution des variances---------------------------------------------
 
 #import matplotlib.pyplot as plt
 #
