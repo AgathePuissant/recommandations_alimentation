@@ -299,7 +299,7 @@ CODE PRINCIPAL
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 
-supp=0.002
+supp=0.001
 conf=0.01
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
@@ -357,7 +357,7 @@ print("Tableau de scores fait")
 #plt.clf()
 #sns.heatmap(matrice_nb_couples,annot=True,xticklabels=axe_confiance,yticklabels=axe_support)
 
-#---------------Code pour test des scores-------------------
+#---------------Code pour test des scores-----------------------------------------------------
 
 #def matrice_scores_diff_med(tableau,regles) :
 #    
@@ -482,7 +482,7 @@ print("Tableau de scores fait")
 #
 #plt.show()
 
-#----------Code pour test de la distribution des variances--------------------
+#----------Code pour test de la distribution des variances---------------------------------------------
 
 #import matplotlib.pyplot as plt
 #
