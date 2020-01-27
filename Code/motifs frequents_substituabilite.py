@@ -28,7 +28,8 @@ def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
     
     return frequent_itemsets
 
-def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_maximaux=True) :
+
+def regles_association(d, confiance=0.5, support_only=False, support=0.1, contexte_maximaux=True) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
     règles d'association à un conséquent et qui supprime les motifs inclus.
@@ -43,9 +44,9 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
     
     #Si on a décidé support only, le support uniquement éest utilisé comme métrique pour trouvers les règles sinon c'est la confiance
     if support_only == False :
-        rules=association_rules(d, metric="confidence", min_threshold=confiance)
+        rules=association_rules(d, metric="confidence", min_threshold = confiance)
     else :
-        rules=association_rules(d, support_only=True, min_threshold=0.01)
+        rules=association_rules(d, support_only = True, min_threshold = 0.01)
     
     #On ne garde que les règles à un conséquent et...
     rules = rules[rules['consequents'].str.len() == 1]
@@ -87,13 +88,12 @@ def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_m
                     print('contexte non maximal')
 #                rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
                 
-    else : #Si on ne filtre pas les contextes maximaux, on filtre juste les conséquents qui ne sont pas des aliments
-        
+    else : # Si on ne filtre pas les contextes maximaux, on filtre juste les conséquents qui ne sont pas des aliments
+        # Parcours de la base
         for i in range(N) :
-
-            
+            # La condition est nécessaire car c'est possible que les index soient modifiés au cours du lancement
             if i in rules.index :
-                 #On filtre les conséquents qui sont pas des aliments
+                # On enlève les conséquents dans lesquels il existe les éléments de contexte
                 if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
                     rules=rules[rules['consequents']!=rules['consequents'][i]]
 #                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
