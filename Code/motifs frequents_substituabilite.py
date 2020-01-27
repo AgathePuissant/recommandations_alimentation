@@ -22,20 +22,11 @@ def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
         3 déjeuner ; 4 collation après-midi ; 5 diner ; 6 collation soir -- list
     3, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
     """
-    
-    data=conso_data.copy()
-        
-    del data['tyrep']
-    del data['nomen']
-    del data['avecqui']
-    del data['nojour']
-    del data['cluster_consommateur']
             
-    frequent_itemsets = algo(data, min_support = seuil_support, use_colnames = True)
+    frequent_itemsets = algo(conso_data.drop(['tyrep', 'nomen', 'avecqui', 'nojour', 'cluster_consommateur'], axis = 1),
+                             min_support = seuil_support, use_colnames = True)
     
     return frequent_itemsets
-
-
 
 def regles_association(d,confiance=0.5,support_only=False,support=0.1,contexte_maximaux=True) :
     """
