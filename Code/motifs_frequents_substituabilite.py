@@ -230,6 +230,7 @@ conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", e
 conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
 
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+#nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
 
 supp = 0.001
 conf = 0.01
