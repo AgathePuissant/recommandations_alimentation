@@ -272,7 +272,7 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
           col:np.repeat(tab_subst[col].values, tab_subst[lst_col].str.len())
           for col in tab_subst.columns.drop(lst_col)}
         ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_subst[lst_col].values)).values.tolist()})
-    
+
     # Transforer les colonnes 'conséquents' et 'confidence' en extrayant les éléments qui correspondent à des paires d'indices 
     tab_subst['consequents'] = tab_subst.apply(lambda df : (df.consequents[df.pair_index[0]], df.consequents[df.pair_index[1]]), axis = 1)
     tab_subst['confidence'] = tab_subst.apply(lambda df : np.array((df.confidence[df.pair_index[0]], df.confidence[df.pair_index[1]])), axis = 1)
