@@ -29,7 +29,7 @@ def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
     return frequent_itemsets
 
 
-def regles_association(d, confiance=0.5, support_only=False, support=0.1, contexte_maximaux=True) :
+def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
     règles d'association à un conséquent et qui supprime les motifs inclus.
@@ -100,7 +100,7 @@ def regles_association(d, confiance=0.5, support_only=False, support=0.1, contex
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     return rules
 
-def regles_association2(d, confiance=0.5, support_only=False, support=0.1, contexte_maximaux=True) :
+def regles_association2(d, confiance=0.5, support_only=False, support=0.1) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
     règles d'association à un conséquent et qui supprime les motifs inclus.
@@ -129,17 +129,6 @@ def regles_association2(d, confiance=0.5, support_only=False, support=0.1, conte
     rules['consequents'] = rules['consequents'].apply(lambda con : list(con)[0])
     # ...appartient pas dans la liste des contextes
     rules =  rules[~rules['consequents'].isin(liste_contexte)].reset_index(drop = True)
-
-    # on enlève les règles qui ont le même conséquent et un antécédent inclus dans l'antécédent original
-    # à tester si c'est plus rapide si c'est fait directement sur les frozensets puis convertir à tuples ou si c'est en inverse
-    if contexte_maximaux :
-
-        # add a new column test si [ante inclus dans (groupby(ante) unique)]
-        #...
-        # drop True
-        #...
-        
-        pass
 
     return rules
 
@@ -315,7 +304,7 @@ conf=0.01
   
 motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
 print("Motifs fréquents trouvés") 
-regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
+regles = regles_association(motifs,confiance = conf)
 print("Règles d'association trouvées")
 regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
 print("Règles d'association filtrées")
