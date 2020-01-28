@@ -34,7 +34,7 @@ for i in range (len(axe_support)) :
         regles = regles_association(motifs,confiance = conf)
         print("Règles d'association trouvées")
         
-        if len(regles_filtre) > 1 :
+        if len(regles) > 1 :
             t_subst = tableau_substitution(regles, nomenclature)
             print("Tableau de substitutions fait")
             scores = matrice_scores_diff_moy(t_subst,regles)

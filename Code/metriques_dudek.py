@@ -5,6 +5,8 @@ Created on Tue Jan 28 11:21:31 2020
 @author: agaca
 """
 
+import numpy as np
+
 def basic_dudek(R1,R2) :
     '''
     Fonction qui renvoie un dictionnaire contenant :  
@@ -30,7 +32,30 @@ def basic_dudek(R1,R2) :
 
 
 def MRC(D,s,g,bs) :
-    pass
+    
+    mrc=np.zeros((len(D)/bs,len(D)/bs))
+    
+    for i in range(len(D)/bs) :
+        pi=D.loc[i*bs:i*bs+bs+1]
+    
+        for j in range(len(D)/bs) :
+            pj=D.loc[j*bs:j*bs+bs+1]
+            
+            if i>j :
+                
+                motifs_pi = find_frequent(pi, seuil_support = s, algo = fpgrowth)
+                regles_pi = regles_association(motifs_pi,confiance = g)
+                
+                motifs_pj = find_frequent(pj, seuil_support = s, algo = fpgrowth)
+                regles_pj = regles_association(motifs_pj,confiance = g)
+                
+                mrc[i,j]=basic_dudek(regles_pi,regles_pj)["rules_overlap"]
+            
+    return mrc
+            
 
 def RDU(D,mrc) :
-    pass
+    
+    m = (len(D)/(2*(1/len(mrc))*len(D)))*((len(D)/((1/len(mrc))*len(D)))-1)
+    
+    return (1/m)*np.sum(mrc)
