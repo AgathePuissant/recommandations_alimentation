@@ -5,12 +5,14 @@ Created on Tue Jan 28 10:43:17 2020
 @author: agaca
 """
 from motifs_frequents_substituabilite import *
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 
 #--------------Code pour faire une heatmap du nombre de couples en fonction de la confiance et du support---
-axe_support=np.geomspace(0.01,0.002,5)
+axe_support=np.geomspace(0.01,0.0005,5)
 axe_confiance=np.geomspace(0.2,0.01,5)
 
 matrice_nb_couples = np.zeros((len(axe_support),len(axe_confiance)))
@@ -40,12 +42,11 @@ for i in range (len(axe_support)) :
             
         matrice_nb_couples[i,j]=nb_couples
         
-import seaborn as sns
-import matplotlib.pyplot as plt
+matrice_nb_couples=np.flip(matrice_nb_couples,axis=1)
 
 plt.cla()
 plt.clf()
-sns.heatmap(matrice_nb_couples,annot=True,xticklabels=axe_confiance,yticklabels=axe_support)
+sns.heatmap(matrice_nb_couples,annot=True,xticklabels=np.round(axe_confiance[::-1],4),yticklabels=np.round(axe_support,4))
 
 #---------------Code pour test des scores-----------------------------------------------------
 
