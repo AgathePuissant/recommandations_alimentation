@@ -7,15 +7,18 @@ Created on Tue Jan 28 10:43:17 2020
 from motifs_frequents_substituabilite import *
 import seaborn as sns
 import matplotlib.pyplot as plt
+import time
 
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
+conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 
 #--------------Code pour faire une heatmap du nombre de couples en fonction de la confiance et du support---
 axe_support=np.geomspace(0.01,0.0005,5)
-axe_confiance=np.geomspace(0.2,0.01,5)
+axe_confiance=np.geomspace(0.1,0.005,5)
 
 matrice_nb_couples = np.zeros((len(axe_support),len(axe_confiance)))
+matrice_time = np.zeros((len(axe_support),len(axe_confiance)))
 
 for i in range (len(axe_support)) :
     for j in range (len(axe_confiance)) :
@@ -24,25 +27,29 @@ for i in range (len(axe_support)) :
         conf=axe_confiance[j]
         print("Support : "+str(supp)+" Confiance : "+str(conf))
         
+        t0=time.time()
+        
         motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
         print("Motifs fréquents trouvés") 
         regles = regles_association(motifs,confiance = conf)
         print("Règles d'association trouvées")
-        regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
-        print("Règles d'association filtrées")
         
         if len(regles_filtre) > 1 :
-            t_subst = tableau_substitution(regles_filtre, nomenclature)
+            t_subst = tableau_substitution(regles, nomenclature)
             print("Tableau de substitutions fait")
-            scores = matrice_scores_diff_moy(t_subst,regles_filtre)
+            scores = matrice_scores_diff_moy(t_subst,regles)
             print("Tableau de scores fait")
             nb_couples=len(scores)
         else :
             nb_couples = 0
-            
+        
+        t1=time.time()-t0
+        
         matrice_nb_couples[i,j]=nb_couples
+        matrice_time[i,j]=t1
         
 matrice_nb_couples=np.flip(matrice_nb_couples,axis=1)
+matrice_time=np.flip(matrice_time,axis=1)
 
 plt.cla()
 plt.clf()
