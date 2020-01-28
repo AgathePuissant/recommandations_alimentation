@@ -176,6 +176,7 @@ def regles_association2(d, confiance=0.5, support_only=False, support=0.1, conte
 
 def tableau_substitution(rules_ori, nomen_ori) :
     
+    global test, test1
     # data manipulation
     rules = rules_ori.copy()
     rules = rules.loc[:, ['antecedents', 'consequents', 'confidence']]
@@ -190,9 +191,12 @@ def tableau_substitution(rules_ori, nomen_ori) :
     rules = rules.groupby(['antecedents', 'code_role'])
     rules = rules.apply(lambda df : df.sort_values('confidence')).reset_index(drop = True)
     
+    test = rules
+    
     # add two columns of union of sous-groupe and confidence by group of antecedents
     rules = pd.DataFrame.merge(rules.drop('libsougr', axis=1), rules.groupby(['antecedents', 'code_role'])['libsougr'].unique().reset_index())
-    ## PROBLEME ICI    
+    test1 = rules
+    ## PROBLEME ICI
     rules = pd.DataFrame.merge(rules.drop('confidence', axis=1),rules.groupby(['antecedents', 'code_role'])['confidence'].unique().reset_index())
     
     # remove duplicate rows (transform to tuple...
@@ -206,7 +210,8 @@ def tableau_substitution(rules_ori, nomen_ori) :
     rules = rules.drop_duplicates(['antecedents', 'consequents']).reset_index(drop = True)
     
     return rules
-     
+
+t_subst = tableau_substitution(regles_filtre, nomenclature)   
 
 def filtrage(data, tyrep, cluster, avecqui) :
     data_filtre = data.loc[data['antecedents'].astype(str).str.contains(tyrep) &
