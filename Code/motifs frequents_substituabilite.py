@@ -144,6 +144,17 @@ def regles_association2(d, confiance=0.5, support_only=False, support=0.1, conte
     return rules
 
 
+def filtrage(data, tyrep, cluster, avecqui) :
+    data_filtre = data.loc[data['antecedents'].astype(str).str.contains(tyrep) &
+                               data['antecedents'].astype(str).str.contains(cluster) &
+                               data['antecedents'].astype(str).str.contains(avecqui)]
+    if tyrep == 'dejeuner' :
+        data_filtre = data_filtre.loc[~(data_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
+    
+    data_filtre=data_filtre.set_index(pd.Index([i for i in range(len(data_filtre))]))
+    
+    return data_filtre
+
 #test = regles_association2(motifs,confiance = conf, contexte_maximaux=False)
 #regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
 #regles['consequents'] = regles['consequents'].apply(lambda con : list(con)[0])
@@ -212,18 +223,6 @@ def tableau_substitution(rules_ori, nomen_ori) :
     return rules
 
 t_subst = tableau_substitution(regles_filtre, nomenclature)   
-
-def filtrage(data, tyrep, cluster, avecqui) :
-    data_filtre = data.loc[data['antecedents'].astype(str).str.contains(tyrep) &
-                               data['antecedents'].astype(str).str.contains(cluster) &
-                               data['antecedents'].astype(str).str.contains(avecqui)]
-    if tyrep == 'dejeuner' :
-        data_filtre = data_filtre.loc[~(data_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
-    
-    data_filtre=data_filtre.set_index(pd.Index([i for i in range(len(data_filtre))]))
-    
-    return data_filtre
-
 
 def score_biblio(aliment_1, aliment_2, rules_ori) :
     '''
