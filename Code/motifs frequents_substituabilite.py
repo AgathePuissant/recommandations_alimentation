@@ -148,7 +148,6 @@ def filtrage(data, tyrep, cluster, avecqui) :
 
 def tableau_substitution(rules_ori, nomen_ori) :
     
-    global test, test1
     # data manipulation
     rules = rules_ori.copy()
     rules = rules.loc[:, ['antecedents', 'consequents', 'confidence']]
@@ -163,18 +162,13 @@ def tableau_substitution(rules_ori, nomen_ori) :
     rules = rules.groupby(['antecedents', 'code_role'])
     rules = rules.apply(lambda df : df.sort_values('confidence')).reset_index(drop = True)
     
-    test = rules
-    
     # add two columns of union of sous-groupe and confidence by group of antecedents
-    rules = pd.DataFrame.merge(rules.drop('libsougr', axis=1), rules.groupby(['antecedents', 'code_role'])['libsougr'].unique().reset_index())
-    test1 = rules
-    ## PROBLEME ICI
-    rules = pd.DataFrame.merge(rules.drop('confidence', axis=1),rules.groupby(['antecedents', 'code_role'])['confidence'].unique().reset_index())
+    rules = pd.DataFrame.merge(rules.drop('libsougr', axis=1), rules.groupby(['antecedents', 'code_role'])['libsougr'].apply(tuple).reset_index())
+    rules = pd.DataFrame.merge(rules.drop('confidence', axis=1),rules.groupby(['antecedents', 'code_role'])['confidence'].apply(tuple).reset_index())
     
     # remove duplicate rows (transform to tuple...
     rules['consequents'] = rules['libsougr'].apply(lambda con : tuple(con))
     rules['antecedents'] = rules['antecedents'].apply(lambda ant : tuple(sorted(list(ant))))
-    rules['confidence'] = rules['confidence'].apply(lambda conf : tuple(conf))
     rules = rules.drop('libsougr', axis = 1)
     
     #... and drop duplicates)
@@ -182,8 +176,6 @@ def tableau_substitution(rules_ori, nomen_ori) :
     rules = rules.drop_duplicates(['antecedents', 'consequents']).reset_index(drop = True)
     
     return rules
-
-t_subst = tableau_substitution(regles_filtre, nomenclature)   
 
 def score_biblio(aliment_1, aliment_2, rules_ori) :
     '''
