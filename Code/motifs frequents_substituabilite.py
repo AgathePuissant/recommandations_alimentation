@@ -60,42 +60,14 @@ def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
     liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
     
     N=len(rules)
-            
-    #C'est ça qui prend du temps
-   
-    #Recherche de contextes maximaux
-    if contexte_maximaux==True :
-             
-        #On parcoure le dataframe des règles d'association
-        for i in range(N) :
-            
-            if i%100==0 :
-                print(i)
-                print(len(rules))
-            
-            if i in rules.index :
-                
-                #si le conséquent est pas un aliment, on filtre les valeurs du tableau qui ont des conséquents similaires
-                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
-                    
-                    rules=rules[rules['consequents']!=rules['consequents'][i]]
-                    print('conséquent erronné')
-                            
-                else :
-                    #si le conséquent est un aliment, on filtre les règles qui ont le même conséquent et un antécédent inclus dans l'antécédent original
-                    rules=rules[~((rules['consequents']==rules['consequents'][i]) & (rules['antecedents'].apply(lambda x: x.issubset(rules['antecedents'][i]))) & (rules['consequents'].index!=i))]
-#                    (rules.index.get_loc(rules['consequents']==rules['consequents'][i])!=i)
-                    print('contexte non maximal')
-#                rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-                
-    else : # Si on ne filtre pas les contextes maximaux, on filtre juste les conséquents qui ne sont pas des aliments
-        # Parcours de la base
-        for i in range(N) :
-            # La condition est nécessaire car c'est possible que les index soient modifiés au cours du lancement
-            if i in rules.index :
-                # On enlève les conséquents dans lesquels il existe les éléments de contexte
-                if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
-                    rules=rules[rules['consequents']!=rules['consequents'][i]]
+
+    # Parcours de la base
+    for i in range(N) :
+        # La condition est nécessaire car c'est possible que les index soient modifiés au cours du lancement
+        if i in rules.index :
+            # On enlève les conséquents dans lesquels il existe les éléments de contexte
+            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
+                rules=rules[rules['consequents']!=rules['consequents'][i]]
 #                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     return rules
