@@ -157,7 +157,12 @@ class Application(tk.Frame):
                               fg="red",
                               command=self.master.destroy)
             self.quit.grid(column=1,row=4)
-            
+        
+    def sauvegarde_info_conso(self) :
+        """
+        La fonction qui sauvegarde l'information des consommateurs. L'idée est dans un fichier csv par exemple
+        """
+        pass
             
 
 class user():
@@ -175,6 +180,11 @@ class user():
         """
         pass
     
+    def modifier_info(self) :
+        """
+        Modification d'information si besoin
+        """
+        pass
     
     def propose_repas(self,_cie,_repas):
         """
@@ -185,6 +195,7 @@ class user():
         repas=_repas.get()
         print(cie,repas)
         suggestion=Aliments()
+    
 
 
 class Aliments():
