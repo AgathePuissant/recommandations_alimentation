@@ -72,6 +72,7 @@ def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
     rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
     return rules
 
+
 def regles_association2(d, confiance=0.5, support_only=False, support=0.1) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
@@ -101,8 +102,14 @@ def regles_association2(d, confiance=0.5, support_only=False, support=0.1) :
     rules['consequents'] = rules['consequents'].apply(lambda con : list(con)[0])
     # ...appartient pas dans la liste des contextes
     rules =  rules[~rules['consequents'].isin(liste_contexte)].reset_index(drop = True)
-
+    
+    rules['consequents'] = rules['consequents'].apply(lambda con : tuple([con]))
+    rules['antecedents'] = rules['antecedents'].apply(lambda ant : tuple(sorted(list(ant))))
+    
     return rules
+
+
+test = regles_association2(motifs,confiance = conf)
 
 
 def filtrage(data, tyrep, cluster, avecqui) :
@@ -135,15 +142,16 @@ def filtrage(data, tyrep, cluster, avecqui) :
 #     data['inter'] = data['consequents'].apply(lambda con : con & liste_par_class)
 #     data = data[data['inter'].str.len() > 0]
 #     return data
-# 
-# def myfunction() :
-#     datafilter1(test)
-# 
-# def myfunction2() :
-#     datafilter2(test)
-# 
-# print('test1 : ', timeit.timeit(myfunction, number = 100)) #6.075
-# print('test2 : ', timeit.timeit(myfunction2, number = 100)) #10.113
+
+import timeit
+def myfunction() :
+    regles_association(motifs,confiance = conf)
+ 
+def myfunction2() :
+    regles_association2(motifs,confiance = conf)
+ 
+print('test1 : ', timeit.timeit(myfunction, number = 5)) #6.075
+print('test2 : ', timeit.timeit(myfunction2, number = 5)) #10.113
 # =============================================================================
 
 def tableau_substitution(rules_ori, nomen_ori) :
@@ -257,7 +265,7 @@ CODE PRINCIPAL
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 
-supp=0.001
+supp=0.002
 conf=0.01
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
