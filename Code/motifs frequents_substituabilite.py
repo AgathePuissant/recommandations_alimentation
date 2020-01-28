@@ -192,6 +192,7 @@ def tableau_substitution(rules_ori, nomen_ori) :
     
     # add two columns of union of sous-groupe and confidence by group of antecedents
     rules = pd.DataFrame.merge(rules.drop('libsougr', axis=1), rules.groupby(['antecedents', 'code_role'])['libsougr'].unique().reset_index())
+    ## PROBLEME ICI    
     rules = pd.DataFrame.merge(rules.drop('confidence', axis=1),rules.groupby(['antecedents', 'code_role'])['confidence'].unique().reset_index())
     
     # remove duplicate rows (transform to tuple...
