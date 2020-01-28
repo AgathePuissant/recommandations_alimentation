@@ -10,7 +10,6 @@ import itertools
 from mlxtend.frequent_patterns import apriori, fpgrowth, fpmax
 from mlxtend.frequent_patterns import association_rules
 
-    
 
 def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
     """
@@ -28,51 +27,51 @@ def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
     
     return frequent_itemsets
 
+#def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
+#    """
+#    Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
+#    règles d'association à un conséquent et qui supprime les motifs inclus.
+#    ------------
+#    Arguments : 
+#        - d : pandas DataFrame contenant les motifs fréquents
+#        - confiance : float. le seuil de confiance minimum si support only est False
+#        - support_only : booléen. on utilise que le support comme métrique
+#        - support : float. le seuil de support minimum si support only est True
+#        - contexte maximaux : booléen. Si True, on ne garde que les contextes maximaux.
+#    """
+#    
+#    #Si on a décidé support only, le support uniquement éest utilisé comme métrique pour trouvers les règles sinon c'est la confiance
+#    if support_only == False :
+#        rules=association_rules(d, metric="confidence", min_threshold = confiance)
+#    else :
+#        rules=association_rules(d, support_only = True, min_threshold = 0.01)
+#    
+#    #On ne garde que les règles à un conséquent et...
+#    rules = rules[rules['consequents'].str.len() == 1]
+#    
+#    # ...on trie le dataframe avec les antécédents les plus long en haut
+#    # dans le but d'accélérer la recherche de contextes maximaux par la suite
+#    rules.index = rules['antecedents'].str.len()
+#    rules = rules.sort_index(ascending=False).reset_index(drop=True)
+#
+#     #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
+#    liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
+#    
+#    N=len(rules)
+#
+#    # Parcours de la base
+#    for i in range(N) :
+#        # La condition est nécessaire car c'est possible que les index soient modifiés au cours du lancement
+#        if i in rules.index :
+#            # On enlève les conséquents dans lesquels il existe les éléments de contexte
+#            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
+#                rules=rules[rules['consequents']!=rules['consequents'][i]]
+##                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+#    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
+#    return rules
+
 
 def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
-    """
-    Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
-    règles d'association à un conséquent et qui supprime les motifs inclus.
-    ------------
-    Arguments : 
-        - d : pandas DataFrame contenant les motifs fréquents
-        - confiance : float. le seuil de confiance minimum si support only est False
-        - support_only : booléen. on utilise que le support comme métrique
-        - support : float. le seuil de support minimum si support only est True
-        - contexte maximaux : booléen. Si True, on ne garde que les contextes maximaux.
-    """
-    
-    #Si on a décidé support only, le support uniquement éest utilisé comme métrique pour trouvers les règles sinon c'est la confiance
-    if support_only == False :
-        rules=association_rules(d, metric="confidence", min_threshold = confiance)
-    else :
-        rules=association_rules(d, support_only = True, min_threshold = 0.01)
-    
-    #On ne garde que les règles à un conséquent et...
-    rules = rules[rules['consequents'].str.len() == 1]
-    
-    # ...on trie le dataframe avec les antécédents les plus long en haut
-    # dans le but d'accélérer la recherche de contextes maximaux par la suite
-    rules.index = rules['antecedents'].str.len()
-    rules = rules.sort_index(ascending=False).reset_index(drop=True)
-
-     #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
-    liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
-    
-    N=len(rules)
-
-    # Parcours de la base
-    for i in range(N) :
-        # La condition est nécessaire car c'est possible que les index soient modifiés au cours du lancement
-        if i in rules.index :
-            # On enlève les conséquents dans lesquels il existe les éléments de contexte
-            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
-                rules=rules[rules['consequents']!=rules['consequents'][i]]
-#                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-    return rules
-
-def regles_association2(d, confiance=0.5, support_only=False, support=0.1) :
     """
     Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
     règles d'association à un conséquent et qui supprime les motifs inclus.
@@ -101,7 +100,10 @@ def regles_association2(d, confiance=0.5, support_only=False, support=0.1) :
     rules['consequents'] = rules['consequents'].apply(lambda con : list(con)[0])
     # ...appartient pas dans la liste des contextes
     rules =  rules[~rules['consequents'].isin(liste_contexte)].reset_index(drop = True)
-
+    
+    rules['consequents'] = rules['consequents'].apply(lambda con : tuple([con]))
+    rules['antecedents'] = rules['antecedents'].apply(lambda ant : tuple(sorted(list(ant))))
+    
     return rules
 
 
@@ -109,42 +111,13 @@ def filtrage(data, tyrep, cluster, avecqui) :
     data_filtre = data.loc[data['antecedents'].astype(str).str.contains(tyrep) &
                                data['antecedents'].astype(str).str.contains(cluster) &
                                data['antecedents'].astype(str).str.contains(avecqui)]
+    
     if tyrep == 'dejeuner' :
         data_filtre = data_filtre.loc[~(data_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
     
     data_filtre=data_filtre.set_index(pd.Index([i for i in range(len(data_filtre))]))
     
     return data_filtre
-
-#test = regles_association2(motifs,confiance = conf, contexte_maximaux=False)
-#regles = regles_association(motifs,confiance = conf, contexte_maximaux=False)
-#regles['consequents'] = regles['consequents'].apply(lambda con : list(con)[0])
-
-# =============================================================================
-# import timeit
-# liste_par_class =frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
-# liste = ['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner']
-# def datafilter1(data) :
-#     data = data.copy()
-#     data['consequents'] = data['consequents'].apply(lambda con : list(con)[0])
-#     data =  data[data['consequents'].isin(liste)]
-#     return data 
-# 
-# def datafilter2(data) :
-#     data = data.copy()
-#     data['inter'] = data['consequents'].apply(lambda con : con & liste_par_class)
-#     data = data[data['inter'].str.len() > 0]
-#     return data
-# 
-# def myfunction() :
-#     datafilter1(test)
-# 
-# def myfunction2() :
-#     datafilter2(test)
-# 
-# print('test1 : ', timeit.timeit(myfunction, number = 100)) #6.075
-# print('test2 : ', timeit.timeit(myfunction2, number = 100)) #10.113
-# =============================================================================
 
 def tableau_substitution(rules_ori, nomen_ori) :
     
@@ -155,7 +128,8 @@ def tableau_substitution(rules_ori, nomen_ori) :
     nomen = nomen_ori.copy()
     nomen = nomen.loc[:,['code_role', 'libsougr']].drop_duplicates()
     
-    rules['libsougr'] = [list(x)[0] for x in rules['consequents'].values]
+    #rules['libsougr'] = [x[0] for x in rules['consequents'].values]
+    rules['libsougr'] = [x[0] for x in rules['consequents']]
     rules = pd.DataFrame.merge(rules, nomen, on = 'libsougr', how = 'left')
     
     # data sort by values of confidence by group of antecedents
@@ -168,12 +142,11 @@ def tableau_substitution(rules_ori, nomen_ori) :
     
     # remove duplicate rows (transform to tuple...
     rules['consequents'] = rules['libsougr'].apply(lambda con : tuple(con))
-    rules['antecedents'] = rules['antecedents'].apply(lambda ant : tuple(sorted(list(ant))))
     rules = rules.drop('libsougr', axis = 1)
     
     #... and drop duplicates)
-    # tuple / list is better for the rest (frozenset doesn't keep the order) 
-    rules = rules.drop_duplicates(['antecedents', 'consequents']).reset_index(drop = True)
+    rules = rules.drop_duplicates(['antecedents', 'consequents'])
+    #.reset_index(drop = True)
     
     return rules
 
@@ -187,8 +160,7 @@ def score_biblio(aliment_1, aliment_2, rules_ori) :
         -aliment_2 : frozenset de longueur 1
         -regles_original : dataFrame contenant les règles d'association entre aliments et contextes alimentaires
     '''
-    
-    rules = rules_ori[(rules_ori["consequents"]==aliment_1) | (rules_ori["consequents"]==aliment_2)].reset_index(drop = True)
+    rules = rules_ori[[aliment_1 in x or aliment_2 in x for x in rules_ori['consequents']]]
     
     # inter : Les contextes dans lesquels aliment_1 ET aliment_2 sont substituables
     inter = (rules.groupby('antecedents').size().values == 2).sum()
@@ -196,7 +168,7 @@ def score_biblio(aliment_1, aliment_2, rules_ori) :
     # Somme A = A_alim1_alim2 + A_alim2_alim1
     # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
     # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
-    A = rules[rules['antecedents'].astype(str).str.contains(list(aliment_1)[0]) | rules['antecedents'].astype(str).str.contains(list(aliment_2)[0])]['antecedents'].nunique()
+    A = rules[[aliment_1 in x or aliment_2 in x for x in rules['antecedents']]]['antecedents'].nunique()
     
     # union : Les contextes dans lesquels aliment_1 OU aliment_2 sont substituables
     union = len(rules)
@@ -218,10 +190,10 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
     
     # Nombre d'éléments dans "conséquents" >  1
     tab_subst = tab_subst_ori.copy()
-    tab_subst = tab_subst[tab_subst['consequents'].str.len() > 1]
+    tab_subst['pair_index'] = tab_subst['consequents'].str.len()
+    tab_subst = tab_subst[tab_subst['pair_index'] > 1]
     
     # La liste des paires d'indices (tuple) d'aliments substituables
-    tab_subst['pair_index'] = tab_subst['consequents'].str.len()
     tab_subst['pair_index'] = tab_subst['pair_index'].transform(lambda x : [ind for ind in itertools.permutations(range(x), 2)])
     
     # Déplacer chacune des paires d'indices en une ligne séparément 
@@ -238,9 +210,9 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
     # Calcul du score de confiance comme la différence de la moyenne de la confiance de deux aliments substituables
     tab_subst = tab_subst.groupby('consequents')['confidence'].apply(np.mean).reset_index()
     tab_subst['Score confiance'] = tab_subst.confidence.apply(lambda conf : conf[0] - conf[1])
-    
+
     # Calcul du score de bibliothèque grace à la fonction score_biblio
-    tab_subst['Score biblio'] = tab_subst['consequents'].apply(lambda cons : score_biblio(frozenset([cons[0]]), frozenset([cons[1]]), tab_reg))
+    tab_subst['Score biblio'] = tab_subst['consequents'].apply(lambda cons : score_biblio(cons[0], cons[1], tab_reg))
     
     # Calcul du score combiné
     tab_subst["Score combiné"] = tab_subst["Score biblio"]+(((tab_subst["Score confiance"])/2)+0.5)
@@ -255,10 +227,12 @@ CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # La base conso_pattern est préparée par R à partir de la base brute
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
+conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
+
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 
-supp=0.001
-conf=0.01
+supp = 0.001
+conf = 0.01
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
 
@@ -270,10 +244,10 @@ motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowt
 print("Motifs fréquents trouvés") 
 regles = regles_association(motifs,confiance = conf)
 print("Règles d'association trouvées")
-regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
+#regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
 print("Règles d'association filtrées")
-t_subst = tableau_substitution(regles_filtre, nomenclature)
+t_subst = tableau_substitution(regles, nomenclature)
 print("Tableau de substitutions fait")
-scores = matrice_scores_diff_moy(t_subst,regles_filtre)
+scores = matrice_scores_diff_moy(t_subst, regles)
 print("Tableau de scores fait")
 
