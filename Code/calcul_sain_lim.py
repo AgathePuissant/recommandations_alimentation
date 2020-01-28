@@ -7,6 +7,7 @@ Created on Mon Jan 27 14:10:12 2020
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 ciqual = pd.read_csv("tableciqual2017.csv",sep = ";",encoding = 'latin-1')
 #print(ciqual.head())
@@ -106,7 +107,7 @@ def sainlim_moyenne(data):
                 somme_lim = 0
                 
     
-    return(lim_moyenne)
+    return(lim_moyenne, sain_moyenne)
 
 
 
@@ -117,7 +118,17 @@ sain = calcul_sainlim(ciqual)
 moy = sainlim_moyenne(ciqual)
 print(moy)
 
-df = pd.DataFrame(moy, index=[0])
+#df = pd.DataFrame(moy, index=[0])
 
 #export_csv = ciqual.to_csv('tableciqual2017_sainlim.csv',index=False)
-export_csv = df.to_csv('lim_ciqual.csv',index=False)
+#export_csv = df.to_csv('lim_ciqual.csv',index=False)
+
+
+#x = list(moy[0].values())
+#y = list(moy[1].values())
+#print(x,y)
+#plt.plot(x,y,'bo')
+#plt.show()
+
+
+
