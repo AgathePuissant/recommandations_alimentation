@@ -154,7 +154,8 @@ def dico_frequence(dico_cluster):
     return dico_cluster
         
 
- 
+def preference2(data) :
+    
  
 
 data = pd.read_csv('conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
@@ -168,3 +169,30 @@ nomenclature = pd.read_csv('nomenclature.csv',sep = ";",encoding = 'latin-1')
 dico_nom = dico_nomenclature(nomenclature)
 pref = preferences_conso(data, dico_nom, 0,0)
 pref_frequence = dico_frequence(pref)
+
+# =============================================================================
+# Version 2 preference_table
+
+import pandas as pd
+conso_pattern_sougr = pd.read_csv('conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
+
+nomenclature = pd.read_csv("nomenclature.csv",sep = ",",encoding = 'latin-1')
+nomenclature['libsougr'] = nomenclature['libsougr'].replace('b\x9cuf en pièces ou haché', 'boeuf en pièces ou haché')
+
+df['BrandName'].replace(['ABC', 'AB'], 'A')
+def preference2(data_conso, data_nomen) :
+    
+    pref = data_conso.copy()
+    
+    #gather data column to row
+    
+    # Merge conso_pattern and nomenclature
+    
+    
+    #groupby cluster, tyrep, code_role
+    
+    return conso
+
+
+# =============================================================================
