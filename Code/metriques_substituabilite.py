@@ -13,6 +13,7 @@ import numpy as np
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+nomenclature = nomenclature.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
 
 #--------------Code pour faire une heatmap du nombre de couples en fonction de la confiance et du support---
 axe_support=np.geomspace(0.01,0.0005,5)
