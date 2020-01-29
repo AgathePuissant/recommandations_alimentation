@@ -11,8 +11,7 @@ import pandas as pd
 def construct_table_preference(data_conso, data_nomen) :
     
     # Input base de preference
-    pref = data_conso.copy()
-    pref = pref.drop(['avecqui', 'petit-dejeuner', 'dejeuner', 'gouter', 'diner',
+    pref = data_conso.drop(['avecqui', 'petit-dejeuner', 'dejeuner', 'gouter', 'diner',
                       'seul', 'amis', 'famille', 'autre', 'cluster_0', 'cluster_1', 'cluster_2'], axis = 1)
     
     # Transformation de colonne à ligne
