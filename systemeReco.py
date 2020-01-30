@@ -7,6 +7,7 @@ Created on Tue Jan 21 14:39:43 2020
 
 import tkinter as tk
 import pandas as pd
+import os
 
 
 class Application(tk.Frame):
@@ -149,7 +150,7 @@ class Application(tk.Frame):
         
             self.val=tk.Button(self,
                            text="Valider",
-                           command= lambda:self.currentUser.propose_repas(varGr_compagnie,varGr_repas))        
+                           command= lambda:self.propose_repas(varGr_compagnie,varGr_repas))        
             self.val.grid(column=0,row=4)
                 
             self.quit = tk.Button(self, 
@@ -158,7 +159,34 @@ class Application(tk.Frame):
                               command=self.master.destroy)
             self.quit.grid(column=1,row=4)
             
+    def enter_meal(self):
+        data=pd.read_csv(os.path.join('Base_a_analyser','nomenclature.csv'), sep=',')
+        data.head()
+        
+        
+    def propose_repas(self,_cie,_repas):
+            """
+            Entre le contexte
+            Propose une liste d'aliments
+            """
+            cie=_cie.get()
+            repas=_repas.get()
+            print(cie,repas)
+            self.clean_widgets()
             
+            
+            self.val=tk.Button(self,
+                           text="Valider",
+                           command= lambda:self.propose_repas(varGr_compagnie,varGr_repas))        
+            self.val.grid(column=0,row=4)
+                
+            self.quit = tk.Button(self, 
+                              text="QUIT", 
+                              fg="red",
+                              command=self.master.destroy)
+            self.quit.grid(column=1,row=4)
+            self.enter_meal()
+                      
 
 class user():
     """
@@ -176,15 +204,6 @@ class user():
         pass
     
     
-    def propose_repas(self,_cie,_repas):
-        """
-        Entre le contexte
-        Propose une liste d'aliments
-        """
-        cie=_cie.get()
-        repas=_repas.get()
-        print(cie,repas)
-        suggestion=Aliments()
 
 
 class Aliments():
