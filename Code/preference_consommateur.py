@@ -54,10 +54,8 @@ def construct_table_preference(data_conso, data_nomen) :
 
 ## DONNÉES
 conso_pattern_sougr = pd.read_csv('conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
 
-nomenclature = pd.read_csv("nomenclature.csv",sep = ",",encoding = 'latin-1')
-nomenclature['libsougr'] = nomenclature['libsougr'].replace('b\x9cuf en pièces ou haché', 'boeuf en pièces ou haché')
+nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 
 # TEST DE FONCTION
 table_preference = construct_table_preference(conso_pattern_sougr, nomenclature)

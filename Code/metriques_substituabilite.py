@@ -5,15 +5,14 @@ Created on Tue Jan 28 10:43:17 2020
 @author: agaca
 """
 from motifs_frequents_substituabilite import *
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import time
 import numpy as np
 
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-nomenclature['libsougr'] = nomenclature['libsougr'].replace('b\x9cuf en pièces ou haché', 'boeuf en pièces ou haché')
 
 #--------------Code pour faire une heatmap du nombre de couples en fonction de la confiance et du support---
 axe_support=np.geomspace(0.01,0.0005,5)

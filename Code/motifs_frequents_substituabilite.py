@@ -227,10 +227,9 @@ CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # La base conso_pattern est préparée par R à partir de la base brute
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
 
-nomenclature = pd.read_csv("nomenclature.csv",sep = ",",encoding = 'latin-1')
-nomenclature['libsougr'] = nomenclature['libsougr'].replace('b\x9cuf en pièces ou haché', 'boeuf en pièces ou haché')
+nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+
 #nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
 
 supp = 0.001
