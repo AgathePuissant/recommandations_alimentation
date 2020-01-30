@@ -267,7 +267,7 @@ class user():
         """
         Permet d'affecter l'utilisateur à un cluster de consommateur
         """
-        pass
+        self.cluster = 0
 
     def modifier_info(self) :
         """
