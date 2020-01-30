@@ -27,143 +27,143 @@ class Application(tk.Frame):
                                   text='Nouvel utilisateur',
                                   command=self.getnew)
         self.BnewUser.grid(padx=5)
-        
+
         self.Blaunch=tk.Button(self,
                               text='Proposer repas',
                               command=self.launch)
         self.Blaunch.grid(padx=5)
-                                  
-        self.quit = tk.Button(self, 
-                              text="QUIT", 
+
+        self.quit = tk.Button(self,
+                              text="QUIT",
                               fg="red",
                               command=self.master.destroy)
         self.quit.grid(padx=5)
-    
+
     def clean_widgets(self):
         for widget in self.winfo_children():
             widget.destroy()
 
     def getnew(self):
-        
+
         print("Nouvel utilisateur")
         self.clean_widgets()
-        
-        texte2=tk.Label(self, 
+
+        texte2=tk.Label(self,
                         text="A midi j'ai mangé de la chantilly")
         texte2.grid()
-        
-  
-        l = tk.Label(self, 
-                     text='Nom', 
+
+
+        l = tk.Label(self,
+                     text='Nom',
                      width=10,
                      name='lnom')
-        
-        e = tk.Entry(self, 
+
+        e = tk.Entry(self,
                      width=10,
                      name='nom')
-        
+
         l.grid(column=0, row=1)
         e.grid(column=1,row=1)
-        
+
         vals = ['F','H']
         etiqs = ['Femme', 'Homme']
         varGr = tk.StringVar()
         varGr.set(vals[1])
         for i in range(2):
-            b = tk.Radiobutton(self, 
-                               variable=varGr, 
-                               text=etiqs[i], 
+            b = tk.Radiobutton(self,
+                               variable=varGr,
+                               text=etiqs[i],
                                value=vals[i],
                                name='sexe'+vals[i])
             b.grid(row=2,column=i)
-        
+
         s=tk.Scale(self, label='age', name='age',
                  from_=0, to=100,
                  orient=tk.HORIZONTAL,
                  length=200)
         s.grid(row=3)
-             
-       
+
+
         print(self.winfo_children()) #list of widgets
-        
-        self.quit = tk.Button(self, 
-                              text="QUIT", 
+
+        self.quit = tk.Button(self,
+                              text="QUIT",
                               fg="red",
                               command=self.master.destroy)
         self.quit.grid(column=1,row=4)
-        
+
 
         self.val=tk.Button(self,
                            text="Valider",
-                           command= lambda:self.newUser(varGr))        
+                           command= lambda:self.newUser(varGr))
         self.val.grid(column=0,row=4)
-        
-        
+
+
     def newUser(self,_sexe):
         print("ok")
-    
+
         name=self.nametowidget('nom').get()
         age=self.nametowidget('age').get()
         sexe=_sexe.get()
-        
+
         print(name,age,sexe)
-       
+
         self.currentUser=user(name,sexe,age)
         self.clean_widgets()
         self.menu_widgets()
-    
-        
-    
+
+
+
     def launch(self):
         """Lance la suggestion de repas"""
         if self.currentUser!=None:
             self.clean_widgets()
-            texte=tk.Label(self, 
+            texte=tk.Label(self,
                            text="Bonjour "+self.currentUser.name+'. Nous aurions besoin d\'en savoir plus sur votre contexte de consommation pour ce repas')
             texte.grid()
-            
+
             vals = ['S','A']
             etiqs = ['Seul', 'Accompagné']
             varGr_compagnie = tk.StringVar()
             varGr_compagnie.set(vals[1])
-            
+
             for i in range(2):
-                b = tk.Radiobutton(self, 
-                                   variable=varGr_compagnie, 
-                                   text=etiqs[i], 
+                b = tk.Radiobutton(self,
+                                   variable=varGr_compagnie,
+                                   text=etiqs[i],
                                    value=vals[i],
                                    name='compagnie'+vals[i])
                 b.grid(row=2,column=i)
-            
+
             vals = ['M','L','B','D']
             etiqs = ['Petit-dejeuner', 'Déjeuner','Collation','Dîner']
             varGr_repas = tk.StringVar()
             varGr_repas.set(vals[1])
-            
+
             for i in range(4):
-                b = tk.Radiobutton(self, 
-                                   variable=varGr_repas, 
-                                   text=etiqs[i], 
+                b = tk.Radiobutton(self,
+                                   variable=varGr_repas,
+                                   text=etiqs[i],
                                    value=vals[i],
                                    name='repas'+vals[i])
                 b.grid(row=3,column=i)
-        
+
             self.val=tk.Button(self,
                            text="Valider",
-                           command= lambda:self.propose_repas(varGr_compagnie,varGr_repas))        
+                           command= lambda:self.propose_repas(varGr_compagnie,varGr_repas))
             self.val.grid(column=0,row=4)
-                
-            self.quit = tk.Button(self, 
-                              text="QUIT", 
+
+            self.quit = tk.Button(self,
+                              text="QUIT",
                               fg="red",
                               command=self.master.destroy)
             self.quit.grid(column=1,row=4)
-            
+
     def enter_meal(self):
         data=pd.read_csv(os.path.join('Base_a_analyser','nomenclature.csv'), sep=',')
         data.head()
-        
-        
+
+
     def propose_repas(self,_cie,_repas):
             """
             Entre le contexte
@@ -173,20 +173,20 @@ class Application(tk.Frame):
             repas=_repas.get()
             print(cie,repas)
             self.clean_widgets()
-            
-            
+
+
             self.val=tk.Button(self,
                            text="Valider",
-                           command= lambda:self.propose_repas(varGr_compagnie,varGr_repas))        
+                           command= lambda:self.propose_repas(varGr_compagnie,varGr_repas))
             self.val.grid(column=0,row=4)
-                
-            self.quit = tk.Button(self, 
-                              text="QUIT", 
+
+            self.quit = tk.Button(self,
+                              text="QUIT",
                               fg="red",
                               command=self.master.destroy)
             self.quit.grid(column=1,row=4)
             self.enter_meal()
-                      
+
 
 class user():
     """
@@ -196,14 +196,19 @@ class user():
         self.name=_name
         self.sex=_sex
         self.age=_age
-        
+
     def affect_cluster(self):
         """
         Permet d'affecter l'utilisateur à un cluster de consommateur
         """
         pass
-    
-    
+
+    def modifier_info(self) :
+        """
+        Modification d'information si besoin
+        """
+        pass
+
 
 
 class Aliments():
@@ -213,13 +218,13 @@ class Aliments():
     def __init__(self):
         self.substitutionsProposées={} #actualise avec les aliments proposés en substitution,
                                         #1 si accepté, 0 sinon
-        
+
     def calculSubstitution():
         """
         renvoie liste des aliments scorés
         """
         pass
-    
+
     def proposeSubstituion():
         """
         poids en paramètre
@@ -228,7 +233,7 @@ class Aliments():
         Actualisation des indices de substitution
         Actualisation des poids
         """
-        
+
 
 
 
@@ -239,4 +244,3 @@ class Aliments():
 root = tk.Tk()
 app = Application(master=root)
 app.mainloop()
-  
