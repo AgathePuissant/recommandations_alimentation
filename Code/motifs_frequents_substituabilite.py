@@ -165,13 +165,13 @@ def score_biblio(aliment_1, aliment_2, rules_ori) :
     # inter : Les contextes dans lesquels aliment_1 ET aliment_2 sont substituables
     inter = (rules.groupby('antecedents').size().values == 2).sum()
 
+    # union : Les contextes dans lesquels aliment_1 OU aliment_2 sont substituables
+    union = len(rules)
+    
     # Somme A = A_alim1_alim2 + A_alim2_alim1
     # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
     # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
     A = rules[[aliment_1 in x or aliment_2 in x for x in rules['antecedents']]]['antecedents'].nunique()
-    
-    # union : Les contextes dans lesquels aliment_1 OU aliment_2 sont substituables
-    union = len(rules)
     
     return inter / (union + A)
 
