@@ -165,13 +165,13 @@ def score_biblio(aliment_1, aliment_2, rules_ori) :
     # inter : Les contextes dans lesquels aliment_1 ET aliment_2 sont substituables
     inter = (rules.groupby('antecedents').size().values == 2).sum()
 
+    # union : Les contextes dans lesquels aliment_1 OU aliment_2 sont substituables
+    union = len(rules)
+    
     # Somme A = A_alim1_alim2 + A_alim2_alim1
     # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
     # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
     A = rules[[aliment_1 in x or aliment_2 in x for x in rules['antecedents']]]['antecedents'].nunique()
-    
-    # union : Les contextes dans lesquels aliment_1 OU aliment_2 sont substituables
-    union = len(rules)
     
     return inter / (union + A)
 
@@ -226,14 +226,14 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
 CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # La base conso_pattern est préparée par R à partir de la base brute
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
+#conso_pattern_sougr = pd.read_csv("Base_a_analyser/conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 
-nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+#nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+
 #nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
 
-supp = 0.001
-conf = 0.01
+#supp = 0.001
+#conf = 0.01
 
 #---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
 
@@ -241,14 +241,14 @@ conf = 0.01
 #forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
 #la recheche de motifs fréquents.
   
-motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-print("Motifs fréquents trouvés") 
-regles = regles_association(motifs,confiance = conf)
-print("Règles d'association trouvées")
-#regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
-print("Règles d'association filtrées")
-t_subst = tableau_substitution(regles, nomenclature)
-print("Tableau de substitutions fait")
-scores = matrice_scores_diff_moy(t_subst, regles)
-print("Tableau de scores fait")
+#motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+#print("Motifs fréquents trouvés") 
+#regles = regles_association(motifs,confiance = conf)
+#print("Règles d'association trouvées")
+##regles_filtre = filtrage(regles, 'dejeuner', 'cluster_1', 'famille')
+#print("Règles d'association filtrées")
+#t_subst = tableau_substitution(regles, nomenclature)
+#print("Tableau de substitutions fait")
+#scores = matrice_scores_diff_moy(t_subst, regles)
+#print("Tableau de scores fait")
 
