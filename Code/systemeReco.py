@@ -337,7 +337,7 @@ class User():
         self.repas = self.repas[self.repas['filter_conso'] <= self.repas['taux_conso_par_code']]
         
         # Juste pour tester, à effacer après
-        self.repas_propose = self.libsougr.tolist()
+        self.repas_propose = self.repas.libsougr.tolist()
 
 
 test_user = User('pp', 'Homme', 16)
