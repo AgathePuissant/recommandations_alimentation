@@ -22,7 +22,8 @@ individu = read.csv("Base_a_analyser/individu.csv", sep = ";", colClasses = c("c
 repas = read.csv("Base_a_analyser/repas.csv", sep = ";", colClasses = c("character"))
 
 consommation = read.csv("Base_a_analyser/consommation_new.csv", sep = ",", colClasses = c("character")) 
-
+consommation = consommation %>%
+  rename(cluster_consommateur = clust.num)
 #######################
 ## DATA MANIPULATION ##
 #######################
@@ -105,11 +106,12 @@ conso_pattern_sougr = conso_pattern_sougr %>%
          val_cluster = 1) %>%
   spread(key = lib_tyrep, value = val_tyrep, fill = 0) %>%
   spread(key = lib_avecqui, value = val_avecqui, fill = 0) %>%
-  spread(key = lib_cluster, value = val_cluster, fill = 0) %>%
-  select(- `<NA>`)
-#write.table(conso_pattern_grp, "Base_a_analyser/conso_pattern_grp.csv", sep = ";", row.names = FALSE)
-#write.table(conso_pattern_sougr, "Base_a_analyser/conso_pattern_sougr.csv", sep = ";", row.names = FALSE)
+  spread(key = lib_cluster, value = val_cluster, fill = 0)
+  #select(- `<NA>`)
 
+conso_pattern_sougr = rename(conso_pattern_sougr, `boeuf en pièces ou haché` = `bœuf en pièces ou haché`)
+#write.table(conso_pattern_grp, "Base_a_analyser/conso_pattern_grp.csv", sep = ";", row.names = FALSE)
+#write.table(conso_pattern_sougr, "Base_a_analyser/conso_pattern_sougr_transfo.csv", sep = ";", row.names = FALSE)
 
 
 
