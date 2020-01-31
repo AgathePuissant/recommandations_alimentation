@@ -33,7 +33,7 @@ def construct_table_preference(data_conso, data_nomen) :
         columns = {'nomen' : 'nbre_repas_code'})
     conso_by_code = conso_by_code.groupby(['cluster_consommateur', 'tyrep', 'code_role'])['nbre_repas_code'].apply(sum).reset_index()
     
-    # Taux_apparaitre = nombre de repas qui contient chaque code de role divisé par nombre de repas par groupe de cluster + type de repas
+    # Taux_code_apparaitre = nombre de repas qui contient chaque code de role divisé par nombre de repas par groupe de cluster + type de repas
     conso_by_code = pd.DataFrame.merge(conso_by_code, conso_by_grp, on = ['cluster_consommateur', 'tyrep'])
     conso_by_code['taux_code_apparaitre'] = round(100*conso_by_code['nbre_repas_code']/conso_by_code['nbre_repas_grp'], 2)
     
@@ -48,7 +48,7 @@ def construct_table_preference(data_conso, data_nomen) :
     
     # Taux_conso_par_code : nombre de repas qui contient chaque sous-groupe d'aliments divisé par nombre de repas de chaque code de role
     pref['taux_conso_par_code'] = round(100*pref['consommation']/pref['nbre_repas_code'], 2)
-    pref['taux_conso_par_grp'] = round(100*pref['consommation']/pref['nbre_repas_grp'], 2)
+    #pref['taux_conso_par_grp'] = round(100*pref['consommation']/pref['nbre_repas_grp'], 2)
     
     return pref
 

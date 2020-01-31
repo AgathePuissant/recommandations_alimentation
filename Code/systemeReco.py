@@ -289,7 +289,7 @@ class User():
         """
         Permet d'affecter l'utilisateur à un cluster de consommateur
         """
-        self.cluster = 0
+        self.cluster = random.randint(0,2)
 
 
     def creation_tab_pref(self) :
@@ -303,8 +303,8 @@ class User():
         self.tab_pref_indi = pref.construct_table_preference(conso_cluster, nomenclature)
         
         # Personnalisation de table de préférence : ajoute aléatoirement -10 à 10% du taux de consommation par groupe
-        self.tab_pref_indi = self.tab_pref_indi.loc[:, ['cluster_consommateur', 'tyrep', 'code_role', 'libsougr', 'taux_conso_par_grp']]
-        self.tab_pref_indi['taux_conso_par_grp'] = self.tab_pref_indi['taux_conso_par_grp'].apply(
+        self.tab_pref_indi = self.tab_pref_indi.loc[:, ['cluster_consommateur', 'tyrep', 'code_role', 'taux_code_apparaitre', 'libsougr', 'taux_conso_par_code']]
+        self.tab_pref_indi['taux_conso_par_code'] = self.tab_pref_indi['taux_conso_par_code'].apply(
                 lambda taux : round(taux*(1+random.uniform(-0.1, 0.1)), 2)).apply(
                         lambda taux : taux if taux <= 100 else 100)
 
@@ -322,21 +322,28 @@ class User():
         renvoie la liste des aliments (sous-groupes) sélectionnées
         """
         repas_code = {'petit-dejeuner' : 1, 'dejeuner' : 3, 'gouter' : 4, 'diner' : 5}
-        self.repas = self.tab_pref_indi[self.tab_pref_indi.tyrep == repas_code[type_repas]] #exemple pour le petit-déjeuner
-        self.repas = self.repas.join(self.repas.groupby('code_role')['taux_conso_par_grp'].apply(
-                lambda taux : round(100*random.random(),2)).rename('filter_conso'), 
-            on = 'code_role')
-        self.repas = self.repas[self.repas['taux_conso_par_grp'] >= self.repas['filter_conso']]
+        
+        self.repas = self.tab_pref_indi[self.tab_pref_indi.tyrep == repas_code[type_repas]]
+        
+        # Filtrage de code de role
+        code_role_filter = self.repas.groupby(['code_role', 'taux_code_apparaitre'])['taux_conso_par_code'].apply(
+                lambda taux : round(100*random.random(),2)).rename('filter_code').reset_index()
+        code_role_filter = code_role_filter[code_role_filter['filter_code'] <= code_role_filter['taux_code_apparaitre']]
+        
+        self.repas = pd.DataFrame.merge(self.repas, code_role_filter, on = ['code_role', 'taux_code_apparaitre'], how = 'inner')
+        
+        # Filtrage des sous-groupes d'aliments
+        self.repas['filter_conso'] = self.repas['filter_code'].apply(lambda taux : round(100*random.random(),2))
+        self.repas = self.repas[self.repas['filter_conso'] <= self.repas['taux_conso_par_code']]
+        
+        # Juste pour tester, à effacer après
+        self.repas_propose = self.libsougr.tolist()
 
-        #self.test = self.test.groupby('code_role').apply(random.random)
-#        self.repasUser=[]
-#        for alim in _repasEntre:
-#            self.repasUser.append(_repasEntre[alim][1].get())
-#        print(self.compagnie,self.repas,self.repasUser)
 
-#test_user = User('pp', 'Homme', 16)
-#test_user.enter_repas('petit-dejeuner')
-#test = test_user.repas
+test_user = User('pp', 'Homme', 16)
+test_user.enter_repas('petit-dejeuner')
+test = test_user.repas
+test['filter_conso'] = test['filter_code'].apply(lambda taux : round(100*random.random(),2))
 
 class Aliments():
     """
