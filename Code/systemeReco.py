@@ -10,6 +10,9 @@ from tkinter import ttk
 import pandas as pd
 import os
 
+import preference_consommateur as pref
+
+
 
 class Application(tk.Frame):
     """
