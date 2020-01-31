@@ -38,7 +38,7 @@ def basic_dudek(R1,R2) :
     sum_diff_supp = (abs(R1_inter_R2['support_x']-R1_inter_R2['support_y'])).sum()
     sum_diff_con = (abs(R1_inter_R2['confidence_x']-R1_inter_R2['confidence_y'])).sum()
     
-    rules_overlap = card_R1_inter_R2/card_R1_union_R2
+    rules_overlap = card_R1_inter_R2 /card_R1_union_R2
     supp_diff = (sum_diff_supp + card_R1_union_R2 - card_R1_inter_R2)/card_R1_union_R2
     con_diff = (sum_diff_con + card_R1_union_R2 - card_R1_inter_R2)/card_R1_union_R2
     
@@ -108,52 +108,82 @@ def RDU(D,mrc) :
                ###########################################################
 '''
 
-#tyrep = 3
-#cluster = 1
-#avecqui = 2
-#tyrep_str='dejeuner'
-#cluster_str='cluster_1'
-#avecqui_str='famille'
-#
-#supp = 0.0005
-#conf = 0.005
-#
-#motifs_1 = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-#print("Motifs fréquents trouvés") 
-#regles_1 = regles_association(motifs_1,confiance = conf)
-#print("Règles d'association trouvées")
-#regles_filtre_1 = filtrage(regles_1, tyrep_str, tyrep_str, avecqui_str)
-#print("Règles d'association filtrées")
-#
-#R1=regles_filtre_1
-#R1=R1[R1['antecedents']!=(tyrep_str,tyrep_str,avecqui_str)]
-#R1['antecedents'] = R1['antecedents'].apply(lambda y : tuple(x for x in y if (x!= tyrep_str and x!=tyrep_str and x!=avecqui_str)))
-#
-#
-#cols = [i for i in range(127,138)]
-#
-#conso_pattern_sougr_2=conso_pattern_sougr[(conso_pattern_sougr['tyrep']==tyrep) & (conso_pattern_sougr['cluster_consommateur']==cluster) & (conso_pattern_sougr['avecqui']==avecqui)]
-#conso_pattern_sougr_2.drop(conso_pattern_sougr_2.columns[cols],axis=1,inplace=True)
-#motifs_2 = find_frequent(conso_pattern_sougr_2, seuil_support = supp*(len(conso_pattern_sougr)/len(conso_pattern_sougr_2)), algo = fpgrowth)
-#print("Motifs fréquents trouvés") 
-#regles_2 = regles_association(motifs_2,confiance = conf*(len(conso_pattern_sougr)/len(conso_pattern_sougr_2)))
-#print("Règles d'association trouvées")
-#
-#R2=regles_2
-#
-#res=basic_dudek(R1,R2)
+tyrep = 3
+cluster = 1
+avecqui = 2
+tyrep_str='dejeuner'
+cluster_str='cluster_1'
+avecqui_str='famille'
 
-supp=0.01
-conf=0.01
+supp = 0.001
+conf = 0.01
 
-res_mrc=MRC(conso_pattern_sougr,supp,conf,2677)
-rdu=RDU(conso_pattern_sougr,res_mrc)
+#Méthode 1
 
-res_mrc[res_mrc==0]=1
+motifs_1 = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+print("Motifs fréquents trouvés") 
+regles_1 = regles_association(motifs_1,confiance = conf)
+print("Règles d'association trouvées")
+regles_filtre_1 = filtrage(regles_1, tyrep_str, cluster_str, avecqui_str)
+print("Règles d'association filtrées")
 
-import seaborn as sns
+R1=regles_filtre_1
+R1=R1[R1['antecedents']!=(tyrep_str,tyrep_str,avecqui_str)]
+R1['antecedents'] = R1['antecedents'].apply(lambda y : tuple(x for x in y if (x!= tyrep_str and x!=cluster_str and x!=avecqui_str)))
 
-mask = np.triu(np.ones_like(res_mrc, dtype=np.bool))
+#Méthode 2
+
+cols = [i for i in range(127,138)]
+
+conso_pattern_sougr_2=conso_pattern_sougr[(conso_pattern_sougr['tyrep']==tyrep) & (conso_pattern_sougr['cluster_consommateur']==cluster) & (conso_pattern_sougr['avecqui']==avecqui)]
+conso_pattern_sougr_2.drop(conso_pattern_sougr_2.columns[cols],axis=1,inplace=True)
+motifs_2 = find_frequent(conso_pattern_sougr_2, seuil_support = supp, algo = fpgrowth)
+print("Motifs fréquents trouvés") 
+regles_2 = regles_association(motifs_2,confiance = conf)
+print("Règles d'association trouvées")
+
+R2=regles_2
+
+#Méthode 3
+
+conso_pattern_sougr_3 = conso_pattern_sougr.drop(conso_pattern_sougr.columns[cols],axis=1)
+motifs_3 = find_frequent(conso_pattern_sougr_3, seuil_support = supp, algo = fpgrowth)
+print("Motifs fréquents trouvés") 
+regles_3 = regles_association(motifs_3,confiance = conf)
+print("Règles d'association trouvées")
+
+conso_pattern_sougr_subset = conso_pattern_sougr[(conso_pattern_sougr[tyrep_str]==1) & (conso_pattern_sougr[cluster_str]==1) & (conso_pattern_sougr[avecqui_str]==1)]
+
+regles_3['union'] = regles_3['antecedents']+regles_3['consequents']
+
+regles_3['supp_union'] = regles_3['union'].apply(lambda x: np.sum(conso_pattern_sougr_subset[list(x)].all(axis=1)))
+regles_3['supp_x'] = regles_3['antecedents'].apply(lambda x: np.sum(conso_pattern_sougr_subset[list(x)].all(axis=1)))
+#regles_3['supp_y'] = regles_3['consequents'].apply(lambda x: np.sum(conso_pattern_sougr_subset[list(x)].all(axis=1)))
+
+regles_3=regles_3[~((regles_3['supp_union']==0) | (regles_3['supp_x']==0))]
+
+regles_3['confidence'] = regles_3['supp_union']/regles_3['supp_x']
+
+regles_3['support'] = regles_3['supp_union']/len(regles_3)
+
+R3=regles_3[(regles_3['support']>supp) & (regles_3['confidence']>conf)]
+
+res12=basic_dudek(R1,R2)
+res13=basic_dudek(R1,R3)
+res23=basic_dudek(R2,R3)
+
+#
+#supp=0.01
+#conf=0.01
+#
+#res_mrc=MRC(conso_pattern_sougr,supp,conf,2677)
+#rdu=RDU(conso_pattern_sougr,res_mrc)
+#
+#res_mrc[res_mrc==0]=1
+#
+#import seaborn as sns
+#
+#mask = np.triu(np.ones_like(res_mrc, dtype=np.bool))
 
 
-sns.heatmap(res_mrc,mask=mask,cmap='Blues_r',annot=True)
+#sns.heatmap(res_mrc,mask=mask,cmap='Blues_r',annot=True)
