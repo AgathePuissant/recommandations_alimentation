@@ -14,6 +14,7 @@ import os
 
 # FUNCTION IMPORT
 import preference_consommateur as pref
+import motifs_frequents_substituabilite as motifs
 
 # =============================================================================
 
