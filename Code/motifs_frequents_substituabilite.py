@@ -263,15 +263,27 @@ for tyrep in modalites_tyrep :
             if len(regles_filtre)>0 :
                 t_subst = tableau_substitution(regles_filtre, nomenclature)
                 print("Tableau de substitutions fait")
-                scores = matrice_scores_diff_moy(t_subst, regles_filtre)
-                print("Tableau de scores fait")
+                if (t_subst.drop_duplicates(['consequents'])['code_role'].value_counts()>2).any():
+                    scores = matrice_scores_diff_moy(t_subst, regles_filtre)
+                    print("Tableau de scores fait")
+                    
+                    score_specifique = scores['consequents'].rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-couple')
+                    couple_specifique = scores['Score combiné'].rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-score')
+                    
+                    scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
+                    scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
+                    
+                else :
+                    
+                    print("y'en a pas")
+                    score_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-score')
+                    couple_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-couple')
+                    
+                    scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
+                    scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
                 
-                score_specifique = scores['consequents'].rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-couple')
-                couple_specifique = scores['Score combiné'].rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-score')
-                
-                scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
-                scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
             else :
+                print("y'en a pas")
                 score_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-score')
                 couple_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-couple')
                 
