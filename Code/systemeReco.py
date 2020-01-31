@@ -268,9 +268,40 @@ class Application(tk.Frame):
         self.quit.grid(column=1,row=30,padx=10,pady=5)
        
 
-
-
 class User():
+    """
+    Definit les caractéristiques de l'utilisateur
+    """
+    def __init__(self,_name,_sex,_age):
+        self.name=_name
+        self.sex=_sex
+        self.age=_age
+        
+        # Affection de l'utilisateur à un cluster de consommation
+        self.affect_cluster()
+        
+
+
+    def affect_cluster(self):
+        """
+        Permet d'affecter l'utilisateur à un cluster de consommateur
+        """
+
+    def modifier_info(self) :
+        """
+        Modification d'information si besoin
+        """
+        pass
+    
+    def enter_repas(self, type_repas):
+        """
+        _repasEntre : dictionnaire des comboboxs 
+                    -> {Alim1: combobox_groupes,combobox_sgroupes}
+        renvoie la liste des aliments (sous-groupes) sélectionnées
+        """
+        
+        
+class VirtualUser():
     """
     Definit les caractéristiques de l'utilisateur
     """
