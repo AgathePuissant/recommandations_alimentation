@@ -9,6 +9,7 @@ Created on Tue Jan 21 14:39:43 2020
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
+import random
 import os
 
 # FUNCTION IMPORT
@@ -131,19 +132,19 @@ class Application(tk.Frame):
         self.val.grid(column=0,row=4)
 
 
-    def newUser(self,_sexe):
+    def newUser(self, _sexe):
         """
         Récup des infos sur le formualire, 
         création d'une instance de la classe user
         """
 
-        name=self.nametowidget('nom').get()
-        age=self.nametowidget('age').get()
-        sexe=_sexe.get()
+        name = self.nametowidget('nom').get()
+        age = self.nametowidget('age').get()
+        sexe = _sexe.get()
 
         print(name,age,sexe)
 
-        self.currentUser=user(name,sexe,age)
+        self.currentUser = User(name,sexe,age)
         self.clean_widgets()
         self.menu_widgets()
 
@@ -153,26 +154,26 @@ class Application(tk.Frame):
         """
         Formulaire d'info sur le contexte de consommation
         """
-        if self.currentUser==None:
-            self.currentUser=user('ana','F',21)
+        if self.currentUser == None:
+            self.currentUser = User('ana','F',21)
 
         self.clean_widgets()
         texte=tk.Label(self,
-                       text="Bonjour "+self.currentUser.name+'. Nous aurions besoin d\'en savoir plus sur votre contexte de consommation pour ce repas')
+                       text = "Bonjour "+self.currentUser.name+'. Nous aurions besoin d\'en savoir plus sur votre contexte de consommation pour ce repas')
         texte.grid(columnspan=4)
 
-        vals = ['Seul','Accompagné']
+        vals = ['Seul', 'Accompagné']
         etiqs = ['Seul', 'Accompagné']
         varGr_compagnie = tk.StringVar()
         varGr_compagnie.set(vals[1])
 
         for i in range(2):
             b = tk.Radiobutton(self,
-                               variable=varGr_compagnie,
-                               text=etiqs[i],
-                               value=vals[i],
-                               name='compagnie'+vals[i])
-            b.grid(row=2,column=i)
+                               variable = varGr_compagnie,
+                               text = etiqs[i],
+                               value = vals[i],
+                               name = 'compagnie'+ vals[i])
+            b.grid(row = 2, column = i)
 
         vals = ['Petit_dejeuner','Déjeuner','Collation','Dîner']
         etiqs = ['Petit-dejeuner', 'Déjeuner','Collation','Dîner']
@@ -181,10 +182,10 @@ class Application(tk.Frame):
 
         for i in range(4):
             b = tk.Radiobutton(self,
-                               variable=varGr_repas,
-                               text=etiqs[i],
-                               value=vals[i],
-                               name='repas'+vals[i])
+                               variable = varGr_repas,
+                               text = etiqs[i],
+                               value = vals[i],
+                               name = 'repas'+vals[i])
             b.grid(row=3,column=i)
 
         self.val=tk.Button(self,
@@ -268,7 +269,7 @@ class Application(tk.Frame):
 
 
 
-class user():
+class User():
     """
     Definit les caractéristiques de l'utilisateur
     """
@@ -276,6 +277,12 @@ class user():
         self.name=_name
         self.sex=_sex
         self.age=_age
+        
+        # Affection de l'utilisateur à un cluster de consommation
+        self.affect_cluster()
+        
+        # Création de la table de préférence individuelle
+        self.creation_tab_pref()
 
 
     def affect_cluster(self):
@@ -284,24 +291,48 @@ class user():
         """
         self.cluster = 0
 
+
+    def creation_tab_pref(self) :
+        """
+        La fonction qui crée une table de préférence individuelle des sous-groupes d'aliments
+        """
+        # Input table de consommation des sous-groupes d'aliments du cluster self.cluster
+        conso_cluster = conso_pattern_sougr[conso_pattern_sougr['cluster_consommateur'] == self.cluster]
+        
+        # Création de table de préférence
+        self.tab_pref_indi = pref.construct_table_preference(conso_cluster, nomenclature)
+        
+        # Personnalisation de table de préférence : ajoute aléatoirement -10 à 10% du taux de consommation par groupe
+        self.tab_pref_indi = self.tab_pref_indi.loc[:, ['cluster_consommateur', 'tyrep', 'code_role', 'libsougr', 'taux_conso_par_grp']]
+        self.tab_pref_indi['taux_conso_par_grp'] = self.tab_pref_indi['taux_conso_par_grp'].apply(
+                lambda taux : round(taux*(1+random.uniform(-0.1, 0.1)), 2)).apply(
+                        lambda taux : taux if taux <= 100 else 100)
+
+
     def modifier_info(self) :
         """
         Modification d'information si besoin
         """
         pass
     
-    def enter_repas(self,_repasEntre):
+    def enter_repas(self, type_repas):
         """
         _repasEntre : dictionnaire des comboboxs 
                     -> {Alim1: combobox_groupes,combobox_sgroupes}
         renvoie la liste des aliments (sous-groupes) sélectionnées
         """
-        self.repasUser=[]
-        for alim in _repasEntre:
-            self.repasUser.append(_repasEntre[alim][1].get())
-        print(self.compagnie,self.repas,self.repasUser)
+        repas_code = {'petit-dejeuner' : 1, 'dejeuner' : 3, 'gouter' : 4, 'diner' : 5}
+        self.repas = self.tab_pref_indi[self.tab_pref_indi.tyrep == repas_code[type_repas]] #exemple pour le petit-déjeuner
+        self.repas = self.repas.join(self.repas.groupby('code_role')['taux_conso_par_grp'].apply(
+                lambda taux : round(100*random.random(),2)).rename('filter_conso'), 
+            on = 'code_role')
+        self.repas = self.repas[self.repas['taux_conso_par_grp'] >= self.repas['filter_conso']]
 
-
+        #self.test = self.test.groupby('code_role').apply(random.random)
+#        self.repasUser=[]
+#        for alim in _repasEntre:
+#            self.repasUser.append(_repasEntre[alim][1].get())
+#        print(self.compagnie,self.repas,self.repasUser)
 
 class Aliments():
     """
