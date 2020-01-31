@@ -334,6 +334,10 @@ class User():
 #            self.repasUser.append(_repasEntre[alim][1].get())
 #        print(self.compagnie,self.repas,self.repasUser)
 
+#test_user = User('pp', 'Homme', 16)
+#test_user.enter_repas('petit-dejeuner')
+#test = test_user.repas
+
 class Aliments():
     """
     Fourni la liste des aliments proposés en substitution, scorés
