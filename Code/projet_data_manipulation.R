@@ -16,17 +16,20 @@ options(scipen=999)
 ## DATA IMPORT ##
 #################
 
-nomenclature = read.csv("Base ‡ analyser/nomenclature.csv", sep = ";", colClasses = c("character"))
-consommation = read.csv("Base ‡ analyser/consommation.csv", sep = ",", colClasses = c("character")) 
-individu = read.csv("Base ‡ analyser/individu.csv", sep = ";", colClasses = c("character"))
-repas = read.csv("Base ‡ analyser/repas.csv", sep = ";", colClasses = c("character"))
+nomenclature = read.csv("Base_a_analyser/nomenclature.csv", sep = ";", colClasses = c("character"))
+consommation = read.csv("Base_a_analyser/consommation.csv", sep = ",", colClasses = c("character")) 
+individu = read.csv("Base_a_analyser/individu.csv", sep = ";", colClasses = c("character"))
+repas = read.csv("Base_a_analyser/repas.csv", sep = ";", colClasses = c("character"))
 
+consommation = read.csv("Base_a_analyser/consommation_new.csv", sep = ",", colClasses = c("character")) 
+consommation = consommation %>%
+  rename(cluster_consommateur = clust.num)
 #######################
 ## DATA MANIPULATION ##
 #######################
 
 #####################################################
-## CONSTRUCTION BASE POUR L'ANALYSE MOTIF FR√QUENT ##
+## CONSTRUCTION BASE POUR L'ANALYSE MOTIF FREQUENT ##
 #####################################################
 
 #  motifs fr√©quents de groupe d'aliment
@@ -88,7 +91,91 @@ prep_conso_pattern <- function(echelle) {
 
 conso_pattern_grp = prep_conso_pattern(echelle = "groupe")
 conso_pattern_sougr = prep_conso_pattern(echelle = "sous-groupe")
+# transformation
+conso_pattern_sougr = conso_pattern_sougr %>%
+  mutate(lib_tyrep = ifelse(tyrep == 1, "petit-dejeuner",
+                            ifelse(tyrep == 3, "dejeuner",
+                                   ifelse(tyrep == 4, "gouter", "diner"))),
+         lib_avecqui = ifelse(is.na(avecqui), "autre", "adefinir"),
+         lib_avecqui = ifelse(avecqui == 1, "seul",
+                              ifelse(avecqui == 2, "famille",
+                                     ifelse(avecqui == 3, "amis", "autre"))),
+         lib_cluster = paste0("cluster_", cluster_consommateur), 
+         val_tyrep = 1,
+         val_avecqui = 1,
+         val_cluster = 1) %>%
+  spread(key = lib_tyrep, value = val_tyrep, fill = 0) %>%
+  spread(key = lib_avecqui, value = val_avecqui, fill = 0) %>%
+  spread(key = lib_cluster, value = val_cluster, fill = 0)
+  #select(- `<NA>`)
 
-write.table(conso_pattern_grp, "Base ‡ analyser/conso_pattern_grp.csv", sep = ";", row.names = FALSE)
-write.table(conso_pattern_sougr, "Base ‡ analyser/conso_pattern_sougr.csv", sep = ";", row.names = FALSE)
+conso_pattern_sougr = rename(conso_pattern_sougr, `boeuf en pi√®ces ou hach√©` = `b≈ìuf en pi√®ces ou hach√©`)
+#write.table(conso_pattern_grp, "Base_a_analyser/conso_pattern_grp.csv", sep = ";", row.names = FALSE)
+#write.table(conso_pattern_sougr, "Base_a_analyser/conso_pattern_sougr_transfo.csv", sep = ";", row.names = FALSE)
 
+
+
+################################
+## BASE INVERS√âE DES ALIMENTS ##
+################################
+
+
+apc_aliment = consommation %>%
+  filter(codgr != "45") %>% #enleve 71 lignes d'aliment non identifi√©s
+  mutate(qte_nette = as.numeric(qte_nette)) %>%
+  group_by(nomen, tyrep, codal) %>%
+  summarise(nbre_consom = n(),
+            qte_moyenne = round(mean(qte_nette, na.rm = TRUE), 2)) %>%
+  filter(!is.na(qte_moyenne)) %>% #enleve 
+  ungroup() %>%
+  inner_join(individu %>%
+               select(nomen, sexe_ps, v2_age, poidsm, taille, bmi, regimem) %>%
+               distinct() %>%
+               filter(bmi != ""), by = "nomen") %>%
+  mutate(regimem = ifelse(regimem == "", "0", regimem)) %>%
+  select(-nomen) %>%
+  arrange(qte_moyenne)
+
+
+
+#write.table(apc_aliment, "Base √† analyser/apc_aliment.csv", sep = ";", row.names = FALSE)
+
+
+
+###
+## BASE CONSOMMATEUR
+###
+
+repas_consommateur = repas %>%
+  select(nomen, duree, avecqui) %>%
+  mutate(avecqui = ifelse(avecqui == "1", "seul",
+                          ifelse(avecqui %in% c("2", "3"), "accompagne", "avecqui.3"))) %>%
+  group_by(nomen) %>%
+  mutate(duree = sum(as.numeric(duree), na.rm = TRUE)) %>%
+  filter(avecqui != "avecqui.3") %>%
+  group_by(nomen, duree, avecqui) %>%
+  summarise(eff = n()) %>%
+  tidyr::spread(key = avecqui, value = eff) %>%
+  ungroup() %>%
+  mutate_all(~replace(., is.na(.), 0))
+
+
+
+
+comportement_consommateur = consommation %>%
+  select(nomen, codgr, qte_nette) %>%
+  full_join(distinct(select(nomenclature, codgr, libgr)), by = "codgr") %>%
+  filter(codgr != "45") %>% #code non identifi√©
+  select(-codgr) %>%
+  mutate(qte_nette = as.numeric(qte_nette)) %>%
+  group_by(nomen, libgr) %>%
+  summarise(qte = sum(qte_nette)) %>%
+  tidyr::spread(key = libgr, value = qte) %>%
+  ungroup() %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  left_join(repas_consommateur, by = "nomen") %>%
+  left_join(select(individu, nomen, sexe_ps, v2_age, bmi), by = "nomen")
+
+comportement_consommateur = comportement_consommateur[, !grepl( "autres" , names(comportement_consommateur) )]
+
+#write.table(comportement_consommateur, "BDD/Base_a_analyser/comportement_consommateur.csv", sep = ";", row.names = FALSE)
