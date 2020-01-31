@@ -4,13 +4,25 @@ Created on Tue Jan 21 14:39:43 2020
 
 @author: anael
 """
-
+# =============================================================================
+# LIBRARY IMPORT
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
 import os
 
+# FUNCTION IMPORT
 import preference_consommateur as pref
+
+# =============================================================================
+
+
+# =============================================================================
+# DATA IMPORT
+conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+
+# =============================================================================
 
 
 
