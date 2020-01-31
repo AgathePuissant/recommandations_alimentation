@@ -21,20 +21,14 @@ consommation = read.csv("Base_a_analyser/consommation.csv", sep = ",", colClasse
 individu = read.csv("Base_a_analyser/individu.csv", sep = ";", colClasses = c("character"))
 repas = read.csv("Base_a_analyser/repas.csv", sep = ";", colClasses = c("character"))
 
-#######################
-## DATA MANIPULATION ##
-#######################
-
-#####################################################
-## CONSTRUCTION BASE POUR L'ANALYSE MOTIF FR?QUENT ##
-#####################################################
+consommation = read.csv("Base_a_analyser/consommation_new.csv", sep = ",", colClasses = c("character")) 
 
 #######################
 ## DATA MANIPULATION ##
 #######################
 
 #####################################################
-## CONSTRUCTION BASE POUR L'ANALYSE MOTIF FRÉQUENT ##
+## CONSTRUCTION BASE POUR L'ANALYSE MOTIF FREQUENT ##
 #####################################################
 
 #  motifs fréquents de groupe d'aliment
@@ -44,7 +38,6 @@ prep_conso_pattern <- function(echelle) {
   
   Les filtres appliqués :
   + Enlever la collation du matin et celle du soir
-  + Enlever les repas d'un seul aliment
   
   INPUT :
   + echelle : 'groupe' si l'analyse est basée sur groupe d'aliment
@@ -58,14 +51,14 @@ prep_conso_pattern <- function(echelle) {
   if (echelle == "groupe") {
     
     data = consommation %>%
-      select(nomen, nojour, tyrep, codgr) %>%
+      select(nomen, nojour, tyrep, codgr, cluster_consommateur) %>%
       full_join(distinct(select(nomenclature, codgr, libgr)), by = "codgr") %>%
       filter(codgr != "45", #code non identifié
              tyrep %in% c("1", "3", "4", "5")) %>% #garder que le petit-déjeuner, le déjeuner et le diner
       select(-codgr) %>%
-      group_by(nomen, nojour, tyrep) %>%
-      filter(n() > 1 ) %>% #enlever les repas d'un aliment
-      group_by(nomen, nojour, tyrep, libgr) %>%
+      group_by(nomen, nojour, tyrep, cluster_consommateur) %>%
+      # filter(n() > 1 ) %>% #enlever les repas d'un aliment
+      group_by(nomen, nojour, tyrep, libgr, cluster_consommateur) %>%
       summarise(eff = 1) %>%
       tidyr::spread(key = libgr, value = eff) %>%
       ungroup() %>%
@@ -76,14 +69,14 @@ prep_conso_pattern <- function(echelle) {
   } else if (echelle == "sous-groupe") {
     
     data = consommation %>%
-      select(nomen, nojour, tyrep, codgr, sougr) %>%
+      select(nomen, nojour, tyrep, codgr, sougr, cluster_consommateur) %>%
       full_join(distinct(select(nomenclature, codgr, sougr, libsougr)), by = c("codgr", "sougr")) %>%
       filter(codgr != "45", #code non identifié
              tyrep %in% c("1", "3", "4", "5")) %>% #garder que le petit-déjeuner, le déjeuner et le diner
       select(- c(codgr, sougr)) %>%
-      group_by(nomen, nojour, tyrep) %>%
-      filter(n() > 1 ) %>% #enlever les repas d'un d'aliment
-      group_by(nomen, nojour, tyrep, libsougr) %>%
+      group_by(nomen, nojour, tyrep, cluster_consommateur) %>%
+      # filter(n() > 1 ) %>% #enlever les repas d'un d'aliment
+      group_by(nomen, nojour, tyrep, libsougr, cluster_consommateur) %>%
       summarise(eff = 1) %>%
       tidyr::spread(key = libsougr, value = eff) %>%
       ungroup() %>%
@@ -97,9 +90,27 @@ prep_conso_pattern <- function(echelle) {
 
 conso_pattern_grp = prep_conso_pattern(echelle = "groupe")
 conso_pattern_sougr = prep_conso_pattern(echelle = "sous-groupe")
+# transformation
+conso_pattern_sougr = conso_pattern_sougr %>%
+  mutate(lib_tyrep = ifelse(tyrep == 1, "petit-dejeuner",
+                            ifelse(tyrep == 3, "dejeuner",
+                                   ifelse(tyrep == 4, "gouter", "diner"))),
+         lib_avecqui = ifelse(is.na(avecqui), "autre", "adefinir"),
+         lib_avecqui = ifelse(avecqui == 1, "seul",
+                              ifelse(avecqui == 2, "famille",
+                                     ifelse(avecqui == 3, "amis", "autre"))),
+         lib_cluster = paste0("cluster_", cluster_consommateur), 
+         val_tyrep = 1,
+         val_avecqui = 1,
+         val_cluster = 1) %>%
+  spread(key = lib_tyrep, value = val_tyrep, fill = 0) %>%
+  spread(key = lib_avecqui, value = val_avecqui, fill = 0) %>%
+  spread(key = lib_cluster, value = val_cluster, fill = 0) %>%
+  select(- `<NA>`)
+#write.table(conso_pattern_grp, "Base_a_analyser/conso_pattern_grp.csv", sep = ";", row.names = FALSE)
+#write.table(conso_pattern_sougr, "Base_a_analyser/conso_pattern_sougr.csv", sep = ";", row.names = FALSE)
 
-#write.table(conso_pattern_grp, "Base à analyser/conso_pattern_grp.csv", sep = ";", row.names = FALSE) 
-#write.table(conso_pattern_sougr, "Base à analyser/conso_pattern_sougr.csv", sep = ";", row.names = FALSE)
+
 
 
 ################################
@@ -165,4 +176,4 @@ comportement_consommateur = consommation %>%
 
 comportement_consommateur = comportement_consommateur[, !grepl( "autres" , names(comportement_consommateur) )]
 
-write.table(comportement_consommateur, "BDD/Base_a_analyser/comportement_consommateur.csv", sep = ";", row.names = FALSE)
+#write.table(comportement_consommateur, "BDD/Base_a_analyser/comportement_consommateur.csv", sep = ";", row.names = FALSE)
