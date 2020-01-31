@@ -347,11 +347,10 @@ class User():
             
             nbre_plat = self.repas.shape[0]
 
-
-test_user = User('pp', 'Homme', 16)
-test_user.enter_repas('petit-dejeuner')
-test = test_user.repas
-test['filter_conso'] = test['filter_code'].apply(lambda taux : round(100*random.random(),2))
+#test_user = User('pp', 'Homme', 16)
+#test_user.enter_repas('petit-dejeuner')
+#test = test_user.repas
+#test['filter_conso'] = test['filter_code'].apply(lambda taux : round(100*random.random(),2))
 
 class Aliments():
     """
