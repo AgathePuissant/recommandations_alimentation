@@ -286,6 +286,7 @@ class User():
         """
         Permet d'affecter l'utilisateur à un cluster de consommateur
         """
+        pass
 
     def modifier_info(self) :
         """
@@ -293,13 +294,17 @@ class User():
         """
         pass
     
-    def enter_repas(self, type_repas):
+    def enter_repas(self, _repasEntre):
         """
         _repasEntre : dictionnaire des comboboxs 
                     -> {Alim1: combobox_groupes,combobox_sgroupes}
         renvoie la liste des aliments (sous-groupes) sélectionnées
         """
-        
+        self.repasUser=[]
+        for alim in _repasEntre:
+            self.repasUser.append(_repasEntre[alim][1].get())
+        print(self.compagnie,self.repas,self.repasUser)
+            
         
 class VirtualUser():
     """
