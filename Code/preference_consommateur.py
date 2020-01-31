@@ -53,9 +53,8 @@ def construct_table_preference(data_conso, data_nomen) :
 
 
 ## DONNÉES
-conso_pattern_sougr = pd.read_csv('conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-
-nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+#conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+#nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
 
 # TEST DE FONCTION
-table_preference = construct_table_preference(conso_pattern_sougr, nomenclature)
+#table_preference = construct_table_preference(conso_pattern_sougr, nomenclature)
