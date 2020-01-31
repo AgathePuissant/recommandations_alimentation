@@ -323,21 +323,29 @@ class User():
         """
         repas_code = {'petit-dejeuner' : 1, 'dejeuner' : 3, 'gouter' : 4, 'diner' : 5}
         
-        self.repas = self.tab_pref_indi[self.tab_pref_indi.tyrep == repas_code[type_repas]]
+        input_repas = self.tab_pref_indi[self.tab_pref_indi.tyrep == repas_code[type_repas]]
         
-        # Filtrage de code de role
-        code_role_filter = self.repas.groupby(['code_role', 'taux_code_apparaitre'])['taux_conso_par_code'].apply(
-                lambda taux : round(100*random.random(),2)).rename('filter_code').reset_index()
-        code_role_filter = code_role_filter[code_role_filter['filter_code'] <= code_role_filter['taux_code_apparaitre']]
+        nbre_plat = 0
         
-        self.repas = pd.DataFrame.merge(self.repas, code_role_filter, on = ['code_role', 'taux_code_apparaitre'], how = 'inner')
-        
-        # Filtrage des sous-groupes d'aliments
-        self.repas['filter_conso'] = self.repas['filter_code'].apply(lambda taux : round(100*random.random(),2))
-        self.repas = self.repas[self.repas['filter_conso'] <= self.repas['taux_conso_par_code']]
-        
-        # Juste pour tester, à effacer après
-        self.repas_propose = self.repas.libsougr.tolist()
+        while nbre_plat == 0 :
+            
+            self.repas = input_repas
+            
+            # Filtrage de code de role
+            code_role_filter = self.repas.groupby(['code_role', 'taux_code_apparaitre'])['taux_conso_par_code'].apply(
+                    lambda taux : round(100*random.random(),2)).rename('filter_code').reset_index()
+            code_role_filter = code_role_filter[code_role_filter['filter_code'] <= code_role_filter['taux_code_apparaitre']]
+            
+            self.repas = pd.DataFrame.merge(self.repas, code_role_filter, on = ['code_role', 'taux_code_apparaitre'], how = 'inner')
+            
+            # Filtrage des sous-groupes d'aliments
+            self.repas['filter_conso'] = self.repas['filter_code'].apply(lambda taux : round(100*random.random(),2))
+            self.repas = self.repas[self.repas['filter_conso'] <= self.repas['taux_conso_par_code']]
+            
+            # Juste pour tester, à effacer après
+            self.repas_propose = self.repas.libsougr.tolist()
+            
+            nbre_plat = self.repas.shape[0]
 
 
 test_user = User('pp', 'Homme', 16)
