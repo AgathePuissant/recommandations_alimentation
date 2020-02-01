@@ -260,7 +260,7 @@ conf = 0.01
 
 cluster_liste = [[0,'cluster_0'],[1,'cluster_1'],[2,'cluster_2']]
 
-avecqui_liste = [[1,'seul'],[2,'famille'],[3,'amis'],[4,'autre'],[9,'pas rep']]
+avecqui_liste = [[1,'seul'],[2,'famille'],[3,'amis'],[4,'autre']]
 
 tyrep_liste = [[1,'petit-dejeuner'],[3,'dejeuner'],[4,'gouter'],[5,'diner']]
 
