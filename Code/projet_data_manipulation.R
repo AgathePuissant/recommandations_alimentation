@@ -113,7 +113,7 @@ conso_pattern_sougr_transfo = conso_pattern_sougr %>%
   select(- avecqui_missing)
 #write.table(conso_pattern_grp, "Base_a_analyser/conso_pattern_grp.csv", sep = ";", row.names = FALSE)
 #write.table(conso_pattern_sougr_transfo, "Base_a_analyser/conso_pattern_sougr_transfo.csv", sep = ";", row.names = FALSE)
-
+#data = read.csv("Base_a_analyser/conso_pattern_sougr_transfo.csv", sep = ";", colClasses = c("character"), check.names=FALSE) 
 
 
 ################################
