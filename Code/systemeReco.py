@@ -397,7 +397,7 @@ class VirtualUser():
         
         # Filtrage des règles d'association pour le plat à proposer
         self.regles = regles.loc[regles['antecedents'].astype(str).str.contains(type_repas) &
-                                 regles['antecedents'].astype(str).str.contains('cluster_'+str(test_user.cluster)) &
+                                 regles['antecedents'].astype(str).str.contains('cluster_'+str(self.cluster)) &
                                  regles['antecedents'].astype(str).str.contains(avec_qui)]
         if type_repas == 'dejeuner' :
             self.regles = self.regles.loc[~(self.regles['antecedents'].astype(str).str.contains('petit-dejeuner'))]
@@ -406,7 +406,7 @@ class VirtualUser():
         # Filtrage des plats proposés de bases
         #pd.DataFrame(self.regles.antecedents.tolist()).isin(self.repas.libsougr.tolist()).sum(axis = 1)
         self.regles = self.regles[pd.DataFrame(self.regles.antecedents.tolist()).isin(self.repas_propose).any(axis = 1) &
-                                  ~pd.DataFrame(test.consequents.tolist()).isin(self.repas_propose).any(axis = 1)]
+                                  ~pd.DataFrame(self.regles.consequents.tolist()).isin(self.repas_propose).any(axis = 1)]
         self.regles = self.regles.loc[self.regles.antecedents.str.len() == 4].reset_index(drop = True)
         self.regles = self.regles.loc[self.regles.groupby('antecedents')['confidence'].idxmax()]
         
