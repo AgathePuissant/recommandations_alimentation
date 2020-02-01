@@ -111,25 +111,25 @@ def filtrage(data, tyrep, cluster, avecqui) :
     
     data_filtre = data.loc[(data['antecedents'].astype(str).str.contains(tyrep) &
                                data['antecedents'].astype(str).str.contains(cluster) &
-                               data['antecedents'].astype(str).str.contains(avecqui))
-                            | (data['antecedents'].astype(str).str.contains(tyrep) &
-                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
-                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
-                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
-                               data['antecedents'].astype(str).str.contains(str(cluster)) &
-                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
-                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
-                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
-                               data['antecedents'].astype(str).str.contains(avecqui))
-                            | (data['antecedents'].astype(str).str.contains(tyrep) &
-                               data['antecedents'].astype(str).str.contains(cluster) &
-                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
-                            | (data['antecedents'].astype(str).str.contains(tyrep) &
-                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
-                               data['antecedents'].astype(str).str.contains(avecqui))
-                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
-                               data['antecedents'].astype(str).str.contains(cluster) &
                                data['antecedents'].astype(str).str.contains(avecqui))]
+#                            | (data['antecedents'].astype(str).str.contains(tyrep) &
+#                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
+#                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
+#                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
+#                               data['antecedents'].astype(str).str.contains(str(cluster)) &
+#                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
+#                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
+#                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
+#                               data['antecedents'].astype(str).str.contains(avecqui))
+#                            | (data['antecedents'].astype(str).str.contains(tyrep) &
+#                               data['antecedents'].astype(str).str.contains(cluster) &
+#                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
+#                            | (data['antecedents'].astype(str).str.contains(tyrep) &
+#                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
+#                               data['antecedents'].astype(str).str.contains(avecqui))
+#                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
+#                               data['antecedents'].astype(str).str.contains(cluster) &
+#                               data['antecedents'].astype(str).str.contains(avecqui))]
     
                                
     if tyrep == 'dejeuner' :
@@ -252,5 +252,6 @@ conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", e
 
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
 nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
+
 
 
