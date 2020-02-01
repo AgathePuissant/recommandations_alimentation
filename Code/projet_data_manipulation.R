@@ -66,7 +66,7 @@ prep_conso_pattern <- function(echelle) {
       tidyr::spread(key = libgr, value = eff) %>%
       ungroup() %>%
       mutate_all(~replace(., is.na(.), 0)) %>%
-      full_join(distinct(select(individu, nomen, id_categorie)), by = "nomen") %>%
+      full_join(distinct(select(individu, nomen)), by = "nomen") %>%
       left_join(distinct(select(repas, nomen, nojour, tyrep, avecqui)), by = c("nomen", "nojour", "tyrep"))
     
   } else if (echelle == "sous-groupe") {
@@ -84,7 +84,7 @@ prep_conso_pattern <- function(echelle) {
       tidyr::spread(key = libsougr, value = eff) %>%
       ungroup() %>%
       mutate_all(~replace(., is.na(.), 0)) %>%
-      left_join(distinct(select(individu, nomen, id_categorie)), by = "nomen") %>%
+      left_join(distinct(select(individu, nomen)), by = "nomen") %>%
       left_join(distinct(select(repas, nomen, nojour, tyrep, avecqui)), by = c("nomen", "nojour", "tyrep"))
     
   }
