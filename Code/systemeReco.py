@@ -33,6 +33,10 @@ nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding
 supp = 0.001
 conf = 0.01
 
+# DATA PREPARATION
+motifs = mf.find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = 0.1)
+
 # =============================================================================
 
 class Application(tk.Frame):
@@ -359,7 +363,7 @@ class VirtualUser():
         """
         pass
     
-    def enter_repas(self, type_repas):
+    def enter_repas(self, type_repas, avec_qui):
         """
         _repasEntre : dictionnaire des comboboxs 
                     -> {Alim1: combobox_groupes,combobox_sgroupes}
@@ -385,22 +389,36 @@ class VirtualUser():
             # Filtrage des sous-groupes d'aliments
             self.repas['filter_conso'] = self.repas['filter_code'].apply(lambda taux : round(100*random.random(),2))
             self.repas = self.repas[self.repas['filter_conso'] <= self.repas['taux_conso_par_code']]
-            
-            # Juste pour tester, à effacer après
-            self.repas_propose = self.repas.libsougr.tolist()
-            
+
             nbre_plat = self.repas.shape[0]
         
-        motifs = mf.find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-        self.regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = 0.1)
+        # Création du début du repas proposé
+        self.repas_propose = self.repas.libsougr.tolist()
         
+        # Filtrage des règles d'association pour le plat à proposer
+        self.regles = regles.loc[regles['antecedents'].astype(str).str.contains(type_repas) &
+                                 regles['antecedents'].astype(str).str.contains('cluster_'+str(test_user.cluster)) &
+                                 regles['antecedents'].astype(str).str.contains(avec_qui)]
+        if type_repas == 'dejeuner' :
+            self.regles = self.regles.loc[~(self.regles['antecedents'].astype(str).str.contains('petit-dejeuner'))]
+        self.regles.reset_index(drop = True, inplace = True)
         
-test_user = VirtualUser('pp', 'Homme', 16)
-test_user.enter_repas('petit-dejeuner')
-test = test_user.repas
-test1 = test_user.regles
+        # Filtrage des plats proposés de bases
+        #pd.DataFrame(self.regles.antecedents.tolist()).isin(self.repas.libsougr.tolist()).sum(axis = 1)
+        self.regles = self.regles[pd.DataFrame(self.regles.antecedents.tolist()).isin(self.repas_propose).any(axis = 1) &
+                                  ~pd.DataFrame(test.consequents.tolist()).isin(self.repas_propose).any(axis = 1)]
+        self.regles = self.regles.loc[self.regles.antecedents.str.len() == 4].reset_index(drop = True)
+        self.regles = self.regles.loc[self.regles.groupby('antecedents')['confidence'].idxmax()]
+        
+        # Le repas proposé final du consommateur
+        self.repas_propose = self.repas_propose + self.regles.consequents.str[0].tolist()
+        print(self.repas_propose)
+        
+#test_user = VirtualUser('pp', 'Homme', 16)
+# test_user.cluster
+#test_user.enter_repas('petit-dejeuner', 'famille')
 
-class Aliments():
+class Aliments() :
     """
     Fourni la liste des aliments proposés en substitution, scorés
     """
