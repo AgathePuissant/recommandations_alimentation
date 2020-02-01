@@ -261,10 +261,10 @@ tyrep_liste = [[1,'petit-dejeuner'],[3,'dejeuner'],[4,'gouter'],[5,'diner']]
 #forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
 #la recheche de motifs fréquents.
 
-motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-print("Motifs fréquents trouvés") 
-regles = regles_association(motifs,confiance = conf)
-print("Règles d'association trouvées")
+#motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+#print("Motifs fréquents trouvés") 
+#regles = regles_association(motifs,confiance = conf)
+#print("Règles d'association trouvées")
 
 
 def scores_contexte() :
@@ -310,5 +310,7 @@ def scores_contexte() :
                     
                     scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
                     scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
+      
+    return scores_tous_contextes
                 
 
