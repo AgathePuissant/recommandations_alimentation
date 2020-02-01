@@ -11,10 +11,11 @@ from tkinter import ttk
 import pandas as pd
 import random
 import os
+from mlxtend.frequent_patterns import fpgrowth
 
 # FUNCTION IMPORT
 import preference_consommateur as pref
-import motifs_frequents_substituabilite as motifs
+import motifs_frequents_substituabilite as mf
 
 # =============================================================================
 
@@ -27,6 +28,12 @@ nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding
 # =============================================================================
 
 
+# =============================================================================
+# GLOBAL VARIABLE
+supp = 0.001
+conf = 0.01
+
+# =============================================================================
 
 class Application(tk.Frame):
     """
@@ -383,11 +390,15 @@ class VirtualUser():
             self.repas_propose = self.repas.libsougr.tolist()
             
             nbre_plat = self.repas.shape[0]
-
-#test_user = User('pp', 'Homme', 16)
-#test_user.enter_repas('petit-dejeuner')
-#test = test_user.repas
-#test['filter_conso'] = test['filter_code'].apply(lambda taux : round(100*random.random(),2))
+        
+        motifs = mf.find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+        self.regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = 0.1)
+        
+        
+test_user = VirtualUser('pp', 'Homme', 16)
+test_user.enter_repas('petit-dejeuner')
+test = test_user.repas
+test1 = test_user.regles
 
 class Aliments():
     """
