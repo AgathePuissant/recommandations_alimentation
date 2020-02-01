@@ -120,6 +120,15 @@ def filtrage(data, tyrep, cluster, avecqui) :
                                ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
                             | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
                                ~data['antecedents'].astype(str).str.contains('cluster_*') &
+                               data['antecedents'].astype(str).str.contains(avecqui))
+                            | (data['antecedents'].astype(str).str.contains(tyrep) &
+                               data['antecedents'].astype(str).str.contains(cluster) &
+                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
+                            | (data['antecedents'].astype(str).str.contains(tyrep) &
+                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
+                               data['antecedents'].astype(str).str.contains(avecqui))
+                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
+                               data['antecedents'].astype(str).str.contains(cluster) &
                                data['antecedents'].astype(str).str.contains(avecqui))]
     
                                
