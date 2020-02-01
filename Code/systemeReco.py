@@ -415,7 +415,7 @@ class VirtualUser():
         print(self.repas_propose)
         
 #test_user = VirtualUser('pp', 'Homme', 16)
-# test_user.cluster
+#test_user.cluster
 #test_user.enter_repas('petit-dejeuner', 'famille')
 
 class Aliments() :
