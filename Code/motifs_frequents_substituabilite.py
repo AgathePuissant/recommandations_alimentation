@@ -248,12 +248,12 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
 #supp = 0.001
 #conf = 0.01
 
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
+#conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 
 #conso_pattern_sougr = conso_pattern_sougr.drop(conso_pattern_sougr.columns[cols],axis=1)
 
-nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
+#nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+#nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
 
 
 #motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
