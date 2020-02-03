@@ -1,0 +1,65 @@
+===============================================================================
+Outline :
+    
+* Step 1 : Python pandas
+    Création de la table à analyser
+    Varibles à prendre en compte pour l'Analyse en composantes multiples
+    (catégoriel)
+    INDIV
+        - bmi
+        - bonalim
+        - mfrom
+        - mfruit
+        - mglace
+        - mjus
+        - mlait
+        - mleg
+        - mpois
+        - msoda
+        - mvian
+        - myao
+        - nomen
+        - regvegt
+        - regvegr
+        - sexe_ps ou sexeps
+        - clage ou v2_age ou tage (à voir)
+    REPAS
+        - avecqui
+
+        
+    => livrables : une table avec les individus avec une colonne qui représente
+    le cluster auquel il a été associé
+    
+* Step 2 : Python
+    Analyse de la table
+    Définition des différents catégories d'individus
+    Analyse de ces catégories pour voir si elles ont un sens
+    => livrables : une table avec les variables caractérisant la catégorie
+    
+* Step 3 : Python pandas
+    Mise en place de tables de fréquence par produit par moment de la journée
+    (en fonction du jour de la semaine) pour chaque catégorie
+    (un peu beaucoup, non ? we'll see) --> détermination d'une loi - more less
+    Maybe on utilisera de dictionnaires
+    => livrables : quelques courbes en exemple et des dictionnaires de la forme
+    {'petit_dej' : {'pain' :
+                        {'lundi' : 0.8, 'mardi' : 0.8, 'mercredi' : 0.7 ...},
+                    'chocolat' :
+                        {'lundi' : 0.3, 'mardi' : 0.1, 'mercredi' : 0.4 ...}
+                    }}
+    
+* Step 4 : Python 
+    Simulation d'un consommateur
+    - tirage aléatoire dans l'espace des consommateurs
+    - détermination de sa catégorie 
+    - association des tables / dictionnaires qui lui correspondent
+    - tirage aléatoire pour savoir quel aliment sera consommé à un moment donné
+    => livrables : proposition d'un repas en fonction de ce qui précède
+    
+    
+* Step 5 : Python 
+    Interface avec application pour voir si consommateur accepte ou n'accepte
+    pas la proposition
+    - à voir
+    
+===============================================================================

@@ -6,13 +6,16 @@ Created on Tue Jan 28 11:50:29 2020
 """
 
 import pandas as pd
+import matplotlib.pyplot as plt
+from copy import deepcopy
 
 
 def construct_table_preference(data_conso, data_nomen) :
     
     # Input base de preference
     pref = data_conso.drop(['avecqui', 'petit-dejeuner', 'dejeuner', 'gouter', 'diner',
-                      'seul', 'amis', 'famille', 'autre', 'cluster_0', 'cluster_1', 'cluster_2'], axis = 1)
+                      'seul', 'amis', 'famille', 'autre', 'cluster_1', 'cluster_2','cluster_3','cluster_4','cluster_5','cluster_6','cluster_7','cluster_8'], axis = 1)
+    
     
     # Transformation de colonne à ligne
     pref = pref.melt(id_vars = ['cluster_consommateur', 'nomen', 'nojour', 'tyrep'],
@@ -54,8 +57,48 @@ def construct_table_preference(data_conso, data_nomen) :
 
 
 ## DONNÉES
-#conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-#nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
 
 # TEST DE FONCTION
-#table_preference = construct_table_preference(conso_pattern_sougr, nomenclature)
+table_preference = construct_table_preference(conso_pattern_sougr, nomenclature)
+
+
+
+def diversite(pref):
+    
+    pourc = [90,80,70,60,50,40,30,20,10,5,2,1]
+    init = [0 for i in range(len(pourc))]
+    init1 = [1 for i in range(len(pourc))]
+    dico_frq = {1:init1,2:init,3:deepcopy(init),4:deepcopy(init),5:deepcopy(init),6:deepcopy(init),7:deepcopy(init),8:deepcopy(init)}
+    
+    for k in range(len(pourc)):
+        j=1
+        for i in range(1,len(pref)):
+            
+            if pref.iloc[i,8] >= pourc[k]:
+                dico_frq[pref.iloc[i,0]][k] += 1
+        
+            if pref.iloc[i,0] != pref.iloc[i-1,0] or i == len(pref)-1:
+                dico_frq[pref.iloc[i-1,0]][k] = dico_frq[pref.iloc[i-1,0]][k]/j
+                j = 0     
+                
+            j += 1   
+    
+    return dico_frq
+
+
+def trace_diversite(div):
+    pourc = [90,80,70,60,50,40,30,20,10,5,2,1]
+    for i in div.keys():
+        print(i,div[i])
+        plt.plot(pourc,div[i],label='cluster_'+str(i))
+    
+    plt.xlabel('fréquence minimale de consommation')
+    plt.ylabel("Pourcentage d'aliments consommés à une fréquence supérieure à la fréquence minimale")
+    plt.legend()
+    plt.show()
+
+#div = diversite(table_preference)
+#print(div)
+#trace_diversite(div)
