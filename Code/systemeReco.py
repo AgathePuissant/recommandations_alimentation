@@ -397,11 +397,20 @@ class User():
         _repasEntre : dictionnaire des comboboxs 
                     -> {Alim1: combobox_groupes,combobox_sgroupes}
         renvoie la liste des aliments (sous-groupes) sélectionnées
+        self.repasUser=[code groupe, code sous groupe, libellé sous groupe]
         """
         self.repasUser=[]
+        repasUser=[]
         for alim in _repasEntre:
-            self.repasUser.append((_repasEntre[alim][0].get(),_repasEntre[alim][1].get()))
-        print(self.compagnie,self.repas,self.repasUser)
+            repasUser.append((_repasEntre[alim][0].get(),_repasEntre[alim][1].get()))
+       
+        dataCodesGr=pd.read_csv(os.path.join('Base_a_analyser','nomenclature.csv'), sep=';',encoding = "ISO-8859-1")
+        
+        for alim in repasUser:
+            codeGrp=dataCodesGr[dataCodesGr['libgr']==alim[0]]['codgr'].unique()[0]
+            codeSgrp=dataCodesGr[dataCodesGr['libsougr']==alim[1]]['sougr'].unique()[0]
+            self.repasUser.append((codeGrp,codeSgrp,alim[1]))
+        
         repas=Aliments(self.repasUser)   
         
 
@@ -418,17 +427,18 @@ class Aliments() :
         
         
     def convertLibCode(self,_repasEntre):
+        print(_repasEntre)
         dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=',',encoding="ISO-8859-1")
         
-        repasCode=[]
-        _repasEntre=[('viande', 'boeuf en pièces ou haché')]
+        repasScore=[]
+        
         for alim in _repasEntre:
-            codeGrp=dataNutri[dataNutri['libgr']==alim[0]]['codgr'].unique()[0]
-            codeSgrp=dataNutri[dataNutri['libsougr']==alim[1]]['sougr'].unique()[0]
+            codeGrp=alim[0]
+            codeSgrp=alim[1]
             scoreSain=dataNutri[(dataNutri['codgr']==codeGrp) & (dataNutri['sougr']==codeSgrp)]['SAIN 5 opt'].values[0]
             scoreLim=dataNutri[(dataNutri['codgr']==codeGrp) & (dataNutri['sougr']==codeSgrp)]['LIM3'].values[0]
-            repasCode.append((codeGrp,codeSgrp,scoreSain,scoreLim))
-        print (repasCode)
+            repasScore.append((codeGrp,codeSgrp,scoreSain,scoreLim))
+        print (repasScore)
         
     def calculSubstitution():
         """
