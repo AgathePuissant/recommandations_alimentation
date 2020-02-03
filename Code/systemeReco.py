@@ -9,22 +9,7 @@ Created on Tue Jan 21 14:39:43 2020
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
-import random
 import os
-
-# FUNCTION IMPORT
-import preference_consommateur as pref
-import motifs_frequents_substituabilite as motifs
-
-# =============================================================================
-
-
-# =============================================================================
-# DATA IMPORT
-conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
-
-# =============================================================================
 
 
 
@@ -83,8 +68,9 @@ class Application(tk.Frame):
         self.clean_widgets()
 
         texte2=tk.Label(self,
-                        text="A midi j'ai mangé de la chantilly")
-        texte2.grid()
+                        text="Bienvenue",
+                        fg='blue')
+        texte2.grid(columnspan=5)
 
 
         l = tk.Label(self,
@@ -116,34 +102,70 @@ class Application(tk.Frame):
                  orient=tk.HORIZONTAL,
                  length=200)
         s.grid(row=3)
+        
+        s_taille=tk.Scale(self, label='Taille (cm)', name='taille',
+                 from_=70, to=250,
+                 orient=tk.HORIZONTAL,
+                 length=200)
+        s_taille.grid(row=4,column=0)
+        
+        s_poids=tk.Scale(self, label='Poids (kg)', name='poids',
+                 from_=30, to=200,
+                 orient=tk.HORIZONTAL,
+                 length=200)
+        s_poids.grid(row=4,column=1)
+        
+        textePref=tk.Label(self,
+                        text="A quel point aimez-vous les aliments ci-dessous",
+                        fg='blue')
+        textePref.grid(columnspan=3,padx=5)
+        
+        alim=['fromage','fruits','légumes','viande','poisson','volaille et gibier','produits laitiers']
+        alimNam=['from','fruits','legume','viande','poiss','volGib','prodLait']
+        _row=6
+        for c, v in enumerate(alim):
+            s_pref=tk.Scale(self, label=v, name=alimNam[c],
+                 from_=0, to=10,
+                 orient=tk.HORIZONTAL,
+                 length=200)
+            if c%2==0:
+                 s_pref.grid(row=_row,column=0)
+            else :
+                s_pref.grid(row=_row,column=1)
+                _row+=1
 
 
-        print(self.winfo_children()) #list of widgets
+        #print(self.winfo_children()) #list of widgets
 
         self.quit = tk.Button(self,
                               text="QUIT",
                               fg="red",
                               command=self.master.destroy)
-        self.quit.grid(column=1,row=4)
+        self.quit.grid(column=1,row=15)
 
 
         self.val=tk.Button(self,
                            text="Valider",
-                           command= lambda:self.newUser(varGr))
-        self.val.grid(column=0,row=4)
+                           command= lambda:self.newUser(varGr,alimNam))
+        self.val.grid(column=0,row=15)
 
 
-    def newUser(self, _sexe):
+    def newUser(self, _sexe,_alimNam):
         """
-        Récup des infos sur le formualire, 
+        Récup des infos sur le formulaire, 
         création d'une instance de la classe user
+        _sexe=scrollbar sexe
+        _aliNam=scrollbar préférences alimentaires
         """
 
         name = self.nametowidget('nom').get()
         age = self.nametowidget('age').get()
+        widgalim={} #dic des préférénces alimentaires
+        for a in _alimNam:
+            widgalim[a]=self.nametowidget(a).get()
         sexe = _sexe.get()
 
-        print(name,age,sexe)
+        print(name,age,sexe,widgalim)
 
         self.currentUser = User(name,sexe,age)
         self.clean_widgets()
@@ -266,7 +288,8 @@ class Application(tk.Frame):
                           fg="red",
                           command=self.master.destroy)
         self.quit.grid(column=1,row=30,padx=10,pady=5)
-       
+      
+
 
 class User():
     """
@@ -280,13 +303,88 @@ class User():
         # Affection de l'utilisateur à un cluster de consommation
         self.affect_cluster()
         
-
-
-    def affect_cluster(self):
+        
+    def get_new_row(nouveau_client, modalites):
         """
-        Permet d'affecter l'utilisateur à un cluster de consommateur
+
+        Parameters
+        ----------
+        nouveau_client : list
+            Avec le numéro associé à sa modalité.
+            Par exemple, dans ce cas on a 10 variables :
+            nouveau_client = [2,4,1,0,1,1,0,1,0,0]
+            le sexe du nouveau client est associé a la modalité 2
+            la classe d'age est 4 donc 18-24 ans
+            sa bmi est normale
+            etc....
+                
+        modalites : list
+            Dans notre cas 
+            modalites = [3,8,3,2,2,2,2,2,2,2]
+            car on a :  3 mods pour sexe
+                        8 mods pour la classe d'age
+                        3 mods pour la bmi
+                        2 mods pour les 7 préférences alim qui nous intéressent
+        
+        Returns 
+        -------
+        new_row : list
+            sous le format voulu pour affect_cluster
+            une liste avec 28 éléments avec un 1 là où sa modalité se trouve
+            exemple :
+                [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1,0, 1, 1, 0, 0, 1]
+                     sex                    tage      bmi from fruits..................viand....vol
+
         """
-        pass
+        n = len(modalites)
+        new_row = []
+        for i in range(n) :
+            l = [0 for j in range(modalites[i])]
+            l[nouveau_client[i]] = 1
+            new_row += l
+        return(new_row)
+
+    def affect_cluster(cluster_data, new_row_bf, modalites) :
+        """
+        Parameters
+        ----------
+        cluster_data : numpy array
+            tableau avec les poids de chaque modalité pour chaque cluster
+        
+        new_row_bf : list
+            Avec le numéro associé à sa modalité.
+            Par exemple, dans ce cas on a 10 variables :
+            nouveau_client = [2,4,1,0,1,1,0,1,0,0]
+            le sexe du nouveau client est associé a la modalité 2
+            la classe d'age est 4 donc 18-24 ans
+            sa bmi est normale
+            etc....
+            
+        modalites : list
+            Dans notre cas 
+            modalites = [3,8,3,2,2,2,2,2,2,2]
+            car on a :  3 mods pour sexe
+                        8 mods pour la classe d'age
+                        3 mods pour la bmi
+                        2 mods pour les 7 préférences alim qui nous intéressent
+        
+
+        Returns 
+        -------
+            cluster : int numero du cluster auquel le nouveau client est associé
+            
+
+        """
+        new_row = get_new_row(new_row_bf, modalites)
+        liste = []
+        dim = cluster_data.shape
+        for i in range(dim[1]):
+            x = new_row - cluster_data[:,i]
+            liste+=[math.sqrt(sum(abs(x)))]
+            minim = min(liste)
+        cluster = liste.index(minim)+1
+        return (cluster)
+
 
     def modifier_info(self) :
         """
@@ -306,90 +404,8 @@ class User():
         print(self.compagnie,self.repas,self.repasUser)
             
         
-class VirtualUser():
-    """
-    Definit les caractéristiques de l'utilisateur
-    """
-    def __init__(self,_name,_sex,_age):
-        self.name=_name
-        self.sex=_sex
-        self.age=_age
-        
-        # Affection de l'utilisateur à un cluster de consommation
-        self.affect_cluster()
-        
-        # Création de la table de préférence individuelle
-        self.creation_tab_pref()
 
-
-    def affect_cluster(self):
-        """
-        Permet d'affecter l'utilisateur à un cluster de consommateur
-        """
-        self.cluster = random.randint(0,2)
-
-
-    def creation_tab_pref(self) :
-        """
-        La fonction qui crée une table de préférence individuelle des sous-groupes d'aliments
-        """
-        # Input table de consommation des sous-groupes d'aliments du cluster self.cluster
-        conso_cluster = conso_pattern_sougr[conso_pattern_sougr['cluster_consommateur'] == self.cluster]
-        
-        # Création de table de préférence
-        self.tab_pref_indi = pref.construct_table_preference(conso_cluster, nomenclature)
-        
-        # Personnalisation de table de préférence : ajoute aléatoirement -10 à 10% du taux de consommation par groupe
-        self.tab_pref_indi = self.tab_pref_indi.loc[:, ['cluster_consommateur', 'tyrep', 'code_role', 'taux_code_apparaitre', 'libsougr', 'taux_conso_par_code']]
-        self.tab_pref_indi['taux_conso_par_code'] = self.tab_pref_indi['taux_conso_par_code'].apply(
-                lambda taux : round(taux*(1+random.uniform(-0.1, 0.1)), 2)).apply(
-                        lambda taux : taux if taux <= 100 else 100)
-
-
-    def modifier_info(self) :
-        """
-        Modification d'information si besoin
-        """
-        pass
-    
-    def enter_repas(self, type_repas):
-        """
-        _repasEntre : dictionnaire des comboboxs 
-                    -> {Alim1: combobox_groupes,combobox_sgroupes}
-        renvoie la liste des aliments (sous-groupes) sélectionnées
-        """
-        repas_code = {'petit-dejeuner' : 1, 'dejeuner' : 3, 'gouter' : 4, 'diner' : 5}
-        
-        input_repas = self.tab_pref_indi[self.tab_pref_indi.tyrep == repas_code[type_repas]]
-        
-        nbre_plat = 0
-        
-        while nbre_plat == 0 :
-            
-            self.repas = input_repas
-            
-            # Filtrage de code de role
-            code_role_filter = self.repas.groupby(['code_role', 'taux_code_apparaitre'])['taux_conso_par_code'].apply(
-                    lambda taux : round(100*random.random(),2)).rename('filter_code').reset_index()
-            code_role_filter = code_role_filter[code_role_filter['filter_code'] <= code_role_filter['taux_code_apparaitre']]
-            
-            self.repas = pd.DataFrame.merge(self.repas, code_role_filter, on = ['code_role', 'taux_code_apparaitre'], how = 'inner')
-            
-            # Filtrage des sous-groupes d'aliments
-            self.repas['filter_conso'] = self.repas['filter_code'].apply(lambda taux : round(100*random.random(),2))
-            self.repas = self.repas[self.repas['filter_conso'] <= self.repas['taux_conso_par_code']]
-            
-            # Juste pour tester, à effacer après
-            self.repas_propose = self.repas.libsougr.tolist()
-            
-            nbre_plat = self.repas.shape[0]
-
-#test_user = User('pp', 'Homme', 16)
-#test_user.enter_repas('petit-dejeuner')
-#test = test_user.repas
-#test['filter_conso'] = test['filter_code'].apply(lambda taux : round(100*random.random(),2))
-
-class Aliments():
+class Aliments() :
     """
     Fourni la liste des aliments proposés en substitution, scorés
     """
@@ -412,11 +428,6 @@ class Aliments():
         Actualisation des indices de substitution
         Actualisation des poids
         """
-
-
-
-
-
 
 
 

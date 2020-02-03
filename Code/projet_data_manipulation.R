@@ -5,11 +5,13 @@
 
 library(magrittr)
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(plotly)
 library(data.table)
 
-setwd("C:/Users/agaca/Documents/GitHub/recommandations_alimentation")
+#setwd("C:/Users/agaca/Documents/GitHub/recommandations_alimentation/Code")
+setwd("D:/APT/3e_annee/Projet fil rouge/code_groupe/recommandations_alimentation/Code")
 options(scipen=999)
 
 #################
@@ -21,8 +23,8 @@ consommation = read.csv("Base_a_analyser/consommation.csv", sep = ",", colClasse
 individu = read.csv("Base_a_analyser/individu.csv", sep = ";", colClasses = c("character"))
 repas = read.csv("Base_a_analyser/repas.csv", sep = ";", colClasses = c("character"))
 
-consommation = read.csv("Base_a_analyser/consommation_new.csv", sep = ",", colClasses = c("character")) 
-consommation = consommation %>%
+consommation2 = read.csv("Base_a_analyser/consommation_new.csv", sep = ",", colClasses = c("character")) 
+consommation2 = consommation2 %>%
   rename(cluster_consommateur = clust.num)
 #######################
 ## DATA MANIPULATION ##
@@ -64,7 +66,7 @@ prep_conso_pattern <- function(echelle) {
       tidyr::spread(key = libgr, value = eff) %>%
       ungroup() %>%
       mutate_all(~replace(., is.na(.), 0)) %>%
-      full_join(distinct(select(individu, nomen, id_categorie)), by = "nomen") %>%
+      full_join(distinct(select(individu, nomen)), by = "nomen") %>%
       left_join(distinct(select(repas, nomen, nojour, tyrep, avecqui)), by = c("nomen", "nojour", "tyrep"))
     
   } else if (echelle == "sous-groupe") {
@@ -82,7 +84,7 @@ prep_conso_pattern <- function(echelle) {
       tidyr::spread(key = libsougr, value = eff) %>%
       ungroup() %>%
       mutate_all(~replace(., is.na(.), 0)) %>%
-      left_join(distinct(select(individu, nomen, id_categorie)), by = "nomen") %>%
+      left_join(distinct(select(individu, nomen)), by = "nomen") %>%
       left_join(distinct(select(repas, nomen, nojour, tyrep, avecqui)), by = c("nomen", "nojour", "tyrep"))
     
   }
@@ -92,27 +94,26 @@ prep_conso_pattern <- function(echelle) {
 conso_pattern_grp = prep_conso_pattern(echelle = "groupe")
 conso_pattern_sougr = prep_conso_pattern(echelle = "sous-groupe")
 # transformation
-conso_pattern_sougr = conso_pattern_sougr %>%
+conso_pattern_sougr_transfo = conso_pattern_sougr %>%
   mutate(lib_tyrep = ifelse(tyrep == 1, "petit-dejeuner",
                             ifelse(tyrep == 3, "dejeuner",
                                    ifelse(tyrep == 4, "gouter", "diner"))),
-         lib_avecqui = ifelse(is.na(avecqui), "autre", "adefinir"),
+         #lib_avecqui = ifelse(is.na(avecqui), "NA", "adefinir"),
          lib_avecqui = ifelse(avecqui == 1, "seul",
                               ifelse(avecqui == 2, "famille",
-                                     ifelse(avecqui == 3, "amis", "autre"))),
+                                     ifelse(avecqui == 3, "amis", 
+                                            ifelse(avecqui == "", "avecqui_missing", "autre")))),
          lib_cluster = paste0("cluster_", cluster_consommateur), 
          val_tyrep = 1,
          val_avecqui = 1,
          val_cluster = 1) %>%
   spread(key = lib_tyrep, value = val_tyrep, fill = 0) %>%
   spread(key = lib_avecqui, value = val_avecqui, fill = 0) %>%
-  spread(key = lib_cluster, value = val_cluster, fill = 0)
-  #select(- `<NA>`)
-
-conso_pattern_sougr = rename(conso_pattern_sougr, `boeuf en pièces ou haché` = `bœuf en pièces ou haché`)
+  spread(key = lib_cluster, value = val_cluster, fill = 0) %>%
+  select(- avecqui_missing)
 #write.table(conso_pattern_grp, "Base_a_analyser/conso_pattern_grp.csv", sep = ";", row.names = FALSE)
-#write.table(conso_pattern_sougr, "Base_a_analyser/conso_pattern_sougr_transfo.csv", sep = ";", row.names = FALSE)
-
+#write.table(conso_pattern_sougr_transfo, "Base_a_analyser/conso_pattern_sougr_transfo.csv", sep = ";", row.names = FALSE)
+#data = read.csv("Base_a_analyser/conso_pattern_sougr_transfo.csv", sep = ";", colClasses = c("character"), check.names=FALSE) 
 
 
 ################################

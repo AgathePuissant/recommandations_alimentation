@@ -108,10 +108,30 @@ def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
 
 
 def filtrage(data, tyrep, cluster, avecqui) :
-    data_filtre = data.loc[data['antecedents'].astype(str).str.contains(tyrep) &
-                               data['antecedents'].astype(str).str.contains(cluster) &
-                               data['antecedents'].astype(str).str.contains(avecqui)]
     
+    data_filtre = data.loc[(data['antecedents'].astype(str).str.contains(tyrep) &
+                               data['antecedents'].astype(str).str.contains(cluster) &
+                               data['antecedents'].astype(str).str.contains(avecqui))]
+#                            | (data['antecedents'].astype(str).str.contains(tyrep) &
+#                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
+#                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
+#                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
+#                               data['antecedents'].astype(str).str.contains(str(cluster)) &
+#                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
+#                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
+#                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
+#                               data['antecedents'].astype(str).str.contains(avecqui))
+#                            | (data['antecedents'].astype(str).str.contains(tyrep) &
+#                               data['antecedents'].astype(str).str.contains(cluster) &
+#                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
+#                            | (data['antecedents'].astype(str).str.contains(tyrep) &
+#                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
+#                               data['antecedents'].astype(str).str.contains(avecqui))
+#                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
+#                               data['antecedents'].astype(str).str.contains(cluster) &
+#                               data['antecedents'].astype(str).str.contains(avecqui))]
+    
+                               
     if tyrep == 'dejeuner' :
         data_filtre = data_filtre.loc[~(data_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
     
@@ -220,73 +240,20 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
     return tab_subst
 
 
-            
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-CODE PRINCIPAL
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # La base conso_pattern est préparée par R à partir de la base brute
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-#conso_pattern_sougr = conso_pattern_sougr.rename(columns = {'b\x9cuf en pièces ou haché' : 'boeuf en pièces ou haché'})
+#conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
+#nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+#nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
 
-nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
+#supp = 0.001
+#conf = 0.01
 
-supp = 0.001
-conf = 0.01
+#conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 
-modalites_cluster = ['cluster_0','cluster_1','cluster_2']
-modalites_avecqui = ['seul','famille','amis','autre']
-modalites_tyrep = ['petit-dejeuner','dejeuner','gouter','diner']
+#conso_pattern_sougr = conso_pattern_sougr.drop(conso_pattern_sougr.columns[cols],axis=1)
 
-#---------Méthode avec contexte inclus dans la recherche de motifs fréquents---------------
+#nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+#nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
 
-#Modification pour que les modalités de cluster, type de repas et modalités sociale soient mises sous 
-#forme booléenne. Transformation à faire uniquement dans le cas où on veut inclure ces modalités dans
-#la recheche de motifs fréquents.
-
-motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-print("Motifs fréquents trouvés") 
-regles = regles_association(motifs,confiance = conf)
-print("Règles d'association trouvées")
-
-scores_tous_contextes = pd.DataFrame([])
-
-for tyrep in modalites_tyrep :
-    for cluster in modalites_cluster :
-        for avecqui in modalites_avecqui :
-            
-            print(tyrep+'_'+cluster+'_'+avecqui)
-
-            regles_filtre = filtrage(regles, tyrep, cluster, avecqui)
-            print("Règles d'association filtrées")
-            if len(regles_filtre)>0 :
-                t_subst = tableau_substitution(regles_filtre, nomenclature)
-                print("Tableau de substitutions fait")
-                if (t_subst.drop_duplicates(['consequents'])['code_role'].value_counts()>2).any():
-                    scores = matrice_scores_diff_moy(t_subst, regles_filtre)
-                    print("Tableau de scores fait")
-                    
-                    score_specifique = scores['consequents'].rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-couple')
-                    couple_specifique = scores['Score combiné'].rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-score')
-                    
-                    scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
-                    scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
-                    
-                else :
-                    
-                    print("y'en a pas")
-                    score_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-score')
-                    couple_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-couple')
-                    
-                    scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
-                    scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
-                
-            else :
-                print("y'en a pas")
-                score_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-score')
-                couple_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep)+'-'+str(cluster)+'-'+str(avecqui)+'-couple')
-                
-                scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
-                scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
-
+#motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+#regles = regles_association(motifs,confiance = conf)
