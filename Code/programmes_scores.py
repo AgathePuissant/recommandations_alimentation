@@ -19,7 +19,7 @@ del conso_pattern_sougr['autre'], conso_pattern_sougr['famille'], conso_pattern_
 supp = 0.001
 conf = 0.001
 
-cluster_liste = [[0,'cluster_0'],[1,'cluster_1'],[2,'cluster_2']]
+cluster_liste = [[1,'cluster_1'],[2,'cluster_2'],[3,'cluster_3'],[4,'cluster_4'],[5,'cluster_5'],[6,'cluster_6'],[7,'cluster_7'],[8,'cluster_8'],[9,'cluster_9'],[10,'cluster_10']]
 
 avecqui_liste = [[1,'seul'],[2,'accompagne']]
 
