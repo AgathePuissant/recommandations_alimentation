@@ -332,7 +332,7 @@ class Application(tk.Frame):
         texte.grid(row=2,column=1,columnspan=4)
         
         texte=tk.Label(self,
-                       text=str(alimentASubstituer[0])+'\n'+' Score SAIN : '+str(alimentASubstituer[1])+'\n'+' Score LIM : '+str(alimentASubstituer[2]))
+                       text=str(alimentASubstituer[2])+'\n'+' Score SAIN : '+str(alimentASubstituer[3])+'\n'+' Score LIM : '+str(alimentASubstituer[4]))
         texte.grid(row=3,column=1,columnspan=4)
         
        
@@ -473,7 +473,7 @@ class Aliments() :
     Fourni la liste des aliments proposés en substitution, scorés
     """
     
-    def __init__(self,_repasEntre,_repas):
+    def __init__(self,_repasEntre=[(6, 99, 'viennoiserie')],_repas='petit-dejeuner'):
         """
         _repasEntre : [(code grp,code sgrp,libelle sgrp)]
         _repas : petit-dejeuner, dejeuner, diner
@@ -481,12 +481,13 @@ class Aliments() :
         self.repas=_repas
         self.NutriScore(_repasEntre)
         
-        print(self.repas)
+        
         
         
     def NutriScore(self,_repasEntre):
 
         dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
+        
         
         repasScore=[]
         for alim in _repasEntre:    
@@ -498,9 +499,9 @@ class Aliments() :
         pireScore=LSain.index(min(LSain))
         pireAlim=repasScore[pireScore]
         self.alimentASubstituer=pireAlim #(libellé,scoreSAIN,scoreLIM)
-        self.calculSubstitution(pireAlim)
+        self.calculSubstitution(pireAlim,dataNutri)
         
-    def calculSubstitution(self,_pireAlim,epsilon=0,omega1=0.5,omega2=0.5,dataNutri):
+    def calculSubstitution(self,_pireAlim,dataNutri,epsilon=0,omega1=0.5,omega2=0.5):
         """
         renvoie liste des aliments scorés
         _pireAlim : (labelSgrp,scoreSAIN,scoreLIM)
@@ -512,20 +513,20 @@ class Aliments() :
         Actualisation des indices de substitution
         Actualisation des poids
         """
-        print(self.repas)
-        print(_pireAlim[2])
+
+        print(_pireAlim)
         self.dataSubs=pd.read_csv('scores_tous_contextes_v3.csv', sep=',',encoding = "utf-8",index_col=0)
-        Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==_pireAlim[2])][['aliment_2','score']]
-        Subst_envisageables 
         
-        
-        #Si pas de substitution
-        Subst_secours=dataNutri[(dataNutri['codgr']==_pireAlim[0])
-        Subst_secours
-        
-        
-        
-        
+        #Test existence substitution
+        if not (self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==_pireAlim[2])]).dropna(subset=['aliment_2']).empty: 
+            Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==_pireAlim[2])][['aliment_2','score']]
+            print('existe',Subst_envisageables)
+            
+        #Essai substitution du même groupe
+        elif (dataNutri[dataNutri['codgr']==_pireAlim[0]]).shape[0]>1: #si contient autres aliments du mm groupe
+            Subst_secours=dataNutri[dataNutri['codgr']==_pireAlim[0]]
+            print('secours',Subst_secours)
+            
         
         self.subsProposee=('vin', 1.084, 1.430) #test
      
