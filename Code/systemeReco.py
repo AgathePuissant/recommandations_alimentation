@@ -230,6 +230,7 @@ class Application(tk.Frame):
                 -> [combobox_grp,combobox_sgrp]
         """
         _alim[1]['values'] = self.category[_alim[0].get()]
+        _alim[1].current(0)
     
     def selectbox(self,_row):
         """
@@ -251,12 +252,14 @@ class Application(tk.Frame):
                                 values=sorted(list(self.category.keys())),
                                 width = 30,
                                 state="readonly")
+
         GrpCombo.grid(row=_row,column=2,padx=5)
         self.grpbox['Alim'+str(_row)]=[]
         self.grpbox['Alim'+str(_row)].append(GrpCombo)
         SgrpCombo = ttk.Combobox(self,
                                  width = 15,
                                  state="readonly")
+        
         SgrpCombo.grid(row=_row,column=3,padx=5)
         self.grpbox['Alim'+str(_row)].append(SgrpCombo)
 
@@ -422,7 +425,6 @@ class Aliments() :
     def __init__(self,_repasEntre):
         self.substitutionsProposées={} #actualise avec les aliments proposés en substitution,
                                        #1 si accepté, 0 sinon
-        dataSubs=pd.read_csv('scores_tous_contextes.csv', sep=';',encoding = "utf-8")
         self.NutriScore(_repasEntre)
         
         
@@ -437,13 +439,23 @@ class Aliments() :
             repasScore.append((alim[2],scoreSain,scoreLim))
         print (repasScore)
         
-    def calculSubstitution():
+        LSain=[repasScore[i][1] for i in range(len(repasScore))]
+        pireScore=LSain.index(min(LSain))
+        pireAlim=repasScore[pireScore]
+        print(pireAlim)
+        
+        self.calculSubstitution(_pireAlim)
+        
+    def calculSubstitution(_pireAlim):
         """
         renvoie liste des aliments scorés
+        _pireAlim : (labelSgrp,scoreSAIN,scoreLIM)
+        _alimproposé : (labelSgrp,scoreSAIN,scoreLIM)
+        
         """
-        indColScore='dejeuner-cluster_1-seul-score'
-        indColCouple='dejeuner-cluster_1-seul-score'
-        pass
+        dataSubs=pd.read_csv('scores_tous_contextes.csv', sep=';',encoding = "utf-8")
+        
+        
 
     def proposeSubstituion():
         """
