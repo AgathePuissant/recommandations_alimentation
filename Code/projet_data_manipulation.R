@@ -18,13 +18,14 @@ options(scipen=999)
 ## DATA IMPORT ##
 #################
 
-nomenclature = read.csv("Base_a_analyser/nomenclature.csv", sep = ";", colClasses = c("character"))
-consommation = read.csv("Base_a_analyser/consommation.csv", sep = ",", colClasses = c("character")) 
+nomenclature = read.csv("Base_a_analyser/nomenclature.csv", sep = ";", colClasses = c("character"), encoding = 'UTF-8')
+consommation = read.csv("Base_a_analyser/consommation.csv", sep = ",", colClasses = c("character"))
 individu = read.csv("Base_a_analyser/individu.csv", sep = ";", colClasses = c("character"))
 repas = read.csv("Base_a_analyser/repas.csv", sep = ";", colClasses = c("character"))
 
-consommation2 = read.csv("Base_a_analyser/consommation_new.csv", sep = ",", colClasses = c("character")) 
-consommation2 = consommation2 %>%
+# COnsommation avec de nouveaux clusters
+consommation = read.csv("Base_a_analyser/consommation_new.csv", sep = ",", colClasses = c("character"), encoding = 'UTF-8') 
+consommation = consommation %>%
   rename(cluster_consommateur = clust.num)
 #######################
 ## DATA MANIPULATION ##
