@@ -288,7 +288,8 @@ class Application(tk.Frame):
                           fg="red",
                           command=self.master.destroy)
         self.quit.grid(column=1,row=30,padx=10,pady=5)
-       
+      
+
 
 class User():
     """
@@ -302,13 +303,88 @@ class User():
         # Affection de l'utilisateur à un cluster de consommation
         self.affect_cluster()
         
-
-
-    def affect_cluster(self):
+        
+    def get_new_row(nouveau_client, modalites):
         """
-        Permet d'affecter l'utilisateur à un cluster de consommateur
+
+        Parameters
+        ----------
+        nouveau_client : list
+            Avec le numéro associé à sa modalité.
+            Par exemple, dans ce cas on a 10 variables :
+            nouveau_client = [2,4,1,0,1,1,0,1,0,0]
+            le sexe du nouveau client est associé a la modalité 2
+            la classe d'age est 4 donc 18-24 ans
+            sa bmi est normale
+            etc....
+                
+        modalites : list
+            Dans notre cas 
+            modalites = [3,8,3,2,2,2,2,2,2,2]
+            car on a :  3 mods pour sexe
+                        8 mods pour la classe d'age
+                        3 mods pour la bmi
+                        2 mods pour les 7 préférences alim qui nous intéressent
+        
+        Returns 
+        -------
+        new_row : list
+            sous le format voulu pour affect_cluster
+            une liste avec 28 éléments avec un 1 là où sa modalité se trouve
+            exemple :
+                [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1,0, 1, 1, 0, 0, 1]
+                     sex                    tage      bmi from fruits..................viand....vol
+
         """
-        pass
+        n = len(modalites)
+        new_row = []
+        for i in range(n) :
+            l = [0 for j in range(modalites[i])]
+            l[nouveau_client[i]] = 1
+            new_row += l
+        return(new_row)
+
+    def affect_cluster(cluster_data, new_row_bf, modalites) :
+        """
+        Parameters
+        ----------
+        cluster_data : numpy array
+            tableau avec les poids de chaque modalité pour chaque cluster
+        
+        new_row_bf : list
+            Avec le numéro associé à sa modalité.
+            Par exemple, dans ce cas on a 10 variables :
+            nouveau_client = [2,4,1,0,1,1,0,1,0,0]
+            le sexe du nouveau client est associé a la modalité 2
+            la classe d'age est 4 donc 18-24 ans
+            sa bmi est normale
+            etc....
+            
+        modalites : list
+            Dans notre cas 
+            modalites = [3,8,3,2,2,2,2,2,2,2]
+            car on a :  3 mods pour sexe
+                        8 mods pour la classe d'age
+                        3 mods pour la bmi
+                        2 mods pour les 7 préférences alim qui nous intéressent
+        
+
+        Returns 
+        -------
+            cluster : int numero du cluster auquel le nouveau client est associé
+            
+
+        """
+        new_row = get_new_row(new_row_bf, modalites)
+        liste = []
+        dim = cluster_data.shape
+        for i in range(dim[1]):
+            x = new_row - cluster_data[:,i]
+            liste+=[math.sqrt(sum(abs(x)))]
+            minim = min(liste)
+        cluster = liste.index(minim)+1
+        return (cluster)
+
 
     def modifier_info(self) :
         """
