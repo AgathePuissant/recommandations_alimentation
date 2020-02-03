@@ -301,7 +301,7 @@ class User():
         self.age=_age
         
         # Affection de l'utilisateur à un cluster de consommation
-        self.affect_cluster()
+        #self.affect_cluster()
         
         
     def get_new_row(nouveau_client, modalites):
@@ -400,24 +400,42 @@ class User():
         """
         self.repasUser=[]
         for alim in _repasEntre:
-            self.repasUser.append(_repasEntre[alim][1].get())
+            self.repasUser.append((_repasEntre[alim][0].get(),_repasEntre[alim][1].get()))
         print(self.compagnie,self.repas,self.repasUser)
-            
+        repas=Aliments(self.repasUser)   
         
 
 class Aliments() :
     """
     Fourni la liste des aliments proposés en substitution, scorés
     """
+    
     def __init__(self,_repasEntre):
         self.substitutionsProposées={} #actualise avec les aliments proposés en substitution,
-                                        #1 si accepté, 0 sinon
-
-
+                                       #1 si accepté, 0 sinon
+        dataSubs=pd.read_csv('scores_tous_contextes.csv', sep=';',encoding = "utf-8")
+        self.convertLibCode(_repasEntre)
+        
+        
+    def convertLibCode(self,_repasEntre):
+        dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=',',encoding="ISO-8859-1")
+        
+        repasCode=[]
+        _repasEntre=[('viande', 'boeuf en pièces ou haché')]
+        for alim in _repasEntre:
+            codeGrp=dataNutri[dataNutri['libgr']==alim[0]]['codgr'].unique()[0]
+            codeSgrp=dataNutri[dataNutri['libsougr']==alim[1]]['sougr'].unique()[0]
+            scoreSain=dataNutri[(dataNutri['codgr']==codeGrp) & (dataNutri['sougr']==codeSgrp)]['SAIN 5 opt'].values[0]
+            scoreLim=dataNutri[(dataNutri['codgr']==codeGrp) & (dataNutri['sougr']==codeSgrp)]['LIM3'].values[0]
+            repasCode.append((codeGrp,codeSgrp,scoreSain,scoreLim))
+        print (repasCode)
+        
     def calculSubstitution():
         """
         renvoie liste des aliments scorés
         """
+        indColScore='dejeuner-cluster_1-seul-score'
+        indColCouple='dejeuner-cluster_1-seul-score'
         pass
 
     def proposeSubstituion():
