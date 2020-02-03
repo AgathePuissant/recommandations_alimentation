@@ -198,7 +198,7 @@ class Application(tk.Frame):
                                name = 'compagnie'+ vals[i])
             b.grid(row = 2, column = i)
 
-        vals = ['Petit_dejeuner','Déjeuner','Collation','Dîner']
+        vals = ['petit-dejeuner','dejeuner','collation','diner']
         etiqs = ['Petit-dejeuner', 'Déjeuner','Collation','Dîner']
         varGr_repas = tk.StringVar()
         varGr_repas.set(vals[1])
@@ -314,7 +314,7 @@ class Application(tk.Frame):
             codeSgrp=dataCodesGr[dataCodesGr['libsougr']==alim[1]]['sougr'].unique()[0]
             repasCod.append((int(codeGrp),int(codeSgrp),alim[1]))
         
-        repas=Aliments(repasCod) 
+        repas=Aliments(repasCod,self.currentUser.repas) 
         alimentASubstituer=repas.alimentASubstituer #(libellé sgrp,SAIN,LIM)
         alimentPropose=repas.subsProposee #(libellé sgrp,SAIN,LIM)
         
@@ -332,7 +332,7 @@ class Application(tk.Frame):
         texte.grid(row=2,column=1,columnspan=4)
         
         texte=tk.Label(self,
-                       text=str(alimentASubstituer[0]+'\n'+' Score SAIN : '+str(alimentASubstituer[1])+'\n'+' Score LIM : '+str(alimentASubstituer[2])))
+                       text=str(alimentASubstituer[0])+'\n'+' Score SAIN : '+str(alimentASubstituer[1])+'\n'+' Score LIM : '+str(alimentASubstituer[2]))
         texte.grid(row=3,column=1,columnspan=4)
         
        
@@ -349,7 +349,7 @@ class Application(tk.Frame):
                        text="Accepter",
                        fg='green',
                        command= lambda : repas.acceptation(alimentASubstituer,alimentPropose))
-        self.buttonAccept.grid(column=2,
+        self.buttonAccept.grid(column=1,
                                row=30,
                                padx=10,
                                pady=5)
@@ -360,7 +360,6 @@ class Application(tk.Frame):
                        command= lambda : repas.refus(alimentASubstituer,alimentPropose))
         buttonRefuse.grid(column=3,
                           row=30,
-                          columnspan=4,
                           padx=10,
                           pady=5)
         
@@ -474,8 +473,15 @@ class Aliments() :
     Fourni la liste des aliments proposés en substitution, scorés
     """
     
-    def __init__(self,_repasEntre):
+    def __init__(self,_repasEntre,_repas):
+        """
+        _repasEntre : [(code grp,code sgrp,libelle sgrp)]
+        _repas : petit-dejeuner, dejeuner, diner
+        """
+        self.repas=_repas
         self.NutriScore(_repasEntre)
+        
+        print(self.repas)
         
         
     def NutriScore(self,_repasEntre):
@@ -486,15 +492,15 @@ class Aliments() :
         for alim in _repasEntre:    
             scoreSain=dataNutri[(dataNutri['codgr']==alim[0])&(dataNutri['sougr']==alim[1])]['SAIN 5 opt'].values[0]
             scoreLim=dataNutri[(dataNutri['codgr']==alim[0]) & (dataNutri['sougr']==alim[1])]['LIM3'].values[0]
-            repasScore.append((alim[2],round(scoreSain,3),round(scoreLim,3)))
+            repasScore.append((alim[0],alim[1],alim[2],round(scoreSain,3),round(scoreLim,3)))
         
         LSain=[repasScore[i][1] for i in range(len(repasScore))]
         pireScore=LSain.index(min(LSain))
         pireAlim=repasScore[pireScore]
-        self.alimentASubstituer=pireAlim
+        self.alimentASubstituer=pireAlim #(libellé,scoreSAIN,scoreLIM)
         self.calculSubstitution(pireAlim)
         
-    def calculSubstitution(self,_pireAlim):
+    def calculSubstitution(self,_pireAlim,epsilon=0,omega1=0.5,omega2=0.5,dataNutri):
         """
         renvoie liste des aliments scorés
         _pireAlim : (labelSgrp,scoreSAIN,scoreLIM)
@@ -506,12 +512,26 @@ class Aliments() :
         Actualisation des indices de substitution
         Actualisation des poids
         """
-
-        dataSubs=pd.read_csv('scores_tous_contextes.csv', sep=';',encoding = "utf-8")
+        print(self.repas)
+        print(_pireAlim[2])
+        self.dataSubs=pd.read_csv('scores_tous_contextes_v3.csv', sep=',',encoding = "utf-8",index_col=0)
+        Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==_pireAlim[2])][['aliment_2','score']]
+        Subst_envisageables 
+        
+        
+        #Si pas de substitution
+        Subst_secours=dataNutri[(dataNutri['codgr']==_pireAlim[0])
+        Subst_secours
+        
+        
+        
+        
+        
         self.subsProposee=('vin', 1.084, 1.430) #test
      
     def acceptation(self,_antec,_conseq):
         print("c'est un oui !!!")
+        self.dataSubs
         pass
     
     def refus(self,_antec,_conseq):
