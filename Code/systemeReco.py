@@ -291,6 +291,9 @@ class Application(tk.Frame):
                           fg="red",
                           command=self.master.destroy)
         self.quit.grid(column=1,row=30,padx=10,pady=5)
+        
+    def propose_substitution(self):
+        print(self.currentUser.alimentASubstituer, self.currentUser.alimentPropose)
       
 
 
@@ -409,13 +412,16 @@ class User():
        
         dataCodesGr=pd.read_csv(os.path.join('Base_a_analyser','nomenclature.csv'), sep=';',encoding = "ISO-8859-1")
         
+        print(repasUser)
         for alim in repasUser:
             codeGrp=dataCodesGr[dataCodesGr['libgr']==alim[0]]['codgr'].unique()[0]
             codeSgrp=dataCodesGr[dataCodesGr['libsougr']==alim[1]]['sougr'].unique()[0]
+            print(codeGrp,codeSgrp)
             self.repasUser.append((int(codeGrp),int(codeSgrp),alim[1]))
         
-        repas=Aliments(self.repasUser)   
-        
+        repas=Aliments(self.repasUser) 
+        self.alimentASubstituer=repas.alimentASubstituer
+        self.alimentPropose=repas.subsProposee
 
 class Aliments() :
     """
@@ -423,8 +429,6 @@ class Aliments() :
     """
     
     def __init__(self,_repasEntre):
-        self.substitutionsProposées={} #actualise avec les aliments proposés en substitution,
-                                       #1 si accepté, 0 sinon
         self.NutriScore(_repasEntre)
         
         
@@ -443,8 +447,8 @@ class Aliments() :
         pireScore=LSain.index(min(LSain))
         pireAlim=repasScore[pireScore]
         print(pireAlim)
-        
-        self.calculSubstitution(_pireAlim)
+        self.alimentASubstituer=pireAlim
+        #self.calculSubstitution(pireAlim)
         
     def calculSubstitution(_pireAlim):
         """
@@ -452,13 +456,6 @@ class Aliments() :
         _pireAlim : (labelSgrp,scoreSAIN,scoreLIM)
         _alimproposé : (labelSgrp,scoreSAIN,scoreLIM)
         
-        """
-        dataSubs=pd.read_csv('scores_tous_contextes.csv', sep=';',encoding = "utf-8")
-        
-        
-
-    def proposeSubstituion():
-        """
         poids en paramètre
         soit exploitation = Max aliments scorés,
         soit exploration = random Aliments non explorés
@@ -466,6 +463,10 @@ class Aliments() :
         Actualisation des poids
         """
 
+        dataSubs=pd.read_csv('scores_tous_contextes.csv', sep=';',encoding = "utf-8")
+        self.subsProposee=[('vin', 1.08420944313934, 1.4304920832418502)] #test
+
+      
 
 
 root = tk.Tk()
