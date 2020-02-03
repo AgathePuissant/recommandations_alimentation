@@ -10,13 +10,18 @@ from motifs_frequents_substituabilite import *
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
+nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+
+conso_pattern_sougr['accompagne']=conso_pattern_sougr['famille'] & conso_pattern_sougr['amis']
+del conso_pattern_sougr['autre'], conso_pattern_sougr['famille'], conso_pattern_sougr['amis']
 
 supp = 0.001
-conf = 0.01
+conf = 0.001
 
 cluster_liste = [[0,'cluster_0'],[1,'cluster_1'],[2,'cluster_2']]
 
-avecqui_liste = [[1,'seul'],[2,'famille'],[3,'amis'],[4,'autre'],[9,'pas rep']]
+avecqui_liste = [[1,'seul'],[2,'accompagne']]
 
 tyrep_liste = [[1,'petit-dejeuner'],[3,'dejeuner'],[4,'gouter'],[5,'diner']]
 
@@ -33,7 +38,7 @@ print("Règles d'association trouvées")
 
 print(len(regles))
 
-scores_tous_contextes = pd.DataFrame([])
+scores_tous_contextes = pd.DataFrame([],columns = ['cluster','repas','compagnie','malus','aliment_1','aliment_2','score'])
 
 
 for tyrep in tyrep_liste :
@@ -64,27 +69,21 @@ for tyrep in tyrep_liste :
                     print("Tableau de scores fait")
                     print("Taille des scores : "+str(len(scores)))
                     
-                    score_specifique = scores['consequents'].rename(str(tyrep[1])+'-'+str(cluster[1])+'-'+str(avecqui[1])+'-couple')
-                    couple_specifique = scores['Score combiné'].rename(str(tyrep[1])+'-'+str(cluster[1])+'-'+str(avecqui[1])+'-score')
+                    al1 = scores['consequents'].apply(lambda x: x[0]).rename('aliment_1')
+                    al2 = scores['consequents'].apply(lambda x: x[1]).rename('aliment_2')
                     
-                    scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
-                    scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
+                    sco = scores['Score combiné'].rename('score')
+                    
+                    data = np.array([[cluster[1]]*len(sco),[tyrep[1]]*len(sco),[avecqui[1]]*len(sco),[False]*len(sco),al1.tolist(),al2.tolist(),sco.tolist()])
+                    
+                    data = data.transpose()               
+                    suite = pd.DataFrame(data,columns=['cluster','repas','compagnie','malus','aliment_1','aliment_2','score'])                    
+                    
+                    scores_tous_contextes = pd.concat([scores_tous_contextes,suite])
+
                     
                 else :
                     print("y'en a pas")
-                    score_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep[1])+'-'+str(cluster[1])+'-'+str(avecqui[1])+'-score')
-                    couple_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep[1])+'-'+str(cluster[1])+'-'+str(avecqui[1])+'-couple')
-                    
-                    scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
-                    scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
-                    
             else :
                 
                 print("y'en a pas")
-                score_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep[1])+'-'+str(cluster[1])+'-'+str(avecqui[1])+'-score')
-                couple_specifique = pd.Series(['nan' for i in range(len(scores_tous_contextes))]).rename(str(tyrep[1])+'-'+str(cluster[1])+'-'+str(avecqui[1])+'-couple')
-                
-                scores_tous_contextes = pd.concat([scores_tous_contextes,couple_specifique], axis=1)
-                scores_tous_contextes = pd.concat([scores_tous_contextes,score_specifique], axis=1)
-                
-
