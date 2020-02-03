@@ -409,7 +409,7 @@ class User():
         for alim in repasUser:
             codeGrp=dataCodesGr[dataCodesGr['libgr']==alim[0]]['codgr'].unique()[0]
             codeSgrp=dataCodesGr[dataCodesGr['libsougr']==alim[1]]['sougr'].unique()[0]
-            self.repasUser.append((codeGrp,codeSgrp,alim[1]))
+            self.repasUser.append((int(codeGrp),int(codeSgrp),alim[1]))
         
         repas=Aliments(self.repasUser)   
         
@@ -423,21 +423,18 @@ class Aliments() :
         self.substitutionsProposées={} #actualise avec les aliments proposés en substitution,
                                        #1 si accepté, 0 sinon
         dataSubs=pd.read_csv('scores_tous_contextes.csv', sep=';',encoding = "utf-8")
-        self.convertLibCode(_repasEntre)
+        self.NutriScore(_repasEntre)
         
         
-    def convertLibCode(self,_repasEntre):
+    def NutriScore(self,_repasEntre):
         print(_repasEntre)
-        dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=',',encoding="ISO-8859-1")
+        dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
         
         repasScore=[]
-        
-        for alim in _repasEntre:
-            codeGrp=alim[0]
-            codeSgrp=alim[1]
-            scoreSain=dataNutri[(dataNutri['codgr']==codeGrp) & (dataNutri['sougr']==codeSgrp)]['SAIN 5 opt'].values[0]
-            scoreLim=dataNutri[(dataNutri['codgr']==codeGrp) & (dataNutri['sougr']==codeSgrp)]['LIM3'].values[0]
-            repasScore.append((codeGrp,codeSgrp,scoreSain,scoreLim))
+        for alim in _repasEntre:    
+            scoreSain=dataNutri[(dataNutri['codgr']==alim[0])&(dataNutri['sougr']==alim[1])]['SAIN 5 opt'].values[0]
+            scoreLim=dataNutri[(dataNutri['codgr']==alim[0]) & (dataNutri['sougr']==alim[1])]['LIM3'].values[0]
+            repasScore.append((alim[2],scoreSain,scoreLim))
         print (repasScore)
         
     def calculSubstitution():
