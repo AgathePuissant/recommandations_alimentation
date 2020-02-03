@@ -68,8 +68,9 @@ class Application(tk.Frame):
         self.clean_widgets()
 
         texte2=tk.Label(self,
-                        text="A midi j'ai mangé de la chantilly")
-        texte2.grid()
+                        text="Bienvenue",
+                        fg='blue')
+        texte2.grid(columnspan=5)
 
 
         l = tk.Label(self,
@@ -101,34 +102,70 @@ class Application(tk.Frame):
                  orient=tk.HORIZONTAL,
                  length=200)
         s.grid(row=3)
+        
+        s_taille=tk.Scale(self, label='Taille (cm)', name='taille',
+                 from_=70, to=250,
+                 orient=tk.HORIZONTAL,
+                 length=200)
+        s_taille.grid(row=4,column=0)
+        
+        s_poids=tk.Scale(self, label='Poids (kg)', name='poids',
+                 from_=30, to=200,
+                 orient=tk.HORIZONTAL,
+                 length=200)
+        s_poids.grid(row=4,column=1)
+        
+        textePref=tk.Label(self,
+                        text="A quel point aimez-vous les aliments ci-dessous",
+                        fg='blue')
+        textePref.grid(columnspan=3,padx=5)
+        
+        alim=['fromage','fruits','légumes','viande','poisson','volaille et gibier','produits laitiers']
+        alimNam=['from','fruits','legume','viande','poiss','volGib','prodLait']
+        _row=6
+        for c, v in enumerate(alim):
+            s_pref=tk.Scale(self, label=v, name=alimNam[c],
+                 from_=0, to=10,
+                 orient=tk.HORIZONTAL,
+                 length=200)
+            if c%2==0:
+                 s_pref.grid(row=_row,column=0)
+            else :
+                s_pref.grid(row=_row,column=1)
+                _row+=1
 
 
-        print(self.winfo_children()) #list of widgets
+        #print(self.winfo_children()) #list of widgets
 
         self.quit = tk.Button(self,
                               text="QUIT",
                               fg="red",
                               command=self.master.destroy)
-        self.quit.grid(column=1,row=4)
+        self.quit.grid(column=1,row=15)
 
 
         self.val=tk.Button(self,
                            text="Valider",
-                           command= lambda:self.newUser(varGr))
-        self.val.grid(column=0,row=4)
+                           command= lambda:self.newUser(varGr,alimNam))
+        self.val.grid(column=0,row=15)
 
 
-    def newUser(self, _sexe):
+    def newUser(self, _sexe,_alimNam):
         """
-        Récup des infos sur le formualire, 
+        Récup des infos sur le formulaire, 
         création d'une instance de la classe user
+        _sexe=scrollbar sexe
+        _aliNam=scrollbar préférences alimentaires
         """
 
         name = self.nametowidget('nom').get()
         age = self.nametowidget('age').get()
+        widgalim={} #dic des préférénces alimentaires
+        for a in _alimNam:
+            widgalim[a]=self.nametowidget(a).get()
         sexe = _sexe.get()
 
-        print(name,age,sexe)
+        print(name,age,sexe,widgalim)
 
         self.currentUser = User(name,sexe,age)
         self.clean_widgets()
@@ -315,11 +352,6 @@ class Aliments() :
         Actualisation des indices de substitution
         Actualisation des poids
         """
-
-
-
-
-
 
 
 
