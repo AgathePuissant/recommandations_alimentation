@@ -50,7 +50,8 @@ def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
         rules = association_rules(d, metric = "confidence", min_threshold=confiance)
     
     #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
-    liste_contexte = ['seul','amis','famille','autre',
+
+    liste_contexte = ['seul','accompagne',
                       'cluster_1','cluster_2','cluster_3','cluster_4','cluster_5','cluster_6','cluster_7','cluster_8',
                       'petit-dejeuner','dejeuner','gouter','diner']
     
@@ -199,6 +200,12 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
     return tab_subst
 
 
+conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
+nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+
+conso_pattern_sougr['accompagne']=conso_pattern_sougr['famille'] | conso_pattern_sougr['amis']
+del conso_pattern_sougr['autre'], conso_pattern_sougr['famille'], conso_pattern_sougr['amis']
+
 #def main() :
 #    data = conso_pattern_sougr[conso_pattern_sougr['avecqui'].isin([1, 2, 3])]
 #    data = data.drop(['petit-dejeuner', 'dejeuner', 'gouter', 'diner', 
@@ -210,21 +217,3 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
 #    return data
 #
 #data = main()
-
-# La base conso_pattern est préparée par R à partir de la base brute
-#conso_pattern_sougr = pd.read_csv("Base_a_analyser/conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-#nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
-#nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
-
-#supp = 0.001
-#conf = 0.01
-
-#conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-
-#conso_pattern_sougr = conso_pattern_sougr.drop(conso_pattern_sougr.columns[cols],axis=1)
-
-#nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-#nomenclature = nomenclature.drop('code_role', axis = 1).rename(columns = {'code_role2' : 'code_role'})
-
-#motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-#regles = regles_association(motifs,confiance = conf)
