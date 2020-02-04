@@ -178,6 +178,9 @@ class Application(tk.Frame):
         info['pref']=widgalim
         info['sexe'] = _sexe.get()
         info['id']=str(uuid.uuid4())
+        info['epsilon']=0.5
+        info['omega1']=0.5
+        info['omega2']=0.5
         
 
         self.currentUser = User(info)
@@ -197,8 +200,7 @@ class Application(tk.Frame):
         """
         Formulaire d'info sur le contexte de consommation
         """
-        if self.currentUser==None:  #pas de user prédéfini
-            
+        if self.currentUser==None:  #pas de user prédéfini            
             if self.current_user_id=='default': #pas de current User
                 info=self.getInfoFromFile('init.ini','DEFAULTDATA')
                 self.currentUser=User(info)                
@@ -411,18 +413,29 @@ class User():
         self.id=_info['id']
         self.taille=_info['taille']
         self.poids=_info['poids']
+        self.epsilon=_info['epsilon']
+        self.omega1=_info['omega1']
+        self.omega2=_info['omega2']
         if type(_info['pref'])==str:
             self.pref=ast.literal_eval(_info['pref']) #conversion en liste
         else:
             self.pref=_info['pref']
         print(self.id)
         
-        if not os.path.exists('UserData'): #si n'existe pas de dossier user
-            os.mkdir('UserData')
-        userdir=(os.path.join('UserData',self.id)) #crée un dossier pour le newUser
-        print(userdir)
-        os.mkdir(userdir)
+        self.userdir=(os.path.join('UserData',self.id)) #crée un dossier pour le newUser
+        if not os.path.exists(self.userdir): #si n'existe pas de dossier user
+            os.mkdir(self.userdir)
         
+        self.saveUserInfo()            
+        
+        
+        # Affection de l'utilisateur à un cluster de consommation
+        #self.affect_cluster()
+        
+    def saveUserInfo(self):
+        """
+        permet de sauvegarder le fichier ini
+        """
         config = configparser.ConfigParser() #sauvegarde des éléments relatifs au user
         config['USERDATA']={
                 'id':self.id,
@@ -432,24 +445,22 @@ class User():
                 'taille':self.taille,
                 'poids':self.poids,
                 'pref':self.pref,
-                'epsilon'=0.5,
-                'omega1'=0.5,
-                'omega2'=0,5,
+                'epsilon':self.epsilon,
+                'omega1':self.omega1,
+                'omega2':self.omega2,
                 }
-        
-        with open(os.path.join(userdir,self.id+'.ini'), 'w') as configfile:
+        with open(os.path.join(self.userdir,self.id+'.ini'), 'w') as configfile:
             config.write(configfile)
             
-        
+            
         config = configparser.ConfigParser() #sauvegarde du fichier init général
         config.read('init.ini')
         config.set('CURRENTUSER','current_user_id',self.id) #actualisation current user
         with open('init.ini', 'w') as configfile:
             config.write(configfile)
-        # Affection de l'utilisateur à un cluster de consommation
-        #self.affect_cluster()
         
         
+            
     def get_new_row(nouveau_client, modalites):
         """
 
