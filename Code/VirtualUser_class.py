@@ -194,7 +194,14 @@ class System() :
                     
                     user.tab_subst = self.score_contexte[(self.score_contexte['cluster'] == 'cluster_'+str(user.cluster)) &
                                                          (self.score_contexte['repas'] == user.tyrep) &
-                                                         (self.score_contexte['compagnie'] == transform_avecqui[user.avecqui])]
+                                                         (self.score_contexte['compagnie'] == transform_avecqui[user.avecqui]) &
+                                                         (self.score_contexte['aliment_1'].isin(aliment_a_substituer))]
+                    
+                    if user.tab_subst.shape[0] > 0 :
+                        print('subs ok')
+                    
+                    else :
+                        print('no subs')
                     
                 else :
                     print('exploitation')
@@ -202,8 +209,6 @@ class System() :
             else :
                 print('Le repas est bon')
         
-
-regf = reg[reg.cluster_consommateur == 1]
 
 sys_test = System()
 sys_test.propose_repas()
@@ -213,6 +218,9 @@ sys_test.propose_substitution()
 test = sys_test.score_contexte
 test = test[(test['cluster'] == 'cluster_1') &
             (test['repas'] == 'petit-dejeuner')]
+
+test1 = sys_test.score_nutri
+
 
 reg = sys_test.regles
 test = sys_test.nutrirepas
