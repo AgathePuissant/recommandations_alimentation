@@ -143,7 +143,7 @@ class System() :
         
         # contexte de repas
         self.liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
-        self.liste_avecqui = ['seul', 'famille', 'amis', 'autre']
+        self.liste_avecqui = ['seul', 'famille', 'amis']
         
         # Création de table de préférence
         self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)

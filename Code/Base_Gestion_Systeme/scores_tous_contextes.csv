@@ -1,0 +1,655 @@
+cluster;repas;compagnie;malus;aliment_1;aliment_2;score
+cluster_1;petit-dejeuner;seul;False;beurre;margarine;0.8687341607207206
+cluster_1;petit-dejeuner;seul;False;biscottes et panification sèche;pain;0.5740976859455982
+cluster_1;petit-dejeuner;seul;False;biscuits sucrés;céréales sucrées, glacées ou au miel;0.8191311852704257
+cluster_1;petit-dejeuner;seul;False;biscuits sucrés;fruits;0.6592105263157895
+cluster_1;petit-dejeuner;seul;False;biscuits sucrés;gâteaux;1.0056962025316456
+cluster_1;petit-dejeuner;seul;False;biscuits sucrés;viennoiserie;0.6563624250499667
+cluster_1;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;café;0.3770831754213093
+cluster_1;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;chicorée et poudre maltée;0.793342709798406
+cluster_1;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;thé et infusions;0.5661392405063291
+cluster_1;petit-dejeuner;seul;False;café;cacao, poudres et boissons cacaotées;0.7127371838601277
+cluster_1;petit-dejeuner;seul;False;café;chicorée et poudre maltée;0.7138467586998586
+cluster_1;petit-dejeuner;seul;False;café;thé et infusions;0.8110787032920267
+cluster_1;petit-dejeuner;seul;False;chicorée et poudre maltée;cacao, poudres et boissons cacaotées;0.7622128457571495
+cluster_1;petit-dejeuner;seul;False;chicorée et poudre maltée;café;0.45933759884204084
+cluster_1;petit-dejeuner;seul;False;chicorée et poudre maltée;thé et infusions;0.6307075211184592
+cluster_1;petit-dejeuner;seul;False;confiture et miel;sucre et assimilés;0.7340331890604909
+cluster_1;petit-dejeuner;seul;False;céréales sucrées, glacées ou au miel;biscuits sucrés;0.8172324510932105
+cluster_1;petit-dejeuner;seul;False;céréales sucrées, glacées ou au miel;fruits;0.8135142889174259
+cluster_1;petit-dejeuner;seul;False;céréales sucrées, glacées ou au miel;gâteaux;0.8229286536248561
+cluster_1;petit-dejeuner;seul;False;céréales sucrées, glacées ou au miel;viennoiserie;0.8126481379563384
+cluster_1;petit-dejeuner;seul;False;eau de source;eau du robinet;0.5802625410220347
+cluster_1;petit-dejeuner;seul;False;eau de source;eau minérale plate;0.9958860759493671
+cluster_1;petit-dejeuner;seul;False;eau de source;jus de fruits (purs et à base  de concentré);0.42956362425049965
+cluster_1;petit-dejeuner;seul;False;eau du robinet;eau de source;0.6789967182372246
+cluster_1;petit-dejeuner;seul;False;eau du robinet;eau minérale plate;0.6748827941865917
+cluster_1;petit-dejeuner;seul;False;eau du robinet;jus de fruits (purs et à base  de concentré);0.5792561612899781
+cluster_1;petit-dejeuner;seul;False;eau minérale plate;eau de source;1.004113924050633
+cluster_1;petit-dejeuner;seul;False;eau minérale plate;eau du robinet;0.5843764650726676
+cluster_1;petit-dejeuner;seul;False;eau minérale plate;jus de fruits (purs et à base  de concentré);0.4336775483011326
+cluster_1;petit-dejeuner;seul;False;fruits;biscuits sucrés;0.7092105263157895
+cluster_1;petit-dejeuner;seul;False;fruits;céréales sucrées, glacées ou au miel;0.8386596241260523
+cluster_1;petit-dejeuner;seul;False;fruits;gâteaux;0.7149067288474351
+cluster_1;petit-dejeuner;seul;False;fruits;viennoiserie;0.8701889456912749
+cluster_1;petit-dejeuner;seul;False;gâteaux;biscuits sucrés;0.9943037974683544
+cluster_1;petit-dejeuner;seul;False;gâteaux;céréales sucrées, glacées ou au miel;0.8134349827387801
+cluster_1;petit-dejeuner;seul;False;gâteaux;fruits;0.6535143237841439
+cluster_1;petit-dejeuner;seul;False;gâteaux;viennoiserie;0.6506662225183211
+cluster_1;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau de source;0.6441205862758161
+cluster_1;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau du robinet;0.6903090561013262
+cluster_1;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau minérale plate;0.6400066622251832
+cluster_1;petit-dejeuner;seul;False;lait en bouteille ou en brique;yaourts et assimilés;0.7184330835682997
+cluster_1;petit-dejeuner;seul;False;margarine;beurre;0.7441690650857311
+cluster_1;petit-dejeuner;seul;False;pain;biscottes et panification sèche;0.8544737426258303
+cluster_1;petit-dejeuner;seul;False;sucre et assimilés;confiture et miel;0.7417502867229849
+cluster_1;petit-dejeuner;seul;False;thé et infusions;cacao, poudres et boissons cacaotées;0.6338607594936708
+cluster_1;petit-dejeuner;seul;False;thé et infusions;café;0.4830389437667968
+cluster_1;petit-dejeuner;seul;False;thé et infusions;chicorée et poudre maltée;0.6884414150517537
+cluster_1;petit-dejeuner;seul;False;viennoiserie;biscuits sucrés;0.7120586275816123
+cluster_1;petit-dejeuner;seul;False;viennoiserie;céréales sucrées, glacées ou au miel;0.83952577508714
+cluster_1;petit-dejeuner;seul;False;viennoiserie;fruits;0.8717465381796928
+cluster_1;petit-dejeuner;seul;False;viennoiserie;gâteaux;0.7177548301132578
+cluster_1;petit-dejeuner;seul;False;yaourts et assimilés;lait en bouteille ou en brique;0.4924512701731969
+cluster_2;petit-dejeuner;seul;False;beurre;margarine;0.7758088274065251
+cluster_2;petit-dejeuner;seul;False;biscottes et panification sèche;pain;0.4797563841520622
+cluster_2;petit-dejeuner;seul;False;biscuits sucrés;fruits;0.6755610098176719
+cluster_2;petit-dejeuner;seul;False;biscuits sucrés;viennoiserie;0.9277796655488314
+cluster_2;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;café;0.369245144417534
+cluster_2;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;chicorée et poudre maltée;0.746236559139785
+cluster_2;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;thé et infusions;0.7446236559139785
+cluster_2;petit-dejeuner;seul;False;café;cacao, poudres et boissons cacaotées;0.8011252259528364
+cluster_2;petit-dejeuner;seul;False;café;chicorée et poudre maltée;0.8142526035052069
+cluster_2;petit-dejeuner;seul;False;café;thé et infusions;0.8126397002794006
+cluster_2;petit-dejeuner;seul;False;chicorée et poudre maltée;cacao, poudres et boissons cacaotées;0.7204301075268817
+cluster_2;petit-dejeuner;seul;False;chicorée et poudre maltée;café;0.24086550673101348
+cluster_2;petit-dejeuner;seul;False;chicorée et poudre maltée;thé et infusions;0.9983870967741936
+cluster_2;petit-dejeuner;seul;False;confiture et miel;sucre et assimilés;0.6748685697369711
+cluster_2;petit-dejeuner;seul;False;eau du robinet;jus de fruits (purs et à base  de concentré);0.7566046258355342
+cluster_2;petit-dejeuner;seul;False;fruits;biscuits sucrés;0.6287868162692847
+cluster_2;petit-dejeuner;seul;False;fruits;viennoiserie;0.6446943972835314
+cluster_2;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau du robinet;0.8755792822104428
+cluster_2;petit-dejeuner;seul;False;lait en bouteille ou en brique;yaourts et assimilés;0.6823602907769196
+cluster_2;petit-dejeuner;seul;False;margarine;beurre;0.5648505132528155
+cluster_2;petit-dejeuner;seul;False;pain;biscottes et panification sèche;0.7013459780526623
+cluster_2;petit-dejeuner;seul;False;sucre et assimilés;confiture et miel;0.8319807453315221
+cluster_2;petit-dejeuner;seul;False;thé et infusions;cacao, poudres et boissons cacaotées;0.7220430107526882
+cluster_2;petit-dejeuner;seul;False;thé et infusions;café;0.2424784099568199
+cluster_2;petit-dejeuner;seul;False;thé et infusions;chicorée et poudre maltée;1.0016129032258063
+cluster_2;petit-dejeuner;seul;False;viennoiserie;biscuits sucrés;0.9579346201654543
+cluster_2;petit-dejeuner;seul;False;viennoiserie;fruits;0.7237266553480476
+cluster_2;petit-dejeuner;seul;False;yaourts et assimilés;lait en bouteille ou en brique;0.41623125851885506
+cluster_3;petit-dejeuner;seul;False;beurre;margarine;0.9213546634642018
+cluster_3;petit-dejeuner;seul;False;biscottes et panification sèche;pain;0.4270281864312666
+cluster_3;petit-dejeuner;seul;False;biscuits sucrés;fruits;0.5416722859069454
+cluster_3;petit-dejeuner;seul;False;biscuits sucrés;viennoiserie;0.6501579302267807
+cluster_3;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;café;0.36466864891558703
+cluster_3;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;chicorée et poudre maltée;0.8200001777185332
+cluster_3;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;thé et infusions;0.5032194941361575
+cluster_3;petit-dejeuner;seul;False;café;cacao, poudres et boissons cacaotées;0.717298564199167
+cluster_3;petit-dejeuner;seul;False;café;chicorée et poudre maltée;0.729218838462426
+cluster_3;petit-dejeuner;seul;False;café;thé et infusions;0.8318993520873041
+cluster_3;petit-dejeuner;seul;False;chicorée et poudre maltée;cacao, poudres et boissons cacaotées;0.8321737353249451
+cluster_3;petit-dejeuner;seul;False;chicorée et poudre maltée;café;0.43308482645904
+cluster_3;petit-dejeuner;seul;False;chicorée et poudre maltée;thé et infusions;0.5610418137861184
+cluster_3;petit-dejeuner;seul;False;confiture et miel;sucre et assimilés;0.7815071444742943
+cluster_3;petit-dejeuner;seul;False;eau de source;eau du robinet;0.5190657517221319
+cluster_3;petit-dejeuner;seul;False;eau de source;eau minérale plate;0.9979770734996629
+cluster_3;petit-dejeuner;seul;False;eau de source;jus de fruits (purs et à base  de concentré);0.4767162166242288
+cluster_3;petit-dejeuner;seul;False;eau du robinet;eau de source;0.6181891502386524
+cluster_3;petit-dejeuner;seul;False;eau du robinet;eau minérale plate;0.6161662237383153
+cluster_3;petit-dejeuner;seul;False;eau du robinet;jus de fruits (purs et à base  de concentré);0.8218790114028645
+cluster_3;petit-dejeuner;seul;False;eau minérale plate;eau de source;1.002022926500337
+cluster_3;petit-dejeuner;seul;False;eau minérale plate;eau du robinet;0.5210886782224691
+cluster_3;petit-dejeuner;seul;False;eau minérale plate;jus de fruits (purs et à base  de concentré);0.47873914312456595
+cluster_3;petit-dejeuner;seul;False;fruits;biscuits sucrés;0.6583277140930546
+cluster_3;petit-dejeuner;seul;False;fruits;viennoiserie;0.8409204765745473
+cluster_3;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau de source;0.6277613953160698
+cluster_3;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau du robinet;0.8898327003088471
+cluster_3;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau minérale plate;0.6257384688157326
+cluster_3;petit-dejeuner;seul;False;lait en bouteille ou en brique;yaourts et assimilés;0.7473211449492989
+cluster_3;petit-dejeuner;seul;False;margarine;beurre;0.8618965680628918
+cluster_3;petit-dejeuner;seul;False;pain;biscottes et panification sèche;0.8456990862960061
+cluster_3;petit-dejeuner;seul;False;sucre et assimilés;confiture et miel;0.7064928555257057
+cluster_3;petit-dejeuner;seul;False;thé et infusions;cacao, poudres et boissons cacaotées;0.6340354078246269
+cluster_3;petit-dejeuner;seul;False;thé et infusions;café;0.5653609218852986
+cluster_3;petit-dejeuner;seul;False;thé et infusions;chicorée et poudre maltée;0.6931954743494748
+cluster_3;petit-dejeuner;seul;False;viennoiserie;biscuits sucrés;0.7182631224047983
+cluster_3;petit-dejeuner;seul;False;viennoiserie;fruits;0.8186539915105591
+cluster_3;petit-dejeuner;seul;False;yaourts et assimilés;lait en bouteille ou en brique;0.5332543946190464
+cluster_4;petit-dejeuner;seul;False;beurre;margarine;0.766140236802817
+cluster_4;petit-dejeuner;seul;False;biscottes et panification sèche;pain;0.3899268590488514
+cluster_4;petit-dejeuner;seul;False;biscuits sucrés;fruits;0.6582083594685522
+cluster_4;petit-dejeuner;seul;False;biscuits sucrés;viennoiserie;0.8024721757116123
+cluster_4;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;café;0.4170597810488769
+cluster_4;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;chicorée et poudre maltée;0.8268492071308973
+cluster_4;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;thé et infusions;0.5955017856426308
+cluster_4;petit-dejeuner;seul;False;café;cacao, poudres et boissons cacaotées;0.7344553704662746
+cluster_4;petit-dejeuner;seul;False;café;chicorée et poudre maltée;0.7768204367907852
+cluster_4;petit-dejeuner;seul;False;café;thé et infusions;0.8463222873018108
+cluster_4;petit-dejeuner;seul;False;chicorée et poudre maltée;cacao, poudres et boissons cacaotées;0.8095144292327391
+cluster_4;petit-dejeuner;seul;False;chicorée et poudre maltée;café;0.29686377373553063
+cluster_4;petit-dejeuner;seul;False;chicorée et poudre maltée;thé et infusions;0.6093786801074003
+cluster_4;petit-dejeuner;seul;False;confiture et miel;sucre et assimilés;0.7325855873433418
+cluster_4;petit-dejeuner;seul;False;eau du robinet;jus de fruits (purs et à base  de concentré);0.8057141203939301
+cluster_4;petit-dejeuner;seul;False;fruits;biscuits sucrés;0.7102126931630267
+cluster_4;petit-dejeuner;seul;False;fruits;viennoiserie;0.841516320522608
+cluster_4;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau du robinet;0.8538603476911762
+cluster_4;petit-dejeuner;seul;False;lait en bouteille ou en brique;yaourts et assimilés;0.6958334098463007
+cluster_4;petit-dejeuner;seul;False;margarine;beurre;0.49822757928913713
+cluster_4;petit-dejeuner;seul;False;pain;biscottes et panification sèche;0.8033504518755183
+cluster_4;petit-dejeuner;seul;False;sucre et assimilés;confiture et miel;0.7012043669945578
+cluster_4;petit-dejeuner;seul;False;thé et infusions;cacao, poudres et boissons cacaotées;0.6637574736166285
+cluster_4;petit-dejeuner;seul;False;thé et infusions;café;0.5050290640495405
+cluster_4;petit-dejeuner;seul;False;thé et infusions;chicorée et poudre maltée;0.6949691459795563
+cluster_4;petit-dejeuner;seul;False;viennoiserie;biscuits sucrés;0.833891460652024
+cluster_4;petit-dejeuner;seul;False;viennoiserie;fruits;0.8106575925208702
+cluster_4;petit-dejeuner;seul;False;yaourts et assimilés;lait en bouteille ou en brique;0.4228106579503094
+cluster_5;petit-dejeuner;seul;False;beurre;margarine;0.9308164793219067
+cluster_5;petit-dejeuner;seul;False;biscottes et panification sèche;pain;0.43273749837698955
+cluster_5;petit-dejeuner;seul;False;biscuits sucrés;fruits;0.6453374877993844
+cluster_5;petit-dejeuner;seul;False;biscuits sucrés;viennoiserie;0.7147883975273419
+cluster_5;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;café;0.4216610221213033
+cluster_5;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;chicorée et poudre maltée;0.7820391005275531
+cluster_5;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;thé et infusions;0.7249056730105948
+cluster_5;petit-dejeuner;seul;False;café;cacao, poudres et boissons cacaotées;0.7825274595540894
+cluster_5;petit-dejeuner;seul;False;café;chicorée et poudre maltée;0.7928809413086246
+cluster_5;petit-dejeuner;seul;False;café;thé et infusions;0.8803798754706997
+cluster_5;petit-dejeuner;seul;False;chicorée et poudre maltée;cacao, poudres et boissons cacaotées;0.7528446204026793
+cluster_5;petit-dejeuner;seul;False;chicorée et poudre maltée;café;0.44814469971701637
+cluster_5;petit-dejeuner;seul;False;chicorée et poudre maltée;thé et infusions;0.7687314840591634
+cluster_5;petit-dejeuner;seul;False;confiture et miel;sucre et assimilés;0.8148677069271449
+cluster_5;petit-dejeuner;seul;False;eau de source;eau du robinet;0.6040284066240774
+cluster_5;petit-dejeuner;seul;False;eau de source;eau minérale plate;0.7971404487096356
+cluster_5;petit-dejeuner;seul;False;eau de source;jus de fruits (purs et à base  de concentré);0.4629904964738502
+cluster_5;petit-dejeuner;seul;False;eau du robinet;eau de source;0.7003194194628791
+cluster_5;petit-dejeuner;seul;False;eau du robinet;eau minérale plate;0.7927509910430591
+cluster_5;petit-dejeuner;seul;False;eau du robinet;jus de fruits (purs et à base  de concentré);0.6135002126233897
+cluster_5;petit-dejeuner;seul;False;eau minérale plate;eau de source;0.8392231876540008
+cluster_5;petit-dejeuner;seul;False;eau minérale plate;eau du robinet;0.7628045645124965
+cluster_5;petit-dejeuner;seul;False;eau minérale plate;jus de fruits (purs et à base  de concentré);0.5426443810034767
+cluster_5;petit-dejeuner;seul;False;fruits;biscuits sucrés;0.7230835648321946
+cluster_5;petit-dejeuner;seul;False;fruits;viennoiserie;0.7942380737790427
+cluster_5;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau de source;0.6356010528219245
+cluster_5;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau du robinet;0.74282162645707
+cluster_5;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau minérale plate;0.6573556189965234
+cluster_5;petit-dejeuner;seul;False;lait en bouteille ou en brique;yaourts et assimilés;0.7914611236464506
+cluster_5;petit-dejeuner;seul;False;margarine;beurre;0.8176111936340682
+cluster_5;petit-dejeuner;seul;False;pain;biscottes et panification sèche;0.8658407006751432
+cluster_5;petit-dejeuner;seul;False;sucre et assimilés;confiture et miel;0.7187011976664947
+cluster_5;petit-dejeuner;seul;False;thé et infusions;cacao, poudres et boissons cacaotées;0.7671578190528973
+cluster_5;petit-dejeuner;seul;False;thé et infusions;café;0.524271287319998
+cluster_5;petit-dejeuner;seul;False;thé et infusions;chicorée et poudre maltée;0.8133580681796426
+cluster_5;petit-dejeuner;seul;False;viennoiserie;biscuits sucrés;0.7518782691393249
+cluster_5;petit-dejeuner;seul;False;viennoiserie;fruits;0.7613174817765129
+cluster_5;petit-dejeuner;seul;False;yaourts et assimilés;lait en bouteille ou en brique;0.6556933478982647
+cluster_6;petit-dejeuner;seul;False;beurre;margarine;0.741319900443836
+cluster_6;petit-dejeuner;seul;False;biscottes et panification sèche;pain;0.485605172390702
+cluster_6;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;café;0.2508238395631297
+cluster_6;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;chicorée et poudre maltée;1.003671970624235
+cluster_6;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;thé et infusions;0.7033455732354141
+cluster_6;petit-dejeuner;seul;False;café;cacao, poudres et boissons cacaotées;0.8260992373599473
+cluster_6;petit-dejeuner;seul;False;café;chicorée et poudre maltée;0.8297712079841822
+cluster_6;petit-dejeuner;seul;False;café;thé et infusions;0.8744713150251708
+cluster_6;petit-dejeuner;seul;False;chicorée et poudre maltée;cacao, poudres et boissons cacaotées;0.996328029375765
+cluster_6;petit-dejeuner;seul;False;chicorée et poudre maltée;café;0.24715186893889465
+cluster_6;petit-dejeuner;seul;False;chicorée et poudre maltée;thé et infusions;0.6996736026111792
+cluster_6;petit-dejeuner;seul;False;confiture et miel;sucre et assimilés;0.6486139216852731
+cluster_6;petit-dejeuner;seul;False;eau du robinet;jus de fruits (purs et à base  de concentré);0.7611738933381262
+cluster_6;petit-dejeuner;seul;False;fruits;viennoiserie;0.8960172296022761
+cluster_6;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau du robinet;0.8285696964054636
+cluster_6;petit-dejeuner;seul;False;lait en bouteille ou en brique;yaourts et assimilés;0.6699149483727207
+cluster_6;petit-dejeuner;seul;False;margarine;beurre;0.49677533765140214
+cluster_6;petit-dejeuner;seul;False;pain;biscottes et panification sèche;0.8550541682686388
+cluster_6;petit-dejeuner;seul;False;sucre et assimilés;confiture et miel;0.7765357789135292
+cluster_6;petit-dejeuner;seul;False;thé et infusions;cacao, poudres et boissons cacaotées;0.7633210934312527
+cluster_6;petit-dejeuner;seul;False;thé et infusions;café;0.35785191729806154
+cluster_6;petit-dejeuner;seul;False;thé et infusions;chicorée et poudre maltée;0.7669930640554876
+cluster_6;petit-dejeuner;seul;False;viennoiserie;fruits;0.8934564546082502
+cluster_6;petit-dejeuner;seul;False;yaourts et assimilés;lait en bouteille ou en brique;0.5095722311144588
+cluster_7;petit-dejeuner;seul;False;beurre;margarine;0.9109945587932361
+cluster_7;petit-dejeuner;seul;False;biscottes et panification sèche;pain;0.5007175920681928
+cluster_7;petit-dejeuner;seul;False;biscuits sucrés;céréales sucrées, glacées ou au miel;0.753344298245614
+cluster_7;petit-dejeuner;seul;False;biscuits sucrés;fruits;0.7541666666666667
+cluster_7;petit-dejeuner;seul;False;biscuits sucrés;gâteaux;0.9070629031563884
+cluster_7;petit-dejeuner;seul;False;biscuits sucrés;pâte chocolatée à tartiner;0.7437499999999999
+cluster_7;petit-dejeuner;seul;False;biscuits sucrés;viennoiserie;0.7885790803346338
+cluster_7;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;café;0.3898225752185609
+cluster_7;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;chicorée et poudre maltée;0.952497324133707
+cluster_7;petit-dejeuner;seul;False;cacao, poudres et boissons cacaotées;thé et infusions;0.6967047469181861
+cluster_7;petit-dejeuner;seul;False;café;cacao, poudres et boissons cacaotées;0.7756450506807196
+cluster_7;petit-dejeuner;seul;False;café;chicorée et poudre maltée;0.7884838659684652
+cluster_7;petit-dejeuner;seul;False;café;thé et infusions;0.8442717582858417
+cluster_7;petit-dejeuner;seul;False;chicorée et poudre maltée;cacao, poudres et boissons cacaotées;0.8993545277181447
+cluster_7;petit-dejeuner;seul;False;chicorée et poudre maltée;café;0.4282993508147516
+cluster_7;petit-dejeuner;seul;False;chicorée et poudre maltée;thé et infusions;0.6657804167396373
+cluster_7;petit-dejeuner;seul;False;confiture et miel;sucre et assimilés;0.6218502184407441
+cluster_7;petit-dejeuner;seul;False;céréales sucrées, glacées ou au miel;biscuits sucrés;0.7133223684210526
+cluster_7;petit-dejeuner;seul;False;céréales sucrées, glacées ou au miel;fruits;1.0008223684210527
+cluster_7;petit-dejeuner;seul;False;céréales sucrées, glacées ou au miel;gâteaux;0.8140699760765551
+cluster_7;petit-dejeuner;seul;False;céréales sucrées, glacées ou au miel;pâte chocolatée à tartiner;0.9904057017543859
+cluster_7;petit-dejeuner;seul;False;céréales sucrées, glacées ou au miel;viennoiserie;0.5685002436647173
+cluster_7;petit-dejeuner;seul;False;eau de source;eau du robinet;0.5758966468590832
+cluster_7;petit-dejeuner;seul;False;eau de source;eau minérale plate;1.0002741228070176
+cluster_7;petit-dejeuner;seul;False;eau de source;jus de fruits (purs et à base  de concentré);0.5008032435740514
+cluster_7;petit-dejeuner;seul;False;eau du robinet;eau de source;0.6499098047538201
+cluster_7;petit-dejeuner;seul;False;eau du robinet;eau minérale plate;0.6501839275608375
+cluster_7;petit-dejeuner;seul;False;eau du robinet;jus de fruits (purs et à base  de concentré);0.8262670469344362
+cluster_7;petit-dejeuner;seul;False;eau minérale plate;eau de source;0.9997258771929824
+cluster_7;petit-dejeuner;seul;False;eau minérale plate;eau du robinet;0.5756225240520656
+cluster_7;petit-dejeuner;seul;False;eau minérale plate;jus de fruits (purs et à base  de concentré);0.5005291207670338
+cluster_7;petit-dejeuner;seul;False;fruits;biscuits sucrés;0.7125
+cluster_7;petit-dejeuner;seul;False;fruits;céréales sucrées, glacées ou au miel;0.9991776315789473
+cluster_7;petit-dejeuner;seul;False;fruits;gâteaux;0.8132476076555024
+cluster_7;petit-dejeuner;seul;False;fruits;pâte chocolatée à tartiner;0.9895833333333333
+cluster_7;petit-dejeuner;seul;False;fruits;viennoiserie;0.5676778752436648
+cluster_7;petit-dejeuner;seul;False;gâteaux;biscuits sucrés;0.882410781054138
+cluster_7;petit-dejeuner;seul;False;gâteaux;céréales sucrées, glacées ou au miel;0.8222936602870814
+cluster_7;petit-dejeuner;seul;False;gâteaux;fruits;0.823116028708134
+cluster_7;petit-dejeuner;seul;False;gâteaux;pâte chocolatée à tartiner;0.8126993620414673
+cluster_7;petit-dejeuner;seul;False;gâteaux;viennoiserie;0.690794944697213
+cluster_7;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau de source;0.6619874541003673
+cluster_7;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau du robinet;0.8752254903789967
+cluster_7;petit-dejeuner;seul;False;jus de fruits (purs et à base  de concentré);eau minérale plate;0.6622615769073849
+cluster_7;petit-dejeuner;seul;False;lait en bouteille ou en brique;yaourts et assimilés;0.6822833599149388
+cluster_7;petit-dejeuner;seul;False;margarine;beurre;0.7525568430759227
+cluster_7;petit-dejeuner;seul;False;pain;biscottes et panification sèche;0.7645885303807869
+cluster_7;petit-dejeuner;seul;False;pâte chocolatée à tartiner;biscuits sucrés;0.7229166666666667
+cluster_7;petit-dejeuner;seul;False;pâte chocolatée à tartiner;céréales sucrées, glacées ou au miel;1.009594298245614
+cluster_7;petit-dejeuner;seul;False;pâte chocolatée à tartiner;fruits;1.0104166666666665
+cluster_7;petit-dejeuner;seul;False;pâte chocolatée à tartiner;gâteaux;0.8236642743221692
+cluster_7;petit-dejeuner;seul;False;pâte chocolatée à tartiner;viennoiserie;0.5780945419103314
+cluster_7;petit-dejeuner;seul;False;sucre et assimilés;confiture et miel;0.8119397358971555
+cluster_7;petit-dejeuner;seul;False;thé et infusions;cacao, poudres et boissons cacaotées;0.7318666816532425
+cluster_7;petit-dejeuner;seul;False;thé et infusions;café;0.4669865198598536
+cluster_7;petit-dejeuner;seul;False;thé et infusions;chicorée et poudre maltée;0.7188349678757473
+cluster_7;petit-dejeuner;seul;False;viennoiserie;biscuits sucrés;0.8685637768082233
+cluster_7;petit-dejeuner;seul;False;viennoiserie;céréales sucrées, glacées ou au miel;0.6907590155945419
+cluster_7;petit-dejeuner;seul;False;viennoiserie;fruits;0.6915813840155945
+cluster_7;petit-dejeuner;seul;False;viennoiserie;gâteaux;0.7930760230447225
+cluster_7;petit-dejeuner;seul;False;viennoiserie;pâte chocolatée à tartiner;0.6811647173489279
+cluster_7;petit-dejeuner;seul;False;yaourts et assimilés;lait en bouteille ou en brique;0.3884237107921319
+cluster_1;dejeuner;seul;False;beurre;huile;0.6898598587092464
+cluster_1;dejeuner;seul;False;beurre;margarine;0.7054258079735787
+cluster_1;dejeuner;seul;False;boeuf en pièces ou haché;jambons et charcuteries en pièces;1.0012738853503185
+cluster_1;dejeuner;seul;False;boeuf en pièces ou haché;oeufs et dérivés;1.018471337579618
+cluster_1;dejeuner;seul;False;boeuf en pièces ou haché;poissons de mer;1.0095541401273884
+cluster_1;dejeuner;seul;False;condiments d'assaisonnement;sauces;0.8771996871158789
+cluster_1;dejeuner;seul;False;eau de source;eau du robinet;0.5530306143414835
+cluster_1;dejeuner;seul;False;eau de source;eau minérale plate;0.9847133757961783
+cluster_1;dejeuner;seul;False;eau de source;vin;1.027388535031847
+cluster_1;dejeuner;seul;False;eau du robinet;eau de source;0.6727758372714198
+cluster_1;dejeuner;seul;False;eau du robinet;eau minérale plate;0.6574892130675981
+cluster_1;dejeuner;seul;False;eau du robinet;vin;0.7001643723032669
+cluster_1;dejeuner;seul;False;eau minérale plate;eau de source;1.0152866242038217
+cluster_1;dejeuner;seul;False;eau minérale plate;eau du robinet;0.5683172385453051
+cluster_1;dejeuner;seul;False;eau minérale plate;vin;1.0426751592356687
+cluster_1;dejeuner;seul;False;fromages affinés;yaourts et assimilés;0.9005208778626999
+cluster_1;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes feuilles;0.6912951167728238
+cluster_1;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes fruits;0.7046709129511677
+cluster_1;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes racines, tubercules ou bulbes;0.8130862767805442
+cluster_1;dejeuner;seul;False;huile;beurre;0.758416003359719
+cluster_1;dejeuner;seul;False;huile;margarine;0.6714239447263305
+cluster_1;dejeuner;seul;False;jambons et charcuteries en pièces;boeuf en pièces ou haché;0.9987261146496815
+cluster_1;dejeuner;seul;False;jambons et charcuteries en pièces;oeufs et dérivés;1.0171974522292992
+cluster_1;dejeuner;seul;False;jambons et charcuteries en pièces;poissons de mer;1.0082802547770702
+cluster_1;dejeuner;seul;False;légumes feuilles;haricots verts et petits pois (légumes potagers);0.7753715498938429
+cluster_1;dejeuner;seul;False;légumes feuilles;légumes fruits;0.8426250050343099
+cluster_1;dejeuner;seul;False;légumes feuilles;légumes racines, tubercules ou bulbes;0.940805586008402
+cluster_1;dejeuner;seul;False;légumes fruits;haricots verts et petits pois (légumes potagers);0.7619957537154989
+cluster_1;dejeuner;seul;False;légumes fruits;légumes feuilles;0.8095489080091683
+cluster_1;dejeuner;seul;False;légumes fruits;légumes racines, tubercules ou bulbes;0.9242675374958311
+cluster_1;dejeuner;seul;False;légumes racines, tubercules ou bulbes;haricots verts et petits pois (légumes potagers);0.823277359583092
+cluster_1;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes feuilles;0.8486680982021244
+cluster_1;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes fruits;0.8652061467146952
+cluster_1;dejeuner;seul;False;margarine;beurre;0.5538334512856806
+cluster_1;dejeuner;seul;False;margarine;huile;0.44722012307027964
+cluster_1;dejeuner;seul;False;oeufs et dérivés;boeuf en pièces ou haché;0.9815286624203822
+cluster_1;dejeuner;seul;False;oeufs et dérivés;jambons et charcuteries en pièces;0.9828025477707006
+cluster_1;dejeuner;seul;False;oeufs et dérivés;poissons de mer;0.9910828025477707
+cluster_1;dejeuner;seul;False;pain;pommes de terre et apparentés;0.7529868249369538
+cluster_1;dejeuner;seul;False;pain;pâtes alimentaires;0.696681973041031
+cluster_1;dejeuner;seul;False;poissons de mer;boeuf en pièces ou haché;0.9904458598726115
+cluster_1;dejeuner;seul;False;poissons de mer;jambons et charcuteries en pièces;0.9917197452229299
+cluster_1;dejeuner;seul;False;poissons de mer;oeufs et dérivés;1.0089171974522293
+cluster_1;dejeuner;seul;False;pommes de terre et apparentés;pain;0.5661621112332591
+cluster_1;dejeuner;seul;False;pommes de terre et apparentés;pâtes alimentaires;0.839200926462073
+cluster_1;dejeuner;seul;False;pâtes alimentaires;pain;0.4661087246333877
+cluster_1;dejeuner;seul;False;pâtes alimentaires;pommes de terre et apparentés;0.7971627099015635
+cluster_1;dejeuner;seul;False;sauces;condiments d'assaisonnement;0.9122739970946474
+cluster_1;dejeuner;seul;False;vin;eau de source;0.9726114649681529
+cluster_1;dejeuner;seul;False;vin;eau du robinet;0.5256420793096364
+cluster_1;dejeuner;seul;False;vin;eau minérale plate;0.9573248407643312
+cluster_1;dejeuner;seul;False;yaourts et assimilés;fromages affinés;0.8943509170090951
+cluster_2;dejeuner;seul;False;beurre;huile;0.7566642172655629
+cluster_2;dejeuner;seul;False;beurre;margarine;0.8235119047619048
+cluster_2;dejeuner;seul;False;boeuf en pièces ou haché;jambons et charcuteries en pièces;0.8601461038961038
+cluster_2;dejeuner;seul;False;boeuf en pièces ou haché;poissons de mer;0.861038961038961
+cluster_2;dejeuner;seul;False;boeuf en pièces ou haché;porc;0.8592532467532468
+cluster_2;dejeuner;seul;False;boeuf en pièces ou haché;volailles et lapins;0.8565746753246752
+cluster_2;dejeuner;seul;False;eau de source;eau du robinet;0.7319559123343526
+cluster_2;dejeuner;seul;False;eau de source;eau minérale plate;0.8583603896103895
+cluster_2;dejeuner;seul;False;eau de source;vin;0.9000286361929288
+cluster_2;dejeuner;seul;False;eau du robinet;eau de source;0.8235996432212028
+cluster_2;dejeuner;seul;False;eau du robinet;eau minérale plate;0.7486024844720497
+cluster_2;dejeuner;seul;False;eau du robinet;vin;0.9033145949893573
+cluster_2;dejeuner;seul;False;eau minérale plate;eau de source;0.7780032467532467
+cluster_2;dejeuner;seul;False;eau minérale plate;eau du robinet;0.5557453416149069
+cluster_2;dejeuner;seul;False;eau minérale plate;vin;0.6922619047619047
+cluster_2;dejeuner;seul;False;fromages affinés;yaourts et assimilés;0.7675069171399448
+cluster_2;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes feuilles;0.8065746753246753
+cluster_2;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes fruits;0.8146103896103896
+cluster_2;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes racines, tubercules ou bulbes;0.9919642857142856
+cluster_2;dejeuner;seul;False;huile;beurre;0.833079372478027
+cluster_2;dejeuner;seul;False;huile;margarine;0.7236175115207374
+cluster_2;dejeuner;seul;False;jambons et charcuteries en pièces;boeuf en pièces ou haché;0.7762175324675324
+cluster_2;dejeuner;seul;False;jambons et charcuteries en pièces;poissons de mer;1.000892857142857
+cluster_2;dejeuner;seul;False;jambons et charcuteries en pièces;porc;0.9991071428571429
+cluster_2;dejeuner;seul;False;jambons et charcuteries en pièces;volailles et lapins;0.9964285714285714
+cluster_2;dejeuner;seul;False;légumes feuilles;haricots verts et petits pois (légumes potagers);0.829788961038961
+cluster_2;dejeuner;seul;False;légumes feuilles;légumes fruits;1.00782747196738
+cluster_2;dejeuner;seul;False;légumes feuilles;légumes racines, tubercules ou bulbes;0.8217532467532467
+cluster_2;dejeuner;seul;False;légumes fruits;haricots verts et petits pois (légumes potagers);0.8217532467532467
+cluster_2;dejeuner;seul;False;légumes fruits;légumes feuilles;0.9921725280326198
+cluster_2;dejeuner;seul;False;légumes fruits;légumes racines, tubercules ou bulbes;0.8137175324675325
+cluster_2;dejeuner;seul;False;légumes racines, tubercules ou bulbes;haricots verts et petits pois (légumes potagers);1.0080357142857141
+cluster_2;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes feuilles;0.8146103896103896
+cluster_2;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes fruits;0.8226461038961039
+cluster_2;dejeuner;seul;False;margarine;beurre;0.643154761904762
+cluster_2;dejeuner;seul;False;margarine;huile;0.5021889400921659
+cluster_2;dejeuner;seul;False;pain;pommes de terre et apparentés;0.7348727422003284
+cluster_2;dejeuner;seul;False;pain;pâtes alimentaires;0.7832738095238094
+cluster_2;dejeuner;seul;False;poissons de mer;boeuf en pièces ou haché;0.7753246753246753
+cluster_2;dejeuner;seul;False;poissons de mer;jambons et charcuteries en pièces;0.9991071428571429
+cluster_2;dejeuner;seul;False;poissons de mer;porc;0.9982142857142857
+cluster_2;dejeuner;seul;False;poissons de mer;volailles et lapins;0.9955357142857143
+cluster_2;dejeuner;seul;False;pommes de terre et apparentés;pain;0.3455870279146141
+cluster_2;dejeuner;seul;False;pommes de terre et apparentés;pâtes alimentaires;0.8601461038961038
+cluster_2;dejeuner;seul;False;porc;boeuf en pièces ou haché;0.7771103896103896
+cluster_2;dejeuner;seul;False;porc;jambons et charcuteries en pièces;1.000892857142857
+cluster_2;dejeuner;seul;False;porc;poissons de mer;1.0017857142857143
+cluster_2;dejeuner;seul;False;porc;volailles et lapins;0.9973214285714286
+cluster_2;dejeuner;seul;False;pâtes alimentaires;pain;0.31005952380952384
+cluster_2;dejeuner;seul;False;pâtes alimentaires;pommes de terre et apparentés;0.7762175324675324
+cluster_2;dejeuner;seul;False;vin;eau de source;0.8894450480175975
+cluster_2;dejeuner;seul;False;vin;eau du robinet;0.8386208888816105
+cluster_2;dejeuner;seul;False;vin;eau minérale plate;0.7744047619047618
+cluster_2;dejeuner;seul;False;volailles et lapins;boeuf en pièces ou haché;0.779788961038961
+cluster_2;dejeuner;seul;False;volailles et lapins;jambons et charcuteries en pièces;1.0035714285714286
+cluster_2;dejeuner;seul;False;volailles et lapins;poissons de mer;1.0044642857142856
+cluster_2;dejeuner;seul;False;volailles et lapins;porc;1.0026785714285715
+cluster_2;dejeuner;seul;False;yaourts et assimilés;fromages affinés;0.6610645114314838
+cluster_3;dejeuner;seul;False;beurre;huile;0.656834043825951
+cluster_3;dejeuner;seul;False;beurre;margarine;0.7118214104515475
+cluster_3;dejeuner;seul;False;condiments d'assaisonnement;sauces;0.5867249023889882
+cluster_3;dejeuner;seul;False;eau de source;eau du robinet;0.47558833860203725
+cluster_3;dejeuner;seul;False;eau de source;eau minérale plate;0.6945205479452055
+cluster_3;dejeuner;seul;False;eau de source;vin;1.0068493150684932
+cluster_3;dejeuner;seul;False;eau du robinet;eau de source;0.7038988408851422
+cluster_3;dejeuner;seul;False;eau du robinet;eau minérale plate;0.8246848778279832
+cluster_3;dejeuner;seul;False;eau du robinet;vin;0.7107481559536354
+cluster_3;dejeuner;seul;False;eau minérale plate;eau de source;0.7721461187214611
+cluster_3;dejeuner;seul;False;eau minérale plate;eau du robinet;0.6646768242996763
+cluster_3;dejeuner;seul;False;eau minérale plate;vin;0.7789954337899543
+cluster_3;dejeuner;seul;False;fromages affinés;yaourts et assimilés;0.7926680373036844
+cluster_3;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes feuilles;0.6087949176096883
+cluster_3;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes fruits;0.6377873908515581
+cluster_3;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes racines, tubercules ou bulbes;0.8037221530372215
+cluster_3;dejeuner;seul;False;huile;beurre;0.7717373847454776
+cluster_3;dejeuner;seul;False;huile;margarine;0.7054794520547945
+cluster_3;dejeuner;seul;False;jambons et charcuteries en pièces;poissons de mer;0.6476808459504927
+cluster_3;dejeuner;seul;False;jambons et charcuteries en pièces;volailles et lapins;0.6362653208363374
+cluster_3;dejeuner;seul;False;légumes feuilles;haricots verts et petits pois (légumes potagers);0.6955529084772683
+cluster_3;dejeuner;seul;False;légumes feuilles;légumes fruits;0.9450044023506715
+cluster_3;dejeuner;seul;False;légumes feuilles;légumes racines, tubercules ou bulbes;0.8032010477806794
+cluster_3;dejeuner;seul;False;légumes fruits;haricots verts et petits pois (légumes potagers);0.7306336617800209
+cluster_3;dejeuner;seul;False;légumes fruits;légumes feuilles;0.9407098833636142
+cluster_3;dejeuner;seul;False;légumes fruits;légumes racines, tubercules ou bulbes;0.853782795386557
+cluster_3;dejeuner;seul;False;légumes racines, tubercules ou bulbes;haricots verts et petits pois (légumes potagers);0.8326414833264149
+cluster_3;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes feuilles;0.7523545077748763
+cluster_3;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes fruits;0.7983911176569214
+cluster_3;dejeuner;seul;False;margarine;beurre;0.5474378488077118
+cluster_3;dejeuner;seul;False;margarine;huile;0.4056316590563166
+cluster_3;dejeuner;seul;False;pain;pommes de terre et apparentés;0.7656675606485994
+cluster_3;dejeuner;seul;False;pain;pâtes alimentaires;0.7186605783866057
+cluster_3;dejeuner;seul;False;pain;riz;0.717138508371385
+cluster_3;dejeuner;seul;False;poissons de mer;jambons et charcuteries en pièces;0.7207402066810863
+cluster_3;dejeuner;seul;False;poissons de mer;volailles et lapins;0.987658959806171
+cluster_3;dejeuner;seul;False;pommes de terre et apparentés;pain;0.5114408730863405
+cluster_3;dejeuner;seul;False;pommes de terre et apparentés;pâtes alimentaires;0.7767123287671234
+cluster_3;dejeuner;seul;False;pommes de terre et apparentés;riz;0.7751902587519026
+cluster_3;dejeuner;seul;False;pâtes alimentaires;pain;0.37467275494672764
+cluster_3;dejeuner;seul;False;pâtes alimentaires;pommes de terre et apparentés;0.6899543378995434
+cluster_3;dejeuner;seul;False;pâtes alimentaires;riz;0.9984779299847792
+cluster_3;dejeuner;seul;False;riz;pain;0.3761948249619483
+cluster_3;dejeuner;seul;False;riz;pommes de terre et apparentés;0.6914764079147641
+cluster_3;dejeuner;seul;False;riz;pâtes alimentaires;1.0015220700152208
+cluster_3;dejeuner;seul;False;sauces;condiments d'assaisonnement;0.7176229236979683
+cluster_3;dejeuner;seul;False;vin;eau de source;0.9931506849315068
+cluster_3;dejeuner;seul;False;vin;eau du robinet;0.46873902353354413
+cluster_3;dejeuner;seul;False;vin;eau minérale plate;0.6876712328767123
+cluster_3;dejeuner;seul;False;volailles et lapins;jambons et charcuteries en pièces;0.7321557317952415
+cluster_3;dejeuner;seul;False;volailles et lapins;poissons de mer;1.0123410401938289
+cluster_3;dejeuner;seul;False;yaourts et assimilés;fromages affinés;0.6912029304382511
+cluster_4;dejeuner;seul;False;beurre;huile;0.7923293326071281
+cluster_4;dejeuner;seul;False;boeuf en pièces ou haché;jambons et charcuteries en pièces;1.0010799136069113
+cluster_4;dejeuner;seul;False;boeuf en pièces ou haché;volailles et lapins;0.9881209503239741
+cluster_4;dejeuner;seul;False;eau de source;eau du robinet;0.45691421609348176
+cluster_4;dejeuner;seul;False;eau de source;eau minérale plate;0.9946004319654428
+cluster_4;dejeuner;seul;False;eau de source;vin;0.810622422933438
+cluster_4;dejeuner;seul;False;eau du robinet;eau de source;0.7225729633936978
+cluster_4;dejeuner;seul;False;eau du robinet;eau minérale plate;0.7171733953591405
+cluster_4;dejeuner;seul;False;eau du robinet;vin;0.7928511541435889
+cluster_4;dejeuner;seul;False;eau minérale plate;eau de source;1.0053995680345573
+cluster_4;dejeuner;seul;False;eau minérale plate;eau du robinet;0.462313784128039
+cluster_4;dejeuner;seul;False;eau minérale plate;vin;0.8160219909679953
+cluster_4;dejeuner;seul;False;fromages affinés;yaourts et assimilés;0.6792197049767934
+cluster_4;dejeuner;seul;False;huile;beurre;0.8696424983787874
+cluster_4;dejeuner;seul;False;jambons et charcuteries en pièces;boeuf en pièces ou haché;0.9989200863930885
+cluster_4;dejeuner;seul;False;jambons et charcuteries en pièces;volailles et lapins;0.9870410367170626
+cluster_4;dejeuner;seul;False;légumes feuilles;légumes fruits;0.8863583316632069
+cluster_4;dejeuner;seul;False;légumes feuilles;légumes racines, tubercules ou bulbes;0.7560115190784737
+cluster_4;dejeuner;seul;False;légumes fruits;légumes feuilles;0.9031153525473193
+cluster_4;dejeuner;seul;False;légumes fruits;légumes racines, tubercules ou bulbes;0.8473394855684273
+cluster_4;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes feuilles;0.710655147588193
+cluster_4;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes fruits;0.7890241507952092
+cluster_4;dejeuner;seul;False;pain;pommes de terre et apparentés;0.7410511159107271
+cluster_4;dejeuner;seul;False;pain;pâtes alimentaires;0.7583297336213103
+cluster_4;dejeuner;seul;False;pommes de terre et apparentés;pain;0.3522822174226062
+cluster_4;dejeuner;seul;False;pommes de terre et apparentés;pâtes alimentaires;1.0172786177105833
+cluster_4;dejeuner;seul;False;pâtes alimentaires;pain;0.33500359971202304
+cluster_4;dejeuner;seul;False;pâtes alimentaires;pommes de terre et apparentés;0.9827213822894169
+cluster_4;dejeuner;seul;False;vin;eau de source;0.8257412134301982
+cluster_4;dejeuner;seul;False;vin;eau du robinet;0.5559860551587367
+cluster_4;dejeuner;seul;False;vin;eau minérale plate;0.8203416453956411
+cluster_4;dejeuner;seul;False;volailles et lapins;boeuf en pièces ou haché;1.011879049676026
+cluster_4;dejeuner;seul;False;volailles et lapins;jambons et charcuteries en pièces;1.0129589632829372
+cluster_4;dejeuner;seul;False;yaourts et assimilés;fromages affinés;0.4697164652359726
+cluster_5;dejeuner;seul;False;beurre;huile;0.6474709172767705
+cluster_5;dejeuner;seul;False;beurre;margarine;0.6738705738705738
+cluster_5;dejeuner;seul;False;boeuf en pièces ou haché;jambons et charcuteries en pièces;0.8284992784992784
+cluster_5;dejeuner;seul;False;boeuf en pièces ou haché;poissons de mer;0.83008658008658
+cluster_5;dejeuner;seul;False;boeuf en pièces ou haché;saucisses, saucissons, andouilles et boudins;0.8404040404040405
+cluster_5;dejeuner;seul;False;boeuf en pièces ou haché;volailles et lapins;0.8324675324675324
+cluster_5;dejeuner;seul;False;condiments d'assaisonnement;sauces;0.7668448900027847
+cluster_5;dejeuner;seul;False;eau de source;eau du robinet;0.4966903073286052
+cluster_5;dejeuner;seul;False;eau de source;eau minérale plate;0.6267770876466529
+cluster_5;dejeuner;seul;False;eau de source;vin;1.0166666666666666
+cluster_5;dejeuner;seul;False;eau du robinet;eau de source;0.6522458628841608
+cluster_5;dejeuner;seul;False;eau du robinet;eau minérale plate;0.8571729847434101
+cluster_5;dejeuner;seul;False;eau du robinet;vin;0.6689125295508274
+cluster_5;dejeuner;seul;False;eau minérale plate;eau de source;0.6775707384403037
+cluster_5;dejeuner;seul;False;eau minérale plate;eau du robinet;0.761874634304209
+cluster_5;dejeuner;seul;False;eau minérale plate;vin;0.6942374051069703
+cluster_5;dejeuner;seul;False;fromages affinés;yaourts et assimilés;0.7069916556873078
+cluster_5;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes feuilles;0.6389724310776943
+cluster_5;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes fruits;0.6461152882205514
+cluster_5;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes racines, tubercules ou bulbes;0.6572263993316625
+cluster_5;dejeuner;seul;False;huile;beurre;0.7855999488649617
+cluster_5;dejeuner;seul;False;huile;margarine;0.6958910990556559
+cluster_5;dejeuner;seul;False;jambons et charcuteries en pièces;boeuf en pièces ou haché;0.8078643578643578
+cluster_5;dejeuner;seul;False;jambons et charcuteries en pièces;poissons de mer;1.0015873015873016
+cluster_5;dejeuner;seul;False;jambons et charcuteries en pièces;saucisses, saucissons, andouilles et boudins;1.0119047619047619
+cluster_5;dejeuner;seul;False;jambons et charcuteries en pièces;volailles et lapins;1.003968253968254
+cluster_5;dejeuner;seul;False;légumes feuilles;haricots verts et petits pois (légumes potagers);0.7294486215538847
+cluster_5;dejeuner;seul;False;légumes feuilles;légumes fruits;1.007947111818818
+cluster_5;dejeuner;seul;False;légumes feuilles;légumes racines, tubercules ou bulbes;1.0243533682265507
+cluster_5;dejeuner;seul;False;légumes fruits;haricots verts et petits pois (légumes potagers);0.7223057644110276
+cluster_5;dejeuner;seul;False;légumes fruits;légumes feuilles;0.9920528881811822
+cluster_5;dejeuner;seul;False;légumes fruits;légumes racines, tubercules ou bulbes;1.0164062564077327
+cluster_5;dejeuner;seul;False;légumes racines, tubercules ou bulbes;haricots verts et petits pois (légumes potagers);0.7111946532999165
+cluster_5;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes feuilles;0.9756466317734495
+cluster_5;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes fruits;0.9835937435922673
+cluster_5;dejeuner;seul;False;margarine;beurre;0.5056166056166057
+cluster_5;dejeuner;seul;False;margarine;huile;0.3927164958810529
+cluster_5;dejeuner;seul;False;pain;pommes de terre et apparentés;0.7703292798045422
+cluster_5;dejeuner;seul;False;pain;pâtes alimentaires;0.7508988334289538
+cluster_5;dejeuner;seul;False;poissons de mer;boeuf en pièces ou haché;0.8062770562770563
+cluster_5;dejeuner;seul;False;poissons de mer;jambons et charcuteries en pièces;0.9984126984126984
+cluster_5;dejeuner;seul;False;poissons de mer;saucisses, saucissons, andouilles et boudins;1.0103174603174603
+cluster_5;dejeuner;seul;False;poissons de mer;volailles et lapins;1.0023809523809524
+cluster_5;dejeuner;seul;False;pommes de terre et apparentés;pain;0.40208451329890615
+cluster_5;dejeuner;seul;False;pommes de terre et apparentés;pâtes alimentaires;0.8443722943722944
+cluster_5;dejeuner;seul;False;pâtes alimentaires;pain;0.3334385159686365
+cluster_5;dejeuner;seul;False;pâtes alimentaires;pommes de terre et apparentés;0.791991341991342
+cluster_5;dejeuner;seul;False;sauces;condiments d'assaisonnement;0.7887106655527708
+cluster_5;dejeuner;seul;False;saucisses, saucissons, andouilles et boudins;boeuf en pièces ou haché;0.795959595959596
+cluster_5;dejeuner;seul;False;saucisses, saucissons, andouilles et boudins;jambons et charcuteries en pièces;0.9880952380952381
+cluster_5;dejeuner;seul;False;saucisses, saucissons, andouilles et boudins;poissons de mer;0.9896825396825397
+cluster_5;dejeuner;seul;False;saucisses, saucissons, andouilles et boudins;volailles et lapins;0.9920634920634921
+cluster_5;dejeuner;seul;False;vin;eau de source;0.9833333333333334
+cluster_5;dejeuner;seul;False;vin;eau du robinet;0.48002364066193853
+cluster_5;dejeuner;seul;False;vin;eau minérale plate;0.6101104209799861
+cluster_5;dejeuner;seul;False;volailles et lapins;boeuf en pièces ou haché;0.8038961038961039
+cluster_5;dejeuner;seul;False;volailles et lapins;jambons et charcuteries en pièces;0.996031746031746
+cluster_5;dejeuner;seul;False;volailles et lapins;poissons de mer;0.9976190476190476
+cluster_5;dejeuner;seul;False;volailles et lapins;saucisses, saucissons, andouilles et boudins;1.007936507936508
+cluster_5;dejeuner;seul;False;yaourts et assimilés;fromages affinés;0.5657356170399649
+cluster_6;dejeuner;seul;False;beurre;huile;0.8159071711202344
+cluster_6;dejeuner;seul;False;beurre;margarine;0.6944244460443164
+cluster_6;dejeuner;seul;False;eau de source;eau du robinet;0.5891781289075821
+cluster_6;dejeuner;seul;False;eau de source;eau minérale plate;0.9827213822894169
+cluster_6;dejeuner;seul;False;eau de source;vin;0.7976634596505008
+cluster_6;dejeuner;seul;False;eau du robinet;eau de source;0.7792429237239968
+cluster_6;dejeuner;seul;False;eau du robinet;eau minérale plate;0.7619643060134137
+cluster_6;dejeuner;seul;False;eau du robinet;vin;0.8955940682217107
+cluster_6;dejeuner;seul;False;eau minérale plate;eau de source;1.0172786177105833
+cluster_6;dejeuner;seul;False;eau minérale plate;eau du robinet;0.6064567466181653
+cluster_6;dejeuner;seul;False;eau minérale plate;vin;0.8149420773610838
+cluster_6;dejeuner;seul;False;fromages affinés;yaourts et assimilés;0.7180486430650765
+cluster_6;dejeuner;seul;False;huile;beurre;0.7919359661346677
+cluster_6;dejeuner;seul;False;huile;margarine;0.7094093342097849
+cluster_6;dejeuner;seul;False;margarine;beurre;0.5648348132149428
+cluster_6;dejeuner;seul;False;margarine;huile;0.5949384918771716
+cluster_6;dejeuner;seul;False;pain;pommes de terre et apparentés;0.7066664517584862
+cluster_6;dejeuner;seul;False;pain;pâtes alimentaires;0.7569408992735126
+cluster_6;dejeuner;seul;False;pommes de terre et apparentés;pain;0.3978111601818123
+cluster_6;dejeuner;seul;False;pommes de terre et apparentés;pâtes alimentaires;0.8570587080306302
+cluster_6;dejeuner;seul;False;pâtes alimentaires;pain;0.3703318279992146
+cluster_6;dejeuner;seul;False;pâtes alimentaires;pommes de terre et apparentés;0.779304928333006
+cluster_6;dejeuner;seul;False;vin;eau de source;0.8387001767131357
+cluster_6;dejeuner;seul;False;vin;eau du robinet;0.7565798448217675
+cluster_6;dejeuner;seul;False;vin;eau minérale plate;0.8214215590025524
+cluster_6;dejeuner;seul;False;yaourts et assimilés;fromages affinés;0.58629918302188
+cluster_7;dejeuner;seul;False;beurre;huile;0.7218386959820687
+cluster_7;dejeuner;seul;False;beurre;margarine;0.7821098055587988
+cluster_7;dejeuner;seul;False;boeuf en pièces ou haché;jambons et charcuteries en pièces;0.7444075304540421
+cluster_7;dejeuner;seul;False;boeuf en pièces ou haché;oeufs et dérivés;0.7698781838316722
+cluster_7;dejeuner;seul;False;boeuf en pièces ou haché;volailles et lapins;0.753266888150609
+cluster_7;dejeuner;seul;False;eau de source;eau du robinet;0.8557129753824589
+cluster_7;dejeuner;seul;False;eau de source;eau minérale plate;0.8425450518473774
+cluster_7;dejeuner;seul;False;eau de source;sodas et colas;0.853619248968086
+cluster_7;dejeuner;seul;False;eau du robinet;eau de source;0.9337607088280674
+cluster_7;dejeuner;seul;False;eau du robinet;eau minérale plate;0.7920265780730897
+cluster_7;dejeuner;seul;False;eau du robinet;sodas et colas;0.8031007751937984
+cluster_7;dejeuner;seul;False;eau minérale plate;eau de source;0.7938185845162589
+cluster_7;dejeuner;seul;False;eau minérale plate;eau du robinet;0.674640088593577
+cluster_7;dejeuner;seul;False;eau minérale plate;sodas et colas;1.011074197120709
+cluster_7;dejeuner;seul;False;fromages affinés;yaourts et assimilés;0.770985603543743
+cluster_7;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes feuilles;0.9861572535991141
+cluster_7;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes fruits;0.9961240310077519
+cluster_7;dejeuner;seul;False;haricots verts et petits pois (légumes potagers);légumes racines, tubercules ou bulbes;0.9977851605758583
+cluster_7;dejeuner;seul;False;huile;beurre;0.6963431221997495
+cluster_7;dejeuner;seul;False;huile;margarine;0.8260552624844177
+cluster_7;dejeuner;seul;False;jambons et charcuteries en pièces;boeuf en pièces ou haché;0.7222591362126246
+cluster_7;dejeuner;seul;False;jambons et charcuteries en pièces;oeufs et dérivés;1.02547065337763
+cluster_7;dejeuner;seul;False;jambons et charcuteries en pièces;volailles et lapins;1.008859357696567
+cluster_7;dejeuner;seul;False;légumes feuilles;haricots verts et petits pois (légumes potagers);1.013842746400886
+cluster_7;dejeuner;seul;False;légumes feuilles;légumes fruits;1.0099667774086378
+cluster_7;dejeuner;seul;False;légumes feuilles;légumes racines, tubercules ou bulbes;1.0116279069767442
+cluster_7;dejeuner;seul;False;légumes fruits;haricots verts et petits pois (légumes potagers);1.003875968992248
+cluster_7;dejeuner;seul;False;légumes fruits;légumes feuilles;0.9900332225913622
+cluster_7;dejeuner;seul;False;légumes fruits;légumes racines, tubercules ou bulbes;1.0016611295681064
+cluster_7;dejeuner;seul;False;légumes racines, tubercules ou bulbes;haricots verts et petits pois (légumes potagers);1.0022148394241417
+cluster_7;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes feuilles;0.9883720930232558
+cluster_7;dejeuner;seul;False;légumes racines, tubercules ou bulbes;légumes fruits;0.9983388704318936
+cluster_7;dejeuner;seul;False;margarine;beurre;0.6464616230126298
+cluster_7;dejeuner;seul;False;margarine;huile;0.7295002930711378
+cluster_7;dejeuner;seul;False;oeufs et dérivés;boeuf en pièces ou haché;0.6967884828349944
+cluster_7;dejeuner;seul;False;oeufs et dérivés;jambons et charcuteries en pièces;0.9745293466223699
+cluster_7;dejeuner;seul;False;oeufs et dérivés;volailles et lapins;0.9833887043189369
+cluster_7;dejeuner;seul;False;pain;pommes de terre et apparentés;0.6671878053547
+cluster_7;dejeuner;seul;False;pain;pâtes alimentaires;0.7183186432828227
+cluster_7;dejeuner;seul;False;pain;riz;0.7081623347013224
+cluster_7;dejeuner;seul;False;pommes de terre et apparentés;pain;0.47006709660608437
+cluster_7;dejeuner;seul;False;pommes de terre et apparentés;pâtes alimentaires;0.8248263364542434
+cluster_7;dejeuner;seul;False;pommes de terre et apparentés;riz;1.0409745293466224
+cluster_7;dejeuner;seul;False;pâtes alimentaires;pain;0.5544086294444499
+cluster_7;dejeuner;seul;False;pâtes alimentaires;pommes de terre et apparentés;0.8115372999093929
+cluster_7;dejeuner;seul;False;pâtes alimentaires;riz;0.8525118292560152
+cluster_7;dejeuner;seul;False;riz;pain;0.429092567259462
+cluster_7;dejeuner;seul;False;riz;pommes de terre et apparentés;0.9590254706533776
+cluster_7;dejeuner;seul;False;riz;pâtes alimentaires;0.783851807107621
+cluster_7;dejeuner;seul;False;sodas et colas;eau de source;0.7827443873955502
+cluster_7;dejeuner;seul;False;sodas et colas;eau du robinet;0.6635658914728682
+cluster_7;dejeuner;seul;False;sodas et colas;eau minérale plate;0.9889258028792913
+cluster_7;dejeuner;seul;False;volailles et lapins;boeuf en pièces ou haché;0.7133997785160575
+cluster_7;dejeuner;seul;False;volailles et lapins;jambons et charcuteries en pièces;0.991140642303433
+cluster_7;dejeuner;seul;False;volailles et lapins;oeufs et dérivés;1.0166112956810631
+cluster_7;dejeuner;seul;False;yaourts et assimilés;fromages affinés;0.6956810631229235
+cluster_1;diner;seul;False;beurre;huile;0.8013250517598344
+cluster_1;diner;seul;False;condiments d'assaisonnement;sauces;0.9709576138147566
+cluster_1;diner;seul;False;eau de source;eau du robinet;0.945054945054945
+cluster_1;diner;seul;False;eau de source;eau minérale plate;0.786784643927501
+cluster_1;diner;seul;False;eau de source;vin;1.0188383045525904
+cluster_1;diner;seul;False;eau du robinet;eau de source;1.054945054945055
+cluster_1;diner;seul;False;eau du robinet;eau minérale plate;0.841729698872556
+cluster_1;diner;seul;False;eau du robinet;vin;1.0737833594976451
+cluster_1;diner;seul;False;eau minérale plate;eau de source;0.8495789924361352
+cluster_1;diner;seul;False;eau minérale plate;eau du robinet;0.7946339374910802
+cluster_1;diner;seul;False;eau minérale plate;vin;0.8684172969887256
+cluster_1;diner;seul;False;fromage blanc et petits suisses;fromages affinés;0.7703011274439846
+cluster_1;diner;seul;False;fromage blanc et petits suisses;yaourts et assimilés;0.6328623757195186
+cluster_1;diner;seul;False;fromages affinés;fromage blanc et petits suisses;0.8660625089196519
+cluster_1;diner;seul;False;fromages affinés;yaourts et assimilés;0.6316202594398084
+cluster_1;diner;seul;False;huile;beurre;0.8508488612836439
+cluster_1;diner;seul;False;jambons et charcuteries en pièces;oeufs et dérivés;1.0259026687598116
+cluster_1;diner;seul;False;légumes feuilles;légumes fruits;0.8566433566433567
+cluster_1;diner;seul;False;légumes feuilles;légumes racines, tubercules ou bulbes;0.8715570144141573
+cluster_1;diner;seul;False;légumes fruits;légumes feuilles;0.7797202797202798
+cluster_1;diner;seul;False;légumes fruits;légumes racines, tubercules ou bulbes;1.0149136577708007
+cluster_1;diner;seul;False;légumes racines, tubercules ou bulbes;légumes feuilles;0.7648066219494791
+cluster_1;diner;seul;False;légumes racines, tubercules ou bulbes;légumes fruits;0.9850863422291993
+cluster_1;diner;seul;False;oeufs et dérivés;jambons et charcuteries en pièces;0.9740973312401884
+cluster_1;diner;seul;False;pain;pommes de terre et apparentés;0.7426594569451713
+cluster_1;diner;seul;False;pain;pâtes alimentaires;0.7316704459561603
+cluster_1;diner;seul;False;pommes de terre et apparentés;pain;0.516599802314088
+cluster_1;diner;seul;False;pommes de terre et apparentés;pâtes alimentaires;0.989010989010989
+cluster_1;diner;seul;False;pâtes alimentaires;pain;0.527588813303099
+cluster_1;diner;seul;False;pâtes alimentaires;pommes de terre et apparentés;1.010989010989011
+cluster_1;diner;seul;False;sauces;condiments d'assaisonnement;1.0290423861852434
+cluster_1;diner;seul;False;vin;eau de source;0.9811616954474097
+cluster_1;diner;seul;False;vin;eau du robinet;0.9262166405023547
+cluster_1;diner;seul;False;vin;eau minérale plate;0.7679463393749109
+cluster_1;diner;seul;False;yaourts et assimilés;fromage blanc et petits suisses;0.8338042909471481
+cluster_1;diner;seul;False;yaourts et assimilés;fromages affinés;0.7368007931917706
+cluster_5;diner;seul;False;beurre;huile;0.545778697952611
+cluster_5;diner;seul;False;condiments d'assaisonnement;sauces;0.6815734989648032
+cluster_5;diner;seul;False;eau du robinet;eau minérale plate;0.7196917414308719
+cluster_5;diner;seul;False;eau minérale plate;eau du robinet;0.5395675178283874
+cluster_5;diner;seul;False;fromages affinés;yaourts et assimilés;0.8046862129611079
+cluster_5;diner;seul;False;huile;beurre;0.7134805613066483
+cluster_5;diner;seul;False;légumes feuilles;légumes fruits;0.6966873706004141
+cluster_5;diner;seul;False;légumes fruits;légumes feuilles;0.6076604554865425
+cluster_5;diner;seul;False;sauces;condiments d'assaisonnement;0.7850931677018633
+cluster_5;diner;seul;False;yaourts et assimilés;fromages affinés;0.7508693425944477
