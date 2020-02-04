@@ -134,6 +134,9 @@ class System() :
         # Regles : supp = 0.001, conf = 0.01
         self.regles = pd.read_csv("Base_Gestion_Systeme/regles.csv", encoding = 'latin-1')
         
+        # Score de nutrition
+        self.score_nutri = pd.read_csv('Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv',sep=';',encoding="latin-1")
+        
         # contexte de repas
         self.liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
         self.liste_avecqui = ['seul', 'famille', 'amis', 'autre']
@@ -159,9 +162,20 @@ class System() :
             print(user.id, tyrep, avecqui)
             user.enter_repas(tyrep, avecqui, self.regles)
     
-    def NutriScore(self,_repasEntre) :
+    def NutriScore(self) :
+        """
+        repas - liste des libsougr
+        """
+        user_test = self.liste_user[0]
+        user_test.enter_repas('dejeuner', 'famille', self.regles)
+        repas = user_test.repas_propose
         
-        self.dataNutri = pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
+        self.nutrirepas = self.score_nutri[self.score_nutri['libsougr'].isin(repas)]
+        
+        
+        
     
 sys_test = System()
 sys_test.propose_repas()
+sys_test.NutriScore()
+test = sys_test.nutrirepas
