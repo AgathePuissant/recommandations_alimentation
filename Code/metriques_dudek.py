@@ -111,7 +111,7 @@ def RDU(D,mrc) :
                ###########################################################
 '''
 
-tyrep_str='petit-dejeuner'
+tyrep_str='dejeuner'
 cluster_str='cluster_1'
 avecqui_str='seul'
 

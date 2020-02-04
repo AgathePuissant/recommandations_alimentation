@@ -86,11 +86,11 @@ sns.heatmap(matrice_nb_couples,square=False,annot=val,fmt='',xticklabels=np.roun
 plt.xlabel("Seuil de confiance")
 plt.ylabel("Seuil de support")
 
-plt.cla()
-plt.clf()
-sns.heatmap(matrice_pourcentage,square=False,annot=val2,fmt='',xticklabels=np.round(axe_confiance[::-1],4),yticklabels=np.round(axe_support,4),annot_kws={"size": 10})
-plt.xlabel("Seuil de confiance")
-plt.ylabel("Seuil de support")
+#plt.cla()
+#plt.clf()
+#sns.heatmap(matrice_pourcentage,square=False,annot=val2,fmt='',xticklabels=np.round(axe_confiance[::-1],4),yticklabels=np.round(axe_support,4),annot_kws={"size": 10})
+#plt.xlabel("Seuil de confiance")
+#plt.ylabel("Seuil de support")
 
 #matrice_x=np.zeros((len(matrice_nb_couples),len(matrice_nb_couples)))
 #matrice_y=np.zeros((len(matrice_nb_couples),len(matrice_nb_couples)))
