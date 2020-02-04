@@ -10,11 +10,6 @@ from motifs_frequents_substituabilite import *
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 CODE PRINCIPAL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-
-conso_pattern_sougr['accompagne']=conso_pattern_sougr['famille'] | conso_pattern_sougr['amis']
-del conso_pattern_sougr['autre'], conso_pattern_sougr['famille'], conso_pattern_sougr['amis']
 
 supp = 0.001
 conf = 0.001

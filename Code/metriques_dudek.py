@@ -116,13 +116,15 @@ cluster = 1
 avecqui = 2
 tyrep_str='dejeuner'
 cluster_str='cluster_1'
-avecqui_str='famille'
+avecqui_str='accompagne'
 
 supp = 0.001
-conf = 0.01
+conf = 0.001
 
 #Méthode 1
-rapport_1 = 0.5
+#rapport_1 = 1.075
+
+rapport_1 = 1
 
 motifs_1 = find_frequent(conso_pattern_sougr, seuil_support = supp*rapport_1, algo = fpgrowth)
 print("Motifs fréquents trouvés") 
@@ -137,13 +139,14 @@ R1['antecedents'] = R1['antecedents'].apply(lambda y : tuple(x for x in y if (x!
 R1 = R1[~(R1['antecedents']==())]
 
 #Méthode 2
-
-rapport_2 = 8
-
-cols = [i for i in range(127,138)]
+#rapport_2 = 44
+cols = [i for i in range(127,141)]
 
 conso_pattern_sougr_2=conso_pattern_sougr[(conso_pattern_sougr['tyrep']==tyrep) & (conso_pattern_sougr['cluster_consommateur']==cluster) & (conso_pattern_sougr['avecqui']==avecqui)]
 conso_pattern_sougr_2.drop(conso_pattern_sougr_2.columns[cols],axis=1,inplace=True)
+
+rapport_2 = len(conso_pattern_sougr)/len(conso_pattern_sougr_2)
+
 motifs_2 = find_frequent(conso_pattern_sougr_2, seuil_support = supp*rapport_2, algo = fpgrowth)
 print("Motifs fréquents trouvés") 
 regles_2 = regles_association(motifs_2,confiance = conf*rapport_2)
@@ -154,7 +157,7 @@ R2=regles_2
 
 #Méthode 3
 
-rapport_3 = 1
+#rapport_3 = 1
 
 conso_pattern_sougr_3 = conso_pattern_sougr.drop(conso_pattern_sougr.columns[cols],axis=1)
 motifs_3 = find_frequent(conso_pattern_sougr_3, seuil_support = supp, algo = fpgrowth)
@@ -163,6 +166,8 @@ regles_3_ori = regles_association(motifs_3,confiance = conf)
 print("Règles d'association trouvées")
 
 conso_pattern_sougr_subset = conso_pattern_sougr[(conso_pattern_sougr[tyrep_str]==1) & (conso_pattern_sougr[cluster_str]==1) & (conso_pattern_sougr[avecqui_str]==1)]
+
+rapport_3 = len(conso_pattern_sougr)/len(conso_pattern_sougr_subset)
 
 regles_3 = regles_3_ori
 
@@ -184,46 +189,46 @@ R1.reset_index(inplace=True)
 R2.reset_index(inplace=True)
 R3.reset_index(inplace=True)
 
-res12_rule_overlap = []
-res13_rule_overlap = []
-res23_rule_overlap = []
-
-res12_suppdiff = []
-res13_suppdiff = []
-res23_suppdiff = []
-
-res12_condiff = []
-res13_condiff = []
-res23_condiff = []
-
-for i in range(1000) :
-
-    
-    R1_mesure = R1.loc[random.sample([i for i in range(0,len(R1))],np.min([len(R1),len(R2),len(R3)]))]
-    
-    
-    R2_mesure = R2.loc[random.sample([i for i in range(0,len(R2))],np.min([len(R1),len(R2),len(R3)]))]
-    
-    
-    R3_mesure = R3.loc[random.sample([i for i in range(0,len(R3))],np.min([len(R1),len(R2),len(R3)]))]
-
-    res12=basic_dudek(R1_mesure,R2_mesure)
-    res13=basic_dudek(R1_mesure,R3_mesure)
-    res23=basic_dudek(R2_mesure,R3_mesure)
-    
-    res12_rule_overlap.append(res12['rules_overlap'])
-    res13_rule_overlap.append(res13['rules_overlap'])
-    res23_rule_overlap.append(res23['rules_overlap'])
-    
-    res12_suppdiff.append(res12['supp_diff'])
-    res13_suppdiff.append(res13['supp_diff'])
-    res23_suppdiff.append(res23['supp_diff'])
-    
-    res12_condiff.append(res12['con_diff'])
-    res13_condiff.append(res13['con_diff'])
-    res23_condiff.append(res23['con_diff'])
-    
-    
-    
-
-
+#res12_rule_overlap = []
+#res13_rule_overlap = []
+#res23_rule_overlap = []
+#
+#res12_suppdiff = []
+#res13_suppdiff = []
+#res23_suppdiff = []
+#
+#res12_condiff = []
+#res13_condiff = []
+#res23_condiff = []
+#
+#for i in range(1000) :
+#
+#    
+#    R1_mesure = R1.loc[random.sample([i for i in range(0,len(R1))],np.min([len(R1),len(R2),len(R3)]))]
+#    
+#    
+#    R2_mesure = R2.loc[random.sample([i for i in range(0,len(R2))],np.min([len(R1),len(R2),len(R3)]))]
+#    
+#    
+#    R3_mesure = R3.loc[random.sample([i for i in range(0,len(R3))],np.min([len(R1),len(R2),len(R3)]))]
+#
+#    res12=basic_dudek(R1_mesure,R2_mesure)
+#    res13=basic_dudek(R1_mesure,R3_mesure)
+#    res23=basic_dudek(R2_mesure,R3_mesure)
+#    
+#    res12_rule_overlap.append(res12['rules_overlap'])
+#    res13_rule_overlap.append(res13['rules_overlap'])
+#    res23_rule_overlap.append(res23['rules_overlap'])
+#    
+#    res12_suppdiff.append(res12['supp_diff'])
+#    res13_suppdiff.append(res13['supp_diff'])
+#    res23_suppdiff.append(res23['supp_diff'])
+#    
+#    res12_condiff.append(res12['con_diff'])
+#    res13_condiff.append(res13['con_diff'])
+#    res23_condiff.append(res23['con_diff'])
+#    
+#    
+#    
+#
+#
