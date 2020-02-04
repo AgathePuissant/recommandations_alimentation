@@ -27,49 +27,6 @@ def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
     
     return frequent_itemsets
 
-#def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
-#    """
-#    Prend en entrée un dataframe de motifs fréquents et renvoie un dataframe des
-#    règles d'association à un conséquent et qui supprime les motifs inclus.
-#    ------------
-#    Arguments : 
-#        - d : pandas DataFrame contenant les motifs fréquents
-#        - confiance : float. le seuil de confiance minimum si support only est False
-#        - support_only : booléen. on utilise que le support comme métrique
-#        - support : float. le seuil de support minimum si support only est True
-#        - contexte maximaux : booléen. Si True, on ne garde que les contextes maximaux.
-#    """
-#    
-#    #Si on a décidé support only, le support uniquement éest utilisé comme métrique pour trouvers les règles sinon c'est la confiance
-#    if support_only == False :
-#        rules=association_rules(d, metric="confidence", min_threshold = confiance)
-#    else :
-#        rules=association_rules(d, support_only = True, min_threshold = 0.01)
-#    
-#    #On ne garde que les règles à un conséquent et...
-#    rules = rules[rules['consequents'].str.len() == 1]
-#    
-#    # ...on trie le dataframe avec les antécédents les plus long en haut
-#    # dans le but d'accélérer la recherche de contextes maximaux par la suite
-#    rules.index = rules['antecedents'].str.len()
-#    rules = rules.sort_index(ascending=False).reset_index(drop=True)
-#
-#     #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
-#    liste_pas_class=frozenset(['seul','amis','famille','autre','cluster_0','cluster_1','cluster_2','petit-dejeuner','dejeuner','gouter','diner'])
-#    
-#    N=len(rules)
-#
-#    # Parcours de la base
-#    for i in range(N) :
-#        # La condition est nécessaire car c'est possible que les index soient modifiés au cours du lancement
-#        if i in rules.index :
-#            # On enlève les conséquents dans lesquels il existe les éléments de contexte
-#            if (rules['consequents'][i].intersection(liste_pas_class)!=frozenset()) :
-#                rules=rules[rules['consequents']!=rules['consequents'][i]]
-##                    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-#    rules=rules.set_index(pd.Index([i for i in range(len(rules))]))
-#    return rules
-
 
 def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
     """
