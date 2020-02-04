@@ -343,7 +343,14 @@ class Application(tk.Frame):
             codeSgrp=dataCodesGr[dataCodesGr['libsougr']==alim[1]]['sougr'].unique()[0]
             repasCod.append((int(codeGrp),int(codeSgrp),alim[1]))
         
-        repas=Aliments(repasCod,self.currentUser.repas) 
+        
+        if not os.path.exists(os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')):
+            dataSubs=pd.read_csv('scores_tous_contextes_v3.csv', sep=',',encoding = "utf-8",index_col=0)
+            dataSubs.to_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=',', encoding='utf-8')
+        self.currentUser.dataSubs=pd.read_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=',',encoding = "utf-8",index_col=0)
+       
+        param=[self.currentUser.epsilon,self.currentUser.omega1,self.currentUser.omega2]
+        repas=Aliments(repasCod,self.currentUser.repas,self.currentUser.dataSubs,param) 
         alimentASubstituer=repas.alimentASubstituer #(libellé sgrp,SAIN,LIM)
         alimentPropose=repas.subsProposee #(libellé sgrp,SAIN,LIM)
         
@@ -556,14 +563,20 @@ class Aliments() :
     Fourni la liste des aliments proposés en substitution, scorés
     """
     
-    def __init__(self,_repasEntre=[(6, 99, 'viennoiserie')],_repas='petit-dejeuner'):
+    def __init__(self,_repasEntre,_repas,_tabSubst,param):
         """
         _repasEntre : [(code grp,code sgrp,libelle sgrp)]
         _repas : petit-dejeuner, dejeuner, diner
+        _tabSubst : dataframe sur lequel on se base pour les scores de subs
         """
         self.repas=_repas
+        self.dataSubs=_tabSubst
+        self.epsilon=param[0]
+        self.omega1=param[1]
+        self.omega2=param[2]
         dataNutri=pd.read_csv(os.path.join('Base_Gestion_Systeme','scores_sainlim_ssgroupes.csv'),sep=';',encoding="ISO-8859-1")
         self.NutriScore(_repasEntre,dataNutri)
+        
         
         
         
@@ -599,11 +612,7 @@ class Aliments() :
         Actualisation des indices de substitution
         Actualisation des poids
         """
-        if not os.path.exists(os.path.join('UserData',str(app.currentUser.id),'TabSubstUser.csv')):
-            dataSubs=pd.read_csv('scores_tous_contextes_v3.csv', sep=',',encoding = "utf-8",index_col=0)
-            dataSubs.to_csv((os.path.join('UserData',str(app.currentUser.id),'TabSubstUser.csv')), sep=',', encoding='utf-8')
-        self.dataSubs=pd.read_csv((os.path.join('UserData',str(app.currentUser.id),'TabSubstUser.csv')), sep=',',encoding = "utf-8",index_col=0)
-        
+         
         #Test existence substitution
         if not (self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])]).dropna(subset=['aliment_2']).empty: 
             Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])][['aliment_2','score']]
@@ -620,15 +629,11 @@ class Aliments() :
             else:
                 print('deso on peut rien faire')
 
-
-        epsilon=app.currentUser.epsilon
-        omega1=app.currentUser.omega1
-        omega2=app.currentUser.omega2
+        print(self.epsilon, self.omega1, self.omega2)
         self.subsProposee=('vin', 1.084, 1.430) #test
      
     def acceptation(self,_antec,_conseq):
         print("c'est un oui !!!")
-        self.dataSubs
         pass
     
     def refus(self,_antec,_conseq):
