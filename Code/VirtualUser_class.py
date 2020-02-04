@@ -17,8 +17,8 @@ import motifs_frequents_substituabilite as mf
 
 # =============================================================================
 # DATA IMPORT
-conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+#conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+#nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
 
 # =============================================================================
 
@@ -173,9 +173,7 @@ class System() :
         self.nutrirepas = self.score_nutri[self.score_nutri['libsougr'].isin(repas)]
         
         
-        
-    
 sys_test = System()
-sys_test.propose_repas()
+#sys_test.propose_repas()
 sys_test.NutriScore()
 test = sys_test.nutrirepas
