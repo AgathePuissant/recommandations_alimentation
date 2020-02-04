@@ -2,7 +2,7 @@
 """
 Created on Mon Feb  3 09:36:39 2020
 
-@author: anael
+@author: ADMIN
 """
 
 # FUNCTION IMPORT
@@ -121,6 +121,12 @@ class VirtualUser():
         # Le repas proposé final du consommateur
         self.repas_propose = self.repas_propose + self.regles.consequents.str[0].tolist()
         print(self.repas_propose)
+    
+    def reponse_substitution(self) :
+        """
+        La fonction qui répond à une substitution proposée (soit accord / soit refus)
+        """
+        pass
         
 #test_user = VirtualUser('pp', 'Homme', 16)
 #test_user.cluster
@@ -150,8 +156,8 @@ class System() :
 
         # constant d'apprentissage
         self.seuil_nutri = 70
-        alpha = 1.2
-        beta = 1
+        self.alpha = 1.2
+        self.beta = 1
         
         # Création de table de préférence
         self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
@@ -208,8 +214,37 @@ class System() :
             
             else :
                 print('Le repas est bon')
+    
+    
+    def traitement_substitution(self) :
+        """
+        La fonction qui lance pour chaque consommateur une réponse à la substitution proposée.
+        """
+        pass
+    
+    
+    def mise_a_jour_score(self) :
+        """
+        La fonction qui met à jour les scores de substituabilité après chaque accord / refus de proposition d'un repas substituable
+        """
+        pass
         
-
+    
+    def mise_a_jour_df(self) :
+        """
+        La fonction qui met à jour les tables de conso_pattern_sougr, preference, etc. après chaque pas de temps de simulation
+        si ca fait 5% de la base conso_pattern_sougr total (if >= 5% then ...)
+        """
+        pass
+    
+    def entrainement(self) :
+        """
+        La fonction qui lance chaque jour des propositions de repas, puis des substitutions possibles,
+        puis accord/refus des propositions de substitution, puis mise_a_jour_score et mise_a_jour_df
+        """
+        pass
+    
+    
 sys_test = System()
 sys_test.propose_repas()
 sys_test.propose_substitution()
