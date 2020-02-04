@@ -198,7 +198,7 @@ class Application(tk.Frame):
                                name = 'compagnie'+ vals[i])
             b.grid(row = 2, column = i)
 
-        vals = ['Petit_dejeuner','Déjeuner','Collation','Dîner']
+        vals = ['petit-dejeuner','dejeuner','collation','diner']
         etiqs = ['Petit-dejeuner', 'Déjeuner','Collation','Dîner']
         varGr_repas = tk.StringVar()
         varGr_repas.set(vals[1])
@@ -283,7 +283,7 @@ class Application(tk.Frame):
         
         self.val=tk.Button(self,
                        text="Valider",
-                       command= lambda:self.currentUser.enter_repas(self.grpbox))
+                       command= lambda : self.propose_substitution(_repasEntre=self.grpbox))
         self.val.grid(column=0,row=30,padx=10,pady=5)
 
         self.quit = tk.Button(self,
@@ -292,9 +292,77 @@ class Application(tk.Frame):
                           command=self.master.destroy)
         self.quit.grid(column=1,row=30,padx=10,pady=5)
         
-    def propose_substitution(self):
-        print(self.currentUser.alimentASubstituer, self.currentUser.alimentPropose)
-      
+        
+        
+    def propose_substitution(self,_repasEntre):
+        """
+        _repasEntre : dictionnaire des comboboxs 
+                    -> {Alim1: combobox_groupes,combobox_sgroupes}
+        renvoie la liste des aliments (sous-groupes) sélectionnées
+        
+        """
+        repasLib=[]
+        repasCod=[] #[code groupe, code sous groupe, libellé sous groupe]
+        for alim in _repasEntre:
+            repasLib.append((_repasEntre[alim][0].get(),_repasEntre[alim][1].get()))
+       
+        dataCodesGr=pd.read_csv(os.path.join('Base_a_analyser','nomenclature.csv'), sep=';',encoding = "ISO-8859-1")
+        
+
+        for alim in repasLib:
+            codeGrp=dataCodesGr[dataCodesGr['libgr']==alim[0]]['codgr'].unique()[0]
+            codeSgrp=dataCodesGr[dataCodesGr['libsougr']==alim[1]]['sougr'].unique()[0]
+            repasCod.append((int(codeGrp),int(codeSgrp),alim[1]))
+        
+        repas=Aliments(repasCod,self.currentUser.repas) 
+        alimentASubstituer=repas.alimentASubstituer #(libellé sgrp,SAIN,LIM)
+        alimentPropose=repas.subsProposee #(libellé sgrp,SAIN,LIM)
+        
+        print(alimentASubstituer, alimentPropose)
+        self.clean_widgets()
+        
+        texte=tk.Label(self,
+                       text = "Nous vous proposons cette substitution :",
+                       fg='blue')
+        texte.grid(column=1,columnspan=6)
+        
+        texte=tk.Label(self,
+                       text = 'Vous voulez consommer : ',
+                       fg='blue')
+        texte.grid(row=2,column=1,columnspan=4)
+        
+        texte=tk.Label(self,
+                       text=str(alimentASubstituer[2])+'\n'+' Score SAIN : '+str(alimentASubstituer[3])+'\n'+' Score LIM : '+str(alimentASubstituer[4]))
+        texte.grid(row=3,column=1,columnspan=4)
+        
+       
+        texte=tk.Label(self,
+                       text = 'Nous vous suggérons : ',
+                       fg='blue')        
+        texte.grid(row=2,column=6,columnspan=4)
+        
+        texte=tk.Label(self,
+                       text=str(alimentPropose[0])+'\n'+' Score SAIN : '+str(alimentPropose[1])+'\n'+' Score LIM : '+str(alimentPropose[2]))
+        texte.grid(row=3,column=6,columnspan=4)
+        
+        self.buttonAccept= tk.Button(self,
+                       text="Accepter",
+                       fg='green',
+                       command= lambda : repas.acceptation(alimentASubstituer,alimentPropose))
+        self.buttonAccept.grid(column=1,
+                               row=30,
+                               padx=10,
+                               pady=5)
+        
+        buttonRefuse= tk.Button(self,
+                       text="Refuser",
+                       fg='purple',
+                       command= lambda : repas.refus(alimentASubstituer,alimentPropose))
+        buttonRefuse.grid(column=3,
+                          row=30,
+                          padx=10,
+                          pady=5)
+        
 
 
 class User():
@@ -398,63 +466,42 @@ class User():
         """
         pass
     
-    def enter_repas(self, _repasEntre):
-        """
-        _repasEntre : dictionnaire des comboboxs 
-                    -> {Alim1: combobox_groupes,combobox_sgroupes}
-        renvoie la liste des aliments (sous-groupes) sélectionnées
-        self.repasUser=[code groupe, code sous groupe, libellé sous groupe]
-        """
-        self.repasUser=[]
-        repasUser=[]
-        for alim in _repasEntre:
-            repasUser.append((_repasEntre[alim][0].get(),_repasEntre[alim][1].get()))
-       
-        dataCodesGr=pd.read_csv(os.path.join('Base_a_analyser','nomenclature.csv'), sep=';',encoding = "ISO-8859-1")
-        
-        print(repasUser)
-        for alim in repasUser:
-            codeGrp=dataCodesGr[dataCodesGr['libgr']==alim[0]]['codgr'].unique()[0]
-            codeSgrp=dataCodesGr[dataCodesGr['libsougr']==alim[1]]['sougr'].unique()[0]
-            print(codeGrp,codeSgrp)
-            self.repasUser.append((int(codeGrp),int(codeSgrp),alim[1]))
-        
-        repas=Aliments(self.repasUser) 
-        self.alimentASubstituer=repas.alimentASubstituer
-        self.alimentPropose=repas.subsProposee
+
 
 class Aliments() :
     """
     Fourni la liste des aliments proposés en substitution, scorés
     """
     
-    def __init__(self,_repasEntre):
-        self.NutriScore(_repasEntre)
-        
-        
-    def NutriScore(self,_repasEntre):
-        print(_repasEntre)
+    def __init__(self,_repasEntre=[(6, 99, 'viennoiserie')],_repas='petit-dejeuner'):
+        """
+        _repasEntre : [(code grp,code sgrp,libelle sgrp)]
+        _repas : petit-dejeuner, dejeuner, diner
+        """
+        self.repas=_repas
         dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
+        self.NutriScore(_repasEntre,dataNutri)
         
-        repasScore=[]
+        
+        
+    def NutriScore(self,_repasEntre,dataNutri,indPireScore=0):
+     
+        repasScore=[] #[(grpAlim1,sgrpAlim1,libAlim1,SAINAlim1,LIMAlim1),...]
         for alim in _repasEntre:    
             scoreSain=dataNutri[(dataNutri['codgr']==alim[0])&(dataNutri['sougr']==alim[1])]['SAIN 5 opt'].values[0]
             scoreLim=dataNutri[(dataNutri['codgr']==alim[0]) & (dataNutri['sougr']==alim[1])]['LIM3'].values[0]
-            repasScore.append((alim[2],scoreSain,scoreLim))
-        print (repasScore)
+            repasScore.append((alim[0],alim[1],alim[2],round(scoreSain,3),round(scoreLim,3)))
         
-        LSain=[repasScore[i][1] for i in range(len(repasScore))]
-        pireScore=LSain.index(min(LSain))
-        pireAlim=repasScore[pireScore]
-        print(pireAlim)
-        self.alimentASubstituer=pireAlim
-        #self.calculSubstitution(pireAlim)
+
+        repasScoreSort=sorted(repasScore,key=lambda alim:alim[3]) #sort by SAIN score
+    
+        self.alimentASubstituer=repasScoreSort[indPireScore] #(libellé,scoreSAIN,scoreLIM)
+        self.calculSubstitution(repasScoreSort,dataNutri,indPireScore)
         
-    def calculSubstitution(_pireAlim):
+    def calculSubstitution(self,_repasEntre,dataNutri,_indPireAlim,epsilon=0,omega1=0.5,omega2=0.5):
         """
         renvoie liste des aliments scorés
-        _pireAlim : (labelSgrp,scoreSAIN,scoreLIM)
-        _alimproposé : (labelSgrp,scoreSAIN,scoreLIM)
+        
         
         poids en paramètre
         soit exploitation = Max aliments scorés,
@@ -462,12 +509,37 @@ class Aliments() :
         Actualisation des indices de substitution
         Actualisation des poids
         """
+        
 
-        dataSubs=pd.read_csv('scores_tous_contextes.csv', sep=';',encoding = "utf-8")
-        self.subsProposee=[('vin', 1.08420944313934, 1.4304920832418502)] #test
+        self.dataSubs=pd.read_csv('scores_tous_contextes_v3.csv', sep=',',encoding = "utf-8",index_col=0)
+        
+        #Test existence substitution
+        if not (self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])]).dropna(subset=['aliment_2']).empty: 
+            Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])][['aliment_2','score']]
+            print('existe',self.alimentASubstituer,Subst_envisageables)
+            
+        #Essai substitution du même groupe
+        elif (dataNutri[dataNutri['codgr']==self.alimentASubstituer[0]]).dropna(subset=['libsougr']).shape[0]>1: #si contient autres aliments du mm groupe
+            Subst_secours=dataNutri[(dataNutri['codgr']==self.alimentASubstituer[0])&(dataNutri['sougr']!=self.alimentASubstituer[1])]
+            print('secours',self.alimentASubstituer,Subst_secours)
+            
+        else: #si seul aliment du groupe et aucune substitution possible
+            if _indPireAlim<len(_repasEntre)-1 : #autre aliment qu'on peut substituer
+                self.NutriScore(_repasEntre,dataNutri,_indPireAlim+1) #on substitue le 2e pire aliment,etc...
+            else:
+                print('deso on peut rien faire')
 
+        self.subsProposee=('vin', 1.084, 1.430) #test
+     
+    def acceptation(self,_antec,_conseq):
+        print("c'est un oui !!!")
+        self.dataSubs
+        pass
+    
+    def refus(self,_antec,_conseq):
+        print("dommaaaaaage")
+        pass
       
-
 
 root = tk.Tk()
 app = Application(master=root)

@@ -17,55 +17,49 @@ import motifs_frequents_substituabilite as mf
 
 # =============================================================================
 # DATA IMPORT
-conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+#conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+#nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
 
 # =============================================================================
 
 
 # =============================================================================
 # GLOBAL VARIABLE
-supp = 0.001
-conf = 0.01
+#supp = 0.001
+#conf = 0.01
 
 # DATA PREPARATION
-motifs = mf.find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = 0.1)
-
+#motifs = mf.find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+#regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = 0.1)
 # =============================================================================
 
 class VirtualUser():
     """
     Definit les caractéristiques de l'utilisateur
     """
-    def __init__(self,_name,_sex,_age):
-        self.name=_name
-        self.sex=_sex
-        self.age=_age
+    def __init__(self, _id, tab_pref):
+        self.id = _id
         
         # Affection de l'utilisateur à un cluster de consommation
         self.affect_cluster()
         
         # Création de la table de préférence individuelle
-        self.creation_tab_pref()
+        self.creation_tab_pref(tab_pref)
 
 
     def affect_cluster(self):
         """
         Permet d'affecter l'utilisateur à un cluster de consommateur
         """
-        self.cluster = random.randint(0,2)
+        self.cluster = random.randint(1,10)
 
 
-    def creation_tab_pref(self) :
+    def creation_tab_pref(self, tab_pref) :
         """
         La fonction qui crée une table de préférence individuelle des sous-groupes d'aliments
         """
-        # Input table de consommation des sous-groupes d'aliments du cluster self.cluster
-        conso_cluster = conso_pattern_sougr[conso_pattern_sougr['cluster_consommateur'] == self.cluster]
-        
-        # Création de table de préférence
-        self.tab_pref_indi = pref.construct_table_preference(conso_cluster, nomenclature)
+        # Filtrage de table de préférence du cluster
+        self.tab_pref_indi = tab_pref[tab_pref['cluster_consommateur'] == self.cluster]
         
         # Personnalisation de table de préférence : ajoute aléatoirement -10 à 10% du taux de consommation par groupe
         self.tab_pref_indi = self.tab_pref_indi.loc[:, ['cluster_consommateur', 'tyrep', 'code_role', 'taux_code_apparaitre', 'libsougr', 'taux_conso_par_code']]
@@ -73,14 +67,8 @@ class VirtualUser():
                 lambda taux : round(taux*(1+random.uniform(-0.1, 0.1)), 2)).apply(
                         lambda taux : taux if taux <= 100 else 100)
 
-
-    def modifier_info(self) :
-        """
-        Modification d'information si besoin
-        """
-        pass
     
-    def enter_repas(self, type_repas, avec_qui):
+    def enter_repas(self, type_repas, avec_qui, regles):
         """
         _repasEntre : dictionnaire des comboboxs 
                     -> {Alim1: combobox_groupes,combobox_sgroupes}
@@ -88,17 +76,16 @@ class VirtualUser():
         """
         repas_code = {'petit-dejeuner' : 1, 'dejeuner' : 3, 'gouter' : 4, 'diner' : 5}
         
-        input_repas = self.tab_pref_indi[self.tab_pref_indi.tyrep == repas_code[type_repas]]
-        
         nbre_plat = 0
         
         while nbre_plat == 0 :
             
-            self.repas = input_repas
+            self.repas = self.tab_pref_indi[self.tab_pref_indi.tyrep == repas_code[type_repas]]
             
             # Filtrage de code de role
             code_role_filter = self.repas.groupby(['code_role', 'taux_code_apparaitre'])['taux_conso_par_code'].apply(
                     lambda taux : round(100*random.random(),2)).rename('filter_code').reset_index()
+            
             code_role_filter = code_role_filter[code_role_filter['filter_code'] <= code_role_filter['taux_code_apparaitre']]
             
             self.repas = pd.DataFrame.merge(self.repas, code_role_filter, on = ['code_role', 'taux_code_apparaitre'], how = 'inner')
@@ -133,4 +120,62 @@ class VirtualUser():
         
 #test_user = VirtualUser('pp', 'Homme', 16)
 #test_user.cluster
-#test_user.enter_repas('petit-dejeuner', 'famille')
+#test_user.enter_repas('petit-dejeuner', 'famille', regles)
+
+
+class System() :
+    
+    def __init__(self) :
+        
+        # Load dataframe
+        self.conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+        self.nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+        
+        # Regles : supp = 0.001, conf = 0.01
+        self.regles = pd.read_csv("Base_Gestion_Systeme/regles.csv", encoding = 'latin-1')
+        
+        # Score de nutrition
+        self.score_nutri = pd.read_csv('Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv',sep=';',encoding="latin-1")
+        
+        # contexte de repas
+        self.liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
+        self.liste_avecqui = ['seul', 'famille', 'amis', 'autre']
+        
+        # Création de table de préférence
+        self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
+        
+        # Création des utilisateurs
+        self.nber_user = 10
+        self.add_VirtualUser()
+        
+        
+    def add_VirtualUser(self) :
+        self.liste_user = []
+        for iden in range(1, self.nber_user + 1) :
+            print(iden)
+            self.liste_user.append(VirtualUser(iden, self.tab_pref))
+    
+    def propose_repas(self) :
+        for user in self.liste_user :
+            tyrep = random.choice(self.liste_tyrep)
+            avecqui = random.choice(self.liste_avecqui)
+            print(user.id, tyrep, avecqui)
+            user.enter_repas(tyrep, avecqui, self.regles)
+    
+    def NutriScore(self) :
+        """
+        repas - liste des libsougr
+        """
+        user_test = self.liste_user[0]
+        user_test.enter_repas('dejeuner', 'famille', self.regles)
+        repas = user_test.repas_propose
+        
+        self.nutrirepas = self.score_nutri[self.score_nutri['libsougr'].isin(repas)]
+        
+        
+sys_test = System()
+#sys_test.propose_repas()
+sys_test.NutriScore()
+test = sys_test.nutrirepas
+
+
