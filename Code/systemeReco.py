@@ -479,33 +479,29 @@ class Aliments() :
         _repas : petit-dejeuner, dejeuner, diner
         """
         self.repas=_repas
-        self.NutriScore(_repasEntre)
-        
-        
-        
-        
-    def NutriScore(self,_repasEntre):
-
         dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
+        self.NutriScore(_repasEntre,dataNutri)
         
         
-        repasScore=[]
+        
+    def NutriScore(self,_repasEntre,dataNutri,indPireScore=0):
+     
+        repasScore=[] #[(grpAlim1,sgrpAlim1,libAlim1,SAINAlim1,LIMAlim1),...]
         for alim in _repasEntre:    
             scoreSain=dataNutri[(dataNutri['codgr']==alim[0])&(dataNutri['sougr']==alim[1])]['SAIN 5 opt'].values[0]
             scoreLim=dataNutri[(dataNutri['codgr']==alim[0]) & (dataNutri['sougr']==alim[1])]['LIM3'].values[0]
             repasScore.append((alim[0],alim[1],alim[2],round(scoreSain,3),round(scoreLim,3)))
         
-        LSain=[repasScore[i][1] for i in range(len(repasScore))]
-        pireScore=LSain.index(min(LSain))
-        pireAlim=repasScore[pireScore]
-        self.alimentASubstituer=pireAlim #(libellé,scoreSAIN,scoreLIM)
-        self.calculSubstitution(pireAlim,dataNutri)
+
+        repasScoreSort=sorted(repasScore,key=lambda alim:alim[3]) #sort by SAIN score
+    
+        self.alimentASubstituer=repasScoreSort[indPireScore] #(libellé,scoreSAIN,scoreLIM)
+        self.calculSubstitution(repasScoreSort,dataNutri,indPireScore)
         
-    def calculSubstitution(self,_pireAlim,dataNutri,epsilon=0,omega1=0.5,omega2=0.5):
+    def calculSubstitution(self,_repasEntre,dataNutri,_indPireAlim,epsilon=0,omega1=0.5,omega2=0.5):
         """
         renvoie liste des aliments scorés
-        _pireAlim : (labelSgrp,scoreSAIN,scoreLIM)
-        _alimproposé : (labelSgrp,scoreSAIN,scoreLIM)
+        
         
         poids en paramètre
         soit exploitation = Max aliments scorés,
@@ -513,21 +509,26 @@ class Aliments() :
         Actualisation des indices de substitution
         Actualisation des poids
         """
+        
 
-        print(_pireAlim)
         self.dataSubs=pd.read_csv('scores_tous_contextes_v3.csv', sep=',',encoding = "utf-8",index_col=0)
         
         #Test existence substitution
-        if not (self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==_pireAlim[2])]).dropna(subset=['aliment_2']).empty: 
-            Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==_pireAlim[2])][['aliment_2','score']]
-            print('existe',Subst_envisageables)
+        if not (self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])]).dropna(subset=['aliment_2']).empty: 
+            Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])][['aliment_2','score']]
+            print('existe',self.alimentASubstituer,Subst_envisageables)
             
         #Essai substitution du même groupe
-        elif (dataNutri[dataNutri['codgr']==_pireAlim[0]]).shape[0]>1: #si contient autres aliments du mm groupe
-            Subst_secours=dataNutri[dataNutri['codgr']==_pireAlim[0]]
-            print('secours',Subst_secours)
+        elif (dataNutri[dataNutri['codgr']==self.alimentASubstituer[0]]).dropna(subset=['libsougr']).shape[0]>1: #si contient autres aliments du mm groupe
+            Subst_secours=dataNutri[(dataNutri['codgr']==self.alimentASubstituer[0])&(dataNutri['sougr']!=self.alimentASubstituer[1])]
+            print('secours',self.alimentASubstituer,Subst_secours)
             
-        
+        else: #si seul aliment du groupe et aucune substitution possible
+            if _indPireAlim<len(_repasEntre)-1 : #autre aliment qu'on peut substituer
+                self.NutriScore(_repasEntre,dataNutri,_indPireAlim+1) #on substitue le 2e pire aliment,etc...
+            else:
+                print('deso on peut rien faire')
+
         self.subsProposee=('vin', 1.084, 1.430) #test
      
     def acceptation(self,_antec,_conseq):
