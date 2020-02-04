@@ -31,6 +31,7 @@ import motifs_frequents_substituabilite as mf
 # DATA PREPARATION
 #motifs = mf.find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
 #regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = 0.1)
+#regles.to_csv('Base_Gestion_Systeme/regles.csv', sep = ':', encoding = 'latin-1', index = False)
 # =============================================================================
 
 class VirtualUser():
