@@ -160,7 +160,7 @@ class System() :
             user.enter_repas(tyrep, avecqui, self.regles)
     
     def NutriScore(self,_repasEntre) :
-
+        
         dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
     
 sys_test = System()

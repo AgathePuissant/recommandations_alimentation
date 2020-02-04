@@ -486,6 +486,7 @@ class Aliments() :
         
     def NutriScore(self,_repasEntre,dataNutri,indPireScore=0):
      
+        dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
         repasScore=[] #[(grpAlim1,sgrpAlim1,libAlim1,SAINAlim1,LIMAlim1),...]
         for alim in _repasEntre:    
             scoreSain=dataNutri[(dataNutri['codgr']==alim[0])&(dataNutri['sougr']==alim[1])]['SAIN 5 opt'].values[0]
