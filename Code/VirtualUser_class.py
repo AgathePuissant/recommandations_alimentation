@@ -42,6 +42,7 @@ class VirtualUser():
     """
     def __init__(self, _id, tab_pref):
         self.id = _id
+        self.epsilon = 1
         
         # Affection de l'utilisateur à un cluster de consommation
         self.affect_cluster()
@@ -62,7 +63,7 @@ class VirtualUser():
         La fonction qui crée une table de préférence individuelle des sous-groupes d'aliments
         """
         # Filtrage de table de préférence du cluster
-        self.tab_pref_indi = tab_pref[tab_pref['cluster_consommateur'] == self.cluster]
+        self.tab_pref_indi = tab_pref[tab_pref['cluster_consommateur'] == self.cluster].reset_index(drop = True)
         
         # Personnalisation de table de préférence : ajoute aléatoirement -10 à 10% du taux de consommation par groupe
         self.tab_pref_indi = self.tab_pref_indi.loc[:, ['cluster_consommateur', 'tyrep', 'code_role', 'taux_code_apparaitre', 'libsougr', 'taux_conso_par_code']]
@@ -135,14 +136,22 @@ class System() :
         self.nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
         
         # Regles : supp = 0.001, conf = 0.01
-        self.regles = pd.read_csv("Base_Gestion_Systeme/regles.csv", encoding = 'latin-1')
+        self.regles = pd.read_csv("Base_Gestion_Systeme/regles.csv", sep = ";", encoding = 'latin-1')
         
         # Score de nutrition
         self.score_nutri = pd.read_csv('Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv',sep=';',encoding="latin-1")
         
+        # Score par contextes :
+        self.score_contexte = pd.read_csv('Base_Gestion_Systeme/scores_tous_contextes.csv', sep = ',')
+        
         # contexte de repas
         self.liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
         self.liste_avecqui = ['seul', 'famille', 'amis']
+
+        # constant d'apprentissage
+        self.seuil_nutri = 70
+        alpha = 1.2
+        beta = 1
         
         # Création de table de préférence
         self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
@@ -160,25 +169,52 @@ class System() :
     
     def propose_repas(self) :
         for user in self.liste_user :
-            tyrep = random.choice(self.liste_tyrep)
-            avecqui = random.choice(self.liste_avecqui)
-            print(user.id, tyrep, avecqui)
-            user.enter_repas(tyrep, avecqui, self.regles)
+            user.tyrep = random.choice(self.liste_tyrep)
+            user.avecqui = random.choice(self.liste_avecqui)
+            print(user.id, user.tyrep, user.avecqui)
+            user.enter_repas(user.tyrep, user.avecqui, self.regles)
     
-    def NutriScore(self) :
+    def propose_substitution(self) :
         """
         repas - liste des libsougr
         """
-        user_test = self.liste_user[0]
-        user_test.enter_repas('dejeuner', 'famille', self.regles)
-        repas = user_test.repas_propose
+        transform_avecqui = {'seul' : 'seul', 'famille' : 'accompagne', 'amis' : 'accompagne'}
         
-        self.nutrirepas = self.score_nutri[self.score_nutri['libsougr'].isin(repas)]
+        for user in self.liste_user :
+            
+            # Extraire aliment à substituer par score sain-lim
+            user.nutrirepas = self.score_nutri[self.score_nutri['libsougr'].isin(user.repas_propose)]
+            aliment_a_substituer = user.nutrirepas[user.nutrirepas['distance_origine'] <= self.seuil_nutri]['libsougr'].tolist()
+            
+            # Recherche des substitutions
+            if len(aliment_a_substituer) > 0 : #s'il existe des aliments à substituer
+                ep = random.random()
+                if ep <= user.epsilon :
+                    print('exploration')
+                    
+                    user.tab_subst = self.score_contexte[(self.score_contexte['cluster'] == 'cluster_'+str(user.cluster)) &
+                                                         (self.score_contexte['repas'] == user.tyrep) &
+                                                         (self.score_contexte['compagnie'] == transform_avecqui[user.avecqui])]
+                    
+                else :
+                    print('exploitation')
+            
+            else :
+                print('Le repas est bon')
         
-        
+
+regf = reg[reg.cluster_consommateur == 1]
+
 sys_test = System()
-#sys_test.propose_repas()
-sys_test.NutriScore()
+sys_test.propose_repas()
+sys_test.propose_substitution()
+
+
+test = sys_test.score_contexte
+test = test[(test['cluster'] == 'cluster_1') &
+            (test['repas'] == 'petit-dejeuner')]
+
+reg = sys_test.regles
 test = sys_test.nutrirepas
-
-
+test = sys_test.liste_user[1].nutrirepas
+test[test['distance_origine'] <= 70]['libsougr'].tolist()
