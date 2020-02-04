@@ -161,7 +161,7 @@ class System() :
     
     def NutriScore(self,_repasEntre) :
         
-        dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
+        self.dataNutri = pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
     
 sys_test = System()
 sys_test.propose_repas()
