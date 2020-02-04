@@ -142,7 +142,7 @@ class System() :
         self.score_nutri = pd.read_csv('Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv',sep=';',encoding="latin-1")
         
         # Score par contextes :
-        self.score_contexte = pd.read_csv('Base_Gestion_Systeme/scores_tous_contextes.csv', sep = ';', encoding = 'latin-1')
+        self.score_contexte = pd.read_csv('Base_Gestion_Systeme/scores_tous_contextes.csv', sep = ',')
         
         # contexte de repas
         self.liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
@@ -178,7 +178,8 @@ class System() :
         """
         repas - liste des libsougr
         """
-        transform_avecqui = {'famille' : 'accompagne', 'amis' : 'accompagne'}
+        transform_avecqui = {'seul' : 'seul', 'famille' : 'accompagne', 'amis' : 'accompagne'}
+        
         for user in self.liste_user :
             
             # Extraire aliment à substituer par score sain-lim
@@ -186,14 +187,20 @@ class System() :
             aliment_a_substituer = user.nutrirepas[user.nutrirepas['distance_origine'] <= self.seuil_nutri]['libsougr'].tolist()
             
             # Recherche des substitutions
-            ep = random.random()
-            if ep <= user.epsilon :
-                print('exploration')
-                
-                user.tab_subst = self.score_contexte[self.score_contexte['cluster']]
-                
+            if len(aliment_a_substituer) > 0 : #s'il existe des aliments à substituer
+                ep = random.random()
+                if ep <= user.epsilon :
+                    print('exploration')
+                    
+                    user.tab_subst = self.score_contexte[(self.score_contexte['cluster'] == 'cluster_'+str(user.cluster)) &
+                                                         (self.score_contexte['repas'] == user.tyrep) &
+                                                         (self.score_contexte['compagnie'] == transform_avecqui[user.avecqui])]
+                    
+                else :
+                    print('exploitation')
+            
             else :
-                print('exploitation')
+                print('Le repas est bon')
         
 
 regf = reg[reg.cluster_consommateur == 1]
@@ -202,10 +209,12 @@ sys_test = System()
 sys_test.propose_repas()
 sys_test.propose_substitution()
 
-test1 = sys_test.score_contexte
+
+test = sys_test.score_contexte
+test = test[(test['cluster'] == 'cluster_1') &
+            (test['repas'] == 'petit-dejeuner')]
+
 reg = sys_test.regles
 test = sys_test.nutrirepas
-test = sys_test.liste_user[0].nutrirepas
+test = sys_test.liste_user[1].nutrirepas
 test[test['distance_origine'] <= 70]['libsougr'].tolist()
-
-test1.head()
