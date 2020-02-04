@@ -11,6 +11,7 @@ from tkinter import ttk
 import pandas as pd
 import os
 import uuid #pour créer des id uniques
+import ast
 import configparser
 
 
@@ -165,40 +166,45 @@ class Application(tk.Frame):
         _aliNam=scrollbar préférences alimentaires
         """
 
-            
-        name = self.nametowidget('nom').get()
-        age = self.nametowidget('age').get()
-        taille = self.nametowidget('taille').get()
-        poids=self.nametowidget('poids').get()
+        info={}    
+        info['name'] = self.nametowidget('nom').get()
+        info['age'] = self.nametowidget('age').get()
+        info['taille'] = self.nametowidget('taille').get()
+        info['poids']=self.nametowidget('poids').get()
+        
         widgalim={} #dic des préférénces alimentaires
         for a in _alimNam:
             widgalim[a]=self.nametowidget(a).get()
-        sexe = _sexe.get()
-        id=str(uuid.uuid4())
+        info['pref']=widgalim
+        info['sexe'] = _sexe.get()
+        info['id']=str(uuid.uuid4())
         
 
-        self.currentUser = User(name,sexe,age,taille,poids,widgalim,id)
+        self.currentUser = User(info)
         
 
         self.clean_widgets()
         self.menu_widgets()
 
 
-
+    def getInfoFromFile(self,_filepath,_section):
+        config = configparser.ConfigParser()
+        config.read(_filepath)
+        info=dict(config._sections[_section])
+        return info
+        
     def launch(self):
         """
         Formulaire d'info sur le contexte de consommation
         """
         if self.currentUser==None:  #pas de user prédéfini
-            config = configparser.ConfigParser()
+            
             if self.current_user_id=='default': #pas de current User
-                self.currentUser=User('ana','F',21,165,58,[],str(uuid.uuid4()))                
+                info=self.getInfoFromFile('init.ini','DEFAULTDATA')
+                self.currentUser=User(info)                
             else : #user pré-enregistré
-                config.read(os.path.join('UserData',self.current_user_id,str(self.current_user_id)+'.ini'))
-                nom=config['USERDATA']['nom']
-                sexe=config['USERDATA']['sexe']
-                age=config['USERDATA']['age']
-                self.currentUser = User(nom,sexe,age,self.current_user_id)
+                info=self.getInfoFromFile(os.path.join('UserData',self.current_user_id,str(self.current_user_id)+'.ini'),'USERDATA')
+                self.currentUser = User(info)
                         
 
         self.clean_widgets()
@@ -398,14 +404,17 @@ class User():
     """
     Definit les caractéristiques de l'utilisateur
     """
-    def __init__(self,_name,_sex,_age,_taille,_poids,_pref,_id):
-        self.name=_name
-        self.sex=_sex
-        self.age=_age
-        self.id=_id
-        self.taille=_taille
-        self.poids=_poids
-        self.pref=_pref
+    def __init__(self,_info):
+        self.name=_info['name']
+        self.sex=_info['sexe']
+        self.age=_info['age']
+        self.id=_info['id']
+        self.taille=_info['taille']
+        self.poids=_info['poids']
+        if type(_info['pref'])==str:
+            self.pref=ast.literal_eval(_info['pref']) #conversion en liste
+        else:
+            self.pref=_info['pref']
         print(self.id)
         
         if not os.path.exists('UserData'): #si n'existe pas de dossier user
@@ -422,20 +431,21 @@ class User():
                 'sexe':self.sex,
                 'taille':self.taille,
                 'poids':self.poids,
-                'pref':self.pref
+                'pref':self.pref,
+                'epsilon'=0.5,
+                'omega1'=0.5,
+                'omega2'=0,5,
                 }
         
         with open(os.path.join(userdir,self.id+'.ini'), 'w') as configfile:
             config.write(configfile)
             
+        
         config = configparser.ConfigParser() #sauvegarde du fichier init général
-        config['CURRENTUSER']={
-                'current_user_id':self.id,
-                }
-
+        config.read('init.ini')
+        config.set('CURRENTUSER','current_user_id',self.id) #actualisation current user
         with open('init.ini', 'w') as configfile:
             config.write(configfile)
-        
         # Affection de l'utilisateur à un cluster de consommation
         #self.affect_cluster()
         
@@ -541,7 +551,7 @@ class Aliments() :
         _repas : petit-dejeuner, dejeuner, diner
         """
         self.repas=_repas
-        dataNutri=pd.read_csv('scores_sainlim_ssgroupes.csv',sep=';',encoding="ISO-8859-1")
+        dataNutri=pd.read_csv(os.path.join('Base_Gestion_Systeme','scores_sainlim_ssgroupes.csv'),sep=';',encoding="ISO-8859-1")
         self.NutriScore(_repasEntre,dataNutri)
         
         
@@ -552,15 +562,16 @@ class Aliments() :
         for alim in _repasEntre:    
             scoreSain=dataNutri[(dataNutri['codgr']==alim[0])&(dataNutri['sougr']==alim[1])]['SAIN 5 opt'].values[0]
             scoreLim=dataNutri[(dataNutri['codgr']==alim[0]) & (dataNutri['sougr']==alim[1])]['LIM3'].values[0]
-            repasScore.append((alim[0],alim[1],alim[2],round(scoreSain,3),round(scoreLim,3)))
+            scoreDist=dataNutri[(dataNutri['codgr']==alim[0]) & (dataNutri['sougr']==alim[1])]['distance_origine'].values[0]
+            repasScore.append((alim[0],alim[1],alim[2],round(scoreSain,3),round(scoreLim,3),round(scoreDist,3)))
         
 
-        repasScoreSort=sorted(repasScore,key=lambda alim:alim[3]) #sort by SAIN score
+        repasScoreSort=sorted(repasScore,key=lambda alim:alim[5]) #sort by distance SAIN/LIM
     
         self.alimentASubstituer=repasScoreSort[indPireScore] #(libellé,scoreSAIN,scoreLIM)
         self.calculSubstitution(repasScoreSort,dataNutri,indPireScore)
         
-    def calculSubstitution(self,_repasEntre,dataNutri,_indPireAlim,epsilon=0,omega1=0.5,omega2=0.5):
+    def calculSubstitution(self,_repasEntre,dataNutri,_indPireAlim):
         """
         renvoie liste des aliments scorés
         _repasEntre : 
@@ -598,6 +609,10 @@ class Aliments() :
             else:
                 print('deso on peut rien faire')
 
+
+        epsilon=app.currentUser.epsilon
+        omega1=app.currentUser.omega1
+        omega2=app.currentUser.omega2
         self.subsProposee=('vin', 1.084, 1.430) #test
      
     def acceptation(self,_antec,_conseq):
