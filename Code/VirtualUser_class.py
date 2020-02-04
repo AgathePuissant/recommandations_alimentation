@@ -20,6 +20,9 @@ import motifs_frequents_substituabilite as mf
 #conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
 #nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
 
+t_subst = mf.tableau_substitution(regles, nomenclature)
+tab_scores = mf.matrice_scores_diff_moy(t_subst, regles)
+
 # =============================================================================
 
 
@@ -52,7 +55,7 @@ class VirtualUser():
         """
         Permet d'affecter l'utilisateur à un cluster de consommateur
         """
-        self.cluster = random.randint(1,10)
+        self.cluster = random.randint(1,8)
 
 
     def creation_tab_pref(self, tab_pref) :
