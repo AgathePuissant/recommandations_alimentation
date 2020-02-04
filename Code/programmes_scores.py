@@ -14,9 +14,10 @@ CODE PRINCIPAL
 supp = 0.001
 conf = 0.001
 
-cluster_liste = [[1,'cluster_1'],[2,'cluster_2'],[3,'cluster_3'],[4,'cluster_4'],[5,'cluster_5'],[6,'cluster_6'],[7,'cluster_7'],[8,'cluster_8'],[9,'cluster_9'],[10,'cluster_10']]
+cluster_liste = [[1,'cluster_1'],[2,'cluster_2'],[3,'cluster_3'],[4,'cluster_4'],[5,'cluster_5'],[6,'cluster_6'],[7,'cluster_7'],[8,'cluster_8']]
 
 avecqui_liste = [[1,'seul'],[2,'accompagne']]
+#avecqui_liste = [[1,'seul'],[2,'famille'], [3,'amis']]
 
 tyrep_liste = [[1,'petit-dejeuner'],[3,'dejeuner'],[4,'gouter'],[5,'diner']]
 
@@ -96,3 +97,6 @@ for tyrep in tyrep_liste :
             else :
                 
                 print("y'en a pas")
+
+#scores_tous_contextes.to_csv('Base_Gestion_Systeme/scores_tous_contextes.csv', sep = ';', encoding = 'latin-1', index = False)
+

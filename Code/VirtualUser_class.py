@@ -20,8 +20,10 @@ import motifs_frequents_substituabilite as mf
 #conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
 #nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
 
-# =============================================================================
+#t_subst = mf.tableau_substitution(regles, nomenclature)
+#tab_scores = mf.matrice_scores_diff_moy(t_subst, regles)
 
+# =============================================================================
 
 # =============================================================================
 # GLOBAL VARIABLE
@@ -31,7 +33,7 @@ import motifs_frequents_substituabilite as mf
 # DATA PREPARATION
 #motifs = mf.find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
 #regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = 0.1)
-#regles.to_csv('Base_Gestion_Systeme/regles.csv', sep = ':', encoding = 'latin-1', index = False)
+#regles.to_csv('Base_Gestion_Systeme/regles.csv', sep = ';', encoding = 'latin-1', index = False)
 # =============================================================================
 
 class VirtualUser():
@@ -52,7 +54,7 @@ class VirtualUser():
         """
         Permet d'affecter l'utilisateur à un cluster de consommateur
         """
-        self.cluster = random.randint(1,10)
+        self.cluster = random.randint(1,8)
 
 
     def creation_tab_pref(self, tab_pref) :
@@ -140,7 +142,7 @@ class System() :
         
         # contexte de repas
         self.liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
-        self.liste_avecqui = ['seul', 'famille', 'amis', 'autre']
+        self.liste_avecqui = ['seul', 'famille', 'amis']
         
         # Création de table de préférence
         self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)

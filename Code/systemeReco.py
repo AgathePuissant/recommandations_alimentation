@@ -10,6 +10,8 @@ import tkinter as tk
 from tkinter import ttk
 import pandas as pd
 import os
+import uuid #pour créer des id uniques
+import configparser
 
 
 
@@ -28,13 +30,18 @@ class Application(tk.Frame):
         self.grid_columnconfigure(1,weight=1)
         self.grid_rowconfigure(0,weight=1)
         self.grid_rowconfigure(1,weight=1)
-        self.menu_widgets()
+        self.menu_widgets()  
         self.currentUser=None
-
+        config = configparser.ConfigParser()
+        config.read('init.ini')
+        self.current_user_id=config['CURRENTUSER']['current_user_id']
+   
+        
     def menu_widgets(self):
         """
         Menu de la page d'accueil
         """
+        self.clean_widgets()
         self.BnewUser = tk.Button(self,
                                   text='Nouvel utilisateur',
                                   command=self.getnew)
@@ -158,16 +165,21 @@ class Application(tk.Frame):
         _aliNam=scrollbar préférences alimentaires
         """
 
+            
         name = self.nametowidget('nom').get()
         age = self.nametowidget('age').get()
+        taille = self.nametowidget('taille').get()
+        poids=self.nametowidget('poids').get()
         widgalim={} #dic des préférénces alimentaires
         for a in _alimNam:
             widgalim[a]=self.nametowidget(a).get()
         sexe = _sexe.get()
+        id=str(uuid.uuid4())
+        
 
-        print(name,age,sexe,widgalim)
+        self.currentUser = User(name,sexe,age,taille,poids,widgalim,id)
+        
 
-        self.currentUser = User(name,sexe,age)
         self.clean_widgets()
         self.menu_widgets()
 
@@ -177,8 +189,17 @@ class Application(tk.Frame):
         """
         Formulaire d'info sur le contexte de consommation
         """
-        if self.currentUser == None:
-            self.currentUser = User('ana','F',21)
+        if self.currentUser==None:  #pas de user prédéfini
+            config = configparser.ConfigParser()
+            if self.current_user_id=='default': #pas de current User
+                self.currentUser=User('ana','F',21,165,58,[],str(uuid.uuid4()))                
+            else : #user pré-enregistré
+                config.read(os.path.join('UserData',self.current_user_id,str(self.current_user_id)+'.ini'))
+                nom=config['USERDATA']['nom']
+                sexe=config['USERDATA']['sexe']
+                age=config['USERDATA']['age']
+                self.currentUser = User(nom,sexe,age,self.current_user_id)
+                        
 
         self.clean_widgets()
         texte=tk.Label(self,
@@ -363,16 +384,57 @@ class Application(tk.Frame):
                           padx=10,
                           pady=5)
         
+        buttonMenu=tk.Button(self,
+                             text="Retour menu",
+                             command=self.menu_widgets)
+        buttonMenu.grid(column=4,
+                        row=30,
+                        padx=10,
+                        pady=5)
+        
 
 
 class User():
     """
     Definit les caractéristiques de l'utilisateur
     """
-    def __init__(self,_name,_sex,_age):
+    def __init__(self,_name,_sex,_age,_taille,_poids,_pref,_id):
         self.name=_name
         self.sex=_sex
         self.age=_age
+        self.id=_id
+        self.taille=_taille
+        self.poids=_poids
+        self.pref=_pref
+        print(self.id)
+        
+        if not os.path.exists('UserData'): #si n'existe pas de dossier user
+            os.mkdir('UserData')
+        userdir=(os.path.join('UserData',self.id)) #crée un dossier pour le newUser
+        print(userdir)
+        os.mkdir(userdir)
+        
+        config = configparser.ConfigParser() #sauvegarde des éléments relatifs au user
+        config['USERDATA']={
+                'id':self.id,
+                'name':self.name,
+                'age':self.age,
+                'sexe':self.sex,
+                'taille':self.taille,
+                'poids':self.poids,
+                'pref':self.pref
+                }
+        
+        with open(os.path.join(userdir,self.id+'.ini'), 'w') as configfile:
+            config.write(configfile)
+            
+        config = configparser.ConfigParser() #sauvegarde du fichier init général
+        config['CURRENTUSER']={
+                'current_user_id':self.id,
+                }
+
+        with open('init.ini', 'w') as configfile:
+            config.write(configfile)
         
         # Affection de l'utilisateur à un cluster de consommation
         #self.affect_cluster()
@@ -501,17 +563,24 @@ class Aliments() :
     def calculSubstitution(self,_repasEntre,dataNutri,_indPireAlim,epsilon=0,omega1=0.5,omega2=0.5):
         """
         renvoie liste des aliments scorés
-        
-        
+        _repasEntre : 
+            list
+            liste d'alims ordonnés par score SAIN
+        dataNutri :
+            pandas df
+            pandas df scores alim
+        _indPireAlim : 
+            int
         poids en paramètre
         soit exploitation = Max aliments scorés,
         soit exploration = random Aliments non explorés
         Actualisation des indices de substitution
         Actualisation des poids
         """
-        
-
-        self.dataSubs=pd.read_csv('scores_tous_contextes_v3.csv', sep=',',encoding = "utf-8",index_col=0)
+        if not os.path.exists(os.path.join('UserData',str(app.currentUser.id),'TabSubstUser.csv')):
+            dataSubs=pd.read_csv('scores_tous_contextes_v3.csv', sep=',',encoding = "utf-8",index_col=0)
+            dataSubs.to_csv((os.path.join('UserData',str(app.currentUser.id),'TabSubstUser.csv')), sep=',', encoding='utf-8')
+        self.dataSubs=pd.read_csv((os.path.join('UserData',str(app.currentUser.id),'TabSubstUser.csv')), sep=',',encoding = "utf-8",index_col=0)
         
         #Test existence substitution
         if not (self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])]).dropna(subset=['aliment_2']).empty: 
