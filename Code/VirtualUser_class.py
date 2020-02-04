@@ -38,16 +38,14 @@ class VirtualUser():
     """
     Definit les caractéristiques de l'utilisateur
     """
-    def __init__(self,_name,_sex,_age):
-        self.name=_name
-        self.sex=_sex
-        self.age=_age
+    def __init__(self, _id, tab_pref):
+        self.id = _id
         
         # Affection de l'utilisateur à un cluster de consommation
         self.affect_cluster()
         
         # Création de la table de préférence individuelle
-        self.creation_tab_pref()
+        self.creation_tab_pref(tab_pref)
 
 
     def affect_cluster(self):
@@ -57,15 +55,12 @@ class VirtualUser():
         self.cluster = random.randint(0,2)
 
 
-    def creation_tab_pref(self) :
+    def creation_tab_pref(self, tab_pref) :
         """
         La fonction qui crée une table de préférence individuelle des sous-groupes d'aliments
         """
-        # Input table de consommation des sous-groupes d'aliments du cluster self.cluster
-        conso_cluster = conso_pattern_sougr[conso_pattern_sougr['cluster_consommateur'] == self.cluster]
-        
-        # Création de table de préférence
-        self.tab_pref_indi = pref.construct_table_preference(conso_cluster, nomenclature)
+        # Filtrage de table de préférence du cluster
+        self.tab_pref_indi = tab_pref[tab_pref['cluster_consommateur'] == self.cluster]
         
         # Personnalisation de table de préférence : ajoute aléatoirement -10 à 10% du taux de consommation par groupe
         self.tab_pref_indi = self.tab_pref_indi.loc[:, ['cluster_consommateur', 'tyrep', 'code_role', 'taux_code_apparaitre', 'libsougr', 'taux_conso_par_code']]
@@ -73,14 +68,8 @@ class VirtualUser():
                 lambda taux : round(taux*(1+random.uniform(-0.1, 0.1)), 2)).apply(
                         lambda taux : taux if taux <= 100 else 100)
 
-
-    def modifier_info(self) :
-        """
-        Modification d'information si besoin
-        """
-        pass
     
-    def enter_repas(self, type_repas, avec_qui):
+    def enter_repas(self, type_repas, avec_qui, regles):
         """
         _repasEntre : dictionnaire des comboboxs 
                     -> {Alim1: combobox_groupes,combobox_sgroupes}
@@ -133,4 +122,43 @@ class VirtualUser():
         
 #test_user = VirtualUser('pp', 'Homme', 16)
 #test_user.cluster
-#test_user.enter_repas('petit-dejeuner', 'famille')
+#test_user.enter_repas('petit-dejeuner', 'famille', regles)
+
+
+class System() :
+    
+    def __init__(self) :
+        
+        # Load dataframe
+        self.conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+        self.nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+        
+        # Création de table de préférence
+        self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
+        
+        # Regles
+        self.supp = 0.1
+        self.conf = 0.1
+
+        # DATA PREPARATION
+        motifs = mf.find_frequent(self.conso_pattern_sougr, seuil_support = self.supp, algo = fpgrowth)
+        self.regles = mf.regles_association(motifs, confiance = self.conf, support_only = False, support = 0.1)
+        
+        
+        # Création des utilisateurs
+        self.nber_user = 10
+        self.add_VirtualUser()
+    
+    
+    def add_VirtualUser(self) :
+        self.liste_user = []
+        for iden in range(1, self.nber_user + 1) :
+            print(iden)
+            self.liste_user.append(VirtualUser(iden, self.tab_pref))
+     
+    
+    
+sys_test = System()
+
+
+    
