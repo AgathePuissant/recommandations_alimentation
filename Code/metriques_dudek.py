@@ -111,15 +111,12 @@ def RDU(D,mrc) :
                ###########################################################
 '''
 
-tyrep = 3
-cluster = 1
-avecqui = 2
-tyrep_str='dejeuner'
+tyrep_str='petit-dejeuner'
 cluster_str='cluster_1'
-avecqui_str='accompagne'
+avecqui_str='seul'
 
 supp = 0.001
-conf = 0.001
+conf = 0.01
 
 #Méthode 1
 #rapport_1 = 1.075
@@ -142,7 +139,7 @@ R1 = R1[~(R1['antecedents']==())]
 #rapport_2 = 44
 cols = [i for i in range(127,141)]
 
-conso_pattern_sougr_2=conso_pattern_sougr[(conso_pattern_sougr['tyrep']==tyrep) & (conso_pattern_sougr['cluster_consommateur']==cluster) & (conso_pattern_sougr['avecqui']==avecqui)]
+conso_pattern_sougr_2 = conso_pattern_sougr[(conso_pattern_sougr[tyrep_str]==1) & (conso_pattern_sougr[cluster_str]==1) & (conso_pattern_sougr[avecqui_str]==1)]
 conso_pattern_sougr_2.drop(conso_pattern_sougr_2.columns[cols],axis=1,inplace=True)
 
 rapport_2 = len(conso_pattern_sougr)/len(conso_pattern_sougr_2)
