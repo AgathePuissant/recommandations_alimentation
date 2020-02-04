@@ -494,7 +494,7 @@ class Aliments() :
         
 
         repasScoreSort=sorted(repasScore,key=lambda alim:alim[3]) #sort by SAIN score
-        print(repasScoreSort)      
+    
         self.alimentASubstituer=repasScoreSort[indPireScore] #(libellé,scoreSAIN,scoreLIM)
         self.calculSubstitution(repasScoreSort,dataNutri,indPireScore)
         
@@ -528,7 +528,7 @@ class Aliments() :
                 self.NutriScore(_repasEntre,dataNutri,_indPireAlim+1) #on substitue le 2e pire aliment,etc...
             else:
                 print('deso on peut rien faire')
-        print(_indPireAlim)
+
         self.subsProposee=('vin', 1.084, 1.430) #test
      
     def acceptation(self,_antec,_conseq):
