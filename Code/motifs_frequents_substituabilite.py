@@ -22,7 +22,7 @@ def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
     3, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
     """
             
-    frequent_itemsets = algo(conso_data.drop(['tyrep', 'nomen', 'avecqui', 'nojour', 'cluster_consommateur'], axis = 1),
+    frequent_itemsets = algo(conso_data.drop(['tyrep', 'nomen', 'avecqui', 'nojour', 'cluster_consommateur', 'autre'], axis = 1),
                              min_support = seuil_support, use_colnames = True)
     
     return frequent_itemsets

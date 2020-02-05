@@ -98,5 +98,14 @@ for tyrep in tyrep_liste :
                 
                 print("y'en a pas")
 
+
+
+    
+    
+    
+    
+
+
+
 #scores_tous_contextes.to_csv('Base_Gestion_Systeme/scores_tous_contextes.csv', sep = ';', encoding = 'latin-1', index = False)
 
