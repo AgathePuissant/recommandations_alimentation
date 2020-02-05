@@ -4,14 +4,18 @@ Created on Wed Feb  5 14:19:05 2020
 
 @author: ADMIN
 """
+# =============================================================================
+# IMPORT LIBRARY
 
 import pandas as pd
 import motifs_frequents_substituabilite as mf
 from mlxtend.frequent_patterns import fpgrowth
 
+# =============================================================================
 
 
-
+# =============================================================================
+# FUNCTIONS
 
 def score_substitution_contextes(regles_global) :    
     
@@ -63,7 +67,6 @@ def score_substitution_contextes(regles_global) :
                                              columns = {'Score combiné' : 'score_substitution'})],
                                      axis = 1)
     
-    
     return score_sub_contextes
 
 def add_score_sainlim(score_sub_ori, sainlim) :
@@ -96,7 +99,10 @@ def add_score_sainlim(score_sub_ori, sainlim) :
 
     return score_par_contextes
 
+
+
 def main() :
+    
     """
     La fonction qui importe les bases de données en globale puis lance deux fonctions score_substitution_contextes et add_score_sainlim.
     Cela est pour économiser le temps en important ce module dans d'autres fichier Python
@@ -122,6 +128,10 @@ def main() :
     
     return score_par_contextes
 
+# =============================================================================
 
+
+# score_par_contextes = main()
+# score_par_contextes.to_csv("Base_Gestion_Systeme/score_par_contextes.csv", sep = ";", encoding = "latin-1", index = False)
 
 
