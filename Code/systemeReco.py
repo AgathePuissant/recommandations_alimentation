@@ -429,6 +429,8 @@ class User():
             self.pref=_info['pref']
         print(self.id)
         
+        if not os.path.exists('UserData'):
+            os.mkdir('UserData')
         self.userdir=(os.path.join('UserData',self.id)) #crée un dossier pour le newUser
         if not os.path.exists(self.userdir): #si n'existe pas de dossier user
             os.mkdir(self.userdir)
@@ -575,10 +577,15 @@ class Aliments() :
         self.omega1=param[1]
         self.omega2=param[2]
         dataNutri=pd.read_csv(os.path.join('Base_Gestion_Systeme','scores_sainlim_ssgroupes.csv'),sep=';',encoding="ISO-8859-1")
+        
+        self.gamma=0.2 #Malus
+        
+        self.dataSubs['Valeur_malus']=0 #malus à 0 pour tous
+        self.dataSubs.loc[self.dataSubs['malus']==True,'Valeur_malus']=self.gamma #actualisation de la valeur du malus
+        
+
+        
         self.NutriScore(_repasEntre,dataNutri)
-        
-        
-        
         
     def NutriScore(self,_repasEntre,dataNutri,indPireScore=0):
      
@@ -615,7 +622,11 @@ class Aliments() :
          
         #Test existence substitution
         if not (self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])]).dropna(subset=['aliment_2']).empty: 
-            Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])][['aliment_2','score']]
+            Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])][['aliment_2','score','Valeur_malus']]
+            
+            ScoreSubst=Subst_envisageables['score']
+            ScoreNutri=dataNutri[(dataNutri['sougr']==self.alimentASubstituer[1])]['distance_origine']
+            
             print('existe',self.alimentASubstituer,Subst_envisageables)
             
         #Essai substitution du même groupe
