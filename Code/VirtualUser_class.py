@@ -242,9 +242,9 @@ class System() :
         La fonction qui lance chaque jour des propositions de repas, puis des substitutions possibles,
         puis accord/refus des propositions de substitution, puis mise_a_jour_score et mise_a_jour_df
         """
-        pass
-    
-    
+        self.nbre_jour = 100
+        self.table_entrainement = pd.DataFrame()
+        
 sys_test = System()
 sys_test.propose_repas()
 sys_test.propose_substitution()

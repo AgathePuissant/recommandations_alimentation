@@ -22,7 +22,7 @@ def find_frequent(conso_data, seuil_support = 0.05, algo = apriori) :
     3, seuil_support : la valeur minimale du support à passer dans la fonction mlxtend.frequent_patterns.apriori -- float
     """
             
-    frequent_itemsets = algo(conso_data.drop(['tyrep', 'nomen', 'avecqui', 'nojour', 'cluster_consommateur'], axis = 1),
+    frequent_itemsets = algo(conso_data.drop(['tyrep', 'nomen', 'avecqui', 'nojour', 'cluster_consommateur', 'autre'], axis = 1),
                              min_support = seuil_support, use_colnames = True)
     
     return frequent_itemsets
@@ -44,10 +44,10 @@ def regles_association(d, confiance=0.5, support_only=False, support=0.1) :
     
     #Si on a décidé support only, le support uniquement éest utilisé comme métrique pour trouvers les règles...
     if support_only :
-        rules = association_rules(d, support_only = True, min_threshold=0.01)
+        rules = association_rules(d, support_only = True, min_threshold = support)
     # ...sinon c'est la confiance
     else :
-        rules = association_rules(d, metric = "confidence", min_threshold=confiance)
+        rules = association_rules(d, metric = "confidence", min_threshold = confiance)
     
     #Liste qui permet de vérifier qu'on a pas un élément autre qu'alimentaire dans les conséquents
 

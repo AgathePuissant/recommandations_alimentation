@@ -27,6 +27,9 @@ repas = read.csv("Base_a_analyser/repas.csv", sep = ";", colClasses = c("charact
 consommation = read.csv("Base_a_analyser/consommation_new.csv", sep = ",", colClasses = c("character"), encoding = 'UTF-8') 
 consommation = consommation %>%
   rename(cluster_consommateur = clust.num)
+
+
+
 #######################
 ## DATA MANIPULATION ##
 #######################
@@ -101,9 +104,8 @@ conso_pattern_sougr_transfo = conso_pattern_sougr %>%
                                    ifelse(tyrep == 4, "gouter", "diner"))),
          #lib_avecqui = ifelse(is.na(avecqui), "NA", "adefinir"),
          lib_avecqui = ifelse(avecqui == 1, "seul",
-                              ifelse(avecqui == 2, "famille",
-                                     ifelse(avecqui == 3, "amis", 
-                                            ifelse(avecqui == "", "avecqui_missing", "autre")))),
+                              ifelse(avecqui %in% c(2, 3), "accompagne",
+                                     ifelse(avecqui == "", "avecqui_missing", "autre"))),
          lib_cluster = paste0("cluster_", cluster_consommateur), 
          val_tyrep = 1,
          val_avecqui = 1,
