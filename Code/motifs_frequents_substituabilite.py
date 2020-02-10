@@ -202,9 +202,11 @@ def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
 
 conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-
-conso_pattern_sougr['accompagne']=conso_pattern_sougr['famille'] | conso_pattern_sougr['amis']
-del conso_pattern_sougr['autre'], conso_pattern_sougr['famille'], conso_pattern_sougr['amis']
+motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+regles = regles_association(motifs, confiance = conf, support_only = False, support = supp)
+regles_filtre = filtrage(regles, 'petit-dejeuner', 'cluster_1', 'seul')
+t_subst = tableau_substitution(regles_filtre, nomenclature)
+score_contexte = matrice_scores_diff_moy(t_subst, regles_filtre)
 
 #def main() :
 #    data = conso_pattern_sougr[conso_pattern_sougr['avecqui'].isin([1, 2, 3])]
