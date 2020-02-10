@@ -74,25 +74,7 @@ def filtrage(data, tyrep, cluster, avecqui) :
     data_filtre = data.loc[(data['antecedents'].astype(str).str.contains(tyrep) &
                                data['antecedents'].astype(str).str.contains(cluster) &
                                data['antecedents'].astype(str).str.contains(avecqui))]
-#                            | (data['antecedents'].astype(str).str.contains(tyrep) &
-#                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
-#                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
-#                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
-#                               data['antecedents'].astype(str).str.contains(str(cluster)) &
-#                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
-#                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
-#                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
-#                               data['antecedents'].astype(str).str.contains(avecqui))
-#                            | (data['antecedents'].astype(str).str.contains(tyrep) &
-#                               data['antecedents'].astype(str).str.contains(cluster) &
-#                               ~data['antecedents'].astype(str).str.contains('seul | famille | amis | autre'))
-#                            | (data['antecedents'].astype(str).str.contains(tyrep) &
-#                               ~data['antecedents'].astype(str).str.contains('cluster_*') &
-#                               data['antecedents'].astype(str).str.contains(avecqui))
-#                            | (~data['antecedents'].astype(str).str.contains('petit-dejeuner | dejeuner | gouter | diner') &
-#                               data['antecedents'].astype(str).str.contains(cluster) &
-#                               data['antecedents'].astype(str).str.contains(avecqui))]
-    
+
                                
     if tyrep == 'dejeuner' :
         data_filtre = data_filtre.loc[~(data_filtre['antecedents'].astype(str).str.contains('petit-dejeuner'))]
