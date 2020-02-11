@@ -206,10 +206,11 @@ def score_substitution(aliment_1, aliment_2, rules_ori) :
     et ressort le score de substituabilité calculé selon le score trouvé dans la bibliographie.
     ---------------
     Arguments :
-        -aliment_1 : frozenset de longueur 1
-        -aliment_2 : frozenset de longueur 1
+        -aliment_1 : string aliment 1
+        -aliment_2 : string aliment 2
         -regles_original : dataFrame contenant les règles d'association entre aliments et contextes alimentaires
     '''
+
     # Préparation de la table pour calculer le score de substitution :
     # Les repas dont le conséquent contient soit aliment_1 soit aliment_2...
     rules = rules_ori[[aliment_1 in x or aliment_2 in x for x in rules_ori['consequents']]].reset_index(drop = True)
@@ -223,30 +224,57 @@ def score_substitution(aliment_1, aliment_2, rules_ori) :
             lambda ant : [val for val in ant if val not in liste_contexte]).apply(
                     tuple)
     rules = rules[rules['antecedents'].str.len() > 0].reset_index(drop = True)
-    
-    # Score de substitution pour les repas exactement en commun
-    union = len(rules)
-    inter = (rules.groupby('antecedents').size().values == 2).sum()
-    
-    
-    return inter
-    
-    # inter : Les contextes dans lesquels aliment_1 ET aliment_2 sont substituables
-    inter = (rules.groupby('antecedents').size().values == 2).sum()
 
-    # union : Les contextes dans lesquels aliment_1 OU aliment_2 sont substituables
+    # union : Les contextes dans les quels aliment_1 OU aliment_2 sont substituables
     union = len(rules)
     
-    # Somme A = A_alim1_alim2 + A_alim2_alim1
-    # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
-    # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
-    A = rules[[aliment_1 in x or aliment_2 in x for x in rules['antecedents']]]['antecedents'].nunique()
+    if union == 0 :
+        return 0
     
-    return inter / (union + A)
+    else :
+        # penalite : Somme des confiances des repas dans lesquels l'un est substituable et l'autre apparait.
+        penalite = rules.loc[[aliment_1 in x or aliment_2 in x for x in rules['antecedents']]]['confidence'].sum()
+        
+        # Score de substitution pour les repas exactement en commun
+        inter_df = rules.groupby('antecedents').filter(lambda x : len(x) == 2)
+        
+        inter = len(inter_df)
+        if inter > 0 :
+            inter_df = inter_df.groupby('consequents')['confidence'].apply(np.mean)
+            inter = inter*inter_df[aliment_2, ] / (inter_df[aliment_1, ] + inter_df[aliment_2, ])
+            
+        
+        # Score de substitution pour les repas ressemblants
+        res_df = rules.groupby('antecedents').filter(lambda x : len(x) != 2)
+        
+        res = len(res_df)
+        if res > 0 :
+            res_df = res_df.groupby('consequents')['confidence'].apply(np.mean)
+    
+            if res_df.shape[0] == 1 :
+                res_df.index = pd.MultiIndex.from_tuples(res_df.index)
+                #res_df.loc[list(set([tuple([aliment_1]), tuple([aliment_2])]) - set(res_df.index.tolist()))[0], ['confidence']] = 0
+    
+    return res_df
+    
+            res = res * res_df[aliment_2, ] / (res_df[aliment_1, ] + res_df[aliment_2, ])
+        
+    # (inter + res) / (union + penalite)
+    return res
 
-test = score_substitution('café', 'thé et infusions', regles_filtre)
+('café', 'cacao, poudres et boissons cacaotées')
+('eau minérale plate', 'eau du robinet')
+('céréales sucrées, glacées ou au miel', 'biscuits sucrés')
+('margarine', 'beurre')
 
+test = score_substitution('margarine', 'beurre', regles_filtre)
 
+test[tuple(['magarine'])] = 0
+
+import numpy as np
+test[list(set([tuple(['beurre']), tuple(['margarine'])]) - set(test.index.tolist()))[0]] = 0
+
+test['consequents'].nunique()
 
 def calcul_score(couples_ori, regles_ori) :
     
