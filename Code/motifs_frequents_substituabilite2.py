@@ -241,7 +241,7 @@ def score_substitution(aliment_1, aliment_2, rules_ori) :
         inter = len(inter_df)
         if inter > 0 :
             inter_df = inter_df.groupby('consequents')['confidence'].apply(np.mean)
-            inter = inter*inter_df[aliment_2, ] / (inter_df[aliment_1, ] + inter_df[aliment_2, ])
+            inter = inter * inter_df[aliment_2, ] / inter_df.sum()
             
         
         # Score de substitution pour les repas ressemblants
@@ -249,32 +249,24 @@ def score_substitution(aliment_1, aliment_2, rules_ori) :
         
         res = len(res_df)
         if res > 0 :
-            res_df = res_df.groupby('consequents')['confidence'].apply(np.mean)
+            res_df = res_df.groupby('consequents')['confidence'].apply(np.mean).reset_index()
     
-            if res_df.shape[0] == 1 :
-                res_df.index = pd.MultiIndex.from_tuples(res_df.index)
-                #res_df.loc[list(set([tuple([aliment_1]), tuple([aliment_2])]) - set(res_df.index.tolist()))[0], ['confidence']] = 0
+            if len(res_df) == 1 :
+                res_df = pd.DataFrame.merge(res_df,
+                                          pd.DataFrame(data = {'consequents' : [tuple([aliment_1]), tuple([aliment_2])]}), 
+                                          how = 'outer').fillna(0)
+                
+            res = res*res_df[res_df['consequents'] == tuple([aliment_2])]['confidence'].sum() / res_df['confidence'].sum()
     
-    return res_df
-    
-            res = res * res_df[aliment_2, ] / (res_df[aliment_1, ] + res_df[aliment_2, ])
-        
-    # (inter + res) / (union + penalite)
-    return res
+    return (inter + res) / (union + penalite)
 
 ('café', 'cacao, poudres et boissons cacaotées')
 ('eau minérale plate', 'eau du robinet')
 ('céréales sucrées, glacées ou au miel', 'biscuits sucrés')
 ('margarine', 'beurre')
 
-test = score_substitution('margarine', 'beurre', regles_filtre)
-
-test[tuple(['magarine'])] = 0
-
-import numpy as np
-test[list(set([tuple(['beurre']), tuple(['margarine'])]) - set(test.index.tolist()))[0]] = 0
-
-test['consequents'].nunique()
+res_df = score_substitution('margarine', 'beurre', regles_filtre)
+res_df[res_df['consequents'] == tuple(['margarine'])]['confidence'].sum()
 
 def calcul_score(couples_ori, regles_ori) :
     
