@@ -195,12 +195,8 @@ def creation_couples(rules_ori, nomen_ori) :
     couples['couples_alim'] = couples.apply(lambda df : (df.couples_alim[df.pair_index[0]], df.couples_alim[df.pair_index[1]]), axis = 1)
     
     return couples
-    
-
-couples = creation_couples(regles_filtre, nomenclature)   
-
-
-def score_substitution(aliment_1, aliment_2, rules_ori) :
+ 
+def calcul_score(aliment_1, aliment_2, rules_ori) :
     '''
     Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
     et ressort le score de substituabilité calculé selon le score trouvé dans la bibliographie.
@@ -260,39 +256,27 @@ def score_substitution(aliment_1, aliment_2, rules_ori) :
     
     return (inter + res) / (union + penalite)
 
-('café', 'cacao, poudres et boissons cacaotées')
-('eau minérale plate', 'eau du robinet')
-('céréales sucrées, glacées ou au miel', 'biscuits sucrés')
-('margarine', 'beurre')
-
-res_df = score_substitution('margarine', 'beurre', regles_filtre)
-res_df[res_df['consequents'] == tuple(['margarine'])]['confidence'].sum()
-
-def calcul_score(couples_ori, regles_ori) :
+def score_substitution(couples_ori, regles_ori) :
     
     tab_scores = couples_ori.copy()
     
-    tab_scores['score'] = tab_scores['couples_alim'].apply(lambda couples : score_substitution(couples[0], couples[1], regles_ori))
+    tab_scores['score'] = tab_scores['couples_alim'].apply(lambda couples : calcul_score(couples[0], couples[1], regles_ori))
     
+    tab_scores = tab_scores.loc[:, ['couples_alim', 'score']]
     return tab_scores
 
-test_scores = calcul_score(couples, regles_filtre)
 
-
-
-
-supp = 0.001
-conf = 0.001
-
-conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
-nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-
-motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-regles = regles_association(motifs, confiance = conf, support_only = False, support = supp)
-regles_filtre = filtrage(regles, 'petit-dejeuner', 'cluster_1', 'seul')
-
-t_subst = tableau_substitution(regles_filtre, nomenclature)
-score_contexte = matrice_scores_diff_moy(t_subst, regles_filtre)
+#supp = 0.001
+#conf = 0.001
+#
+#conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
+#nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
+#
+#motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
+#regles = regles_association(motifs, confiance = conf, support_only = False, support = supp)
+#regles_filtre = filtrage(regles, 'petit-dejeuner', 'cluster_1', 'seul')
+#couples = creation_couples(regles_filtre, nomenclature)
+#test_scores = score_substitution(couples, regles_filtre)
 
 #def main() :
 #    data = conso_pattern_sougr[conso_pattern_sougr['avecqui'].isin([1, 2, 3])]
