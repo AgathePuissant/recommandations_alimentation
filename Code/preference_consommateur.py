@@ -14,7 +14,7 @@ def construct_table_preference(data_conso, data_nomen) :
     
     # Input base de preference
     pref = data_conso.drop(['avecqui', 'petit-dejeuner', 'dejeuner', 'gouter', 'diner',
-                      'seul', 'amis', 'famille', 'autre', 'cluster_1', 'cluster_2','cluster_3','cluster_4','cluster_5','cluster_6','cluster_7','cluster_8'], axis = 1)
+                      'seul', 'accompagne', 'autre', 'cluster_1', 'cluster_2','cluster_3','cluster_4','cluster_5','cluster_6','cluster_7','cluster_8'], axis = 1)
     
     
     # Transformation de colonne à ligne
@@ -57,11 +57,11 @@ def construct_table_preference(data_conso, data_nomen) :
 
 
 ## DONNÉES
-conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+#conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+#nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
 
 # TEST DE FONCTION
-table_preference = construct_table_preference(conso_pattern_sougr, nomenclature)
+#table_preference = construct_table_preference(conso_pattern_sougr, nomenclature)
 
 
 

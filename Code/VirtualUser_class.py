@@ -8,6 +8,7 @@ Created on Mon Feb  3 09:36:39 2020
 # FUNCTION IMPORT
 import random
 import pandas as pd
+import numpy as np
 from mlxtend.frequent_patterns import fpgrowth
 import preference_consommateur as pref
 import motifs_frequents_substituabilite as mf
@@ -48,7 +49,7 @@ class VirtualUser():
         self.affect_cluster()
         
         # Création de la table de préférence individuelle
-        self.creation_tab_pref(tab_pref)
+        self.creation_tab_indi(tab_pref)
 
 
     def affect_cluster(self):
@@ -58,7 +59,7 @@ class VirtualUser():
         self.cluster = random.randint(1,8)
 
 
-    def creation_tab_pref(self, tab_pref) :
+    def creation_tab_indi(self, tab_pref) :
         """
         La fonction qui crée une table de préférence individuelle des sous-groupes d'aliments
         """
@@ -74,9 +75,7 @@ class VirtualUser():
     
     def enter_repas(self, type_repas, avec_qui, regles):
         """
-        _repasEntre : dictionnaire des comboboxs 
-                    -> {Alim1: combobox_groupes,combobox_sgroupes}
-        renvoie la liste des aliments (sous-groupes) sélectionnées
+        La fonction qui renvoie la liste des aliments (sous-groupes) sélectionnées
         """
         repas_code = {'petit-dejeuner' : 1, 'dejeuner' : 3, 'gouter' : 4, 'diner' : 5}
         
@@ -120,7 +119,8 @@ class VirtualUser():
         
         # Le repas proposé final du consommateur
         self.repas_propose = self.repas_propose + self.regles.consequents.str[0].tolist()
-        print(self.repas_propose)
+        
+        return self.repas_propose
     
     def reponse_substitution(self) :
         """
@@ -135,7 +135,7 @@ class VirtualUser():
 
 class System() :
     
-    def __init__(self) :
+    def __init__(self, _nbre_user, _nbre_jour) :
         
         # Load dataframe
         self.conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
@@ -145,14 +145,14 @@ class System() :
         self.regles = pd.read_csv("Base_Gestion_Systeme/regles.csv", sep = ";", encoding = 'latin-1')
         
         # Score de nutrition
-        self.score_nutri = pd.read_csv('Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv',sep=';',encoding="latin-1")
+        self.score_nutri = pd.read_csv('Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv',sep=';', encoding="latin-1")
         
         # Score par contextes :
-        self.score_contexte = pd.read_csv('Base_Gestion_Systeme/scores_tous_contextes.csv', sep = ',')
+        self.score_contexte = pd.read_csv('Base_Gestion_Systeme/score_par_contextes.csv', sep = ';', encoding="latin-1")
         
         # contexte de repas
         self.liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
-        self.liste_avecqui = ['seul', 'famille', 'amis']
+        self.liste_avecqui = ['seul', 'accompagne']
 
         # constant d'apprentissage
         self.seuil_nutri = 70
@@ -163,27 +163,58 @@ class System() :
         self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
         
         # Création des utilisateurs
-        self.nber_user = 10
+        self.nbre_user = _nbre_user
         self.add_VirtualUser()
         
+        # Création de table de suivi de consommation
+        self.nbre_jour = _nbre_jour
+        self.jour_courant = 1
+        self.liste_repas = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
+        self.liste_avecqui = ['seul', 'accompagne']
+        self.table_suivi = pd.DataFrame(columns = ['user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution'])
         
     def add_VirtualUser(self) :
         self.liste_user = []
-        for iden in range(1, self.nber_user + 1) :
+        for iden in range(1, self.nbre_user + 1) :
             print(iden)
-            self.liste_user.append(VirtualUser(iden, self.tab_pref))
+            self.liste_user.append(VirtualUser(iden, self.tab_pref))    
     
     def propose_repas(self) :
-        for user in self.liste_user :
-            user.tyrep = random.choice(self.liste_tyrep)
-            user.avecqui = random.choice(self.liste_avecqui)
-            print(user.id, user.tyrep, user.avecqui)
-            user.enter_repas(user.tyrep, user.avecqui, self.regles)
+        """
+        La fonction qui propose les repas de tous les consommateurs du jour self.jour_courant
+        """
+        
+        for repas in self.liste_tyrep :
+            self.conso_repas = pd.DataFrame(data = {
+                    'user' : self.liste_user,
+                    'nojour' : self.jour_courant,
+                    'tyrep' : repas,
+                    'avecqui' : [random.choice(self.liste_avecqui) for i in range(self.nbre_user)]})
+            
+            # Proposition de repas
+            self.conso_repas['repas'] = self.conso_repas['user'].apply(
+                    lambda user : user.enter_repas(repas, self.conso_repas['avecqui'][user.id - 1], self.regles))
+            
+            # Enregistrement de l'information dans la table de suivi de consommation
+            self.table_suivi = self.table_suivi.append(self.conso_repas, sort = False)
+        
+        # Reset index de la table de suivi de consommation
+        self.table_suivi.reset_index(drop = True, inplace = True)
+        
+        # Le prochain jour
+        if self.jour_courant < self.nbre_jour :
+            self.jour_courant += 1
+
+
     
     def propose_substitution(self) :
         """
         repas - liste des libsougr
         """
+        
+        # pour le jour au courant
+        
+        
         transform_avecqui = {'seul' : 'seul', 'famille' : 'accompagne', 'amis' : 'accompagne'}
         
         for user in self.liste_user :
@@ -242,20 +273,12 @@ class System() :
         La fonction qui lance chaque jour des propositions de repas, puis des substitutions possibles,
         puis accord/refus des propositions de substitution, puis mise_a_jour_score et mise_a_jour_df
         """
-        self.nbre_jour = 100
-        self.table_entrainement = pd.DataFrame()
+        pass
         
-sys_test = System()
+sys_test = System(10, 5)
 sys_test.propose_repas()
-sys_test.propose_substitution()
-
-
-test = sys_test.score_contexte
-test = test[(test['cluster'] == 'cluster_1') &
-            (test['repas'] == 'petit-dejeuner')]
-
-test1 = sys_test.score_nutri
-
+test = sys_test.table_suivi
+test1 = sys_test.score_contexte
 
 reg = sys_test.regles
 test = sys_test.nutrirepas
