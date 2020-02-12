@@ -152,6 +152,7 @@ def add_score_sainlim(score_sub_ori, sainlim) :
     score_par_contextes['score_sainlim'] = score_par_contextes['score_sainlim_2'] - score_par_contextes['score_sainlim_1']
     
     # Normalisation du score sainlim à [0, 1]
+    score_par_contextes = score_par_contextes[score_par_contextes['score_sainlim'] >= 0]
     score_par_contextes['score_sainlim_nor'] = (score_par_contextes['score_sainlim'] - score_par_contextes['score_sainlim'].min()) / (score_par_contextes['score_sainlim'].max() - score_par_contextes['score_sainlim'].min())
     
     return score_par_contextes
@@ -187,7 +188,6 @@ def main() :
     return score_par_contextes
 
 # =============================================================================
-
 
 # score_par_contextes = main()
 # score_par_contextes.to_csv("Base_Gestion_Systeme/score_par_contextes.csv", sep = ";", encoding = "latin-1", index = False)

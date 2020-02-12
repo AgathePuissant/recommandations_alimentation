@@ -50,7 +50,9 @@ class VirtualUser():
         
         # Création de la table de préférence individuelle
         self.creation_tab_indi(tab_pref, tab_sub)
-
+        
+        # score de substitution**w*score de nutrition**(1-w) (score entre 0 et 1)
+        self.w = 0.1 #w initial petit -> on privilégie score de substitution (comme score appartient entre 0 et 1)
 
     def affect_cluster(self):
         """
@@ -174,9 +176,7 @@ class System() :
         self.alpha = 1.2
         self.beta = 1
         
-        # score de substitution**w1*score de nutrition**(1-w1) (score entre 0 et 1)
-        self.w1 = 0.1 #w1 initial petit -> on privilégie score de substitution (comme score appartient entre 0 et 1)
-        self.w2 = 1 - self.w1
+        
         
         # Création de table de préférence
         self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
@@ -256,17 +256,44 @@ class System() :
         
         # S'il existe des aliments à substituer, on lance l'algorithme epsilon-greeding
         if len(aliment_a_substituer) > 0 :
-            # Exploration de la table (des substitutions non proposées)
-            if random.random() <= user.epsilon :
-                recommandation = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == False]
-            # Exploitation de la table (des substitutions déjà proposées)
-            else :
-                recommandation = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == True]
             
-            recommandation = {recommandation['aliment_1'][0] : recommandation['aliment_2'][0]}
+            ep = random.random()
+            niveau = 1
+            
+            # Un boucle while à ajouter pour monter le niveau de filtrage (après car c'est un peu lourd)
+            # Idée : while len(recommandation) == 0 or table_a_filter sont pas encore au bout de niveau (tyrep comme contexte seulement)
+            # table_a_filter monte un niveau de recherche ; contexte = [......]
+            while len(recommandation) == 0 and niveau < 2:
+            
+                # EPSILON-GREEDING
+                # Exploration de la table (des substitutions non proposées)
+                if ep <= user.epsilon :
+                    recommandation = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == False]
+                # Exploitation de la table (des substitutions déjà proposées)
+                else :
+                    recommandation = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == True]
+                
+                # Filtrage des substitutions possibles à partir du contexte et de la liste des aliments à substituer
+                recommandation = recommandation[(recommandation['tyrep'] == type_repas) &
+                                                (recommandation['avecqui'] == avecqui) &
+                                                (recommandation['aliment_1'].isin(aliment_a_substituer))]
+
+                # Maximiser le score défini par la formule pour toutes les substitutions possibles
+                recommandation['score'] = (recommandation['score_substitution']**user.w) * (recommandation['score_sainlim_nor']**(1 - user.w))
+                recommandation = recommandation[recommandation['score'] == recommandation['score'].max()]
+                recommandation.reset_index(drop = True, inplace = True)
+                
+                niveau += 1
+            
+            try :
+                # La recommandation finale
+                recommandation = {recommandation['aliment_1'][0] : recommandation['aliment_2'][0]}
+            except :
+                pass
                 
         return recommandation
     
+
     def training(self) :
         
         self.table_suivi['substitution'] = self.table_suivi.apply(
@@ -285,47 +312,7 @@ sys_test.propose_substitution(test['user'], test['tyrep'], test['avecqui'], test
 
 test1 = sys_test.liste_user[0].tab_sub_indi
 test = sys_test.score_contexte
-    
-        
 
-    def propose_substitution(self) :
-        """
-        repas - liste des libsougr
-        """
-        
-        # pour le jour au courant
-        
-        
-        transform_avecqui = {'seul' : 'seul', 'famille' : 'accompagne', 'amis' : 'accompagne'}
-        
-        for user in self.liste_user :
-            
-            # Extraire aliment à substituer par score sain-lim
-            user.nutrirepas = self.score_nutri[self.score_nutri['libsougr'].isin(user.repas_propose)]
-            aliment_a_substituer = user.nutrirepas[user.nutrirepas['distance_origine'] <= self.seuil_nutri]['libsougr'].tolist()
-            
-            # Recherche des substitutions
-            if len(aliment_a_substituer) > 0 : #s'il existe des aliments à substituer
-                ep = random.random()
-                if ep <= user.epsilon :
-                    print('exploration')
-                    
-                    user.tab_subst = self.score_contexte[(self.score_contexte['cluster'] == 'cluster_'+str(user.cluster)) &
-                                                         (self.score_contexte['repas'] == user.tyrep) &
-                                                         (self.score_contexte['compagnie'] == transform_avecqui[user.avecqui]) &
-                                                         (self.score_contexte['aliment_1'].isin(aliment_a_substituer))]
-                    
-                    if user.tab_subst.shape[0] > 0 :
-                        print('subs ok')
-                    
-                    else :
-                        print('no subs')
-                    
-                else :
-                    print('exploitation')
-            
-            else :
-                print('Le repas est bon')
     
     
     def traitement_substitution(self) :
