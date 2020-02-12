@@ -137,13 +137,6 @@ class VirtualUser():
         
         return self.repas_propose
     
-    
-    
-    def reponse_substitution(self) :
-        """
-        La fonction qui répond à une substitution proposée (soit accord / soit refus)
-        """
-        pass
         
 #test_user = VirtualUser('pp', 'Homme', 16)
 #test_user.cluster
@@ -190,7 +183,7 @@ class System() :
         self.jour_courant = 1
         self.liste_repas = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
         self.liste_avecqui = ['seul', 'accompagne']
-        self.table_suivi = pd.DataFrame(columns = ['user', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution'])
+        self.table_suivi = pd.DataFrame(columns = ['user', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse'])
         
     def add_VirtualUser(self) :
         self.liste_user = []
@@ -222,12 +215,8 @@ class System() :
         # Reset index de la table de suivi de consommation
         self.table_suivi.reset_index(drop = True, inplace = True)
         
-        # Le prochain jour
-        if self.jour_courant < self.nbre_jour :
-            self.jour_courant += 1
-        
     
-    def propose_substitution(self, user, type_repas, avecqui, repas) :
+    def recommandation_reponse(self, user, type_repas, avecqui, repas) :
     
         """
         La fonction qui permet à l'utilisateur de recevoir une recommandation de substitution pour un repas donné.
@@ -244,6 +233,7 @@ class System() :
         """
         
         recommandation = {}
+        reponse = False
         
         # Identification de la liste des aliments à substituer 
         eval_repas = self.score_nutri[self.score_nutri['libsougr'].isin(repas)]
@@ -257,77 +247,111 @@ class System() :
         # S'il existe des aliments à substituer, on lance l'algorithme epsilon-greeding
         if len(aliment_a_substituer) > 0 :
             
+            recomm_df = recommandation
             ep = random.random()
             niveau = 1
             
             # Un boucle while à ajouter pour monter le niveau de filtrage (après car c'est un peu lourd)
             # Idée : while len(recommandation) == 0 or table_a_filter sont pas encore au bout de niveau (tyrep comme contexte seulement)
             # table_a_filter monte un niveau de recherche ; contexte = [......]
-            while len(recommandation) == 0 and niveau < 2:
+            while len(recomm_df) == 0 and niveau < 2:
             
                 # EPSILON-GREEDING
                 # Exploration de la table (des substitutions non proposées)
                 if ep <= user.epsilon :
-                    recommandation = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == False]
+                    recomm_df = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == False]
                 # Exploitation de la table (des substitutions déjà proposées)
                 else :
-                    recommandation = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == True]
+                    recomm_df = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == True]
                 
                 # Filtrage des substitutions possibles à partir du contexte et de la liste des aliments à substituer
-                recommandation = recommandation[(recommandation['tyrep'] == type_repas) &
-                                                (recommandation['avecqui'] == avecqui) &
-                                                (recommandation['aliment_1'].isin(aliment_a_substituer))]
+                recomm_df = recomm_df[(recomm_df['tyrep'] == type_repas) &
+                                      (recomm_df['avecqui'] == avecqui) &
+                                      (recomm_df['aliment_1'].isin(aliment_a_substituer))]
 
                 # Maximiser le score défini par la formule pour toutes les substitutions possibles
-                recommandation['score'] = (recommandation['score_substitution']**user.w) * (recommandation['score_sainlim_nor']**(1 - user.w))
-                recommandation = recommandation[recommandation['score'] == recommandation['score'].max()]
-                recommandation.reset_index(drop = True, inplace = True)
+                recomm_df['score'] = (recomm_df['score_substitution']**user.w) * (recomm_df['score_sainlim_nor']**(1 - user.w))
+                recomm_df = recomm_df[recomm_df['score'] == recomm_df['score'].max()]
+                recomm_df.reset_index(drop = True, inplace = True)
                 
                 niveau += 1
             
             try :
                 # La recommandation finale
-                recommandation = {recommandation['aliment_1'][0] : recommandation['aliment_2'][0]}
+                recommandation = {recomm_df['aliment_1'][0] : recomm_df['aliment_2'][0]}
+                #
+                if random.random() <= recomm_df['score_substitution'][0] :
+                    reponse = True
             except :
-                pass
+                recommandation = {}
                 
-        return recommandation
-    
-
-    def training(self) :
-        
-        self.table_suivi['substitution'] = self.table_suivi.apply(
-                lambda row : self.propose_substitution(row['user'], row['tyrep'], row['avecqui'], row['repas'])
-                if row['nojour'] == 1 else row['substitution'], axis = 1)
-    
-sys_test = System(5, 5)
-sys_test.propose_repas() # day1
-sys_test.propose_repas() # day2
-sys_test.training()
-
-test = sys_test.table_suivi
-
-test = test.iloc[0, :]
-sys_test.propose_substitution(test['user'], test['tyrep'], test['avecqui'], test['repas'])
-
-test1 = sys_test.liste_user[0].tab_sub_indi
-test = sys_test.score_contexte
-
+        return pd.Series([recommandation, reponse])
     
     
-    def traitement_substitution(self) :
-        """
-        La fonction qui lance pour chaque consommateur une réponse à la substitution proposée.
-        """
-        pass
-    
-    
-    def mise_a_jour_score(self) :
+    def mise_a_jour_score(self, user, type_repas, avecqui, repas, recommandation, reponse) :
         """
         La fonction qui met à jour les scores de substituabilité après chaque accord / refus de proposition d'un repas substituable
         """
-        pass
         
+        # table de substitution
+        
+        
+        # peut-être malus de diversité aussi ?
+        
+        pass
+    
+    def mise_a_jour_diversite(self, user, type_repas, avecqui, recommandation) :
+        
+        if len(recommandation) > 0 :
+            print('mise à jour malus commence')
+    
+    def processus_recommandation(self, user, type_repas, avecqui, repas) :
+        """
+        """
+        
+        # Recommandation
+        recommandation, reponse = self.recommandation_reponse(user, type_repas, avecqui, repas)
+        
+        # Mise à jour le malus de diversité 
+        # self.mise_a_jour_diversite(user, type_repas, avecqui, recommandation)
+        
+        # Mise à jour le score
+        self.mise_a_jour_score(user, type_repas, avecqui, repas, recommandation, reponse)
+        
+        # Mise à jour des constants
+        
+        return pd.Series([recommandation, reponse, self.w])
+    
+    def training(self) :
+        
+        """
+        La fonction qui lance chaque jour des propositions de repas, puis des substitutions possibles,
+        puis accord/refus des propositions de substitution, puis mise_a_jour_score et mise_a_jour_df
+        """
+
+        self.table_suivi[['substitution', 'reponse']] = self.table_suivi.apply(
+                lambda row : self.recommandation_reponse(row['user'], row['tyrep'], row['avecqui'], row['repas'])
+                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse']]), axis = 1)
+    
+    def entrainement_final(self) :
+        
+        """
+        La fonction qui lance chaque jour des propositions de repas, puis des substitutions possibles,
+        puis accord/refus des propositions de substitution, puis mise_a_jour_score et mise_a_jour_df
+        """
+        while self.jour_courant <= self.nbre_jour :
+            #Propose de repas
+            self.propose_repas()
+            
+            #Processus de recommandation, de réponse et de mise à jour
+            self.table_suivi[['substitution', 'reponse', 'w']] = self.table_suivi.apply(
+                    lambda row : self.processus_recommandation(row['user'], row['tyrep'], row['avecqui'], row['repas'])
+                    if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['w']]), axis = 1)
+            
+            # Passe à la journée suivante
+            self.jour_courant += 1
+
+
     
     def mise_a_jour_df(self) :
         """
@@ -335,20 +359,15 @@ test = sys_test.score_contexte
         si ca fait 5% de la base conso_pattern_sougr total (if >= 5% then ...)
         """
         pass
-    
-    def entrainement(self) :
-        """
-        La fonction qui lance chaque jour des propositions de repas, puis des substitutions possibles,
-        puis accord/refus des propositions de substitution, puis mise_a_jour_score et mise_a_jour_df
-        """
-        pass
         
-sys_test = System(10, 5)
-sys_test.propose_repas()
-test = sys_test.table_suivi
-test1 = sys_test.score_contexte
+sys_test = System(5, 5)
+# day1
+sys_test.propose_repas() 
+sys_test.training()
 
-reg = sys_test.regles
-test = sys_test.nutrirepas
-test = sys_test.liste_user[1].nutrirepas
-test[test['distance_origine'] <= 70]['libsougr'].tolist()
+# day2
+sys_test.jour_courant += 1
+sys_test.propose_repas()
+sys_test.training()
+
+test = sys_test.table_suivi
