@@ -76,13 +76,15 @@ class VirtualUser():
         
         # TABLE DE SUBSTITUTION
         # Filtrage de table de substitution du cluster
-        self.tab_sub_indi = tab_sub[tab_sub['cluster'] == self.cluster].reset_index(drop = True)
+        self.tab_sub_indi = tab_sub[tab_sub['cluster'] == 'cluster_'+str(self.cluster)].reset_index(drop = True)
         
         # Personnalisation de table de substitution : ajoute aléatoirement - 10 à 10% du score de substitution par groupe
         self.tab_sub_indi['score_substitution'] = self.tab_sub_indi['score_substitution'].apply(
                 lambda score : round(score*(1+random.uniform(-0.1, 0.1)), 2)).apply(
                         lambda score : score if score < 1 else 1)
-
+        
+        self.tab_sub_indi['histoire_recomm'] = False
+    
     
     def enter_repas(self, type_repas, avec_qui, regles):
         """
@@ -133,6 +135,8 @@ class VirtualUser():
         
         return self.repas_propose
     
+    
+    
     def reponse_substitution(self) :
         """
         La fonction qui répond à une substitution proposée (soit accord / soit refus)
@@ -170,6 +174,10 @@ class System() :
         self.alpha = 1.2
         self.beta = 1
         
+        # score de substitution**w1*score de nutrition**(1-w1) (score entre 0 et 1)
+        self.w1 = 0.1 #w1 initial petit -> on privilégie score de substitution (comme score appartient entre 0 et 1)
+        self.w2 = 1 - self.w1
+        
         # Création de table de préférence
         self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
         
@@ -190,22 +198,23 @@ class System() :
             print(iden)
             self.liste_user.append(VirtualUser(iden, self.tab_pref, self.score_contexte))    
     
+    
     def propose_repas(self) :
         """
         La fonction qui propose les repas de tous les consommateurs du jour self.jour_courant
         """
         
-        for repas in self.liste_tyrep :
+        for type_repas in self.liste_tyrep :
             self.conso_repas = pd.DataFrame(data = {
                     'user' : self.liste_user,
                     'id_user' : [i for i in range(1, self.nbre_user + 1)],
                     'nojour' : self.jour_courant,
-                    'tyrep' : repas,
+                    'tyrep' : type_repas,
                     'avecqui' : [random.choice(self.liste_avecqui) for i in range(self.nbre_user)]})
             
             # Proposition de repas
             self.conso_repas['repas'] = self.conso_repas['user'].apply(
-                    lambda user : user.enter_repas(repas, self.conso_repas['avecqui'][user.id - 1], self.regles))
+                    lambda user : user.enter_repas(type_repas, self.conso_repas['avecqui'][user.id - 1], self.regles))
             
             # Enregistrement de l'information dans la table de suivi de consommation
             self.table_suivi = self.table_suivi.append(self.conso_repas, sort = False)
@@ -216,23 +225,68 @@ class System() :
         # Le prochain jour
         if self.jour_courant < self.nbre_jour :
             self.jour_courant += 1
-
-sys_test = System(10, 5)
+        
+    
+    def propose_substitution(self, user, type_repas, avecqui, repas) :
+    
+        """
+        La fonction qui permet à l'utilisateur de recevoir une recommandation de substitution pour un repas donné.
+        À réfléchir : la fonction appartient à quelle classe User / System pour que ce soit plus pratique?
+        
+        INPUT :
+            user : utilisateur qui demande une recommandation de substitution -- class VirtualUser
+            type_repas : petit-déjeuner | déjeuner | gouter | diner -- string
+            avecqui : seul | accompagne -- string
+            repas : liste des sous-groupes d'aliments du repas à améliorer -- list
+        
+        OUTPUT :
+            recomm : la recommandation -- la forme est à définir?? dict?
+        """
+        
+        recommandation = {}
+        
+        # Identification de la liste des aliments à substituer 
+        eval_repas = self.score_nutri[self.score_nutri['libsougr'].isin(repas)]
+        if eval_repas['distance_origine'].min() <= self.seuil_nutri :
+            # la liste des aliments dont le score de nutrition est plus mauvais que notre seuil s'il existe (à substituer)
+            aliment_a_substituer = eval_repas[eval_repas['distance_origine'] <= self.seuil_nutri]['libsougr'].tolist()
+        else :
+            # le sous-groupe le "pire" s'il n'existe pas (score de nutrition minimal > seuil de nutrition)
+            aliment_a_substituer = eval_repas[eval_repas['distance_origine'] == eval_repas['distance_origine'].min()]['libsougr'].tolist()
+        
+        # S'il existe des aliments à substituer, on lance l'algorithme epsilon-greeding
+        if len(aliment_a_substituer) > 0 :
+            # Exploration de la table (des substitutions non proposées)
+            if random.random() <= user.epsilon :
+                recommandation = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == False]
+            # Exploitation de la table (des substitutions déjà proposées)
+            else :
+                recommandation = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == True]
+            
+            recommandation = {recommandation['aliment_1'][0] : recommandation['aliment_2'][0]}
+                
+        return recommandation
+    
+    def training(self) :
+        
+        self.table_suivi['substitution'] = self.table_suivi.apply(
+                lambda row : self.propose_substitution(row['user'], row['tyrep'], row['avecqui'], row['repas'])
+                if row['nojour'] == 1 else row['substitution'], axis = 1)
+    
+sys_test = System(5, 5)
 sys_test.propose_repas() # day1
 sys_test.propose_repas() # day2
+sys_test.training()
 
 test = sys_test.table_suivi
 
-test1 = test.copy()
-test1 = test1.drop('user', axis = 1)
-test1['substitution'] = test1.apply(lambda row : row['user'].get_substitution(row['tyrep'], row['avecqui']), axis = 1)
+test = test.iloc[0, :]
+sys_test.propose_substitution(test['user'], test['tyrep'], test['avecqui'], test['repas'])
 
-def test_function(row) :
-    row['user'].
-    return [row['user'], row['tyrep'], row['avecqui']]
+test1 = sys_test.liste_user[0].tab_sub_indi
+test = sys_test.score_contexte
     
-test.iloc[0,:]['tyrep']
-
+        
 
     def propose_substitution(self) :
         """

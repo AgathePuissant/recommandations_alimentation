@@ -150,7 +150,10 @@ def add_score_sainlim(score_sub_ori, sainlim) :
                                          
     # Ajout du score sainlim de la substitution
     score_par_contextes['score_sainlim'] = score_par_contextes['score_sainlim_2'] - score_par_contextes['score_sainlim_1']
-
+    
+    # Normalisation du score sainlim à [0, 1]
+    score_par_contextes['score_sainlim_nor'] = (score_par_contextes['score_sainlim'] - score_par_contextes['score_sainlim'].min()) / (score_par_contextes['score_sainlim'].max() - score_par_contextes['score_sainlim'].min())
+    
     return score_par_contextes
 
 
@@ -180,9 +183,8 @@ def main() :
     score_sub_contextes = score_substitution_contextes(regles)
     score_par_contextes = add_score_sainlim(score_sub_contextes, sainlim_df)
     
+    
     return score_par_contextes
-
-
 
 # =============================================================================
 
