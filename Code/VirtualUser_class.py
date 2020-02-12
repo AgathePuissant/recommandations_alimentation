@@ -41,7 +41,7 @@ class VirtualUser():
     """
     Definit les caractéristiques de l'utilisateur
     """
-    def __init__(self, _id, tab_pref):
+    def __init__(self, _id, tab_pref, tab_sub):
         self.id = _id
         self.epsilon = 1
         
@@ -49,7 +49,7 @@ class VirtualUser():
         self.affect_cluster()
         
         # Création de la table de préférence individuelle
-        self.creation_tab_indi(tab_pref)
+        self.creation_tab_indi(tab_pref, tab_sub)
 
 
     def affect_cluster(self):
@@ -59,10 +59,12 @@ class VirtualUser():
         self.cluster = random.randint(1,8)
 
 
-    def creation_tab_indi(self, tab_pref) :
+    def creation_tab_indi(self, tab_pref, tab_sub) :
         """
         La fonction qui crée une table de préférence individuelle des sous-groupes d'aliments
+        .. et une table de score de substitution individuelle des sous-groupes d'aliments
         """
+        # TABLE DE PRÉFÉRENCE
         # Filtrage de table de préférence du cluster
         self.tab_pref_indi = tab_pref[tab_pref['cluster_consommateur'] == self.cluster].reset_index(drop = True)
         
@@ -71,6 +73,15 @@ class VirtualUser():
         self.tab_pref_indi['taux_conso_par_code'] = self.tab_pref_indi['taux_conso_par_code'].apply(
                 lambda taux : round(taux*(1+random.uniform(-0.1, 0.1)), 2)).apply(
                         lambda taux : taux if taux <= 100 else 100)
+        
+        # TABLE DE SUBSTITUTION
+        # Filtrage de table de substitution du cluster
+        self.tab_sub_indi = tab_sub[tab_sub['cluster'] == self.cluster].reset_index(drop = True)
+        
+        # Personnalisation de table de substitution : ajoute aléatoirement - 10 à 10% du score de substitution par groupe
+        self.tab_sub_indi['score_substitution'] = self.tab_sub_indi['score_substitution'].apply(
+                lambda score : round(score*(1+random.uniform(-0.1, 0.1)), 2)).apply(
+                        lambda score : score if score < 1 else 1)
 
     
     def enter_repas(self, type_repas, avec_qui, regles):
@@ -171,13 +182,13 @@ class System() :
         self.jour_courant = 1
         self.liste_repas = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
         self.liste_avecqui = ['seul', 'accompagne']
-        self.table_suivi = pd.DataFrame(columns = ['user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution'])
+        self.table_suivi = pd.DataFrame(columns = ['user', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution'])
         
     def add_VirtualUser(self) :
         self.liste_user = []
         for iden in range(1, self.nbre_user + 1) :
             print(iden)
-            self.liste_user.append(VirtualUser(iden, self.tab_pref))    
+            self.liste_user.append(VirtualUser(iden, self.tab_pref, self.score_contexte))    
     
     def propose_repas(self) :
         """
@@ -187,6 +198,7 @@ class System() :
         for repas in self.liste_tyrep :
             self.conso_repas = pd.DataFrame(data = {
                     'user' : self.liste_user,
+                    'id_user' : [i for i in range(1, self.nbre_user + 1)],
                     'nojour' : self.jour_courant,
                     'tyrep' : repas,
                     'avecqui' : [random.choice(self.liste_avecqui) for i in range(self.nbre_user)]})
@@ -205,8 +217,23 @@ class System() :
         if self.jour_courant < self.nbre_jour :
             self.jour_courant += 1
 
+sys_test = System(10, 5)
+sys_test.propose_repas() # day1
+sys_test.propose_repas() # day2
 
+test = sys_test.table_suivi
+
+test1 = test.copy()
+test1 = test1.drop('user', axis = 1)
+test1['substitution'] = test1.apply(lambda row : row['user'].get_substitution(row['tyrep'], row['avecqui']), axis = 1)
+
+def test_function(row) :
+    row['user'].
+    return [row['user'], row['tyrep'], row['avecqui']]
     
+test.iloc[0,:]['tyrep']
+
+
     def propose_substitution(self) :
         """
         repas - liste des libsougr
