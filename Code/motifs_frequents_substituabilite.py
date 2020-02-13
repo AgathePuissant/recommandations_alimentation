@@ -291,14 +291,4 @@ def score_substitution(couples_ori, regles_ori) :
 #t_subst = tableau_substitution(regles_filtre, nomenclature)
 #score_contexte = matrice_scores_diff_moy(t_subst, regles_filtre)
 
-#def main() :
-#    data = conso_pattern_sougr[conso_pattern_sougr['avecqui'].isin([1, 2, 3])]
-#    data = data.drop(['petit-dejeuner', 'dejeuner', 'gouter', 'diner', 
-#                                  'seul', 'amis', 'famille', 'autre',
-#                                  'cluster_1', 'cluster_2','cluster_3','cluster_4','cluster_5','cluster_6','cluster_7','cluster_8'],
-#        axis = 1)
-#    
-#    data = groupby(['cluster_consommateur', 'tyrep', 'avecqui'])...
-#    return data
-#
-#data = main()
+

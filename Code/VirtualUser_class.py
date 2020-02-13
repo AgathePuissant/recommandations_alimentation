@@ -297,14 +297,16 @@ class System() :
         
         # Mise à jour les scores de substituabilité
         # S'il existe une recommandation
-        if len(recommandation) > 0 :
-            dict_coeff_score = {True : 1, False : -1}
-            
-            user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
-                              (user.tab_sub_indi['avecqui'] == avecqui) &
-                              (user.tab_sub_indi['aliment_1'].isin(list(recommandation))) &
-                              (user.tab_sub_indi['aliment_1'].isin(list(recommandation.values())))]['score_substitution'] = self.alpha ** dict_coeff_score[reponse] * score
-        
+#        if len(recommandation) > 0 :
+#            dict_coeff_score = {True : 1, False : -1}
+#            
+#            tab_sub_slice = 
+#            
+#            user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
+#                              (user.tab_sub_indi['avecqui'] == avecqui) &
+#                              (user.tab_sub_indi['aliment_1'].isin(list(recommandation))) &
+#                              (user.tab_sub_indi['aliment_1'].isin(list(recommandation.values())))]['score_substitution'] = self.alpha ** dict_coeff_score[reponse] * score
+#        
         # peut-être malus de diversité aussi ?
         
         pass
@@ -368,11 +370,12 @@ class System() :
         si ca fait 5% de la base conso_pattern_sougr total (if >= 5% then ...)
         """
         pass
-        
-sys_test = System(5, 5)
+
+# TEST
+sys_test = System(10, 5)
 # day1
-sys_test.propose_repas() 
-sys_test.training()
+sys_test.propose_repas() # client propose repas 1er jour
+sys_test.training() # recommandation 1 er jour
 
 # day2
 sys_test.jour_courant += 1
@@ -380,3 +383,21 @@ sys_test.propose_repas()
 sys_test.training()
 
 test = sys_test.table_suivi
+#=========
+
+user = sys_test.liste_user[3]
+type_repas = 'petit-dejeuner'
+avecqui = 'seul'
+repas = ['café', 'pain', 'fromages affinés', 'lait en bouteille ou en brique', 'biscuits sucrés', 'céréales sucrées, glacées ou au miel', 'sucre et assimilés']
+recommandation = {'biscuits sucrés': 'fruits'}
+reponse = True
+
+test = user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
+                         (user.tab_sub_indi['avecqui'] == avecqui)]
+
+# histoire de proposition
+test.loc[(test['aliment_1'].isin(list(recommandation)))&
+         (test['aliment_2'].isin(list(recommandation.values()))), 'histoire_recomm'] = True
+                
+
+
