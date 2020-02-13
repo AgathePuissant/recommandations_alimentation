@@ -88,9 +88,47 @@ def score_substitution_contextes(regles_global) :
     
     colnames = ['cluster', 'tyrep', 'avecqui', 'couples_alim', 'score']
     score_sub_contextes = pd.DataFrame(columns = colnames)
+    score_sub_contextes_ssavecqui = pd.DataFrame(columns = colnames)
+    score_sub_contextes_ssavecquicluster = pd.DataFrame(columns = colnames)
     
     for tyrep in liste_tyrep :
+        
+        regles_filtre_ssavecquicluster = mf.filtrage(regles_global, tyrep, '', '')
+            
+        if len(regles_filtre_ssavecquicluster) > 0 :
+                
+                # Création de la table des couples
+                couples_ssavecquicluster = mf.creation_couples(regles_filtre_ssavecquicluster, nomenclature)
+                
+                # Calcul du score de substitution
+                score_contexte_ssavecquicluster = mf.score_substitution(couples_ssavecquicluster, regles_filtre_ssavecquicluster)
+                
+                # Ajout des colonnes de cluster, type_rep et avecqui
+                score_contexte_ssavecquicluster = pd.concat([pd.DataFrame(columns = colnames[:3]), score_contexte_ssavecquicluster], sort = False)
+                score_contexte_ssavecquicluster[colnames[:3]] = ['nan' , tyrep, 'nan']
+                
+                # Ajout de la table partielle de score dans score_par_contextes 
+                score_sub_contextes_ssavecquicluster = score_sub_contextes_ssavecquicluster.append(score_contexte_ssavecquicluster)
+        
         for cluster in liste_cluster :
+            
+            regles_filtre_ssavecqui = mf.filtrage(regles_global, tyrep, cluster, '')
+            
+            if len(regles_filtre_ssavecqui) > 0 :
+                    
+                    # Création de la table des couples
+                    couples_ssavecqui = mf.creation_couples(regles_filtre_ssavecqui, nomenclature)
+                    
+                    # Calcul du score de substitution
+                    score_contexte_ssavecqui = mf.score_substitution(couples_ssavecqui, regles_filtre_ssavecqui)
+                    
+                    # Ajout des colonnes de cluster, type_rep et avecqui
+                    score_contexte_ssavecqui = pd.concat([pd.DataFrame(columns = colnames[:3]), score_contexte_ssavecqui], sort = False)
+                    score_contexte_ssavecqui[colnames[:3]] = [cluster, tyrep, 'nan']
+                    
+                    # Ajout de la table partielle de score dans score_par_contextes 
+                    score_sub_contextes_ssavecqui = score_sub_contextes_ssavecqui.append(score_contexte_ssavecqui)
+            
             for avecqui in liste_avecqui :
                 regles_filtre = mf.filtrage(regles_global, tyrep, cluster, avecqui)
                 print(tyrep, cluster, avecqui, len(regles_filtre))
@@ -119,8 +157,31 @@ def score_substitution_contextes(regles_global) :
                                      score_sub_contextes.iloc[:, -1:].rename(
                                              columns = {'score' : 'score_substitution'})],
                                      axis = 1)
+                                     
+    # Reset index nécessaire pour la transformation qui suit
+    score_sub_contextes_ssavecqui.reset_index(drop = True, inplace = True)
     
-    return score_sub_contextes
+    # Transformation de la colonne conséquents à deux colonnes aliment_1 et aliment_2
+    score_sub_contextes_ssavecqui = pd.concat([score_sub_contextes_ssavecqui.iloc[:, 0:3], 
+                                     pd.DataFrame(score_sub_contextes_ssavecqui['couples_alim'].tolist()).rename(
+                                             columns = {0 : 'aliment_1', 1 : 'aliment_2'}),
+                                     score_sub_contextes_ssavecqui.iloc[:, -1:].rename(
+                                             columns = {'score' : 'score_substitution'})],
+                                     axis = 1)
+                                     
+                                     
+    # Reset index nécessaire pour la transformation qui suit
+    score_sub_contextes_ssavecquicluster.reset_index(drop = True, inplace = True)
+    
+    # Transformation de la colonne conséquents à deux colonnes aliment_1 et aliment_2
+    score_sub_contextes_ssavecquicluster = pd.concat([score_sub_contextes_ssavecquicluster.iloc[:, 0:3], 
+                                     pd.DataFrame(score_sub_contextes_ssavecquicluster['couples_alim'].tolist()).rename(
+                                             columns = {0 : 'aliment_1', 1 : 'aliment_2'}),
+                                     score_sub_contextes_ssavecquicluster.iloc[:, -1:].rename(
+                                             columns = {'score' : 'score_substitution'})],
+                                     axis = 1)
+    
+    return (score_sub_contextes,score_sub_contextes_ssavecqui,score_sub_contextes_ssavecquicluster)
 
 
 def add_score_sainlim(score_sub_ori, sainlim) :
@@ -189,7 +250,7 @@ def main() :
 
 # =============================================================================
 
-# score_par_contextes = main()
+score_par_contextes = main()
 # score_par_contextes.to_csv("Base_Gestion_Systeme/score_par_contextes.csv", sep = ";", encoding = "latin-1", index = False)
 
 
