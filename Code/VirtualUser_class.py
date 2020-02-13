@@ -166,8 +166,8 @@ class System() :
 
         # constant d'apprentissage
         self.seuil_nutri = 70
-        self.alpha = 1.2
-        self.beta = 1
+        self.alpha = 1.05
+        self.beta = 1.02
         
         
         
@@ -197,6 +197,7 @@ class System() :
         La fonction qui propose les repas de tous les consommateurs du jour self.jour_courant
         """
         
+        # Table d'un repas pour tous les utilisateurs
         for type_repas in self.liste_tyrep :
             self.conso_repas = pd.DataFrame(data = {
                     'user' : self.liste_user,
@@ -229,7 +230,8 @@ class System() :
             repas : liste des sous-groupes d'aliments du repas à améliorer -- list
         
         OUTPUT :
-            recomm : la recommandation -- la forme est à définir?? dict?
+            recomm : la recommandation -- dict
+            reponse : acceptation / refus de la recommandation - bool
         """
         
         recommandation = {}
@@ -293,8 +295,15 @@ class System() :
         La fonction qui met à jour les scores de substituabilité après chaque accord / refus de proposition d'un repas substituable
         """
         
-        # table de substitution
-        
+        # Mise à jour les scores de substituabilité
+        # S'il existe une recommandation
+        if len(recommandation) > 0 :
+            dict_coeff_score = {True : 1, False : -1}
+            
+            user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
+                              (user.tab_sub_indi['avecqui'] == avecqui) &
+                              (user.tab_sub_indi['aliment_1'].isin(list(recommandation))) &
+                              (user.tab_sub_indi['aliment_1'].isin(list(recommandation.values())))]['score_substitution'] = self.alpha ** dict_coeff_score[reponse] * score
         
         # peut-être malus de diversité aussi ?
         
