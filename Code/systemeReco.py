@@ -598,6 +598,11 @@ class Aliments() :
         
 
         repasScoreSort=sorted(repasScore,key=lambda alim:alim[5]) #sort by distance SAIN/LIM
+        
+# =============================================================================
+#       Continuer à prendre le pire, deuxième pire, troisième pire etc mais jusqu'à un certain seuil, 
+# i.e tronquer la liste des aliments avec score aliment[0]= seuil
+# =============================================================================
     
         self.alimentASubstituer=repasScoreSort[indPireScore] #(libellé,scoreSAIN,scoreLIM)
         self.calculSubstitution(repasScoreSort,dataNutri,indPireScore)
@@ -620,7 +625,10 @@ class Aliments() :
         Actualisation des poids
         """
          
-        #Test existence substitution
+# =============================================================================
+# Incorporer la nouvelle table avec scores nutris intégrés, voir quels filtres on applique
+# =============================================================================
+        #Test existence substitution, filtre = repas
         if not (self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])]).dropna(subset=['aliment_2']).empty: 
             Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])][['aliment_2','score','Valeur_malus']]
             
@@ -643,14 +651,29 @@ class Aliments() :
         print(self.epsilon, self.omega1, self.omega2)
         self.subsProposee=('vin', 1.084, 1.430) #test
      
+# =============================================================================
+# Incorporer ici la notion de epsilon avec exploration/Exploitation
+# ajouter dans le dataframe une colonne pour chaque subs proposée
+# =============================================================================
     def acceptation(self,_antec,_conseq):
+        """mise à jour du score avec alpha et beta"""
         print("c'est un oui !!!")
         pass
     
     def refus(self,_antec,_conseq):
+         """mise à jour du score avec alpha et beta"""
         print("dommaaaaaage")
         pass
-      
+
+# =============================================================================
+# Créer un dataframe Historique de l'utilisateur avec ses repas proposés, 
+# son score nutri => On voit l'évolution du score nutri
+# =============================================================================
+        
+# =============================================================================
+# Gérer l'actualisation des omegas, à stocker dans le fichier init !
+# Avoir un compteur de repas acceptés et refusé : fichier init
+# =============================================================================
 
 root = tk.Tk()
 app = Application(master=root)
