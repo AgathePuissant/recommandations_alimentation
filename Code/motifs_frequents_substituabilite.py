@@ -214,6 +214,8 @@ def creation_couples(rules_ori, nomen_ori) :
     
     return couples
  
+    
+
 def calcul_score(aliment_1, aliment_2, rules_ori) :
     '''
     Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
@@ -237,7 +239,9 @@ def calcul_score(aliment_1, aliment_2, rules_ori) :
     rules['antecedents'] = rules['antecedents'].apply(
             lambda ant : [val for val in ant if val not in liste_contexte]).apply(
                     tuple)
-    rules = rules[rules['antecedents'].str.len() > 0].reset_index(drop = True)
+    
+    
+     #rules = rules[rules['antecedents'].str.len() > 0].reset_index(drop = True)
 
     # union : Les contextes dans les quels aliment_1 OU aliment_2 sont substituables
     union = len(rules)
@@ -274,6 +278,8 @@ def calcul_score(aliment_1, aliment_2, rules_ori) :
     
     return (inter + res) / (union + penalite)
 
+
+
 def score_substitution(couples_ori, regles_ori) :
     
     tab_scores = couples_ori.copy()
@@ -283,11 +289,16 @@ def score_substitution(couples_ori, regles_ori) :
     tab_scores = tab_scores.loc[:, ['couples_alim', 'score']]
     return tab_scores
 
+
+
 #conso_pattern_sougr = pd.read_csv("conso_pattern_sougr_transfo.csv",sep = ";", encoding = 'latin-1')
 #nomenclature = pd.read_csv("nomenclature.csv",sep = ";",encoding = 'latin-1')
-#motifs = find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-#regles = regles_association(motifs, confiance = conf, support_only = False, support = supp)
+#motifs = find_frequent(conso_pattern_sougr, seuil_support = 0.001, algo = fpgrowth)
+#regles = regles_association(motifs, confiance = 0.001, support_only = False, support = 0.001)
 #regles_filtre = filtrage(regles, 'petit-dejeuner', 'cluster_1', 'seul')
+#couples = creation_couples(regles_filtre,nomenclature)
+#scores = score_substitution(couples,regles_filtre)
+
 #t_subst = tableau_substitution(regles_filtre, nomenclature)
 #score_contexte = matrice_scores_diff_moy(t_subst, regles_filtre)
 
