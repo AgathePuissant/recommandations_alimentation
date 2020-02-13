@@ -96,7 +96,7 @@ def score_substitution_contextes(regles_global) :
                 print(tyrep, cluster, avecqui, len(regles_filtre))
                 if len(regles_filtre) > 0 :
                     
-                    # Création de la table de substitution
+                    # Création de la table des couples
                     couples = mf.creation_couples(regles_filtre, nomenclature)
                     
                     # Calcul du score de substitution
