@@ -232,16 +232,16 @@ def calcul_score(aliment_1, aliment_2, rules_ori) :
     rules = rules_ori[[aliment_1 in x or aliment_2 in x for x in rules_ori['consequents']]].reset_index(drop = True)
     
     # ...puis enlever les éléments de contexte dans le tuple d'antécédents
-    liste_contexte = ['seul','accompagne',
-                      'cluster_1','cluster_2','cluster_3','cluster_4','cluster_5','cluster_6','cluster_7','cluster_8',
-                      'petit-dejeuner','dejeuner','gouter','diner']
+#    liste_contexte = ['seul','accompagne',
+#                      'cluster_1','cluster_2','cluster_3','cluster_4','cluster_5','cluster_6','cluster_7','cluster_8',
+#                      'petit-dejeuner','dejeuner','gouter','diner']
+#    
+#    rules['antecedents'] = rules['antecedents'].apply(
+#            lambda ant : [val for val in ant if val not in liste_contexte]).apply(
+#                    tuple)
     
-    rules['antecedents'] = rules['antecedents'].apply(
-            lambda ant : [val for val in ant if val not in liste_contexte]).apply(
-                    tuple)
     
-    
-     #rules = rules[rules['antecedents'].str.len() > 0].reset_index(drop = True)
+    #rules = rules[rules['antecedents'].str.len() > 0].reset_index(drop = True)
 
     # union : Les contextes dans les quels aliment_1 OU aliment_2 sont substituables
     union = len(rules)
