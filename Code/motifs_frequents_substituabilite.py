@@ -255,6 +255,7 @@ def calcul_score(aliment_1, aliment_2, rules_ori) :
         inter = len(inter_df)
         if inter > 0 :
             inter_df = inter_df.groupby('consequents')['confidence'].apply(np.mean)
+            print(inter_df)
             inter = inter * inter_df[aliment_2, ] / inter_df.sum()
             
         
