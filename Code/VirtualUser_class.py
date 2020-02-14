@@ -391,37 +391,37 @@ sys_test.training()
 test = sys_test.table_suivi
 #=========
 
-user = sys_test.liste_user[3]
+
+# Construction de mise à jour score
+
+#import pickle
+#fileObject = open("save_sys", 'wb')
+#pickle.dump(sys_test, fileObject)
+#fileObject.close()
+#
+#fileObject = open("save_sys", 'rb')
+#sys_test1 = pickle.load(fileObject)
+#fileObject.close()
+#test1 = sys_test1.table_suivi
+
+
+user = sys_test.liste_user[0]
 type_repas = 'petit-dejeuner'
 avecqui = 'seul'
-repas = ['café', 'pain', 'fromages affinés', 'lait en bouteille ou en brique', 'biscuits sucrés', 'céréales sucrées, glacées ou au miel', 'sucre et assimilés']
-recommandation = {'biscuits sucrés': 'fruits'}
+repas = ['café', 'chicorée et poudre maltée', 'pain', 'céréales sucrées, glacées ou au miel', 'viennoiserie', 'confiture et miel', 'sucre et assimilés']
+recommandation = {'sucre et assimilés': 'confiture et miel'}
 reponse = True
+
+dict_coef = {True : 1, False : -1}
+# score du couple 
+tab_sliced = user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
+                               (user.tab_sub_indi['avecqui'] == avecqui) &
+                               (user.tab_sub_indi['aliment_1'].isin(list(recommandation.)))]
+
+# score des sous-groupes 
 
 test = user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
                          (user.tab_sub_indi['avecqui'] == avecqui)]
 
-# histoire de proposition
-test.loc[(test['aliment_1'].isin(list(recommandation)))&
-         (test['aliment_2'].isin(list(recommandation.values()))), 'histoire_recomm'] = True
-
-user = sys_test.liste_user[5]
-type_repas = 'petit-dejeuner'
-avecqui = 'seul'
-repas = ['cacao, poudres et boissons cacaotées', 'café', 'thé et infusions', 'beurre', 'margarine', 'fromage blanc et petits suisses', 'confiture et miel', 'sucre et assimilés']
-recommandation = {'sucre et assimilés': 'confiture et miel'}
-
-test1 = user.tab_rep_indi[(user.tab_rep_indi['tyrep'] == type_repas) &
-                          (user.tab_rep_indi['avecqui'] == avecqui) &
-                          (user.tab_rep_indi['aliment_1'].isin(list(recommandation))) &
-                          (user.tab_rep_indi['aliment_2'].isin(list(recommandation.values())))]['score_substitution'].tolist()[0]
-
-
-sys_test.recommandation_reponse(user, type_repas, avecqui, repas)
-user.tab_sub_indi.shape
-user.tab_rep_indi.shape
-         
-for user in sys_test.liste_user :
-    print(user.id, user.cluster, len(user.tab_rep_indi), len(user.tab_sub_indi))       
 
 
