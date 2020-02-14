@@ -94,7 +94,7 @@ def score_substitution_contextes(regles_global) :
     for tyrep in liste_tyrep :
         
         regles_filtre_ssavecquicluster = mf.filtrage(regles_global, tyrep, '', '')
-            
+        print(tyrep, '', '', len(regles_filtre_ssavecquicluster))    
         if len(regles_filtre_ssavecquicluster) > 0 :
                 
                 # Création de la table des couples
@@ -113,7 +113,7 @@ def score_substitution_contextes(regles_global) :
         for cluster in liste_cluster :
             
             regles_filtre_ssavecqui = mf.filtrage(regles_global, tyrep, cluster, '')
-            
+            print(tyrep, cluster, '', len(regles_filtre_ssavecqui))
             if len(regles_filtre_ssavecqui) > 0 :
                     
                     # Création de la table des couples
