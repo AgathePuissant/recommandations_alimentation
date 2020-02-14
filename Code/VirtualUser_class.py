@@ -76,7 +76,7 @@ class VirtualUser():
                 lambda taux : round(taux*(1+random.uniform(-0.1, 0.1)), 2)).apply(
                         lambda taux : taux if taux <= 100 else 100)
         
-        # TABLE DE SUBSTITUTION
+        # TABLE DE SUBSTITUTION (PERMETTRE AU SYSTÈME DE RECOMMANDER DES SUBSTITUTIONS)
         # Filtrage de table de substitution du cluster
         self.tab_sub_indi = tab_sub[tab_sub['cluster'] == 'cluster_'+str(self.cluster)].reset_index(drop = True)
         
@@ -86,7 +86,10 @@ class VirtualUser():
                         lambda score : score if score < 1 else 1)
         
         self.tab_sub_indi['histoire_recomm'] = False
-    
+        
+        # TABLE DE RÉPONSE (PERMETTRE AUX CONSOMMATEURX DE RÉPONDRE À LA RECOMMANDATION)
+        self.tab_rep_indi = self.tab_sub_indi.copy()
+        
     
     def enter_repas(self, type_repas, avec_qui, regles):
         """
@@ -282,8 +285,11 @@ class System() :
                 # La recommandation finale
                 recommandation = {recomm_df['aliment_1'][0] : recomm_df['aliment_2'][0]}
                 #
-                if random.random() <= recomm_df['score_substitution'][0] :
-                    reponse = True
+#                if random.random() <= user.tab_rep_indi[(user.tab_rep_indi['tyrep'] == type_repas) &
+#                                                        (user.tab_rep_indi['avecqui'] == avecqui) &
+#                                                        (user.tab_rep_indi['aliment_1'].isin(list(recommandation))) &
+#                                                        (user.tab_rep_indi['aliment_2'].isin(list(recommandation.values())))]['score_substitution'][0] :
+#                    reponse = True
             except :
                 recommandation = {}
                 
