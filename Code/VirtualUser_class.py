@@ -169,8 +169,8 @@ class System() :
 
         # constant d'apprentissage
         self.seuil_nutri = 70
-        self.alpha = 1.05
-        self.beta = 1.02
+        self.alpha = 1.005
+        self.beta = 1.002
         
         
         
@@ -237,6 +237,8 @@ class System() :
             reponse : acceptation / refus de la recommandation - bool
         """
         
+        global recomm_df
+        
         recommandation = {}
         reponse = False
         
@@ -282,17 +284,15 @@ class System() :
                 niveau += 1
             
             try :
-                # La recommandation finale
                 recommandation = {recomm_df['aliment_1'][0] : recomm_df['aliment_2'][0]}
-                #
-#                if random.random() <= user.tab_rep_indi[(user.tab_rep_indi['tyrep'] == type_repas) &
-#                                                        (user.tab_rep_indi['avecqui'] == avecqui) &
-#                                                        (user.tab_rep_indi['aliment_1'].isin(list(recommandation))) &
-#                                                        (user.tab_rep_indi['aliment_2'].isin(list(recommandation.values())))]['score_substitution'][0] :
-#                    reponse = True
+                if random.random() <= user.tab_rep_indi[(user.tab_rep_indi['tyrep'] == type_repas) &
+                                                        (user.tab_rep_indi['avecqui'] == avecqui) &
+                                                        (user.tab_rep_indi['aliment_1'].isin(list(recommandation))) &
+                                                        (user.tab_rep_indi['aliment_2'].isin(list(recommandation.values())))]['score_substitution'].tolist()[0] :
+                    reponse = True
             except :
-                recommandation = {}
-                
+                pass
+
         return pd.Series([recommandation, reponse])
     
     
@@ -404,6 +404,24 @@ test = user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
 # histoire de proposition
 test.loc[(test['aliment_1'].isin(list(recommandation)))&
          (test['aliment_2'].isin(list(recommandation.values()))), 'histoire_recomm'] = True
-                
+
+user = sys_test.liste_user[5]
+type_repas = 'petit-dejeuner'
+avecqui = 'seul'
+repas = ['cacao, poudres et boissons cacaotées', 'café', 'thé et infusions', 'beurre', 'margarine', 'fromage blanc et petits suisses', 'confiture et miel', 'sucre et assimilés']
+recommandation = {'sucre et assimilés': 'confiture et miel'}
+
+test1 = user.tab_rep_indi[(user.tab_rep_indi['tyrep'] == type_repas) &
+                          (user.tab_rep_indi['avecqui'] == avecqui) &
+                          (user.tab_rep_indi['aliment_1'].isin(list(recommandation))) &
+                          (user.tab_rep_indi['aliment_2'].isin(list(recommandation.values())))]['score_substitution'].tolist()[0]
+
+
+sys_test.recommandation_reponse(user, type_repas, avecqui, repas)
+user.tab_sub_indi.shape
+user.tab_rep_indi.shape
+         
+for user in sys_test.liste_user :
+    print(user.id, user.cluster, len(user.tab_rep_indi), len(user.tab_sub_indi))       
 
 
