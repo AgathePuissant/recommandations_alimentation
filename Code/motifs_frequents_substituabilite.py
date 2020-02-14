@@ -256,10 +256,11 @@ def calcul_score(aliment_1, aliment_2, rules_ori) :
         # Score de substitution pour les repas exactement en commun
         inter_df = rules.groupby('antecedents').filter(lambda x : len(x) == 2)
         
+        print(inter_df)
+        
         inter = len(inter_df)
         if inter > 0 :
             inter_df = inter_df.groupby('consequents')['confidence'].apply(np.mean)
-            print(inter_df)
             inter = inter * inter_df[aliment_2, ] / inter_df.sum()
             
         
