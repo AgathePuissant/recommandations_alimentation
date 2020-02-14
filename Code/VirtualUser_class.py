@@ -162,6 +162,9 @@ class System() :
         
         # Score par contextes :
         self.score_contexte = pd.read_csv('Base_Gestion_Systeme/score_par_contextes.csv', sep = ';', encoding="latin-1")
+        self.score_contexte = pd.DataFrame.merge(self.score_contexte, self.nomenclature[['libsougr', 'code_role']].drop_duplicates().dropna(),
+                                    left_on = 'aliment_1', right_on = 'libsougr', how = 'left').drop(
+                                            'libsougr', axis = 1)
         
         # contexte de repas
         self.liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
@@ -284,11 +287,11 @@ class System() :
                 niveau += 1
             
             try :
-                recommandation = {recomm_df['aliment_1'][0] : recomm_df['aliment_2'][0]}
+                recommandation = (recomm_df['aliment_1'][0], recomm_df['aliment_2'][0])
                 if random.random() <= user.tab_rep_indi[(user.tab_rep_indi['tyrep'] == type_repas) &
                                                         (user.tab_rep_indi['avecqui'] == avecqui) &
-                                                        (user.tab_rep_indi['aliment_1'].isin(list(recommandation))) &
-                                                        (user.tab_rep_indi['aliment_2'].isin(list(recommandation.values())))]['score_substitution'].tolist()[0] :
+                                                        (user.tab_rep_indi['aliment_1'] == recommandation[0]) &
+                                                        (user.tab_rep_indi['aliment_2'] == recommandation[1])]['score_substitution'].tolist()[0] :
                     reponse = True
             except :
                 pass
@@ -405,23 +408,43 @@ test = sys_test.table_suivi
 #test1 = sys_test1.table_suivi
 
 
-user = sys_test.liste_user[0]
-type_repas = 'petit-dejeuner'
+user = sys_test.liste_user[6]
+type_repas = 'dejeuner'
 avecqui = 'seul'
-repas = ['café', 'chicorée et poudre maltée', 'pain', 'céréales sucrées, glacées ou au miel', 'viennoiserie', 'confiture et miel', 'sucre et assimilés']
-recommandation = {'sucre et assimilés': 'confiture et miel'}
+repas = ['café', 'eau du robinet', 'eau minérale plate', 'sauces', 'légumes feuilles', 'légumes racines, tubercules ou bulbes', 'légumes tiges', 'mélanges de légumes, légumes préparés et autres légumes', 'autres poissons ou poissons sans précision', 'boeuf en pièces ou haché', 'plats à base de pâtes ou de pommes de terre', 'fromages affinés', 'yaourts et assimilés']
+recommandation = ('vin', 'eau minérale plate')
 reponse = True
+alpha = 1.002
+beta = 1.001
+	
+	
 
 dict_coef = {True : 1, False : -1}
+
 # score du couple 
 tab_sliced = user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
-                               (user.tab_sub_indi['avecqui'] == avecqui) &
-                               (user.tab_sub_indi['aliment_1'].isin(list(recommandation.)))]
+                               (user.tab_sub_indi['avecqui'] == avecqui)]
 
 # score des sous-groupes 
+# sous-groupes de aliment_1
+pass
 
-test = user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
+# sous-groupes de aliment_2
+pass
+test = user.tab_sub_indi
+test1 = user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
                          (user.tab_sub_indi['avecqui'] == avecqui)]
 
+test1.loc[(test1['aliment_1'] == recommandation[0]) |
+      (test1['aliment_2'] == recommandation[1]),
+      'score_substitution'] = test1.loc[(test1['aliment_1'] == recommandation[0]) |
+                                         (test1['aliment_2'] == recommandation[1]),
+                                         'score_substitution']*100
 
+
+score_contexte = pd.read_csv('Base_Gestion_Systeme/score_par_contextes.csv', sep = ';', encoding="latin-1")
+
+score_contexte = pd.DataFrame.merge(score_contexte, nomenclature[['libsougr', 'code_role']].drop_duplicates().dropna(),
+                                    left_on = 'aliment_1', right_on = 'libsougr', how = 'left').drop(
+                                            'libsougr', axis = 1)
 
