@@ -180,8 +180,10 @@ def score_substitution_contextes(regles_global) :
                                      score_sub_contextes_ssavecquicluster.iloc[:, -1:].rename(
                                              columns = {'score' : 'score_substitution'})],
                                      axis = 1)
+                                     
+    scores = pd.concat(score_sub_contextes,score_sub_contextes_ssavecqui,score_sub_contextes_ssavecquicluster)
     
-    return (score_sub_contextes,score_sub_contextes_ssavecqui,score_sub_contextes_ssavecquicluster)
+    return scores
 
 
 def add_score_sainlim(score_sub_ori, sainlim) :
@@ -243,6 +245,7 @@ def main() :
     regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = supp)
     
     score_sub_contextes = score_substitution_contextes(regles)
+
     score_par_contextes = add_score_sainlim(score_sub_contextes, sainlim_df)
     
     
@@ -250,7 +253,7 @@ def main() :
 
 # =============================================================================
 
-score_par_contextes = main()
-# score_par_contextes.to_csv("Base_Gestion_Systeme/score_par_contextes.csv", sep = ";", encoding = "latin-1", index = False)
+#score_par_contextes = main()
+score_par_contextes.to_csv("Base_Gestion_Systeme/score_par_contextes.csv", sep = ";", encoding = "latin-1", index = False)
 
 
