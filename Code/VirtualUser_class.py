@@ -189,7 +189,7 @@ class System() :
         self.jour_courant = 1
         self.liste_repas = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
         self.liste_avecqui = ['seul', 'accompagne']
-        self.table_suivi = pd.DataFrame(columns = ['user', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse'])
+        self.table_suivi = pd.DataFrame(columns = ['user', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega'])
         
     def add_VirtualUser(self) :
         self.liste_user = []
@@ -296,7 +296,7 @@ class System() :
             except :
                 pass
 
-        return pd.Series([recommandation, reponse])
+        return recommandation, reponse
     
     
     def mise_a_jour(self, user, type_repas, avecqui, repas, recommandation, reponse) :
@@ -331,62 +331,40 @@ class System() :
             # MISE À JOUR LE MALUS DE DIVERSITÉ
             
             
-    def ponderation(self) :
-        """
-        La fonction qui met à jour la pondération de omega pour chaque utilisateur (à utiliser avec groupby)
-        si 20 derniers repas, >= 80% acceptation : w += pas si <= 20% acceptation : w += -pas (pas = 0.01)
-        """
-        
-        # Les constants
-        seuil_recom = 5
-        seuil_acceptation = 0.5
-        pas_modif = 0.01
-        
-        # Enlever les repas pour lesquels le système ne recommande pas de substitution
-        pond_df = self.table_suivi[self.table_suivi['substitution'].str.len() > 0]
-        
-        # Enlever les utilisateurs qui n'ont pas encore recu un certain nombre de recommdation
-        pond_df = pond_df[pond_df.groupby('id_user')['id_user'].transform('size') >= seuil_recom]
-        
-        # Filtre sur les dernières recommandations
-        pond_df = pond_df.groupby('id_user').apply(lambda x : x.tail(seuil_recom)).reset_index(drop = True)
-        
-        # Compter nombre de réponse True
-        pond_df = pond_df.groupby('id_user')['reponse'].sum().reset_index()
-        
-        # Pondérer omege en fonction des conditions :
-        # Augmente si le taux de réponse positive est supérieur à un seuil et...
-        for id_user in pond_df[pond_df['reponse'] >= seuil_acceptation*seuil_recom]['id_user'].tolist() :
-                self.liste_user[id_user - 1].w += pas_modif
-        
-        # ... Diminue si le taux de réponse positive est inférieur à un autre seuil
-        for id_user in pond_df[pond_df['reponse'] <= (1 - seuil_acceptation)*seuil_recom]['id_user'].tolist() :
-                self.liste_user[id_user - 1].w += - pas_modif
-
-    
-    def ponderation2(self, user, recommandation, reponse) :
+    def ponderation(self, user, recommandation, reponse) :
         """
         Pondération pour chaque utilisateur après une recommandation de substitution et puis une réponse
+        Si 20 derniers repas, >= 80% acceptation : w += pas si <= 20% acceptation : w += -pas (pas = 0.01)
         """
-        # Nombre de dernières recommandations à extraire pour l'évaluation
-        seuil_recom = self.seuil_recom - len(recommandation)
         
-        # Table de l'histoire de recommandation de l'utilisateur
-        pond_df = self.table_suivi[(self.table_suivi['id_user'] == user.id) &
-                                   (self.table_suivi['substitution'].str.len() > 0)]
-        
-        # Si le nombre de recommandation est suffisant
-        if len(pond_df) >= seuil_recom :
+        # Si le système trouve une recommandation pour le nouveau repas proposé par l'utilisateur
+        if len(recommandation) > 0 :
             
-            # Sélectionner sur les dernières recommandations
-            pond_df = pond_df.tail(seuil_recom).reset_index(drop = True)
+            # Nombre de dernières recommandations à extraire pour l'évaluation
+            seuil_recom = self.seuil_recom - len(recommandation) # pour le cas simple actuel, len(recom) vaut toujours 1
             
-            # Compter le nombre de réponse positive
+            # Table de l'histoire de recommandation de l'utilisateur
+            pond_df = self.table_suivi[(self.table_suivi['id_user'] == user.id) &
+                                       (self.table_suivi['substitution'].str.len() > 0)]
             
-            
+            # Si le nombre de recommandation est suffisant
+            if len(pond_df) >= seuil_recom :
+                
+                # Sélectionner sur les dernières recommandations
+                #pond_df = pond_df.tail(seuil_recom)
+                
+                # Compter le nombre de réponse positive des dernières recommandations
+                tx_pos = (pond_df.tail(seuil_recom)['reponse'].sum() + reponse) / self.seuil_recom
+                if tx_pos >= self.seuil_acc :
+                    user.w += self.pas_modif
+                elif tx_pos <= self.seuil_acc :
+                    user.w += -self.pas_modif
+
             
     def processus_recommandation(self, user, type_repas, avecqui, repas) :
         """
+        La fonction qui pour chaque repas de l'utilisateur, propose des recommandations de substitution,
+        recoit la réponse de l'utilisateur et fait la pondération de omega 
         """
         
         # Recommandation
@@ -399,37 +377,31 @@ class System() :
         self.mise_a_jour(user, type_repas, avecqui, repas, recommandation, reponse)
         
         # Pondération de omega de chaque utilisateur
-        self.ponderation2(user, recommandation, reponse)
+        self.ponderation(user, recommandation, reponse)
         
         
         return pd.Series([recommandation, reponse, user.w])
     
-    def training(self) :
-        
-        """
-        La fonction qui lance chaque jour des propositions de repas, puis des substitutions possibles,
-        puis accord/refus des propositions de substitution, puis mise_a_jour_score et mise_a_jour_df
-        """
-
-        self.table_suivi[['substitution', 'reponse']] = self.table_suivi.apply(
-                lambda row : self.recommandation_reponse(row['user'], row['tyrep'], row['avecqui'], row['repas'])
-                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse']]), axis = 1)
     
-    def entrainement_final(self) :
+    def entrainement(self) :
         
         """
         La fonction qui lance chaque jour des propositions de repas, puis des substitutions possibles,
         puis accord/refus des propositions de substitution, puis mise_a_jour_score et mise_a_jour_df
         """
+        
         while self.jour_courant <= self.nbre_jour :
+            
+            print('Entrainement du jour : ', self.jour_courant)
+            
             #Propose de repas
             self.propose_repas()
             
             #Processus de recommandation, de réponse et de mise à jour
-            self.table_suivi[['substitution', 'reponse', 'w']] = self.table_suivi.apply(
-                    lambda row : self.processus_recommandation(row['user'], row['tyrep'], row['avecqui'], row['repas'])
-                    if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['w']]), axis = 1)
-            
+            self.table_suivi[['substitution', 'reponse', 'omega']] = self.table_suivi.apply(
+                lambda row : self.processus_recommandation(row['user'], row['tyrep'], row['avecqui'], row['repas'])
+                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega']]), axis = 1)
+    
             # Passe à la journée suivante
             self.jour_courant += 1
 
@@ -443,68 +415,24 @@ class System() :
         pass
 
 # TEST
-sys_test = System(10, 5)
-# day1
-sys_test.propose_repas() # client propose repas 1er jour
-sys_test.training() # recommandation 1 er jour
+sys_test = System(10, 5) # 10 utilisateurs, 5 jours d'entrainement
 
-# day2
-sys_test.jour_courant += 1
-sys_test.propose_repas()
-sys_test.training()
+sys_test.entrainement()
 
 test = sys_test.table_suivi
 #=========
 
 
-# Construction de mise à jour score
-
-import pickle
+#import pickle
 #fileObject = open("save_sys", 'wb')
 #pickle.dump(sys_test, fileObject)
 #fileObject.close()
 #
-fileObject = open("save_sys", 'rb')
-sys_test = pickle.load(fileObject)
-fileObject.close()
-
-test = sys_test.table_suivi
-
-test1 = test[test['substitution'].str.len() > 0]
-test1 = test1[test1.groupby('id_user')['id_user'].transform('size') >= 3]
-#test1['tyrep'] = pd.Categorical(test1['tyrep'], ['petit-dejeuner', 'dejeuner', 'gouter', 'diner'])
-#test1 = test1.groupby('id_user').apply(lambda _df: _df.sort_values(by=['nojour', 'tyrep']))
-test1 = test1.groupby('id_user').apply(lambda x : x.tail(3)).reset_index(drop = True)
-
-test2 = test1[test1.groupby('id_user')['reponse'].transform('sum') >= 0.5 * 3]['user'].unique().tolist()
-
-test2 = test1.groupby('id_user')['reponse'].sum().reset_index()
-
-
-user = sys_test.liste_user[6]
-type_repas = 'dejeuner'
-avecqui = 'seul'
-repas = ['café', 'eau du robinet', 'eau minérale plate', 'sauces', 'légumes feuilles', 'légumes racines, tubercules ou bulbes', 'légumes tiges', 'mélanges de légumes, légumes préparés et autres légumes', 'autres poissons ou poissons sans précision', 'boeuf en pièces ou haché', 'plats à base de pâtes ou de pommes de terre', 'fromages affinés', 'yaourts et assimilés']
-recommandation = ('vin', 'eau minérale plate')
-reponse = True
-alpha = 1.002
-beta = 1.001
-
-
-# score du couple
-test1 = user.tab_sub_indi.copy()
-dict_coef = {True : 1, False : -1}
-filter1 = (test1['tyrep'] == type_repas) & (test1['avecqui'] == avecqui)
-filter2 = test1['aliment_1'] == recommandation[0]
-filter3 = test1['aliment_2'] == recommandation[1]
-
-
-test1.loc[filter1 & (filter2 | filter3), 'score_substitution'] = test1.loc[filter1 & (filter2 | filter3), 'score_substitution'] * (beta**dict_coef[reponse])
-
-test1.loc[filter1 & (filter2 | filter3), 'score_substitution'] *= beta**dict_coef[reponse]
-
-test1.loc[filter1 & filter2 & filter3, 'histoire_recomm'] = True
+#fileObject = open("save_sys", 'rb')
+#sys_test = pickle.load(fileObject)
+#fileObject.close()
+#
+#test = sys_test.table_suivi
 
 
 
-score_contexte = pd.read_csv('Base_Gestion_Systeme/score_par_contextes.csv', sep = ';', encoding="latin-1")
