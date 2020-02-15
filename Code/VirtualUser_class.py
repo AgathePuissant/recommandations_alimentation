@@ -162,9 +162,6 @@ class System() :
         
         # Score par contextes :
         self.score_contexte = pd.read_csv('Base_Gestion_Systeme/score_par_contextes.csv', sep = ';', encoding="latin-1")
-        self.score_contexte = pd.DataFrame.merge(self.score_contexte, self.nomenclature[['libsougr', 'code_role']].drop_duplicates().dropna(),
-                                    left_on = 'aliment_1', right_on = 'libsougr', how = 'left').drop(
-                                            'libsougr', axis = 1)
         
         # contexte de repas
         self.liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
@@ -242,7 +239,7 @@ class System() :
         
         global recomm_df
         
-        recommandation = {}
+        recommandation = ()
         reponse = False
         
         # Identification de la liste des aliments à substituer 
@@ -299,32 +296,71 @@ class System() :
         return pd.Series([recommandation, reponse])
     
     
-    def mise_a_jour_score(self, user, type_repas, avecqui, repas, recommandation, reponse) :
+    def mise_a_jour(self, user, type_repas, avecqui, repas, recommandation, reponse) :
         """
         La fonction qui met à jour les scores de substituabilité après chaque accord / refus de proposition d'un repas substituable
         """
-        
-        # Mise à jour les scores de substituabilité
         # S'il existe une recommandation
-#        if len(recommandation) > 0 :
-#            dict_coeff_score = {True : 1, False : -1}
-#            
-#            tab_sub_slice = 
-#            
-#            user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
-#                              (user.tab_sub_indi['avecqui'] == avecqui) &
-#                              (user.tab_sub_indi['aliment_1'].isin(list(recommandation))) &
-#                              (user.tab_sub_indi['aliment_1'].isin(list(recommandation.values())))]['score_substitution'] = self.alpha ** dict_coeff_score[reponse] * score
-#        
-        # peut-être malus de diversité aussi ?
-        
-        pass
-    
-    def mise_a_jour_diversite(self, user, type_repas, avecqui, recommandation) :
-        
         if len(recommandation) > 0 :
-            print('mise à jour malus commence')
-    
+            
+            # MISE À JOUR LES SCORE DE SUBSTITUABILITÉ INDIVIDUELLE
+            # 
+            dict_puis = {True : 1, False : -1}
+            
+            # Les filtres à appliquer
+            f_contexte = (user.tab_sub_indi['tyrep'] == type_repas) & (user.tab_sub_indi['avecqui'] == avecqui)
+            f_alim1 = user.tab_sub_indi['aliment_1'] == recommandation[0]
+            f_alim2 = user.tab_sub_indi['aliment_2'] == recommandation[1]
+            
+            # Modifier les scores de a1 -> y et x -> a2
+            user.tab_sub_indi.loc[f_contexte & (f_alim1 | f_alim2), 'score_substitution'] *= self.beta**dict_puis[reponse]
+            
+            # Modifier le score du couple a1 -> a2
+            user.tab_sub_indi.loc[f_contexte & f_alim1 & f_alim2, 'score_substitution'] *= (self.alpha/self.beta)**dict_puis[reponse]
+            
+            # Remise le score à 1 si le score est supérieur à 1
+            user.tab_sub_indi['score_substitution'] = user.tab_sub_indi['score_substitution'].apply(
+                    lambda score : 1 if score > 1 else score)
+            
+            # MISE À JOUR L'HISTOIRE DE RECOMMANDATION
+            user.tab_sub_indi.loc[f_contexte & f_alim1 & f_alim2, 'histoire_recomm'] = True
+            
+            # MISE À JOUR LE MALUS DE DIVERSITÉ
+            
+            
+    def ponderation(self) :
+        """
+        La fonction qui met à jour la pondération de omega pour chaque utilisateur (à utiliser avec groupby)
+        si 20 derniers repas, >= 80% acceptation : w += pas si <= 20% acceptation : w += -pas (pas = 0.01)
+        """
+        
+        # Les constants
+        seuil_recom = 5
+        seuil_acceptation = 0.5
+        pas_modif = 0.01
+        
+        # Enlever les repas pour lesquels le système ne recommande pas de substitution
+        pond_df = self.table_suivi[self.table_recommandation['substitution'].str.len() > 0]
+        
+        # Enlever les utilisateurs qui n'ont pas encore recu un certain nombre de recommdation
+        pond_df = pond_df[pond_df.groupby('id_user')['id_user'].transform('size') >= seuil_recom]
+        
+        # Filtre sur les dernières recommandations
+        pond_df = pond_df.groupby('id_user').apply(lambda x : x.tail(seuil_recom)).reset_index(drop = True)
+        
+        # Compter nombre de réponse True
+        pond_df = pond_df.groupby('id_user')['reponse'].sum().reset_index()
+        
+        # Pondérer omege en fonction des conditions :
+        # Augmente si le taux de réponse positive est supérieur à un seuil et...
+        for id_user in pond_df[pond_df['reponse'] >= seuil_acceptation*seuil_recom]['id_user'].tolist() :
+                self.liste_user[id_user - 1].w += pas_modif
+        
+        # ... Diminue si le taux de réponse positive est inférieur à un autre seuil
+        for id_user in pond_df[pond_df['reponse'] <= (1 - seuil_acceptation)*seuil_recom]['id_user'].tolist() :
+                self.liste_user[id_user - 1].w += - pas_modif
+
+
     def processus_recommandation(self, user, type_repas, avecqui, repas) :
         """
         """
@@ -336,11 +372,13 @@ class System() :
         # self.mise_a_jour_diversite(user, type_repas, avecqui, recommandation)
         
         # Mise à jour le score
-        self.mise_a_jour_score(user, type_repas, avecqui, repas, recommandation, reponse)
+        self.mise_a_jour(user, type_repas, avecqui, repas, recommandation, reponse)
         
-        # Mise à jour des constants
+        # Pondération de omega de chaque utilisateur
+        self.ponderation()
         
-        return pd.Series([recommandation, reponse, self.w])
+        
+        return pd.Series([recommandation, reponse, user.w])
     
     def training(self) :
         
@@ -397,15 +435,26 @@ test = sys_test.table_suivi
 
 # Construction de mise à jour score
 
-#import pickle
+import pickle
 #fileObject = open("save_sys", 'wb')
 #pickle.dump(sys_test, fileObject)
 #fileObject.close()
 #
-#fileObject = open("save_sys", 'rb')
-#sys_test1 = pickle.load(fileObject)
-#fileObject.close()
-#test1 = sys_test1.table_suivi
+fileObject = open("save_sys", 'rb')
+sys_test = pickle.load(fileObject)
+fileObject.close()
+
+test = sys_test.table_suivi
+
+test1 = test[test['substitution'].str.len() > 0]
+test1 = test1[test1.groupby('id_user')['id_user'].transform('size') >= 3]
+#test1['tyrep'] = pd.Categorical(test1['tyrep'], ['petit-dejeuner', 'dejeuner', 'gouter', 'diner'])
+#test1 = test1.groupby('id_user').apply(lambda _df: _df.sort_values(by=['nojour', 'tyrep']))
+test1 = test1.groupby('id_user').apply(lambda x : x.tail(3)).reset_index(drop = True)
+
+test2 = test1[test1.groupby('id_user')['reponse'].transform('sum') >= 0.5 * 3]['user'].unique().tolist()
+
+test2 = test1.groupby('id_user')['reponse'].sum().reset_index()
 
 
 user = sys_test.liste_user[6]
@@ -416,35 +465,22 @@ recommandation = ('vin', 'eau minérale plate')
 reponse = True
 alpha = 1.002
 beta = 1.001
-	
-	
 
+
+# score du couple
+test1 = user.tab_sub_indi.copy()
 dict_coef = {True : 1, False : -1}
+filter1 = (test1['tyrep'] == type_repas) & (test1['avecqui'] == avecqui)
+filter2 = test1['aliment_1'] == recommandation[0]
+filter3 = test1['aliment_2'] == recommandation[1]
 
-# score du couple 
-tab_sliced = user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
-                               (user.tab_sub_indi['avecqui'] == avecqui)]
 
-# score des sous-groupes 
-# sous-groupes de aliment_1
-pass
+test1.loc[filter1 & (filter2 | filter3), 'score_substitution'] = test1.loc[filter1 & (filter2 | filter3), 'score_substitution'] * (beta**dict_coef[reponse])
 
-# sous-groupes de aliment_2
-pass
-test = user.tab_sub_indi
-test1 = user.tab_sub_indi[(user.tab_sub_indi['tyrep'] == type_repas) &
-                         (user.tab_sub_indi['avecqui'] == avecqui)]
+test1.loc[filter1 & (filter2 | filter3), 'score_substitution'] *= beta**dict_coef[reponse]
 
-test1.loc[(test1['aliment_1'] == recommandation[0]) |
-      (test1['aliment_2'] == recommandation[1]),
-      'score_substitution'] = test1.loc[(test1['aliment_1'] == recommandation[0]) |
-                                         (test1['aliment_2'] == recommandation[1]),
-                                         'score_substitution']*100
+test1.loc[filter1 & filter2 & filter3, 'histoire_recomm'] = True
+
 
 
 score_contexte = pd.read_csv('Base_Gestion_Systeme/score_par_contextes.csv', sep = ';', encoding="latin-1")
-
-score_contexte = pd.DataFrame.merge(score_contexte, nomenclature[['libsougr', 'code_role']].drop_duplicates().dropna(),
-                                    left_on = 'aliment_1', right_on = 'libsougr', how = 'left').drop(
-                                            'libsougr', axis = 1)
-
