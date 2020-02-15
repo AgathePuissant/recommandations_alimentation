@@ -172,7 +172,10 @@ class System() :
         self.alpha = 1.005
         self.beta = 1.002
         
-        
+        # constant de pondération
+        self.seuil_recom = 5 # nombre de dernière recommandation à évaluer
+        self.seuil_acc = 0.5 # seuil du taux de réponse positive à self.seuil_recom dernières recommandations
+        self.pas_modif = 0.01 # pas de modification de chaque pondération
         
         # Création de table de préférence
         self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
@@ -340,7 +343,7 @@ class System() :
         pas_modif = 0.01
         
         # Enlever les repas pour lesquels le système ne recommande pas de substitution
-        pond_df = self.table_suivi[self.table_recommandation['substitution'].str.len() > 0]
+        pond_df = self.table_suivi[self.table_suivi['substitution'].str.len() > 0]
         
         # Enlever les utilisateurs qui n'ont pas encore recu un certain nombre de recommdation
         pond_df = pond_df[pond_df.groupby('id_user')['id_user'].transform('size') >= seuil_recom]
@@ -360,7 +363,28 @@ class System() :
         for id_user in pond_df[pond_df['reponse'] <= (1 - seuil_acceptation)*seuil_recom]['id_user'].tolist() :
                 self.liste_user[id_user - 1].w += - pas_modif
 
-
+    
+    def ponderation2(self, user, recommandation, reponse) :
+        """
+        Pondération pour chaque utilisateur après une recommandation de substitution et puis une réponse
+        """
+        # Nombre de dernières recommandations à extraire pour l'évaluation
+        seuil_recom = self.seuil_recom - len(recommandation)
+        
+        # Table de l'histoire de recommandation de l'utilisateur
+        pond_df = self.table_suivi[(self.table_suivi['id_user'] == user.id) &
+                                   (self.table_suivi['substitution'].str.len() > 0)]
+        
+        # Si le nombre de recommandation est suffisant
+        if len(pond_df) >= seuil_recom :
+            
+            # Sélectionner sur les dernières recommandations
+            pond_df = pond_df.tail(seuil_recom).reset_index(drop = True)
+            
+            # Compter le nombre de réponse positive
+            
+            
+            
     def processus_recommandation(self, user, type_repas, avecqui, repas) :
         """
         """
@@ -375,7 +399,7 @@ class System() :
         self.mise_a_jour(user, type_repas, avecqui, repas, recommandation, reponse)
         
         # Pondération de omega de chaque utilisateur
-        self.ponderation()
+        self.ponderation2(user, recommandation, reponse)
         
         
         return pd.Series([recommandation, reponse, user.w])
