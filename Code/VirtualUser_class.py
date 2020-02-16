@@ -142,11 +142,7 @@ class VirtualUser():
         self.repas_propose = self.repas_propose + self.regles.consequents.str[0].tolist()
         
         return self.repas_propose
-    
-        
-#test_user = VirtualUser('pp', 'Homme', 16)
-#test_user.cluster
-#test_user.enter_repas('petit-dejeuner', 'famille', regles)
+
 
 
 class System() :
@@ -190,9 +186,8 @@ class System() :
         # Création de table de suivi de consommation
         self.nbre_jour = _nbre_jour
         self.jour_courant = 1
-        self.liste_repas = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
-        self.liste_avecqui = ['seul', 'accompagne']
-        self.table_suivi = pd.DataFrame(columns = ['user', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega'])
+        self.table_suivi = pd.DataFrame(columns = ['user', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon'])
+        
         
     def add_VirtualUser(self) :
         self.liste_user = []
@@ -315,6 +310,7 @@ class System() :
         if len(recommandation) > 0 :
             
             # MISE À JOUR LES SCORE DE SUBSTITUABILITÉ INDIVIDUELLE
+            # ========================================================
             # Dictionnaire de la puissance de alpha et beta
             dict_puis = {True : 1, False : -1}
             
@@ -334,11 +330,17 @@ class System() :
                     lambda score : 1 if score > 1 else score)
             
             # MISE À JOUR L'HISTOIRE DE RECOMMANDATION
+            # ==========================================
             user.tab_sub_indi.loc[f_contexte & f_alim1 & f_alim2, 'histoire_recomm'] = True
             
             # MISE À JOUR LE MALUS DE DIVERSITÉ
+            # ====================================
             if len(user.diversite) == 5 :
                 user.diversite = user.diversite[1:] + [recommandation]
+            
+            # MISE À JOUR EPSILON 
+            # ======================
+            user.epsilon = 1 - user.tab_sub_indi['histoire_recomm'].sum() / len(user.tab_sub_indi)
             
     def ponderation(self, user, recommandation, reponse) :
         """
@@ -365,9 +367,9 @@ class System() :
                 # Compter le nombre de réponse positive des dernières recommandations
                 tx_pos = (pond_df.tail(seuil_recom)['reponse'].sum() + reponse) / self.seuil_recom
                 if tx_pos >= self.seuil_acc :
-                    user.w += self.pas_modif
+                    user.w = min(user.w + self.pas_modif, 0.5)
                 elif tx_pos <= 1 - self.seuil_acc :
-                    user.w += -self.pas_modif
+                    user.w = max(user.w - self.pas_modif, 0.01)
 
             
     def processus_recommandation(self, user, type_repas, avecqui, repas) :
@@ -389,14 +391,14 @@ class System() :
         self.ponderation(user, recommandation, reponse)
         
         
-        return pd.Series([recommandation, reponse, user.w])
+        return pd.Series([recommandation, reponse, user.w, user.epsilon])
     
     
     def train_test(self) :
         
-        self.table_suivi[['substitution', 'reponse', 'omega']] = self.table_suivi.apply(
+        self.table_suivi[['substitution', 'reponse', 'omega', 'epsilon']] = self.table_suivi.apply(
                 lambda row : self.processus_recommandation(row['user'], row['tyrep'], row['avecqui'], row['repas'])
-                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega']]), axis = 1)
+                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega'], row['epsilon']]), axis = 1)
     
     def entrainement(self) :
         
@@ -413,9 +415,9 @@ class System() :
             self.propose_repas()
             
             #Processus de recommandation, de réponse et de mise à jour
-            self.table_suivi[['substitution', 'reponse', 'omega']] = self.table_suivi.apply(
+            self.table_suivi[['substitution', 'reponse', 'omega', 'epsilon']] = self.table_suivi.apply(
                 lambda row : self.processus_recommandation(row['user'], row['tyrep'], row['avecqui'], row['repas'])
-                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega']]), axis = 1)
+                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega'], row['epsilon']]), axis = 1)
     
             # Passe à la journée suivante
             self.jour_courant += 1
@@ -443,6 +445,8 @@ test = sys_test.table_suivi
 
 
 sys_test.propose_repas()
+sys_test.train_test()
+
 sys_test.entrainement()
 
 
@@ -470,11 +474,20 @@ substitution = ('beurre', 'huile')
 def entrainement_systeme() :
     
     # Les constants 
+    nbre_test = 3
     nbre_user = 100
     nbre_jour = 20
+    liste_alpha = []
+    liste_beta = []
+    liste_omega = []
+    liste_pas_modif = []
     
-    
-    for 
+    for test in range(nbre_test) :
+        for alpha in liste_alpha :
+            for beta in liste_beta :
+                for omega in liste_omega :
+                    print(alpha, beta)
+                    systeme = System(nbre_user, nbre_jour, alpha, beta, omega, pas_modif)
 
 
 # =============================================================================
