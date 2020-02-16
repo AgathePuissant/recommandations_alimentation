@@ -151,7 +151,7 @@ class VirtualUser():
 
 class System() :
     
-    def __init__(self, _nbre_user, _nbre_jour) :
+    def __init__(self, _nbre_user, _nbre_jour, _seuil_nutri = 70, _alpha = 1.005, _beta = 1.002, _seuil_recom = 5, _seuil_acc = 0.5, _pas_modif = 0.01) :
         
         # Load dataframe
         self.conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
@@ -171,14 +171,14 @@ class System() :
         self.liste_avecqui = ['seul', 'accompagne']
 
         # constant d'apprentissage
-        self.seuil_nutri = 70
-        self.alpha = 1.005
-        self.beta = 1.002
+        self.seuil_nutri = _seuil_nutri
+        self.alpha = _alpha
+        self.beta = _beta
         
         # constant de pondération
-        self.seuil_recom = 5 # nombre de dernière recommandation à évaluer
-        self.seuil_acc = 0.5 # seuil du taux de réponse positive à self.seuil_recom dernières recommandations
-        self.pas_modif = 0.01 # pas de modification de chaque pondération
+        self.seuil_recom = _seuil_recom # nombre de dernière recommandation à évaluer
+        self.seuil_acc = _seuil_acc # seuil du taux de réponse positive à self.seuil_recom dernières recommandations
+        self.pas_modif = _pas_modif # pas de modification de chaque pondération
         
         # Création de table de préférence
         self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
@@ -281,9 +281,14 @@ class System() :
                 recomm_df = recomm_df[(recomm_df['tyrep'] == type_repas) &
                                       (recomm_df['avecqui'] == avecqui) &
                                       (recomm_df['aliment_1'].isin(aliment_a_substituer))]
+                
+                # Malus de diversité
+                recomm_df['couples'] = list(zip(recomm_df['aliment_1'], recomm_df['aliment_2']))
+                recomm_df['diversite'] = recomm_df['couples'].apply(lambda couple : 1 / (user.diversite.count(couple) + 1))
+                
 
                 # Maximiser le score défini par la formule pour toutes les substitutions possibles
-                recomm_df['score'] = (recomm_df['score_substitution']**user.w) * (recomm_df['score_sainlim_nor']**(1 - user.w))
+                recomm_df['score'] = (recomm_df['diversite']*recomm_df['score_substitution']**user.w) * (recomm_df['score_sainlim_nor']**(1 - user.w))
                 recomm_df = recomm_df[recomm_df['score'] == recomm_df['score'].max()]
                 recomm_df.reset_index(drop = True, inplace = True)
                 
@@ -310,7 +315,7 @@ class System() :
         if len(recommandation) > 0 :
             
             # MISE À JOUR LES SCORE DE SUBSTITUABILITÉ INDIVIDUELLE
-            # 
+            # Dictionnaire de la puissance de alpha et beta
             dict_puis = {True : 1, False : -1}
             
             # Les filtres à appliquer
@@ -387,6 +392,12 @@ class System() :
         return pd.Series([recommandation, reponse, user.w])
     
     
+    def train_test(self) :
+        
+        self.table_suivi[['substitution', 'reponse', 'omega']] = self.table_suivi.apply(
+                lambda row : self.processus_recommandation(row['user'], row['tyrep'], row['avecqui'], row['repas'])
+                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega']]), axis = 1)
+    
     def entrainement(self) :
         
         """
@@ -421,10 +432,25 @@ class System() :
 # TEST
 sys_test = System(10, 5) # 10 utilisateurs, 5 jours d'entrainement
 
+
+
 sys_test.entrainement()
 
+
 test = sys_test.table_suivi
+
 #=========
+
+
+sys_test.propose_repas()
+sys_test.entrainement()
+
+
+user = sys_test.liste_user[4]
+type_repas = 'dejeuner'
+avecqui = 'accompagne'
+repas = ['beurre', 'huile', 'poissons de mer', 'porc', 'saucisses, saucissons, andouilles et boudins', 'fromages affinés', 'fromages fondus']
+substitution = ('beurre', 'huile')
 
 
 #import pickle
