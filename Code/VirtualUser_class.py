@@ -53,6 +53,9 @@ class VirtualUser():
         
         # score de substitution**w*score de nutrition**(1-w) (score entre 0 et 1)
         self.w = 0.1 #w initial petit -> on privilégie score de substitution (comme score appartient entre 0 et 1)
+        
+        # malus de diversité des recommandations
+        self.diversite = []
 
     def affect_cluster(self):
         """
@@ -329,7 +332,8 @@ class System() :
             user.tab_sub_indi.loc[f_contexte & f_alim1 & f_alim2, 'histoire_recomm'] = True
             
             # MISE À JOUR LE MALUS DE DIVERSITÉ
-            
+            if len(user.diversite) == 5 :
+                user.diversite = user.diversite[1:] + [recommandation]
             
     def ponderation(self, user, recommandation, reponse) :
         """
@@ -357,7 +361,7 @@ class System() :
                 tx_pos = (pond_df.tail(seuil_recom)['reponse'].sum() + reponse) / self.seuil_recom
                 if tx_pos >= self.seuil_acc :
                     user.w += self.pas_modif
-                elif tx_pos <= self.seuil_acc :
+                elif tx_pos <= 1 - self.seuil_acc :
                     user.w += -self.pas_modif
 
             
@@ -434,5 +438,18 @@ test = sys_test.table_suivi
 #
 #test = sys_test.table_suivi
 
+# =============================================================================
+# FONCTION D'ENTRAINEMENT
 
+def entrainement_systeme() :
+    
+    # Les constants 
+    nbre_user = 100
+    nbre_jour = 20
+    
+    
+    for 
+
+
+# =============================================================================
 
