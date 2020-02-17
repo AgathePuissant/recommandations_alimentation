@@ -1,0 +1,3037 @@
+cluster_consommateur;tyrep;nbre_repas_grp;code_role;nbre_repas_code;taux_code_apparaitre;libsougr;consommation;taux_conso_par_code
+1;1;2714;A;296;10.91;aliments destinés à une alimentation particulière;296;100.0
+1;1;2714;BC;2315;85.3;cacao, poudres et boissons cacaotées;209;9.03
+1;1;2714;BC;2315;85.3;café;1414;61.08
+1;1;2714;BC;2315;85.3;chicorée et poudre maltée;261;11.27
+1;1;2714;BC;2315;85.3;thé et infusions;483;20.86
+1;1;2714;BF;1145;42.19;autre eau;29;2.53
+1;1;2714;BF;1145;42.19;autres boissons fraîches;28;2.45
+1;1;2714;BF;1145;42.19;boissons aux fruits;5;0.44
+1;1;2714;BF;1145;42.19;eau de source;121;10.57
+1;1;2714;BF;1145;42.19;eau du robinet;336;29.34
+1;1;2714;BF;1145;42.19;eau minérale gazeuse;7;0.61
+1;1;2714;BF;1145;42.19;eau minérale plate;139;12.14
+1;1;2714;BF;1145;42.19;jus de fruits (purs et à base  de concentré);606;52.93
+1;1;2714;BF;1145;42.19;nectars;8;0.7
+1;1;2714;BF;1145;42.19;vin;1;0.09
+1;1;2714;C;8;0.29;condiments d'assaisonnement;5;62.5
+1;1;2714;C;8;0.29;sauces;7;87.5
+1;1;2714;C;8;0.29;sel et épices;7;87.5
+1;1;2714;F;1444;53.21;autres produits de panification;1;0.07
+1;1;2714;F;1444;53.21;biscottes et panification sèche;363;25.14
+1;1;2714;F;1444;53.21;pain;1102;76.32
+1;1;2714;F;1444;53.21;pâtes alimentaires;1;0.07
+1;1;2714;F;1444;53.21;riz;6;0.42
+1;1;2714;L;8;0.29;haricots verts et petits pois (légumes potagers);1;12.5
+1;1;2714;L;8;0.29;légumes fruits;1;12.5
+1;1;2714;L;8;0.29;légumes racines, tubercules ou bulbes;6;75.0
+1;1;2714;MG;966;35.59;beurre;595;61.59
+1;1;2714;MG;966;35.59;huile;14;1.45
+1;1;2714;MG;966;35.59;margarine;358;37.06
+1;1;2714;P;75;2.76;autre charcuterie ou charcuterie  sans précision;4;5.33
+1;1;2714;P;75;2.76;autres poissons ou poissons sans précision;1;1.33
+1;1;2714;P;75;2.76;boeuf en pièces ou haché;1;1.33
+1;1;2714;P;75;2.76;fruits secs et châtaignes;23;30.67
+1;1;2714;P;75;2.76;jambons et charcuteries en pièces;29;38.67
+1;1;2714;P;75;2.76;légumes secs;5;6.67
+1;1;2714;P;75;2.76;oeufs et dérivés;1;1.33
+1;1;2714;P;75;2.76;oléagineux et graines;13;17.33
+1;1;2714;P;75;2.76;produits dérivés des poissons;1;1.33
+1;1;2714;P;75;2.76;saucisses, saucissons, andouilles et boudins;1;1.33
+1;1;2714;P;75;2.76;volailles et lapins;1;1.33
+1;1;2714;PC;2;0.07;plats garnis à base de viande;1;50.0
+1;1;2714;PC;2;0.07;potages et soupes;1;50.0
+1;1;2714;PL;1429;52.65;autre lait;31;2.17
+1;1;2714;PL;1429;52.65;crème fraîche;3;0.21
+1;1;2714;PL;1429;52.65;fromage blanc et petits suisses;50;3.5
+1;1;2714;PL;1429;52.65;fromages affinés;18;1.26
+1;1;2714;PL;1429;52.65;fromages fondus;9;0.63
+1;1;2714;PL;1429;52.65;fromages frais non affinés;5;0.35
+1;1;2714;PL;1429;52.65;lait aromatisé;1;0.07
+1;1;2714;PL;1429;52.65;lait concentré ou en poudre;35;2.45
+1;1;2714;PL;1429;52.65;lait en bouteille ou en brique;986;69.0
+1;1;2714;PL;1429;52.65;yaourts et assimilés;378;26.45
+1;1;2714;PS;1066;39.28;autres céréales pour petit déjeuner;39;3.66
+1;1;2714;PS;1066;39.28;barres chocolatées;2;0.19
+1;1;2714;PS;1066;39.28;barres céréalières;12;1.13
+1;1;2714;PS;1066;39.28;beignets, crêpes et gaufres;26;2.44
+1;1;2714;PS;1066;39.28;biscuits salés pour apéritif;1;0.09
+1;1;2714;PS;1066;39.28;biscuits sucrés;117;10.98
+1;1;2714;PS;1066;39.28;chocolat en tablettes;16;1.5
+1;1;2714;PS;1066;39.28;compotes;37;3.47
+1;1;2714;PS;1066;39.28;crème dessert et lait gélifié;17;1.59
+1;1;2714;PS;1066;39.28;céréales aux fruits frais ou secs;28;2.63
+1;1;2714;PS;1066;39.28;céréales chocolatées;44;4.13
+1;1;2714;PS;1066;39.28;céréales sucrées, glacées ou au miel;136;12.76
+1;1;2714;PS;1066;39.28;entremets;6;0.56
+1;1;2714;PS;1066;39.28;fruits;289;27.11
+1;1;2714;PS;1066;39.28;fruits au sirop;1;0.09
+1;1;2714;PS;1066;39.28;gâteaux;104;9.76
+1;1;2714;PS;1066;39.28;pâte chocolatée à tartiner;36;3.38
+1;1;2714;PS;1066;39.28;pâtisseries et tartes;5;0.47
+1;1;2714;PS;1066;39.28;viennoiserie;309;28.99
+1;1;2714;S;1349;49.71;confiserie;4;0.3
+1;1;2714;S;1349;49.71;confiture et miel;726;53.82
+1;1;2714;S;1349;49.71;sucre et assimilés;875;64.86
+1;3;2744;A;134;4.88;aliments destinés à une alimentation particulière;134;100.0
+1;3;2744;BC;831;30.28;cacao, poudres et boissons cacaotées;3;0.36
+1;3;2744;BC;831;30.28;café;713;85.8
+1;3;2744;BC;831;30.28;chicorée et poudre maltée;15;1.81
+1;3;2744;BC;831;30.28;thé et infusions;100;12.03
+1;3;2744;BF;2105;76.71;autre eau;115;5.46
+1;3;2744;BF;2105;76.71;autres boissons fraîches;71;3.37
+1;3;2744;BF;2105;76.71;bière;5;0.24
+1;3;2744;BF;2105;76.71;boissons aux fruits;8;0.38
+1;3;2744;BF;2105;76.71;cidre;7;0.33
+1;3;2744;BF;2105;76.71;cocktails et mélanges;46;2.19
+1;3;2744;BF;2105;76.71;eau de source;422;20.05
+1;3;2744;BF;2105;76.71;eau du robinet;825;39.19
+1;3;2744;BF;2105;76.71;eau minérale gazeuse;75;3.56
+1;3;2744;BF;2105;76.71;eau minérale plate;381;18.1
+1;3;2744;BF;2105;76.71;jus de fruits (purs et à base  de concentré);91;4.32
+1;3;2744;BF;2105;76.71;sodas et colas;105;4.99
+1;3;2744;BF;2105;76.71;spiritueux et vins cuits;50;2.38
+1;3;2744;BF;2105;76.71;vin;337;16.01
+1;3;2744;C;937;34.15;condiments d'accompagnement;92;9.82
+1;3;2744;C;937;34.15;condiments d'assaisonnement;199;21.24
+1;3;2744;C;937;34.15;herbes aromatiques;92;9.82
+1;3;2744;C;937;34.15;sauces;652;69.58
+1;3;2744;C;937;34.15;sel et épices;137;14.62
+1;3;2744;F;1856;67.64;autres céréales;6;0.32
+1;3;2744;F;1856;67.64;autres produits de panification;8;0.43
+1;3;2744;F;1856;67.64;biscottes et panification sèche;28;1.51
+1;3;2744;F;1856;67.64;blé;37;1.99
+1;3;2744;F;1856;67.64;pain;1067;57.49
+1;3;2744;F;1856;67.64;pommes de terre et apparentés;620;33.41
+1;3;2744;F;1856;67.64;pâtes alimentaires;318;17.13
+1;3;2744;F;1856;67.64;pâtes pour pâtisserie prêtes à l'emploi;3;0.16
+1;3;2744;F;1856;67.64;riz;226;12.18
+1;3;2744;L;1595;58.13;champignons;78;4.89
+1;3;2744;L;1595;58.13;choux;129;8.09
+1;3;2744;L;1595;58.13;haricots verts et petits pois (légumes potagers);312;19.56
+1;3;2744;L;1595;58.13;légumes feuilles;566;35.49
+1;3;2744;L;1595;58.13;légumes fruits;459;28.78
+1;3;2744;L;1595;58.13;légumes racines, tubercules ou bulbes;393;24.64
+1;3;2744;L;1595;58.13;légumes tiges;94;5.89
+1;3;2744;L;1595;58.13;mélanges de légumes, légumes préparés et autres légumes;205;12.85
+1;3;2744;MG;1408;51.31;autres graisses;7;0.5
+1;3;2744;MG;1408;51.31;beurre;719;51.07
+1;3;2744;MG;1408;51.31;huile;848;60.23
+1;3;2744;MG;1408;51.31;margarine;361;25.64
+1;3;2744;P;1982;72.23;abats;40;2.02
+1;3;2744;P;1982;72.23;agneau;65;3.28
+1;3;2744;P;1982;72.23;autre charcuterie ou charcuterie  sans précision;14;0.71
+1;3;2744;P;1982;72.23;autre viande;33;1.66
+1;3;2744;P;1982;72.23;autres fruits de mer ou fruits de mer sans précision;6;0.3
+1;3;2744;P;1982;72.23;autres poissons ou poissons sans précision;75;3.78
+1;3;2744;P;1982;72.23;boeuf en pièces ou haché;413;20.84
+1;3;2744;P;1982;72.23;crustacés;32;1.61
+1;3;2744;P;1982;72.23;fruits secs et châtaignes;10;0.5
+1;3;2744;P;1982;72.23;gibier;2;0.1
+1;3;2744;P;1982;72.23;jambons et charcuteries en pièces;252;12.71
+1;3;2744;P;1982;72.23;légumes secs;74;3.73
+1;3;2744;P;1982;72.23;légumes secs préparés;16;0.81
+1;3;2744;P;1982;72.23;mollusques et coquillage;42;2.12
+1;3;2744;P;1982;72.23;oeufs et dérivés;189;9.54
+1;3;2744;P;1982;72.23;oléagineux et graines;23;1.16
+1;3;2744;P;1982;72.23;poissons d'eau douce;1;0.05
+1;3;2744;P;1982;72.23;poissons de mer;277;13.98
+1;3;2744;P;1982;72.23;porc;206;10.39
+1;3;2744;P;1982;72.23;produits dérivés des poissons;107;5.4
+1;3;2744;P;1982;72.23;pâtés, terrines, rillettes et foie gras;100;5.05
+1;3;2744;P;1982;72.23;saucisses, saucissons, andouilles et boudins;174;8.78
+1;3;2744;P;1982;72.23;veau;90;4.54
+1;3;2744;P;1982;72.23;volailles et lapins;187;9.43
+1;3;2744;PC;793;28.9;autres sandwichs;48;6.05
+1;3;2744;PC;793;28.9;beignets, crêpes et bouchées à la reine;60;7.57
+1;3;2744;PC;793;28.9;bouillons;13;1.64
+1;3;2744;PC;793;28.9;feuilletés et friands;19;2.4
+1;3;2744;PC;793;28.9;garnitures composées;50;6.31
+1;3;2744;PC;793;28.9;hamburgers et hot-dog;23;2.9
+1;3;2744;PC;793;28.9;pizzas;52;6.56
+1;3;2744;PC;793;28.9;plats garnis à base de viande;132;16.65
+1;3;2744;PC;793;28.9;plats sans garniture;60;7.57
+1;3;2744;PC;793;28.9;plats à base de légumes;70;8.83
+1;3;2744;PC;793;28.9;plats à base de pâtes ou de pommes de terre;112;14.12
+1;3;2744;PC;793;28.9;potages et soupes;78;9.84
+1;3;2744;PC;793;28.9;quiches et tartes salées;51;6.43
+1;3;2744;PC;793;28.9;sandwichs baguette;66;8.32
+1;3;2744;PL;1447;52.73;autre lait;1;0.07
+1;3;2744;PL;1447;52.73;autres fromages ou fromage sans précision;10;0.69
+1;3;2744;PL;1447;52.73;crème fraîche;157;10.85
+1;3;2744;PL;1447;52.73;fromage blanc et petits suisses;131;9.05
+1;3;2744;PL;1447;52.73;fromages affinés;661;45.68
+1;3;2744;PL;1447;52.73;fromages fondus;49;3.39
+1;3;2744;PL;1447;52.73;fromages frais non affinés;40;2.76
+1;3;2744;PL;1447;52.73;lait en bouteille ou en brique;41;2.83
+1;3;2744;PL;1447;52.73;yaourts et assimilés;621;42.92
+1;3;2744;PS;1476;53.79;autres céréales pour petit déjeuner;1;0.07
+1;3;2744;PS;1476;53.79;barres chocolatées;7;0.47
+1;3;2744;PS;1476;53.79;beignets, crêpes et gaufres;23;1.56
+1;3;2744;PS;1476;53.79;biscuits salés pour apéritif;40;2.71
+1;3;2744;PS;1476;53.79;biscuits sucrés;30;2.03
+1;3;2744;PS;1476;53.79;chocolat en tablettes;103;6.98
+1;3;2744;PS;1476;53.79;compotes;116;7.86
+1;3;2744;PS;1476;53.79;crème dessert et lait gélifié;144;9.76
+1;3;2744;PS;1476;53.79;céréales aux fruits frais ou secs;3;0.2
+1;3;2744;PS;1476;53.79;céréales chocolatées;3;0.2
+1;3;2744;PS;1476;53.79;céréales sucrées, glacées ou au miel;3;0.2
+1;3;2744;PS;1476;53.79;desserts glacés;5;0.34
+1;3;2744;PS;1476;53.79;entremets;98;6.64
+1;3;2744;PS;1476;53.79;fruits;844;57.18
+1;3;2744;PS;1476;53.79;fruits au sirop;30;2.03
+1;3;2744;PS;1476;53.79;glaces;59;4.0
+1;3;2744;PS;1476;53.79;gâteaux;114;7.72
+1;3;2744;PS;1476;53.79;pâte chocolatée à tartiner;1;0.07
+1;3;2744;PS;1476;53.79;pâtisseries et tartes;116;7.86
+1;3;2744;PS;1476;53.79;sorbets;7;0.47
+1;3;2744;PS;1476;53.79;viennoiserie;14;0.95
+1;3;2744;S;412;15.01;confiserie;9;2.18
+1;3;2744;S;412;15.01;confiture et miel;34;8.25
+1;3;2744;S;412;15.01;sucre et assimilés;379;91.99
+1;4;1962;A;46;2.34;aliments destinés à une alimentation particulière;46;100.0
+1;4;1962;BC;880;44.85;cacao, poudres et boissons cacaotées;31;3.52
+1;4;1962;BC;880;44.85;café;493;56.02
+1;4;1962;BC;880;44.85;chicorée et poudre maltée;46;5.23
+1;4;1962;BC;880;44.85;thé et infusions;334;37.95
+1;4;1962;BF;1220;62.18;autre eau;62;5.08
+1;4;1962;BF;1220;62.18;autres boissons fraîches;76;6.23
+1;4;1962;BF;1220;62.18;bière;20;1.64
+1;4;1962;BF;1220;62.18;boissons aux fruits;3;0.25
+1;4;1962;BF;1220;62.18;cidre;5;0.41
+1;4;1962;BF;1220;62.18;cocktails et mélanges;8;0.66
+1;4;1962;BF;1220;62.18;eau de source;233;19.1
+1;4;1962;BF;1220;62.18;eau du robinet;395;32.38
+1;4;1962;BF;1220;62.18;eau minérale gazeuse;48;3.93
+1;4;1962;BF;1220;62.18;eau minérale plate;281;23.03
+1;4;1962;BF;1220;62.18;jus de fruits (purs et à base  de concentré);89;7.3
+1;4;1962;BF;1220;62.18;nectars;3;0.25
+1;4;1962;BF;1220;62.18;sodas et colas;84;6.89
+1;4;1962;BF;1220;62.18;spiritueux et vins cuits;27;2.21
+1;4;1962;BF;1220;62.18;vin;19;1.56
+1;4;1962;C;8;0.41;condiments d'accompagnement;3;37.5
+1;4;1962;C;8;0.41;herbes aromatiques;2;25.0
+1;4;1962;C;8;0.41;sauces;2;25.0
+1;4;1962;C;8;0.41;sel et épices;2;25.0
+1;4;1962;F;97;4.94;biscottes et panification sèche;13;13.4
+1;4;1962;F;97;4.94;blé;1;1.03
+1;4;1962;F;97;4.94;pain;81;83.51
+1;4;1962;F;97;4.94;pommes de terre et apparentés;1;1.03
+1;4;1962;F;97;4.94;pâtes alimentaires;1;1.03
+1;4;1962;F;97;4.94;pâtes pour pâtisserie prêtes à l'emploi;1;1.03
+1;4;1962;L;10;0.51;légumes feuilles;2;20.0
+1;4;1962;L;10;0.51;légumes fruits;3;30.0
+1;4;1962;L;10;0.51;légumes racines, tubercules ou bulbes;6;60.0
+1;4;1962;L;10;0.51;légumes tiges;1;10.0
+1;4;1962;L;10;0.51;mélanges de légumes, légumes préparés et autres légumes;1;10.0
+1;4;1962;MG;37;1.89;beurre;31;83.78
+1;4;1962;MG;37;1.89;margarine;6;16.22
+1;4;1962;P;55;2.8;autre viande;1;1.82
+1;4;1962;P;55;2.8;fruits secs et châtaignes;15;27.27
+1;4;1962;P;55;2.8;jambons et charcuteries en pièces;6;10.91
+1;4;1962;P;55;2.8;oeufs et dérivés;2;3.64
+1;4;1962;P;55;2.8;oléagineux et graines;19;34.55
+1;4;1962;P;55;2.8;poissons de mer;2;3.64
+1;4;1962;P;55;2.8;produits dérivés des poissons;5;9.09
+1;4;1962;P;55;2.8;pâtés, terrines, rillettes et foie gras;1;1.82
+1;4;1962;P;55;2.8;saucisses, saucissons, andouilles et boudins;7;12.73
+1;4;1962;P;55;2.8;volailles et lapins;2;3.64
+1;4;1962;PC;20;1.02;autres sandwichs;5;25.0
+1;4;1962;PC;20;1.02;hamburgers et hot-dog;1;5.0
+1;4;1962;PC;20;1.02;potages et soupes;10;50.0
+1;4;1962;PC;20;1.02;quiches et tartes salées;1;5.0
+1;4;1962;PC;20;1.02;sandwichs baguette;3;15.0
+1;4;1962;PL;235;11.98;autre lait;9;3.83
+1;4;1962;PL;235;11.98;crème fraîche;7;2.98
+1;4;1962;PL;235;11.98;fromage blanc et petits suisses;9;3.83
+1;4;1962;PL;235;11.98;fromages affinés;26;11.06
+1;4;1962;PL;235;11.98;fromages fondus;2;0.85
+1;4;1962;PL;235;11.98;fromages frais non affinés;2;0.85
+1;4;1962;PL;235;11.98;lait aromatisé;1;0.43
+1;4;1962;PL;235;11.98;lait concentré ou en poudre;15;6.38
+1;4;1962;PL;235;11.98;lait en bouteille ou en brique;93;39.57
+1;4;1962;PL;235;11.98;yaourts et assimilés;77;32.77
+1;4;1962;PS;825;42.05;autres céréales pour petit déjeuner;2;0.24
+1;4;1962;PS;825;42.05;barres chocolatées;12;1.45
+1;4;1962;PS;825;42.05;barres céréalières;11;1.33
+1;4;1962;PS;825;42.05;beignets, crêpes et gaufres;35;4.24
+1;4;1962;PS;825;42.05;biscuits salés pour apéritif;31;3.76
+1;4;1962;PS;825;42.05;biscuits sucrés;159;19.27
+1;4;1962;PS;825;42.05;chocolat en tablettes;149;18.06
+1;4;1962;PS;825;42.05;compotes;15;1.82
+1;4;1962;PS;825;42.05;crème dessert et lait gélifié;17;2.06
+1;4;1962;PS;825;42.05;céréales aux fruits frais ou secs;2;0.24
+1;4;1962;PS;825;42.05;céréales chocolatées;4;0.48
+1;4;1962;PS;825;42.05;céréales sucrées, glacées ou au miel;9;1.09
+1;4;1962;PS;825;42.05;desserts glacés;1;0.12
+1;4;1962;PS;825;42.05;entremets;18;2.18
+1;4;1962;PS;825;42.05;fruits;199;24.12
+1;4;1962;PS;825;42.05;fruits au sirop;2;0.24
+1;4;1962;PS;825;42.05;glaces;22;2.67
+1;4;1962;PS;825;42.05;gâteaux;128;15.52
+1;4;1962;PS;825;42.05;pâte chocolatée à tartiner;15;1.82
+1;4;1962;PS;825;42.05;pâtisseries et tartes;49;5.94
+1;4;1962;PS;825;42.05;sorbets;1;0.12
+1;4;1962;PS;825;42.05;viennoiserie;74;8.97
+1;4;1962;S;387;19.72;confiserie;79;20.41
+1;4;1962;S;387;19.72;confiture et miel;29;7.49
+1;4;1962;S;387;19.72;sucre et assimilés;291;75.19
+1;5;2795;A;75;2.68;aliments destinés à une alimentation particulière;75;100.0
+1;5;2795;BC;288;10.3;cacao, poudres et boissons cacaotées;8;2.78
+1;5;2795;BC;288;10.3;café;190;65.97
+1;5;2795;BC;288;10.3;chicorée et poudre maltée;11;3.82
+1;5;2795;BC;288;10.3;thé et infusions;80;27.78
+1;5;2795;BF;2063;73.81;autre eau;124;6.01
+1;5;2795;BF;2063;73.81;autres boissons fraîches;79;3.83
+1;5;2795;BF;2063;73.81;bière;25;1.21
+1;5;2795;BF;2063;73.81;boissons aux fruits;10;0.48
+1;5;2795;BF;2063;73.81;cidre;12;0.58
+1;5;2795;BF;2063;73.81;cocktails et mélanges;52;2.52
+1;5;2795;BF;2063;73.81;eau de source;417;20.21
+1;5;2795;BF;2063;73.81;eau du robinet;767;37.18
+1;5;2795;BF;2063;73.81;eau minérale gazeuse;76;3.68
+1;5;2795;BF;2063;73.81;eau minérale plate;379;18.37
+1;5;2795;BF;2063;73.81;jus de fruits (purs et à base  de concentré);77;3.73
+1;5;2795;BF;2063;73.81;nectars;1;0.05
+1;5;2795;BF;2063;73.81;sodas et colas;99;4.8
+1;5;2795;BF;2063;73.81;spiritueux et vins cuits;69;3.34
+1;5;2795;BF;2063;73.81;vin;326;15.8
+1;5;2795;C;895;32.02;condiments d'accompagnement;94;10.5
+1;5;2795;C;895;32.02;condiments d'assaisonnement;194;21.68
+1;5;2795;C;895;32.02;herbes aromatiques;83;9.27
+1;5;2795;C;895;32.02;sauces;623;69.61
+1;5;2795;C;895;32.02;sel et épices;119;13.3
+1;5;2795;F;1659;59.36;autres céréales;5;0.3
+1;5;2795;F;1659;59.36;autres produits de panification;13;0.78
+1;5;2795;F;1659;59.36;biscottes et panification sèche;38;2.29
+1;5;2795;F;1659;59.36;blé;44;2.65
+1;5;2795;F;1659;59.36;pain;1035;62.39
+1;5;2795;F;1659;59.36;pommes de terre et apparentés;350;21.1
+1;5;2795;F;1659;59.36;pâtes alimentaires;290;17.48
+1;5;2795;F;1659;59.36;pâtes pour pâtisserie prêtes à l'emploi;1;0.06
+1;5;2795;F;1659;59.36;riz;172;10.37
+1;5;2795;L;1352;48.37;champignons;43;3.18
+1;5;2795;L;1352;48.37;choux;74;5.47
+1;5;2795;L;1352;48.37;haricots verts et petits pois (légumes potagers);155;11.46
+1;5;2795;L;1352;48.37;légumes feuilles;636;47.04
+1;5;2795;L;1352;48.37;légumes fruits;413;30.55
+1;5;2795;L;1352;48.37;légumes racines, tubercules ou bulbes;285;21.08
+1;5;2795;L;1352;48.37;légumes tiges;81;5.99
+1;5;2795;L;1352;48.37;mélanges de légumes, légumes préparés et autres légumes;116;8.58
+1;5;2795;MG;1131;40.47;autres graisses;3;0.27
+1;5;2795;MG;1131;40.47;beurre;575;50.84
+1;5;2795;MG;1131;40.47;huile;657;58.09
+1;5;2795;MG;1131;40.47;margarine;195;17.24
+1;5;2795;P;1562;55.89;abats;25;1.6
+1;5;2795;P;1562;55.89;agneau;36;2.3
+1;5;2795;P;1562;55.89;autre charcuterie ou charcuterie  sans précision;14;0.9
+1;5;2795;P;1562;55.89;autre viande;22;1.41
+1;5;2795;P;1562;55.89;autres fruits de mer ou fruits de mer sans précision;10;0.64
+1;5;2795;P;1562;55.89;autres poissons ou poissons sans précision;37;2.37
+1;5;2795;P;1562;55.89;boeuf en pièces ou haché;164;10.5
+1;5;2795;P;1562;55.89;crustacés;49;3.14
+1;5;2795;P;1562;55.89;fruits secs et châtaignes;25;1.6
+1;5;2795;P;1562;55.89;gibier;3;0.19
+1;5;2795;P;1562;55.89;jambons et charcuteries en pièces;358;22.92
+1;5;2795;P;1562;55.89;légumes secs;45;2.88
+1;5;2795;P;1562;55.89;légumes secs préparés;18;1.15
+1;5;2795;P;1562;55.89;mollusques et coquillage;52;3.33
+1;5;2795;P;1562;55.89;mélanges;4;0.26
+1;5;2795;P;1562;55.89;oeufs et dérivés;213;13.64
+1;5;2795;P;1562;55.89;oléagineux et graines;51;3.27
+1;5;2795;P;1562;55.89;poissons d'eau douce;2;0.13
+1;5;2795;P;1562;55.89;poissons de mer;225;14.4
+1;5;2795;P;1562;55.89;porc;87;5.57
+1;5;2795;P;1562;55.89;produits dérivés des poissons;92;5.89
+1;5;2795;P;1562;55.89;pâtés, terrines, rillettes et foie gras;80;5.12
+1;5;2795;P;1562;55.89;saucisses, saucissons, andouilles et boudins;179;11.46
+1;5;2795;P;1562;55.89;veau;22;1.41
+1;5;2795;P;1562;55.89;volailles et lapins;107;6.85
+1;5;2795;PC;1277;45.69;autres sandwichs;45;3.52
+1;5;2795;PC;1277;45.69;beignets, crêpes et bouchées à la reine;62;4.86
+1;5;2795;PC;1277;45.69;bouillons;54;4.23
+1;5;2795;PC;1277;45.69;feuilletés et friands;21;1.64
+1;5;2795;PC;1277;45.69;garnitures composées;45;3.52
+1;5;2795;PC;1277;45.69;hamburgers et hot-dog;36;2.82
+1;5;2795;PC;1277;45.69;pizzas;104;8.14
+1;5;2795;PC;1277;45.69;plats garnis à base de viande;89;6.97
+1;5;2795;PC;1277;45.69;plats sans garniture;35;2.74
+1;5;2795;PC;1277;45.69;plats à base de fromage;4;0.31
+1;5;2795;PC;1277;45.69;plats à base de légumes;61;4.78
+1;5;2795;PC;1277;45.69;plats à base de pâtes ou de pommes de terre;106;8.3
+1;5;2795;PC;1277;45.69;potages et soupes;612;47.92
+1;5;2795;PC;1277;45.69;quiches et tartes salées;79;6.19
+1;5;2795;PC;1277;45.69;sandwichs baguette;19;1.49
+1;5;2795;PL;1615;57.78;autre lait;5;0.31
+1;5;2795;PL;1615;57.78;autres fromages ou fromage sans précision;8;0.5
+1;5;2795;PL;1615;57.78;crème fraîche;153;9.47
+1;5;2795;PL;1615;57.78;fromage blanc et petits suisses;193;11.95
+1;5;2795;PL;1615;57.78;fromages affinés;681;42.17
+1;5;2795;PL;1615;57.78;fromages fondus;44;2.72
+1;5;2795;PL;1615;57.78;fromages frais non affinés;47;2.91
+1;5;2795;PL;1615;57.78;lait aromatisé;1;0.06
+1;5;2795;PL;1615;57.78;lait en bouteille ou en brique;32;1.98
+1;5;2795;PL;1615;57.78;yaourts et assimilés;750;46.44
+1;5;2795;PS;1368;48.94;autres céréales pour petit déjeuner;2;0.15
+1;5;2795;PS;1368;48.94;barres chocolatées;2;0.15
+1;5;2795;PS;1368;48.94;beignets, crêpes et gaufres;40;2.92
+1;5;2795;PS;1368;48.94;biscuits salés pour apéritif;42;3.07
+1;5;2795;PS;1368;48.94;biscuits sucrés;32;2.34
+1;5;2795;PS;1368;48.94;chocolat en tablettes;48;3.51
+1;5;2795;PS;1368;48.94;compotes;116;8.48
+1;5;2795;PS;1368;48.94;crème dessert et lait gélifié;136;9.94
+1;5;2795;PS;1368;48.94;céréales aux fruits frais ou secs;1;0.07
+1;5;2795;PS;1368;48.94;céréales chocolatées;2;0.15
+1;5;2795;PS;1368;48.94;céréales sucrées, glacées ou au miel;3;0.22
+1;5;2795;PS;1368;48.94;desserts glacés;9;0.66
+1;5;2795;PS;1368;48.94;entremets;99;7.24
+1;5;2795;PS;1368;48.94;fruits;731;53.44
+1;5;2795;PS;1368;48.94;fruits au sirop;23;1.68
+1;5;2795;PS;1368;48.94;glaces;71;5.19
+1;5;2795;PS;1368;48.94;gâteaux;104;7.6
+1;5;2795;PS;1368;48.94;pâte chocolatée à tartiner;8;0.58
+1;5;2795;PS;1368;48.94;pâtisseries et tartes;94;6.87
+1;5;2795;PS;1368;48.94;sorbets;6;0.44
+1;5;2795;PS;1368;48.94;viennoiserie;11;0.8
+1;5;2795;S;340;12.16;confiserie;15;4.41
+1;5;2795;S;340;12.16;confiture et miel;81;23.82
+1;5;2795;S;340;12.16;sucre et assimilés;263;77.35
+2;1;2275;A;189;8.31;aliments destinés à une alimentation particulière;189;100.0
+2;1;2275;BC;2028;89.14;cacao, poudres et boissons cacaotées;211;10.4
+2;1;2275;BC;2028;89.14;café;1506;74.26
+2;1;2275;BC;2028;89.14;chicorée et poudre maltée;173;8.53
+2;1;2275;BC;2028;89.14;thé et infusions;185;9.12
+2;1;2275;BF;900;39.56;autre eau;20;2.22
+2;1;2275;BF;900;39.56;autres boissons fraîches;17;1.89
+2;1;2275;BF;900;39.56;boissons aux fruits;3;0.33
+2;1;2275;BF;900;39.56;eau de source;62;6.89
+2;1;2275;BF;900;39.56;eau du robinet;270;30.0
+2;1;2275;BF;900;39.56;eau minérale gazeuse;25;2.78
+2;1;2275;BF;900;39.56;eau minérale plate;45;5.0
+2;1;2275;BF;900;39.56;jus de fruits (purs et à base  de concentré);551;61.22
+2;1;2275;BF;900;39.56;nectars;5;0.56
+2;1;2275;BF;900;39.56;sodas et colas;6;0.67
+2;1;2275;BF;900;39.56;vin;14;1.56
+2;1;2275;C;3;0.13;condiments d'accompagnement;1;33.33
+2;1;2275;C;3;0.13;sauces;1;33.33
+2;1;2275;C;3;0.13;sel et épices;1;33.33
+2;1;2275;F;1062;46.68;biscottes et panification sèche;213;20.06
+2;1;2275;F;1062;46.68;pain;856;80.6
+2;1;2275;F;1062;46.68;pommes de terre et apparentés;1;0.09
+2;1;2275;F;1062;46.68;pâtes alimentaires;1;0.09
+2;1;2275;L;2;0.09;légumes fruits;2;100.0
+2;1;2275;MG;764;33.58;autres graisses;2;0.26
+2;1;2275;MG;764;33.58;beurre;506;66.23
+2;1;2275;MG;764;33.58;huile;10;1.31
+2;1;2275;MG;764;33.58;margarine;248;32.46
+2;1;2275;P;53;2.33;abats;1;1.89
+2;1;2275;P;53;2.33;boeuf en pièces ou haché;4;7.55
+2;1;2275;P;53;2.33;crustacés;1;1.89
+2;1;2275;P;53;2.33;fruits secs et châtaignes;7;13.21
+2;1;2275;P;53;2.33;jambons et charcuteries en pièces;12;22.64
+2;1;2275;P;53;2.33;oeufs et dérivés;4;7.55
+2;1;2275;P;53;2.33;poissons de mer;1;1.89
+2;1;2275;P;53;2.33;porc;1;1.89
+2;1;2275;P;53;2.33;pâtés, terrines, rillettes et foie gras;11;20.75
+2;1;2275;P;53;2.33;saucisses, saucissons, andouilles et boudins;10;18.87
+2;1;2275;P;53;2.33;veau;1;1.89
+2;1;2275;P;53;2.33;volailles et lapins;4;7.55
+2;1;2275;PC;8;0.35;autres sandwichs;2;25.0
+2;1;2275;PC;8;0.35;pizzas;1;12.5
+2;1;2275;PC;8;0.35;potages et soupes;3;37.5
+2;1;2275;PC;8;0.35;sandwichs baguette;2;25.0
+2;1;2275;PL;959;42.15;autre lait;17;1.77
+2;1;2275;PL;959;42.15;autres fromages ou fromage sans précision;4;0.42
+2;1;2275;PL;959;42.15;fromage blanc et petits suisses;2;0.21
+2;1;2275;PL;959;42.15;fromages affinés;73;7.61
+2;1;2275;PL;959;42.15;fromages fondus;21;2.19
+2;1;2275;PL;959;42.15;fromages frais non affinés;2;0.21
+2;1;2275;PL;959;42.15;lait concentré ou en poudre;4;0.42
+2;1;2275;PL;959;42.15;lait en bouteille ou en brique;750;78.21
+2;1;2275;PL;959;42.15;yaourts et assimilés;174;18.14
+2;1;2275;PS;894;39.3;autres céréales pour petit déjeuner;35;3.91
+2;1;2275;PS;894;39.3;barres céréalières;3;0.34
+2;1;2275;PS;894;39.3;beignets, crêpes et gaufres;17;1.9
+2;1;2275;PS;894;39.3;biscuits sucrés;194;21.7
+2;1;2275;PS;894;39.3;chocolat en tablettes;27;3.02
+2;1;2275;PS;894;39.3;compotes;24;2.68
+2;1;2275;PS;894;39.3;crème dessert et lait gélifié;10;1.12
+2;1;2275;PS;894;39.3;céréales aux fruits frais ou secs;5;0.56
+2;1;2275;PS;894;39.3;céréales chocolatées;27;3.02
+2;1;2275;PS;894;39.3;céréales sucrées, glacées ou au miel;74;8.28
+2;1;2275;PS;894;39.3;entremets;2;0.22
+2;1;2275;PS;894;39.3;fruits;110;12.3
+2;1;2275;PS;894;39.3;fruits au sirop;1;0.11
+2;1;2275;PS;894;39.3;gâteaux;65;7.27
+2;1;2275;PS;894;39.3;pâte chocolatée à tartiner;60;6.71
+2;1;2275;PS;894;39.3;pâtisseries et tartes;3;0.34
+2;1;2275;PS;894;39.3;viennoiserie;337;37.7
+2;1;2275;S;1482;65.14;confiserie;1;0.07
+2;1;2275;S;1482;65.14;confiture et miel;579;39.07
+2;1;2275;S;1482;65.14;sucre et assimilés;1143;77.13
+2;3;2298;A;72;3.13;aliments destinés à une alimentation particulière;72;100.0
+2;3;2298;BC;926;40.3;cacao, poudres et boissons cacaotées;1;0.11
+2;3;2298;BC;926;40.3;café;906;97.84
+2;3;2298;BC;926;40.3;chicorée et poudre maltée;8;0.86
+2;3;2298;BC;926;40.3;thé et infusions;12;1.3
+2;3;2298;BF;2056;89.47;autre eau;75;3.65
+2;3;2298;BF;2056;89.47;autres boissons fraîches;62;3.02
+2;3;2298;BF;2056;89.47;bière;74;3.6
+2;3;2298;BF;2056;89.47;boissons aux fruits;3;0.15
+2;3;2298;BF;2056;89.47;cidre;15;0.73
+2;3;2298;BF;2056;89.47;cocktails et mélanges;55;2.68
+2;3;2298;BF;2056;89.47;eau de source;333;16.2
+2;3;2298;BF;2056;89.47;eau du robinet;836;40.66
+2;3;2298;BF;2056;89.47;eau minérale gazeuse;126;6.13
+2;3;2298;BF;2056;89.47;eau minérale plate;187;9.1
+2;3;2298;BF;2056;89.47;jus de fruits (purs et à base  de concentré);46;2.24
+2;3;2298;BF;2056;89.47;nectars;1;0.05
+2;3;2298;BF;2056;89.47;sodas et colas;121;5.89
+2;3;2298;BF;2056;89.47;spiritueux et vins cuits;64;3.11
+2;3;2298;BF;2056;89.47;vin;561;27.29
+2;3;2298;C;835;36.34;condiments d'accompagnement;134;16.05
+2;3;2298;C;835;36.34;condiments d'assaisonnement;162;19.4
+2;3;2298;C;835;36.34;herbes aromatiques;56;6.71
+2;3;2298;C;835;36.34;sauces;602;72.1
+2;3;2298;C;835;36.34;sel et épices;113;13.53
+2;3;2298;F;1848;80.42;autres céréales;1;0.05
+2;3;2298;F;1848;80.42;autres produits de panification;13;0.7
+2;3;2298;F;1848;80.42;biscottes et panification sèche;12;0.65
+2;3;2298;F;1848;80.42;blé;40;2.16
+2;3;2298;F;1848;80.42;pain;1399;75.7
+2;3;2298;F;1848;80.42;pommes de terre et apparentés;634;34.31
+2;3;2298;F;1848;80.42;pâtes alimentaires;277;14.99
+2;3;2298;F;1848;80.42;pâtes pour pâtisserie prêtes à l'emploi;1;0.05
+2;3;2298;F;1848;80.42;riz;202;10.93
+2;3;2298;L;1189;51.74;champignons;52;4.37
+2;3;2298;L;1189;51.74;choux;97;8.16
+2;3;2298;L;1189;51.74;haricots verts et petits pois (légumes potagers);240;20.19
+2;3;2298;L;1189;51.74;légumes feuilles;417;35.07
+2;3;2298;L;1189;51.74;légumes fruits;306;25.74
+2;3;2298;L;1189;51.74;légumes racines, tubercules ou bulbes;308;25.9
+2;3;2298;L;1189;51.74;légumes tiges;77;6.48
+2;3;2298;L;1189;51.74;mélanges de légumes, légumes préparés et autres légumes;145;12.2
+2;3;2298;MG;1174;51.09;autres graisses;12;1.02
+2;3;2298;MG;1174;51.09;beurre;627;53.41
+2;3;2298;MG;1174;51.09;huile;662;56.39
+2;3;2298;MG;1174;51.09;margarine;244;20.78
+2;3;2298;P;1824;79.37;abats;43;2.36
+2;3;2298;P;1824;79.37;agneau;64;3.51
+2;3;2298;P;1824;79.37;autre charcuterie ou charcuterie  sans précision;21;1.15
+2;3;2298;P;1824;79.37;autre viande;25;1.37
+2;3;2298;P;1824;79.37;autres fruits de mer ou fruits de mer sans précision;2;0.11
+2;3;2298;P;1824;79.37;autres poissons ou poissons sans précision;39;2.14
+2;3;2298;P;1824;79.37;boeuf en pièces ou haché;394;21.6
+2;3;2298;P;1824;79.37;crustacés;31;1.7
+2;3;2298;P;1824;79.37;fruits secs et châtaignes;23;1.26
+2;3;2298;P;1824;79.37;gibier;14;0.77
+2;3;2298;P;1824;79.37;jambons et charcuteries en pièces;190;10.42
+2;3;2298;P;1824;79.37;légumes secs;78;4.28
+2;3;2298;P;1824;79.37;légumes secs préparés;13;0.71
+2;3;2298;P;1824;79.37;mollusques et coquillage;29;1.59
+2;3;2298;P;1824;79.37;mélanges;1;0.05
+2;3;2298;P;1824;79.37;oeufs et dérivés;135;7.4
+2;3;2298;P;1824;79.37;oléagineux et graines;26;1.43
+2;3;2298;P;1824;79.37;poissons d'eau douce;3;0.16
+2;3;2298;P;1824;79.37;poissons de mer;221;12.12
+2;3;2298;P;1824;79.37;porc;205;11.24
+2;3;2298;P;1824;79.37;produits dérivés des poissons;76;4.17
+2;3;2298;P;1824;79.37;pâtés, terrines, rillettes et foie gras;177;9.7
+2;3;2298;P;1824;79.37;saucisses, saucissons, andouilles et boudins;238;13.05
+2;3;2298;P;1824;79.37;veau;68;3.73
+2;3;2298;P;1824;79.37;volailles et lapins;368;20.18
+2;3;2298;PC;660;28.72;autres sandwichs;35;5.3
+2;3;2298;PC;660;28.72;beignets, crêpes et bouchées à la reine;30;4.55
+2;3;2298;PC;660;28.72;bouillons;14;2.12
+2;3;2298;PC;660;28.72;feuilletés et friands;6;0.91
+2;3;2298;PC;660;28.72;garnitures composées;45;6.82
+2;3;2298;PC;660;28.72;hamburgers et hot-dog;27;4.09
+2;3;2298;PC;660;28.72;pizzas;46;6.97
+2;3;2298;PC;660;28.72;plats garnis à base de viande;142;21.52
+2;3;2298;PC;660;28.72;plats sans garniture;44;6.67
+2;3;2298;PC;660;28.72;plats à base de légumes;45;6.82
+2;3;2298;PC;660;28.72;plats à base de pâtes ou de pommes de terre;118;17.88
+2;3;2298;PC;660;28.72;potages et soupes;63;9.55
+2;3;2298;PC;660;28.72;quiches et tartes salées;26;3.94
+2;3;2298;PC;660;28.72;sandwichs baguette;64;9.7
+2;3;2298;PL;1284;55.87;autre lait;2;0.16
+2;3;2298;PL;1284;55.87;autres fromages ou fromage sans précision;3;0.23
+2;3;2298;PL;1284;55.87;crème fraîche;134;10.44
+2;3;2298;PL;1284;55.87;fromage blanc et petits suisses;84;6.54
+2;3;2298;PL;1284;55.87;fromages affinés;773;60.2
+2;3;2298;PL;1284;55.87;fromages fondus;27;2.1
+2;3;2298;PL;1284;55.87;fromages frais non affinés;43;3.35
+2;3;2298;PL;1284;55.87;lait aromatisé;2;0.16
+2;3;2298;PL;1284;55.87;lait en bouteille ou en brique;25;1.95
+2;3;2298;PL;1284;55.87;yaourts et assimilés;492;38.32
+2;3;2298;PS;1077;46.87;barres chocolatées;2;0.19
+2;3;2298;PS;1077;46.87;barres céréalières;3;0.28
+2;3;2298;PS;1077;46.87;beignets, crêpes et gaufres;20;1.86
+2;3;2298;PS;1077;46.87;biscuits salés pour apéritif;50;4.64
+2;3;2298;PS;1077;46.87;biscuits sucrés;34;3.16
+2;3;2298;PS;1077;46.87;chocolat en tablettes;125;11.61
+2;3;2298;PS;1077;46.87;compotes;38;3.53
+2;3;2298;PS;1077;46.87;crème dessert et lait gélifié;95;8.82
+2;3;2298;PS;1077;46.87;céréales chocolatées;1;0.09
+2;3;2298;PS;1077;46.87;desserts glacés;4;0.37
+2;3;2298;PS;1077;46.87;entremets;121;11.23
+2;3;2298;PS;1077;46.87;fruits;502;46.61
+2;3;2298;PS;1077;46.87;fruits au sirop;29;2.69
+2;3;2298;PS;1077;46.87;glaces;46;4.27
+2;3;2298;PS;1077;46.87;gâteaux;105;9.75
+2;3;2298;PS;1077;46.87;pâte chocolatée à tartiner;2;0.19
+2;3;2298;PS;1077;46.87;pâtisseries et tartes;113;10.49
+2;3;2298;PS;1077;46.87;sorbets;10;0.93
+2;3;2298;PS;1077;46.87;viennoiserie;15;1.39
+2;3;2298;S;646;28.11;confiserie;8;1.24
+2;3;2298;S;646;28.11;confiture et miel;27;4.18
+2;3;2298;S;646;28.11;sucre et assimilés;627;97.06
+2;4;1427;A;19;1.33;aliments destinés à une alimentation particulière;19;100.0
+2;4;1427;BC;534;37.42;cacao, poudres et boissons cacaotées;18;3.37
+2;4;1427;BC;534;37.42;café;382;71.54
+2;4;1427;BC;534;37.42;chicorée et poudre maltée;18;3.37
+2;4;1427;BC;534;37.42;thé et infusions;120;22.47
+2;4;1427;BF;968;67.83;autre eau;23;2.38
+2;4;1427;BF;968;67.83;autres boissons fraîches;44;4.55
+2;4;1427;BF;968;67.83;bière;135;13.95
+2;4;1427;BF;968;67.83;boissons aux fruits;6;0.62
+2;4;1427;BF;968;67.83;cidre;5;0.52
+2;4;1427;BF;968;67.83;cocktails et mélanges;52;5.37
+2;4;1427;BF;968;67.83;eau de source;121;12.5
+2;4;1427;BF;968;67.83;eau du robinet;312;32.23
+2;4;1427;BF;968;67.83;eau minérale gazeuse;92;9.5
+2;4;1427;BF;968;67.83;eau minérale plate;112;11.57
+2;4;1427;BF;968;67.83;jus de fruits (purs et à base  de concentré);58;5.99
+2;4;1427;BF;968;67.83;sodas et colas;98;10.12
+2;4;1427;BF;968;67.83;spiritueux et vins cuits;53;5.48
+2;4;1427;BF;968;67.83;vin;19;1.96
+2;4;1427;C;8;0.56;condiments d'accompagnement;4;50.0
+2;4;1427;C;8;0.56;condiments d'assaisonnement;1;12.5
+2;4;1427;C;8;0.56;sauces;3;37.5
+2;4;1427;C;8;0.56;sel et épices;1;12.5
+2;4;1427;F;105;7.36;autres céréales;2;1.9
+2;4;1427;F;105;7.36;autres produits de panification;1;0.95
+2;4;1427;F;105;7.36;biscottes et panification sèche;4;3.81
+2;4;1427;F;105;7.36;blé;1;0.95
+2;4;1427;F;105;7.36;pain;92;87.62
+2;4;1427;F;105;7.36;pommes de terre et apparentés;2;1.9
+2;4;1427;F;105;7.36;pâtes alimentaires;2;1.9
+2;4;1427;F;105;7.36;pâtes pour pâtisserie prêtes à l'emploi;1;0.95
+2;4;1427;F;105;7.36;riz;1;0.95
+2;4;1427;L;5;0.35;légumes feuilles;2;40.0
+2;4;1427;L;5;0.35;légumes fruits;3;60.0
+2;4;1427;L;5;0.35;mélanges de légumes, légumes préparés et autres légumes;2;40.0
+2;4;1427;MG;26;1.82;beurre;13;50.0
+2;4;1427;MG;26;1.82;huile;4;15.38
+2;4;1427;MG;26;1.82;margarine;9;34.62
+2;4;1427;P;70;4.91;boeuf en pièces ou haché;1;1.43
+2;4;1427;P;70;4.91;crustacés;1;1.43
+2;4;1427;P;70;4.91;fruits secs et châtaignes;7;10.0
+2;4;1427;P;70;4.91;jambons et charcuteries en pièces;4;5.71
+2;4;1427;P;70;4.91;mélanges;1;1.43
+2;4;1427;P;70;4.91;oeufs et dérivés;3;4.29
+2;4;1427;P;70;4.91;oléagineux et graines;37;52.86
+2;4;1427;P;70;4.91;poissons de mer;1;1.43
+2;4;1427;P;70;4.91;porc;1;1.43
+2;4;1427;P;70;4.91;produits dérivés des poissons;3;4.29
+2;4;1427;P;70;4.91;pâtés, terrines, rillettes et foie gras;10;14.29
+2;4;1427;P;70;4.91;saucisses, saucissons, andouilles et boudins;6;8.57
+2;4;1427;P;70;4.91;volailles et lapins;3;4.29
+2;4;1427;PC;26;1.82;autres sandwichs;8;30.77
+2;4;1427;PC;26;1.82;beignets, crêpes et bouchées à la reine;2;7.69
+2;4;1427;PC;26;1.82;hamburgers et hot-dog;2;7.69
+2;4;1427;PC;26;1.82;pizzas;2;7.69
+2;4;1427;PC;26;1.82;plats sans garniture;1;3.85
+2;4;1427;PC;26;1.82;plats à base de pâtes ou de pommes de terre;1;3.85
+2;4;1427;PC;26;1.82;quiches et tartes salées;2;7.69
+2;4;1427;PC;26;1.82;sandwichs baguette;9;34.62
+2;4;1427;PL;101;7.08;autre lait;1;0.99
+2;4;1427;PL;101;7.08;crème fraîche;4;3.96
+2;4;1427;PL;101;7.08;fromage blanc et petits suisses;3;2.97
+2;4;1427;PL;101;7.08;fromages affinés;26;25.74
+2;4;1427;PL;101;7.08;fromages fondus;8;7.92
+2;4;1427;PL;101;7.08;fromages frais non affinés;1;0.99
+2;4;1427;PL;101;7.08;lait en bouteille ou en brique;49;48.51
+2;4;1427;PL;101;7.08;yaourts et assimilés;13;12.87
+2;4;1427;PS;448;31.39;barres chocolatées;27;6.03
+2;4;1427;PS;448;31.39;barres céréalières;6;1.34
+2;4;1427;PS;448;31.39;beignets, crêpes et gaufres;24;5.36
+2;4;1427;PS;448;31.39;biscuits salés pour apéritif;23;5.13
+2;4;1427;PS;448;31.39;biscuits sucrés;89;19.87
+2;4;1427;PS;448;31.39;chocolat en tablettes;63;14.06
+2;4;1427;PS;448;31.39;compotes;4;0.89
+2;4;1427;PS;448;31.39;céréales aux fruits frais ou secs;1;0.22
+2;4;1427;PS;448;31.39;céréales chocolatées;3;0.67
+2;4;1427;PS;448;31.39;céréales sucrées, glacées ou au miel;1;0.22
+2;4;1427;PS;448;31.39;desserts glacés;4;0.89
+2;4;1427;PS;448;31.39;entremets;9;2.01
+2;4;1427;PS;448;31.39;fruits;91;20.31
+2;4;1427;PS;448;31.39;fruits au sirop;1;0.22
+2;4;1427;PS;448;31.39;glaces;10;2.23
+2;4;1427;PS;448;31.39;gâteaux;82;18.3
+2;4;1427;PS;448;31.39;pâte chocolatée à tartiner;16;3.57
+2;4;1427;PS;448;31.39;pâtisseries et tartes;26;5.8
+2;4;1427;PS;448;31.39;viennoiserie;38;8.48
+2;4;1427;S;377;26.42;confiserie;56;14.85
+2;4;1427;S;377;26.42;confiture et miel;34;9.02
+2;4;1427;S;377;26.42;sucre et assimilés;311;82.49
+2;5;2376;A;40;1.68;aliments destinés à une alimentation particulière;40;100.0
+2;5;2376;BC;340;14.31;cacao, poudres et boissons cacaotées;2;0.59
+2;5;2376;BC;340;14.31;café;293;86.18
+2;5;2376;BC;340;14.31;chicorée et poudre maltée;7;2.06
+2;5;2376;BC;340;14.31;thé et infusions;39;11.47
+2;5;2376;BF;2076;87.37;autre eau;80;3.85
+2;5;2376;BF;2076;87.37;autres boissons fraîches;59;2.84
+2;5;2376;BF;2076;87.37;bière;78;3.76
+2;5;2376;BF;2076;87.37;boissons aux fruits;3;0.14
+2;5;2376;BF;2076;87.37;cidre;21;1.01
+2;5;2376;BF;2076;87.37;cocktails et mélanges;68;3.28
+2;5;2376;BF;2076;87.37;eau de source;343;16.52
+2;5;2376;BF;2076;87.37;eau du robinet;753;36.27
+2;5;2376;BF;2076;87.37;eau minérale gazeuse;119;5.73
+2;5;2376;BF;2076;87.37;eau minérale plate;206;9.92
+2;5;2376;BF;2076;87.37;jus de fruits (purs et à base  de concentré);41;1.97
+2;5;2376;BF;2076;87.37;nectars;1;0.05
+2;5;2376;BF;2076;87.37;sodas et colas;162;7.8
+2;5;2376;BF;2076;87.37;spiritueux et vins cuits;132;6.36
+2;5;2376;BF;2076;87.37;vin;605;29.14
+2;5;2376;C;758;31.9;condiments d'accompagnement;100;13.19
+2;5;2376;C;758;31.9;condiments d'assaisonnement;156;20.58
+2;5;2376;C;758;31.9;herbes aromatiques;49;6.46
+2;5;2376;C;758;31.9;sauces;514;67.81
+2;5;2376;C;758;31.9;sel et épices;91;12.01
+2;5;2376;F;1732;72.9;autres céréales;5;0.29
+2;5;2376;F;1732;72.9;autres produits de panification;9;0.52
+2;5;2376;F;1732;72.9;biscottes et panification sèche;13;0.75
+2;5;2376;F;1732;72.9;blé;34;1.96
+2;5;2376;F;1732;72.9;pain;1345;77.66
+2;5;2376;F;1732;72.9;pommes de terre et apparentés;332;19.17
+2;5;2376;F;1732;72.9;pâtes alimentaires;306;17.67
+2;5;2376;F;1732;72.9;riz;137;7.91
+2;5;2376;L;995;41.88;champignons;41;4.12
+2;5;2376;L;995;41.88;choux;45;4.52
+2;5;2376;L;995;41.88;haricots verts et petits pois (légumes potagers);109;10.95
+2;5;2376;L;995;41.88;légumes feuilles;482;48.44
+2;5;2376;L;995;41.88;légumes fruits;234;23.52
+2;5;2376;L;995;41.88;légumes racines, tubercules ou bulbes;189;18.99
+2;5;2376;L;995;41.88;légumes tiges;57;5.73
+2;5;2376;L;995;41.88;mélanges de légumes, légumes préparés et autres légumes;88;8.84
+2;5;2376;MG;1057;44.49;autres graisses;6;0.57
+2;5;2376;MG;1057;44.49;beurre;583;55.16
+2;5;2376;MG;1057;44.49;huile;578;54.68
+2;5;2376;MG;1057;44.49;margarine;168;15.89
+2;5;2376;P;1523;64.1;abats;20;1.31
+2;5;2376;P;1523;64.1;agneau;25;1.64
+2;5;2376;P;1523;64.1;autre charcuterie ou charcuterie  sans précision;14;0.92
+2;5;2376;P;1523;64.1;autre viande;15;0.98
+2;5;2376;P;1523;64.1;autres fruits de mer ou fruits de mer sans précision;8;0.53
+2;5;2376;P;1523;64.1;autres poissons ou poissons sans précision;14;0.92
+2;5;2376;P;1523;64.1;boeuf en pièces ou haché;194;12.74
+2;5;2376;P;1523;64.1;crustacés;46;3.02
+2;5;2376;P;1523;64.1;fruits secs et châtaignes;35;2.3
+2;5;2376;P;1523;64.1;gibier;6;0.39
+2;5;2376;P;1523;64.1;jambons et charcuteries en pièces;359;23.57
+2;5;2376;P;1523;64.1;légumes secs;53;3.48
+2;5;2376;P;1523;64.1;légumes secs préparés;6;0.39
+2;5;2376;P;1523;64.1;mollusques et coquillage;41;2.69
+2;5;2376;P;1523;64.1;mélanges;3;0.2
+2;5;2376;P;1523;64.1;oeufs et dérivés;178;11.69
+2;5;2376;P;1523;64.1;oléagineux et graines;59;3.87
+2;5;2376;P;1523;64.1;poissons de mer;219;14.38
+2;5;2376;P;1523;64.1;porc;113;7.42
+2;5;2376;P;1523;64.1;produits dérivés des poissons;56;3.68
+2;5;2376;P;1523;64.1;pâtés, terrines, rillettes et foie gras;159;10.44
+2;5;2376;P;1523;64.1;saucisses, saucissons, andouilles et boudins;214;14.05
+2;5;2376;P;1523;64.1;veau;12;0.79
+2;5;2376;P;1523;64.1;volailles et lapins;217;14.25
+2;5;2376;PC;1101;46.34;autres sandwichs;54;4.9
+2;5;2376;PC;1101;46.34;beignets, crêpes et bouchées à la reine;76;6.9
+2;5;2376;PC;1101;46.34;bouillons;31;2.82
+2;5;2376;PC;1101;46.34;feuilletés et friands;28;2.54
+2;5;2376;PC;1101;46.34;garnitures composées;33;3.0
+2;5;2376;PC;1101;46.34;hamburgers et hot-dog;25;2.27
+2;5;2376;PC;1101;46.34;pizzas;131;11.9
+2;5;2376;PC;1101;46.34;plats garnis à base de viande;102;9.26
+2;5;2376;PC;1101;46.34;plats sans garniture;43;3.91
+2;5;2376;PC;1101;46.34;plats à base de fromage;6;0.54
+2;5;2376;PC;1101;46.34;plats à base de légumes;37;3.36
+2;5;2376;PC;1101;46.34;plats à base de pâtes ou de pommes de terre;130;11.81
+2;5;2376;PC;1101;46.34;potages et soupes;435;39.51
+2;5;2376;PC;1101;46.34;quiches et tartes salées;80;7.27
+2;5;2376;PC;1101;46.34;sandwichs baguette;13;1.18
+2;5;2376;PL;1446;60.86;autre lait;1;0.07
+2;5;2376;PL;1446;60.86;autres fromages ou fromage sans précision;5;0.35
+2;5;2376;PL;1446;60.86;crème fraîche;127;8.78
+2;5;2376;PL;1446;60.86;fromage blanc et petits suisses;108;7.47
+2;5;2376;PL;1446;60.86;fromages affinés;860;59.47
+2;5;2376;PL;1446;60.86;fromages fondus;40;2.77
+2;5;2376;PL;1446;60.86;fromages frais non affinés;44;3.04
+2;5;2376;PL;1446;60.86;lait en bouteille ou en brique;31;2.14
+2;5;2376;PL;1446;60.86;yaourts et assimilés;573;39.63
+2;5;2376;PS;1027;43.22;autres céréales pour petit déjeuner;1;0.1
+2;5;2376;PS;1027;43.22;barres chocolatées;2;0.19
+2;5;2376;PS;1027;43.22;barres céréalières;1;0.1
+2;5;2376;PS;1027;43.22;beignets, crêpes et gaufres;34;3.31
+2;5;2376;PS;1027;43.22;biscuits salés pour apéritif;79;7.69
+2;5;2376;PS;1027;43.22;biscuits sucrés;21;2.04
+2;5;2376;PS;1027;43.22;chocolat en tablettes;90;8.76
+2;5;2376;PS;1027;43.22;compotes;73;7.11
+2;5;2376;PS;1027;43.22;crème dessert et lait gélifié;138;13.44
+2;5;2376;PS;1027;43.22;desserts glacés;4;0.39
+2;5;2376;PS;1027;43.22;entremets;75;7.3
+2;5;2376;PS;1027;43.22;fruits;433;42.16
+2;5;2376;PS;1027;43.22;fruits au sirop;17;1.66
+2;5;2376;PS;1027;43.22;glaces;49;4.77
+2;5;2376;PS;1027;43.22;gâteaux;100;9.74
+2;5;2376;PS;1027;43.22;pâte chocolatée à tartiner;8;0.78
+2;5;2376;PS;1027;43.22;pâtisseries et tartes;80;7.79
+2;5;2376;PS;1027;43.22;sorbets;7;0.68
+2;5;2376;PS;1027;43.22;viennoiserie;11;1.07
+2;5;2376;S;393;16.54;confiserie;4;1.02
+2;5;2376;S;393;16.54;confiture et miel;63;16.03
+2;5;2376;S;393;16.54;sucre et assimilés;349;88.8
+3;1;2721;A;263;9.67;aliments destinés à une alimentation particulière;263;100.0
+3;1;2721;BC;2442;89.75;cacao, poudres et boissons cacaotées;183;7.49
+3;1;2721;BC;2442;89.75;café;1471;60.24
+3;1;2721;BC;2442;89.75;chicorée et poudre maltée;256;10.48
+3;1;2721;BC;2442;89.75;thé et infusions;566;23.18
+3;1;2721;BF;1150;42.26;autre eau;25;2.17
+3;1;2721;BF;1150;42.26;autres boissons fraîches;29;2.52
+3;1;2721;BF;1150;42.26;boissons aux fruits;6;0.52
+3;1;2721;BF;1150;42.26;eau de source;130;11.3
+3;1;2721;BF;1150;42.26;eau du robinet;434;37.74
+3;1;2721;BF;1150;42.26;eau minérale gazeuse;18;1.57
+3;1;2721;BF;1150;42.26;eau minérale plate;112;9.74
+3;1;2721;BF;1150;42.26;jus de fruits (purs et à base  de concentré);519;45.13
+3;1;2721;BF;1150;42.26;nectars;19;1.65
+3;1;2721;BF;1150;42.26;sodas et colas;2;0.17
+3;1;2721;BF;1150;42.26;vin;7;0.61
+3;1;2721;C;11;0.4;condiments d'accompagnement;2;18.18
+3;1;2721;C;11;0.4;condiments d'assaisonnement;1;9.09
+3;1;2721;C;11;0.4;herbes aromatiques;3;27.27
+3;1;2721;C;11;0.4;sel et épices;8;72.73
+3;1;2721;F;1780;65.42;autres céréales;17;0.96
+3;1;2721;F;1780;65.42;biscottes et panification sèche;348;19.55
+3;1;2721;F;1780;65.42;blé;6;0.34
+3;1;2721;F;1780;65.42;pain;1433;80.51
+3;1;2721;F;1780;65.42;pommes de terre et apparentés;3;0.17
+3;1;2721;F;1780;65.42;riz;1;0.06
+3;1;2721;L;7;0.26;champignons;1;14.29
+3;1;2721;L;7;0.26;choux;2;28.57
+3;1;2721;L;7;0.26;légumes fruits;1;14.29
+3;1;2721;L;7;0.26;légumes racines, tubercules ou bulbes;4;57.14
+3;1;2721;L;7;0.26;légumes tiges;1;14.29
+3;1;2721;MG;1335;49.06;beurre;788;59.03
+3;1;2721;MG;1335;49.06;huile;26;1.95
+3;1;2721;MG;1335;49.06;margarine;535;40.07
+3;1;2721;P;109;4.01;autre viande;1;0.92
+3;1;2721;P;109;4.01;boeuf en pièces ou haché;2;1.83
+3;1;2721;P;109;4.01;fruits secs et châtaignes;31;28.44
+3;1;2721;P;109;4.01;gibier;2;1.83
+3;1;2721;P;109;4.01;jambons et charcuteries en pièces;22;20.18
+3;1;2721;P;109;4.01;mélanges;1;0.92
+3;1;2721;P;109;4.01;oeufs et dérivés;14;12.84
+3;1;2721;P;109;4.01;oléagineux et graines;22;20.18
+3;1;2721;P;109;4.01;poissons de mer;2;1.83
+3;1;2721;P;109;4.01;pâtés, terrines, rillettes et foie gras;5;4.59
+3;1;2721;P;109;4.01;saucisses, saucissons, andouilles et boudins;2;1.83
+3;1;2721;P;109;4.01;volailles et lapins;14;12.84
+3;1;2721;PC;7;0.26;autres sandwichs;1;14.29
+3;1;2721;PC;7;0.26;beignets, crêpes et bouchées à la reine;1;14.29
+3;1;2721;PC;7;0.26;bouillons;1;14.29
+3;1;2721;PC;7;0.26;feuilletés et friands;2;28.57
+3;1;2721;PC;7;0.26;plats garnis à base de viande;1;14.29
+3;1;2721;PC;7;0.26;sandwichs baguette;1;14.29
+3;1;2721;PL;1303;47.89;autre lait;33;2.53
+3;1;2721;PL;1303;47.89;fromage blanc et petits suisses;49;3.76
+3;1;2721;PL;1303;47.89;fromages affinés;37;2.84
+3;1;2721;PL;1303;47.89;fromages fondus;19;1.46
+3;1;2721;PL;1303;47.89;fromages frais non affinés;1;0.08
+3;1;2721;PL;1303;47.89;lait concentré ou en poudre;41;3.15
+3;1;2721;PL;1303;47.89;lait en bouteille ou en brique;927;71.14
+3;1;2721;PL;1303;47.89;yaourts et assimilés;259;19.88
+3;1;2721;PS;1046;38.44;autres céréales pour petit déjeuner;44;4.21
+3;1;2721;PS;1046;38.44;barres chocolatées;2;0.19
+3;1;2721;PS;1046;38.44;barres céréalières;5;0.48
+3;1;2721;PS;1046;38.44;beignets, crêpes et gaufres;18;1.72
+3;1;2721;PS;1046;38.44;biscuits salés pour apéritif;7;0.67
+3;1;2721;PS;1046;38.44;biscuits sucrés;95;9.08
+3;1;2721;PS;1046;38.44;chocolat en tablettes;48;4.59
+3;1;2721;PS;1046;38.44;compotes;36;3.44
+3;1;2721;PS;1046;38.44;crème dessert et lait gélifié;23;2.2
+3;1;2721;PS;1046;38.44;céréales aux fruits frais ou secs;31;2.96
+3;1;2721;PS;1046;38.44;céréales chocolatées;34;3.25
+3;1;2721;PS;1046;38.44;céréales sucrées, glacées ou au miel;71;6.79
+3;1;2721;PS;1046;38.44;entremets;5;0.48
+3;1;2721;PS;1046;38.44;fruits;409;39.1
+3;1;2721;PS;1046;38.44;fruits au sirop;1;0.1
+3;1;2721;PS;1046;38.44;gâteaux;74;7.07
+3;1;2721;PS;1046;38.44;pâte chocolatée à tartiner;15;1.43
+3;1;2721;PS;1046;38.44;pâtisseries et tartes;7;0.67
+3;1;2721;PS;1046;38.44;viennoiserie;304;29.06
+3;1;2721;S;1594;58.58;confiserie;3;0.19
+3;1;2721;S;1594;58.58;confiture et miel;963;60.41
+3;1;2721;S;1594;58.58;sucre et assimilés;961;60.29
+3;3;2744;A;152;5.54;aliments destinés à une alimentation particulière;152;100.0
+3;3;2744;BC;981;35.75;cacao, poudres et boissons cacaotées;2;0.2
+3;3;2744;BC;981;35.75;café;843;85.93
+3;3;2744;BC;981;35.75;chicorée et poudre maltée;43;4.38
+3;3;2744;BC;981;35.75;thé et infusions;97;9.89
+3;3;2744;BF;2233;81.38;autre eau;88;3.94
+3;3;2744;BF;2233;81.38;autres boissons fraîches;44;1.97
+3;3;2744;BF;2233;81.38;bière;17;0.76
+3;3;2744;BF;2233;81.38;boissons aux fruits;10;0.45
+3;3;2744;BF;2233;81.38;cidre;10;0.45
+3;3;2744;BF;2233;81.38;cocktails et mélanges;37;1.66
+3;3;2744;BF;2233;81.38;eau de source;438;19.61
+3;3;2744;BF;2233;81.38;eau du robinet;993;44.47
+3;3;2744;BF;2233;81.38;eau minérale gazeuse;67;3.0
+3;3;2744;BF;2233;81.38;eau minérale plate;396;17.73
+3;3;2744;BF;2233;81.38;jus de fruits (purs et à base  de concentré);111;4.97
+3;3;2744;BF;2233;81.38;nectars;1;0.04
+3;3;2744;BF;2233;81.38;sodas et colas;67;3.0
+3;3;2744;BF;2233;81.38;spiritueux et vins cuits;74;3.31
+3;3;2744;BF;2233;81.38;vin;510;22.84
+3;3;2744;C;1199;43.7;condiments d'accompagnement;145;12.09
+3;3;2744;C;1199;43.7;condiments d'assaisonnement;291;24.27
+3;3;2744;C;1199;43.7;herbes aromatiques;158;13.18
+3;3;2744;C;1199;43.7;sauces;811;67.64
+3;3;2744;C;1199;43.7;sel et épices;191;15.93
+3;3;2744;F;2033;74.09;autres céréales;9;0.44
+3;3;2744;F;2033;74.09;autres produits de panification;10;0.49
+3;3;2744;F;2033;74.09;biscottes et panification sèche;23;1.13
+3;3;2744;F;2033;74.09;blé;84;4.13
+3;3;2744;F;2033;74.09;pain;1429;70.29
+3;3;2744;F;2033;74.09;pommes de terre et apparentés;626;30.79
+3;3;2744;F;2033;74.09;pâtes alimentaires;241;11.85
+3;3;2744;F;2033;74.09;pâtes pour pâtisserie prêtes à l'emploi;1;0.05
+3;3;2744;F;2033;74.09;riz;246;12.1
+3;3;2744;L;1898;69.17;champignons;109;5.74
+3;3;2744;L;1898;69.17;choux;148;7.8
+3;3;2744;L;1898;69.17;haricots verts et petits pois (légumes potagers);343;18.07
+3;3;2744;L;1898;69.17;légumes feuilles;655;34.51
+3;3;2744;L;1898;69.17;légumes fruits;584;30.77
+3;3;2744;L;1898;69.17;légumes racines, tubercules ou bulbes;540;28.45
+3;3;2744;L;1898;69.17;légumes tiges;147;7.74
+3;3;2744;L;1898;69.17;mélanges de légumes, légumes préparés et autres légumes;263;13.86
+3;3;2744;MG;1664;60.64;autres graisses;19;1.14
+3;3;2744;MG;1664;60.64;beurre;778;46.75
+3;3;2744;MG;1664;60.64;huile;1134;68.15
+3;3;2744;MG;1664;60.64;margarine;406;24.4
+3;3;2744;P;2167;78.97;abats;66;3.05
+3;3;2744;P;2167;78.97;agneau;53;2.45
+3;3;2744;P;2167;78.97;autre charcuterie ou charcuterie  sans précision;22;1.02
+3;3;2744;P;2167;78.97;autre viande;15;0.69
+3;3;2744;P;2167;78.97;autres fruits de mer ou fruits de mer sans précision;5;0.23
+3;3;2744;P;2167;78.97;autres poissons ou poissons sans précision;87;4.01
+3;3;2744;P;2167;78.97;boeuf en pièces ou haché;242;11.17
+3;3;2744;P;2167;78.97;crustacés;39;1.8
+3;3;2744;P;2167;78.97;fruits secs et châtaignes;39;1.8
+3;3;2744;P;2167;78.97;gibier;21;0.97
+3;3;2744;P;2167;78.97;jambons et charcuteries en pièces;199;9.18
+3;3;2744;P;2167;78.97;légumes secs;91;4.2
+3;3;2744;P;2167;78.97;légumes secs préparés;16;0.74
+3;3;2744;P;2167;78.97;mollusques et coquillage;51;2.35
+3;3;2744;P;2167;78.97;mélanges;2;0.09
+3;3;2744;P;2167;78.97;oeufs et dérivés;151;6.97
+3;3;2744;P;2167;78.97;oléagineux et graines;60;2.77
+3;3;2744;P;2167;78.97;poissons d'eau douce;4;0.18
+3;3;2744;P;2167;78.97;poissons de mer;408;18.83
+3;3;2744;P;2167;78.97;porc;135;6.23
+3;3;2744;P;2167;78.97;produits dérivés des poissons;83;3.83
+3;3;2744;P;2167;78.97;pâtés, terrines, rillettes et foie gras;105;4.85
+3;3;2744;P;2167;78.97;saucisses, saucissons, andouilles et boudins;204;9.41
+3;3;2744;P;2167;78.97;veau;49;2.26
+3;3;2744;P;2167;78.97;volailles et lapins;613;28.29
+3;3;2744;PC;764;27.84;autres sandwichs;35;4.58
+3;3;2744;PC;764;27.84;beignets, crêpes et bouchées à la reine;46;6.02
+3;3;2744;PC;764;27.84;bouillons;18;2.36
+3;3;2744;PC;764;27.84;feuilletés et friands;18;2.36
+3;3;2744;PC;764;27.84;garnitures composées;56;7.33
+3;3;2744;PC;764;27.84;hamburgers et hot-dog;16;2.09
+3;3;2744;PC;764;27.84;pizzas;39;5.1
+3;3;2744;PC;764;27.84;plats garnis à base de viande;124;16.23
+3;3;2744;PC;764;27.84;plats sans garniture;56;7.33
+3;3;2744;PC;764;27.84;plats à base de fromage;1;0.13
+3;3;2744;PC;764;27.84;plats à base de légumes;95;12.43
+3;3;2744;PC;764;27.84;plats à base de pâtes ou de pommes de terre;115;15.05
+3;3;2744;PC;764;27.84;potages et soupes;114;14.92
+3;3;2744;PC;764;27.84;quiches et tartes salées;47;6.15
+3;3;2744;PC;764;27.84;sandwichs baguette;47;6.15
+3;3;2744;PL;1479;53.9;autres fromages ou fromage sans précision;8;0.54
+3;3;2744;PL;1479;53.9;crème fraîche;167;11.29
+3;3;2744;PL;1479;53.9;fromage blanc et petits suisses;115;7.78
+3;3;2744;PL;1479;53.9;fromages affinés;847;57.27
+3;3;2744;PL;1479;53.9;fromages fondus;41;2.77
+3;3;2744;PL;1479;53.9;fromages frais non affinés;59;3.99
+3;3;2744;PL;1479;53.9;lait concentré ou en poudre;2;0.14
+3;3;2744;PL;1479;53.9;lait en bouteille ou en brique;44;2.97
+3;3;2744;PL;1479;53.9;yaourts et assimilés;486;32.86
+3;3;2744;PS;1840;67.06;autres céréales pour petit déjeuner;1;0.05
+3;3;2744;PS;1840;67.06;barres chocolatées;1;0.05
+3;3;2744;PS;1840;67.06;barres céréalières;2;0.11
+3;3;2744;PS;1840;67.06;beignets, crêpes et gaufres;10;0.54
+3;3;2744;PS;1840;67.06;biscuits salés pour apéritif;49;2.66
+3;3;2744;PS;1840;67.06;biscuits sucrés;45;2.45
+3;3;2744;PS;1840;67.06;chocolat en tablettes;135;7.34
+3;3;2744;PS;1840;67.06;compotes;90;4.89
+3;3;2744;PS;1840;67.06;crème dessert et lait gélifié;91;4.95
+3;3;2744;PS;1840;67.06;céréales chocolatées;1;0.05
+3;3;2744;PS;1840;67.06;céréales sucrées, glacées ou au miel;1;0.05
+3;3;2744;PS;1840;67.06;desserts glacés;5;0.27
+3;3;2744;PS;1840;67.06;entremets;99;5.38
+3;3;2744;PS;1840;67.06;fruits;1230;66.85
+3;3;2744;PS;1840;67.06;fruits au sirop;35;1.9
+3;3;2744;PS;1840;67.06;glaces;63;3.42
+3;3;2744;PS;1840;67.06;gâteaux;146;7.93
+3;3;2744;PS;1840;67.06;pâte chocolatée à tartiner;2;0.11
+3;3;2744;PS;1840;67.06;pâtisseries et tartes;130;7.07
+3;3;2744;PS;1840;67.06;sorbets;14;0.76
+3;3;2744;PS;1840;67.06;viennoiserie;17;0.92
+3;3;2744;S;556;20.26;confiserie;12;2.16
+3;3;2744;S;556;20.26;confiture et miel;80;14.39
+3;3;2744;S;556;20.26;sucre et assimilés;477;85.79
+3;4;2075;A;60;2.89;aliments destinés à une alimentation particulière;60;100.0
+3;4;2075;BC;868;41.83;cacao, poudres et boissons cacaotées;41;4.72
+3;4;2075;BC;868;41.83;café;429;49.42
+3;4;2075;BC;868;41.83;chicorée et poudre maltée;32;3.69
+3;4;2075;BC;868;41.83;thé et infusions;385;44.35
+3;4;2075;BF;1387;66.84;autre eau;66;4.76
+3;4;2075;BF;1387;66.84;autres boissons fraîches;67;4.83
+3;4;2075;BF;1387;66.84;bière;25;1.8
+3;4;2075;BF;1387;66.84;boissons aux fruits;2;0.14
+3;4;2075;BF;1387;66.84;cidre;8;0.58
+3;4;2075;BF;1387;66.84;cocktails et mélanges;20;1.44
+3;4;2075;BF;1387;66.84;eau de source;265;19.11
+3;4;2075;BF;1387;66.84;eau du robinet;538;38.79
+3;4;2075;BF;1387;66.84;eau minérale gazeuse;61;4.4
+3;4;2075;BF;1387;66.84;eau minérale plate;279;20.12
+3;4;2075;BF;1387;66.84;jus de fruits (purs et à base  de concentré);125;9.01
+3;4;2075;BF;1387;66.84;nectars;8;0.58
+3;4;2075;BF;1387;66.84;sodas et colas;85;6.13
+3;4;2075;BF;1387;66.84;spiritueux et vins cuits;31;2.24
+3;4;2075;BF;1387;66.84;vin;28;2.02
+3;4;2075;C;9;0.43;condiments d'accompagnement;5;55.56
+3;4;2075;C;9;0.43;condiments d'assaisonnement;1;11.11
+3;4;2075;C;9;0.43;herbes aromatiques;1;11.11
+3;4;2075;C;9;0.43;sauces;1;11.11
+3;4;2075;C;9;0.43;sel et épices;1;11.11
+3;4;2075;F;146;7.04;autres produits de panification;1;0.68
+3;4;2075;F;146;7.04;biscottes et panification sèche;30;20.55
+3;4;2075;F;146;7.04;pain;112;76.71
+3;4;2075;F;146;7.04;pommes de terre et apparentés;3;2.05
+3;4;2075;F;146;7.04;pâtes alimentaires;1;0.68
+3;4;2075;L;6;0.29;champignons;1;16.67
+3;4;2075;L;6;0.29;légumes feuilles;2;33.33
+3;4;2075;L;6;0.29;légumes fruits;1;16.67
+3;4;2075;L;6;0.29;légumes racines, tubercules ou bulbes;1;16.67
+3;4;2075;L;6;0.29;mélanges de légumes, légumes préparés et autres légumes;1;16.67
+3;4;2075;MG;39;1.88;beurre;24;61.54
+3;4;2075;MG;39;1.88;huile;1;2.56
+3;4;2075;MG;39;1.88;margarine;14;35.9
+3;4;2075;P;54;2.6;boeuf en pièces ou haché;1;1.85
+3;4;2075;P;54;2.6;fruits secs et châtaignes;12;22.22
+3;4;2075;P;54;2.6;jambons et charcuteries en pièces;4;7.41
+3;4;2075;P;54;2.6;mélanges;3;5.56
+3;4;2075;P;54;2.6;oeufs et dérivés;2;3.7
+3;4;2075;P;54;2.6;oléagineux et graines;26;48.15
+3;4;2075;P;54;2.6;produits dérivés des poissons;1;1.85
+3;4;2075;P;54;2.6;pâtés, terrines, rillettes et foie gras;2;3.7
+3;4;2075;P;54;2.6;saucisses, saucissons, andouilles et boudins;7;12.96
+3;4;2075;P;54;2.6;volailles et lapins;2;3.7
+3;4;2075;PC;21;1.01;autres sandwichs;9;42.86
+3;4;2075;PC;21;1.01;beignets, crêpes et bouchées à la reine;2;9.52
+3;4;2075;PC;21;1.01;bouillons;1;4.76
+3;4;2075;PC;21;1.01;garnitures composées;1;4.76
+3;4;2075;PC;21;1.01;plats sans garniture;1;4.76
+3;4;2075;PC;21;1.01;quiches et tartes salées;3;14.29
+3;4;2075;PC;21;1.01;sandwichs baguette;4;19.05
+3;4;2075;PL;207;9.98;crème fraîche;1;0.48
+3;4;2075;PL;207;9.98;fromage blanc et petits suisses;7;3.38
+3;4;2075;PL;207;9.98;fromages affinés;25;12.08
+3;4;2075;PL;207;9.98;fromages fondus;7;3.38
+3;4;2075;PL;207;9.98;fromages frais non affinés;3;1.45
+3;4;2075;PL;207;9.98;lait aromatisé;1;0.48
+3;4;2075;PL;207;9.98;lait concentré ou en poudre;3;1.45
+3;4;2075;PL;207;9.98;lait en bouteille ou en brique;118;57.0
+3;4;2075;PL;207;9.98;yaourts et assimilés;45;21.74
+3;4;2075;PS;853;41.11;barres chocolatées;11;1.29
+3;4;2075;PS;853;41.11;barres céréalières;14;1.64
+3;4;2075;PS;853;41.11;beignets, crêpes et gaufres;21;2.46
+3;4;2075;PS;853;41.11;biscuits salés pour apéritif;38;4.45
+3;4;2075;PS;853;41.11;biscuits sucrés;130;15.24
+3;4;2075;PS;853;41.11;chocolat en tablettes;154;18.05
+3;4;2075;PS;853;41.11;compotes;9;1.06
+3;4;2075;PS;853;41.11;crème dessert et lait gélifié;9;1.06
+3;4;2075;PS;853;41.11;céréales aux fruits frais ou secs;2;0.23
+3;4;2075;PS;853;41.11;céréales chocolatées;2;0.23
+3;4;2075;PS;853;41.11;céréales sucrées, glacées ou au miel;6;0.7
+3;4;2075;PS;853;41.11;desserts glacés;1;0.12
+3;4;2075;PS;853;41.11;entremets;14;1.64
+3;4;2075;PS;853;41.11;fruits;306;35.87
+3;4;2075;PS;853;41.11;glaces;12;1.41
+3;4;2075;PS;853;41.11;gâteaux;140;16.41
+3;4;2075;PS;853;41.11;pâte chocolatée à tartiner;10;1.17
+3;4;2075;PS;853;41.11;pâtisseries et tartes;40;4.69
+3;4;2075;PS;853;41.11;sorbets;2;0.23
+3;4;2075;PS;853;41.11;viennoiserie;69;8.09
+3;4;2075;S;437;21.06;confiserie;99;22.65
+3;4;2075;S;437;21.06;confiture et miel;62;14.19
+3;4;2075;S;437;21.06;sucre et assimilés;301;68.88
+3;5;2778;A;89;3.2;aliments destinés à une alimentation particulière;89;100.0
+3;5;2778;BC;273;9.83;cacao, poudres et boissons cacaotées;9;3.3
+3;5;2778;BC;273;9.83;café;147;53.85
+3;5;2778;BC;273;9.83;chicorée et poudre maltée;8;2.93
+3;5;2778;BC;273;9.83;thé et infusions;110;40.29
+3;5;2778;BF;2199;79.16;autre eau;98;4.46
+3;5;2778;BF;2199;79.16;autres boissons fraîches;41;1.86
+3;5;2778;BF;2199;79.16;bière;33;1.5
+3;5;2778;BF;2199;79.16;boissons aux fruits;8;0.36
+3;5;2778;BF;2199;79.16;cidre;16;0.73
+3;5;2778;BF;2199;79.16;cocktails et mélanges;51;2.32
+3;5;2778;BF;2199;79.16;eau de source;426;19.37
+3;5;2778;BF;2199;79.16;eau du robinet;886;40.29
+3;5;2778;BF;2199;79.16;eau minérale gazeuse;93;4.23
+3;5;2778;BF;2199;79.16;eau minérale plate;389;17.69
+3;5;2778;BF;2199;79.16;jus de fruits (purs et à base  de concentré);88;4.0
+3;5;2778;BF;2199;79.16;sodas et colas;65;2.96
+3;5;2778;BF;2199;79.16;spiritueux et vins cuits;73;3.32
+3;5;2778;BF;2199;79.16;vin;516;23.47
+3;5;2778;C;1078;38.8;condiments d'accompagnement;138;12.8
+3;5;2778;C;1078;38.8;condiments d'assaisonnement;292;27.09
+3;5;2778;C;1078;38.8;herbes aromatiques;114;10.58
+3;5;2778;C;1078;38.8;sauces;726;67.35
+3;5;2778;C;1078;38.8;sel et épices;146;13.54
+3;5;2778;F;1835;66.05;autres céréales;9;0.49
+3;5;2778;F;1835;66.05;autres produits de panification;28;1.53
+3;5;2778;F;1835;66.05;biscottes et panification sèche;33;1.8
+3;5;2778;F;1835;66.05;blé;37;2.02
+3;5;2778;F;1835;66.05;pain;1352;73.68
+3;5;2778;F;1835;66.05;pommes de terre et apparentés;337;18.37
+3;5;2778;F;1835;66.05;pâtes alimentaires;286;15.59
+3;5;2778;F;1835;66.05;pâtes pour pâtisserie prêtes à l'emploi;2;0.11
+3;5;2778;F;1835;66.05;riz;152;8.28
+3;5;2778;L;1572;56.59;champignons;64;4.07
+3;5;2778;L;1572;56.59;choux;90;5.73
+3;5;2778;L;1572;56.59;haricots verts et petits pois (légumes potagers);157;9.99
+3;5;2778;L;1572;56.59;légumes feuilles;777;49.43
+3;5;2778;L;1572;56.59;légumes fruits;440;27.99
+3;5;2778;L;1572;56.59;légumes racines, tubercules ou bulbes;357;22.71
+3;5;2778;L;1572;56.59;légumes tiges;93;5.92
+3;5;2778;L;1572;56.59;mélanges de légumes, légumes préparés et autres légumes;175;11.13
+3;5;2778;MG;1352;48.67;autres graisses;9;0.67
+3;5;2778;MG;1352;48.67;beurre;596;44.08
+3;5;2778;MG;1352;48.67;huile;911;67.38
+3;5;2778;MG;1352;48.67;margarine;217;16.05
+3;5;2778;P;1690;60.84;abats;36;2.13
+3;5;2778;P;1690;60.84;agneau;20;1.18
+3;5;2778;P;1690;60.84;autre charcuterie ou charcuterie  sans précision;25;1.48
+3;5;2778;P;1690;60.84;autre viande;7;0.41
+3;5;2778;P;1690;60.84;autres fruits de mer ou fruits de mer sans précision;9;0.53
+3;5;2778;P;1690;60.84;autres poissons ou poissons sans précision;37;2.19
+3;5;2778;P;1690;60.84;boeuf en pièces ou haché;88;5.21
+3;5;2778;P;1690;60.84;crustacés;50;2.96
+3;5;2778;P;1690;60.84;fruits secs et châtaignes;41;2.43
+3;5;2778;P;1690;60.84;gibier;6;0.36
+3;5;2778;P;1690;60.84;jambons et charcuteries en pièces;365;21.6
+3;5;2778;P;1690;60.84;légumes secs;46;2.72
+3;5;2778;P;1690;60.84;légumes secs préparés;8;0.47
+3;5;2778;P;1690;60.84;mollusques et coquillage;50;2.96
+3;5;2778;P;1690;60.84;mélanges;5;0.3
+3;5;2778;P;1690;60.84;oeufs et dérivés;274;16.21
+3;5;2778;P;1690;60.84;oléagineux et graines;70;4.14
+3;5;2778;P;1690;60.84;poissons de mer;261;15.44
+3;5;2778;P;1690;60.84;porc;40;2.37
+3;5;2778;P;1690;60.84;produits dérivés des poissons;70;4.14
+3;5;2778;P;1690;60.84;pâtés, terrines, rillettes et foie gras;121;7.16
+3;5;2778;P;1690;60.84;saucisses, saucissons, andouilles et boudins;193;11.42
+3;5;2778;P;1690;60.84;veau;17;1.01
+3;5;2778;P;1690;60.84;volailles et lapins;284;16.8
+3;5;2778;PC;1323;47.62;autres sandwichs;55;4.16
+3;5;2778;PC;1323;47.62;beignets, crêpes et bouchées à la reine;66;4.99
+3;5;2778;PC;1323;47.62;bouillons;71;5.37
+3;5;2778;PC;1323;47.62;feuilletés et friands;22;1.66
+3;5;2778;PC;1323;47.62;garnitures composées;42;3.17
+3;5;2778;PC;1323;47.62;hamburgers et hot-dog;20;1.51
+3;5;2778;PC;1323;47.62;pizzas;103;7.79
+3;5;2778;PC;1323;47.62;plats garnis à base de viande;66;4.99
+3;5;2778;PC;1323;47.62;plats sans garniture;28;2.12
+3;5;2778;PC;1323;47.62;plats à base de fromage;3;0.23
+3;5;2778;PC;1323;47.62;plats à base de légumes;52;3.93
+3;5;2778;PC;1323;47.62;plats à base de pâtes ou de pommes de terre;108;8.16
+3;5;2778;PC;1323;47.62;potages et soupes;716;54.12
+3;5;2778;PC;1323;47.62;quiches et tartes salées;92;6.95
+3;5;2778;PC;1323;47.62;sandwichs baguette;15;1.13
+3;5;2778;PL;1657;59.65;autre lait;1;0.06
+3;5;2778;PL;1657;59.65;autres fromages ou fromage sans précision;5;0.3
+3;5;2778;PL;1657;59.65;crème fraîche;154;9.29
+3;5;2778;PL;1657;59.65;fromage blanc et petits suisses;207;12.49
+3;5;2778;PL;1657;59.65;fromages affinés;803;48.46
+3;5;2778;PL;1657;59.65;fromages fondus;53;3.2
+3;5;2778;PL;1657;59.65;fromages frais non affinés;68;4.1
+3;5;2778;PL;1657;59.65;lait concentré ou en poudre;1;0.06
+3;5;2778;PL;1657;59.65;lait en bouteille ou en brique;50;3.02
+3;5;2778;PL;1657;59.65;yaourts et assimilés;663;40.01
+3;5;2778;PS;1673;60.22;autres céréales pour petit déjeuner;3;0.18
+3;5;2778;PS;1673;60.22;barres chocolatées;4;0.24
+3;5;2778;PS;1673;60.22;beignets, crêpes et gaufres;49;2.93
+3;5;2778;PS;1673;60.22;biscuits salés pour apéritif;66;3.95
+3;5;2778;PS;1673;60.22;biscuits sucrés;37;2.21
+3;5;2778;PS;1673;60.22;chocolat en tablettes;78;4.66
+3;5;2778;PS;1673;60.22;compotes;123;7.35
+3;5;2778;PS;1673;60.22;crème dessert et lait gélifié;136;8.13
+3;5;2778;PS;1673;60.22;céréales aux fruits frais ou secs;2;0.12
+3;5;2778;PS;1673;60.22;céréales sucrées, glacées ou au miel;3;0.18
+3;5;2778;PS;1673;60.22;desserts glacés;9;0.54
+3;5;2778;PS;1673;60.22;entremets;72;4.3
+3;5;2778;PS;1673;60.22;fruits;1040;62.16
+3;5;2778;PS;1673;60.22;fruits au sirop;33;1.97
+3;5;2778;PS;1673;60.22;glaces;74;4.42
+3;5;2778;PS;1673;60.22;gâteaux;110;6.58
+3;5;2778;PS;1673;60.22;pâte chocolatée à tartiner;8;0.48
+3;5;2778;PS;1673;60.22;pâtisseries et tartes;74;4.42
+3;5;2778;PS;1673;60.22;sorbets;7;0.42
+3;5;2778;PS;1673;60.22;viennoiserie;8;0.48
+3;5;2778;S;382;13.75;confiserie;10;2.62
+3;5;2778;S;382;13.75;confiture et miel;125;32.72
+3;5;2778;S;382;13.75;sucre et assimilés;262;68.59
+4;1;1774;A;65;3.66;aliments destinés à une alimentation particulière;65;100.0
+4;1;1774;BC;1640;92.45;cacao, poudres et boissons cacaotées;178;10.85
+4;1;1774;BC;1640;92.45;café;1046;63.78
+4;1;1774;BC;1640;92.45;chicorée et poudre maltée;125;7.62
+4;1;1774;BC;1640;92.45;thé et infusions;320;19.51
+4;1;1774;BF;748;42.16;autre eau;4;0.53
+4;1;1774;BF;748;42.16;autres boissons fraîches;44;5.88
+4;1;1774;BF;748;42.16;boissons aux fruits;3;0.4
+4;1;1774;BF;748;42.16;eau de source;65;8.69
+4;1;1774;BF;748;42.16;eau du robinet;277;37.03
+4;1;1774;BF;748;42.16;eau minérale plate;48;6.42
+4;1;1774;BF;748;42.16;jus de fruits (purs et à base  de concentré);398;53.21
+4;1;1774;BF;748;42.16;nectars;8;1.07
+4;1;1774;BF;748;42.16;sodas et colas;3;0.4
+4;1;1774;C;4;0.23;condiments d'accompagnement;2;50.0
+4;1;1774;C;4;0.23;condiments d'assaisonnement;1;25.0
+4;1;1774;C;4;0.23;sel et épices;2;50.0
+4;1;1774;F;1054;59.41;autres céréales;10;0.95
+4;1;1774;F;1054;59.41;autres produits de panification;5;0.47
+4;1;1774;F;1054;59.41;biscottes et panification sèche;196;18.6
+4;1;1774;F;1054;59.41;blé;2;0.19
+4;1;1774;F;1054;59.41;pain;863;81.88
+4;1;1774;L;3;0.17;haricots verts et petits pois (légumes potagers);2;66.67
+4;1;1774;L;3;0.17;légumes racines, tubercules ou bulbes;1;33.33
+4;1;1774;MG;761;42.9;beurre;548;72.01
+4;1;1774;MG;761;42.9;huile;6;0.79
+4;1;1774;MG;761;42.9;margarine;210;27.6
+4;1;1774;P;64;3.61;agneau;1;1.56
+4;1;1774;P;64;3.61;fruits secs et châtaignes;24;37.5
+4;1;1774;P;64;3.61;jambons et charcuteries en pièces;11;17.19
+4;1;1774;P;64;3.61;oeufs et dérivés;5;7.81
+4;1;1774;P;64;3.61;oléagineux et graines;11;17.19
+4;1;1774;P;64;3.61;poissons de mer;1;1.56
+4;1;1774;P;64;3.61;produits dérivés des poissons;4;6.25
+4;1;1774;P;64;3.61;pâtés, terrines, rillettes et foie gras;5;7.81
+4;1;1774;P;64;3.61;saucisses, saucissons, andouilles et boudins;1;1.56
+4;1;1774;P;64;3.61;volailles et lapins;2;3.12
+4;1;1774;PC;2;0.11;beignets, crêpes et bouchées à la reine;1;50.0
+4;1;1774;PC;2;0.11;quiches et tartes salées;1;50.0
+4;1;1774;PL;751;42.33;autre lait;23;3.06
+4;1;1774;PL;751;42.33;fromage blanc et petits suisses;40;5.33
+4;1;1774;PL;751;42.33;fromages affinés;31;4.13
+4;1;1774;PL;751;42.33;fromages fondus;7;0.93
+4;1;1774;PL;751;42.33;fromages frais non affinés;1;0.13
+4;1;1774;PL;751;42.33;lait aromatisé;1;0.13
+4;1;1774;PL;751;42.33;lait concentré ou en poudre;21;2.8
+4;1;1774;PL;751;42.33;lait en bouteille ou en brique;556;74.03
+4;1;1774;PL;751;42.33;yaourts et assimilés;108;14.38
+4;1;1774;PS;749;42.22;autres céréales pour petit déjeuner;25;3.34
+4;1;1774;PS;749;42.22;barres céréalières;9;1.2
+4;1;1774;PS;749;42.22;beignets, crêpes et gaufres;11;1.47
+4;1;1774;PS;749;42.22;biscuits salés pour apéritif;3;0.4
+4;1;1774;PS;749;42.22;biscuits sucrés;128;17.09
+4;1;1774;PS;749;42.22;chocolat en tablettes;14;1.87
+4;1;1774;PS;749;42.22;compotes;22;2.94
+4;1;1774;PS;749;42.22;crème dessert et lait gélifié;2;0.27
+4;1;1774;PS;749;42.22;céréales aux fruits frais ou secs;13;1.74
+4;1;1774;PS;749;42.22;céréales chocolatées;14;1.87
+4;1;1774;PS;749;42.22;céréales sucrées, glacées ou au miel;57;7.61
+4;1;1774;PS;749;42.22;entremets;1;0.13
+4;1;1774;PS;749;42.22;fruits;223;29.77
+4;1;1774;PS;749;42.22;gâteaux;59;7.88
+4;1;1774;PS;749;42.22;pâte chocolatée à tartiner;40;5.34
+4;1;1774;PS;749;42.22;pâtisseries et tartes;18;2.4
+4;1;1774;PS;749;42.22;viennoiserie;232;30.97
+4;1;1774;S;1172;66.07;confiserie;7;0.6
+4;1;1774;S;1172;66.07;confiture et miel;670;57.17
+4;1;1774;S;1172;66.07;sucre et assimilés;769;65.61
+4;3;1829;A;35;1.91;aliments destinés à une alimentation particulière;35;100.0
+4;3;1829;BC;782;42.76;cacao, poudres et boissons cacaotées;1;0.13
+4;3;1829;BC;782;42.76;café;711;90.92
+4;3;1829;BC;782;42.76;chicorée et poudre maltée;24;3.07
+4;3;1829;BC;782;42.76;thé et infusions;60;7.67
+4;3;1829;BF;1580;86.39;autre eau;77;4.87
+4;3;1829;BF;1580;86.39;autres boissons fraîches;50;3.16
+4;3;1829;BF;1580;86.39;bière;45;2.85
+4;3;1829;BF;1580;86.39;boissons aux fruits;9;0.57
+4;3;1829;BF;1580;86.39;cidre;10;0.63
+4;3;1829;BF;1580;86.39;cocktails et mélanges;39;2.47
+4;3;1829;BF;1580;86.39;eau de source;289;18.29
+4;3;1829;BF;1580;86.39;eau du robinet;664;42.03
+4;3;1829;BF;1580;86.39;eau minérale gazeuse;81;5.13
+4;3;1829;BF;1580;86.39;eau minérale plate;214;13.54
+4;3;1829;BF;1580;86.39;jus de fruits (purs et à base  de concentré);73;4.62
+4;3;1829;BF;1580;86.39;nectars;1;0.06
+4;3;1829;BF;1580;86.39;sodas et colas;67;4.24
+4;3;1829;BF;1580;86.39;spiritueux et vins cuits;36;2.28
+4;3;1829;BF;1580;86.39;vin;441;27.91
+4;3;1829;C;813;44.45;condiments d'accompagnement;105;12.92
+4;3;1829;C;813;44.45;condiments d'assaisonnement;189;23.25
+4;3;1829;C;813;44.45;herbes aromatiques;89;10.95
+4;3;1829;C;813;44.45;sauces;547;67.28
+4;3;1829;C;813;44.45;sel et épices;141;17.34
+4;3;1829;F;1421;77.69;autres céréales;1;0.07
+4;3;1829;F;1421;77.69;autres produits de panification;7;0.49
+4;3;1829;F;1421;77.69;biscottes et panification sèche;4;0.28
+4;3;1829;F;1421;77.69;blé;37;2.6
+4;3;1829;F;1421;77.69;pain;1046;73.61
+4;3;1829;F;1421;77.69;pommes de terre et apparentés;435;30.61
+4;3;1829;F;1421;77.69;pâtes alimentaires;196;13.79
+4;3;1829;F;1421;77.69;pâtes pour pâtisserie prêtes à l'emploi;1;0.07
+4;3;1829;F;1421;77.69;riz;192;13.51
+4;3;1829;L;1251;68.4;champignons;70;5.6
+4;3;1829;L;1251;68.4;choux;91;7.27
+4;3;1829;L;1251;68.4;haricots verts et petits pois (légumes potagers);251;20.06
+4;3;1829;L;1251;68.4;légumes feuilles;454;36.29
+4;3;1829;L;1251;68.4;légumes fruits;411;32.85
+4;3;1829;L;1251;68.4;légumes racines, tubercules ou bulbes;325;25.98
+4;3;1829;L;1251;68.4;légumes tiges;89;7.11
+4;3;1829;L;1251;68.4;mélanges de légumes, légumes préparés et autres légumes;173;13.83
+4;3;1829;MG;1058;57.85;autres graisses;10;0.95
+4;3;1829;MG;1058;57.85;beurre;537;50.76
+4;3;1829;MG;1058;57.85;huile;706;66.73
+4;3;1829;MG;1058;57.85;margarine;186;17.58
+4;3;1829;P;1487;81.3;abats;33;2.22
+4;3;1829;P;1487;81.3;agneau;58;3.9
+4;3;1829;P;1487;81.3;autre charcuterie ou charcuterie  sans précision;10;0.67
+4;3;1829;P;1487;81.3;autre viande;15;1.01
+4;3;1829;P;1487;81.3;autres fruits de mer ou fruits de mer sans précision;9;0.61
+4;3;1829;P;1487;81.3;autres poissons ou poissons sans précision;52;3.5
+4;3;1829;P;1487;81.3;boeuf en pièces ou haché;270;18.16
+4;3;1829;P;1487;81.3;crustacés;37;2.49
+4;3;1829;P;1487;81.3;fruits secs et châtaignes;23;1.55
+4;3;1829;P;1487;81.3;gibier;9;0.61
+4;3;1829;P;1487;81.3;jambons et charcuteries en pièces;174;11.7
+4;3;1829;P;1487;81.3;légumes secs;53;3.56
+4;3;1829;P;1487;81.3;légumes secs préparés;16;1.08
+4;3;1829;P;1487;81.3;mollusques et coquillage;42;2.82
+4;3;1829;P;1487;81.3;mélanges;5;0.34
+4;3;1829;P;1487;81.3;oeufs et dérivés;112;7.53
+4;3;1829;P;1487;81.3;oléagineux et graines;23;1.55
+4;3;1829;P;1487;81.3;poissons d'eau douce;1;0.07
+4;3;1829;P;1487;81.3;poissons de mer;244;16.41
+4;3;1829;P;1487;81.3;porc;133;8.94
+4;3;1829;P;1487;81.3;produits dérivés des poissons;67;4.51
+4;3;1829;P;1487;81.3;pâtés, terrines, rillettes et foie gras;87;5.85
+4;3;1829;P;1487;81.3;saucisses, saucissons, andouilles et boudins;138;9.28
+4;3;1829;P;1487;81.3;veau;64;4.3
+4;3;1829;P;1487;81.3;volailles et lapins;320;21.52
+4;3;1829;PC;492;26.9;autres sandwichs;22;4.47
+4;3;1829;PC;492;26.9;beignets, crêpes et bouchées à la reine;30;6.1
+4;3;1829;PC;492;26.9;bouillons;10;2.03
+4;3;1829;PC;492;26.9;feuilletés et friands;15;3.05
+4;3;1829;PC;492;26.9;garnitures composées;47;9.55
+4;3;1829;PC;492;26.9;hamburgers et hot-dog;10;2.03
+4;3;1829;PC;492;26.9;pizzas;36;7.32
+4;3;1829;PC;492;26.9;plats garnis à base de viande;75;15.24
+4;3;1829;PC;492;26.9;plats sans garniture;34;6.91
+4;3;1829;PC;492;26.9;plats à base de légumes;50;10.16
+4;3;1829;PC;492;26.9;plats à base de pâtes ou de pommes de terre;78;15.85
+4;3;1829;PC;492;26.9;potages et soupes;46;9.35
+4;3;1829;PC;492;26.9;quiches et tartes salées;36;7.32
+4;3;1829;PC;492;26.9;sandwichs baguette;43;8.74
+4;3;1829;PL;1064;58.17;autres fromages ou fromage sans précision;5;0.47
+4;3;1829;PL;1064;58.17;crème fraîche;117;11.0
+4;3;1829;PL;1064;58.17;fromage blanc et petits suisses;46;4.32
+4;3;1829;PL;1064;58.17;fromages affinés;699;65.7
+4;3;1829;PL;1064;58.17;fromages fondus;48;4.51
+4;3;1829;PL;1064;58.17;fromages frais non affinés;49;4.61
+4;3;1829;PL;1064;58.17;lait concentré ou en poudre;2;0.19
+4;3;1829;PL;1064;58.17;lait en bouteille ou en brique;16;1.5
+4;3;1829;PL;1064;58.17;yaourts et assimilés;255;23.97
+4;3;1829;PS;1204;65.83;barres chocolatées;2;0.17
+4;3;1829;PS;1204;65.83;barres céréalières;3;0.25
+4;3;1829;PS;1204;65.83;beignets, crêpes et gaufres;19;1.58
+4;3;1829;PS;1204;65.83;biscuits salés pour apéritif;33;2.74
+4;3;1829;PS;1204;65.83;biscuits sucrés;35;2.91
+4;3;1829;PS;1204;65.83;chocolat en tablettes;122;10.13
+4;3;1829;PS;1204;65.83;compotes;66;5.48
+4;3;1829;PS;1204;65.83;crème dessert et lait gélifié;71;5.9
+4;3;1829;PS;1204;65.83;entremets;83;6.89
+4;3;1829;PS;1204;65.83;fruits;765;63.54
+4;3;1829;PS;1204;65.83;fruits au sirop;29;2.41
+4;3;1829;PS;1204;65.83;glaces;53;4.4
+4;3;1829;PS;1204;65.83;gâteaux;75;6.23
+4;3;1829;PS;1204;65.83;pâte chocolatée à tartiner;3;0.25
+4;3;1829;PS;1204;65.83;pâtisseries et tartes;88;7.31
+4;3;1829;PS;1204;65.83;sorbets;5;0.42
+4;3;1829;PS;1204;65.83;viennoiserie;12;1.0
+4;3;1829;S;480;26.24;confiserie;33;6.88
+4;3;1829;S;480;26.24;confiture et miel;27;5.62
+4;3;1829;S;480;26.24;sucre et assimilés;434;90.42
+4;4;1281;A;13;1.01;aliments destinés à une alimentation particulière;13;100.0
+4;4;1281;BC;468;36.53;cacao, poudres et boissons cacaotées;15;3.21
+4;4;1281;BC;468;36.53;café;272;58.12
+4;4;1281;BC;468;36.53;chicorée et poudre maltée;11;2.35
+4;4;1281;BC;468;36.53;thé et infusions;184;39.32
+4;4;1281;BF;874;68.23;autre eau;34;3.89
+4;4;1281;BF;874;68.23;autres boissons fraîches;52;5.95
+4;4;1281;BF;874;68.23;bière;83;9.5
+4;4;1281;BF;874;68.23;boissons aux fruits;2;0.23
+4;4;1281;BF;874;68.23;cidre;5;0.57
+4;4;1281;BF;874;68.23;cocktails et mélanges;25;2.86
+4;4;1281;BF;874;68.23;eau de source;146;16.7
+4;4;1281;BF;874;68.23;eau du robinet;335;38.33
+4;4;1281;BF;874;68.23;eau minérale gazeuse;44;5.03
+4;4;1281;BF;874;68.23;eau minérale plate;128;14.65
+4;4;1281;BF;874;68.23;jus de fruits (purs et à base  de concentré);50;5.72
+4;4;1281;BF;874;68.23;nectars;3;0.34
+4;4;1281;BF;874;68.23;sodas et colas;64;7.32
+4;4;1281;BF;874;68.23;spiritueux et vins cuits;24;2.75
+4;4;1281;BF;874;68.23;vin;30;3.43
+4;4;1281;C;10;0.78;condiments d'accompagnement;8;80.0
+4;4;1281;C;10;0.78;herbes aromatiques;2;20.0
+4;4;1281;C;10;0.78;sauces;2;20.0
+4;4;1281;F;73;5.7;autres céréales;1;1.37
+4;4;1281;F;73;5.7;autres produits de panification;1;1.37
+4;4;1281;F;73;5.7;biscottes et panification sèche;5;6.85
+4;4;1281;F;73;5.7;pain;67;91.78
+4;4;1281;F;73;5.7;pommes de terre et apparentés;2;2.74
+4;4;1281;L;9;0.7;légumes fruits;7;77.78
+4;4;1281;L;9;0.7;légumes racines, tubercules ou bulbes;3;33.33
+4;4;1281;MG;16;1.25;autres graisses;2;12.5
+4;4;1281;MG;16;1.25;beurre;10;62.5
+4;4;1281;MG;16;1.25;margarine;4;25.0
+4;4;1281;P;62;4.84;fruits secs et châtaignes;7;11.29
+4;4;1281;P;62;4.84;jambons et charcuteries en pièces;2;3.23
+4;4;1281;P;62;4.84;mollusques et coquillage;1;1.61
+4;4;1281;P;62;4.84;mélanges;7;11.29
+4;4;1281;P;62;4.84;oléagineux et graines;26;41.94
+4;4;1281;P;62;4.84;poissons de mer;2;3.23
+4;4;1281;P;62;4.84;produits dérivés des poissons;3;4.84
+4;4;1281;P;62;4.84;pâtés, terrines, rillettes et foie gras;6;9.68
+4;4;1281;P;62;4.84;saucisses, saucissons, andouilles et boudins;11;17.74
+4;4;1281;P;62;4.84;volailles et lapins;2;3.23
+4;4;1281;PC;11;0.86;autres sandwichs;5;45.45
+4;4;1281;PC;11;0.86;feuilletés et friands;1;9.09
+4;4;1281;PC;11;0.86;garnitures composées;1;9.09
+4;4;1281;PC;11;0.86;pizzas;1;9.09
+4;4;1281;PC;11;0.86;sandwichs baguette;3;27.27
+4;4;1281;PL;111;8.67;fromage blanc et petits suisses;1;0.9
+4;4;1281;PL;111;8.67;fromages affinés;19;17.12
+4;4;1281;PL;111;8.67;fromages fondus;6;5.41
+4;4;1281;PL;111;8.67;fromages frais non affinés;2;1.8
+4;4;1281;PL;111;8.67;lait aromatisé;1;0.9
+4;4;1281;PL;111;8.67;lait en bouteille ou en brique;58;52.25
+4;4;1281;PL;111;8.67;yaourts et assimilés;28;25.23
+4;4;1281;PS;528;41.22;barres chocolatées;10;1.89
+4;4;1281;PS;528;41.22;barres céréalières;12;2.27
+4;4;1281;PS;528;41.22;beignets, crêpes et gaufres;23;4.36
+4;4;1281;PS;528;41.22;biscuits salés pour apéritif;25;4.73
+4;4;1281;PS;528;41.22;biscuits sucrés;112;21.21
+4;4;1281;PS;528;41.22;chocolat en tablettes;74;14.02
+4;4;1281;PS;528;41.22;compotes;4;0.76
+4;4;1281;PS;528;41.22;crème dessert et lait gélifié;6;1.14
+4;4;1281;PS;528;41.22;céréales chocolatées;1;0.19
+4;4;1281;PS;528;41.22;céréales sucrées, glacées ou au miel;2;0.38
+4;4;1281;PS;528;41.22;desserts glacés;1;0.19
+4;4;1281;PS;528;41.22;entremets;10;1.89
+4;4;1281;PS;528;41.22;fruits;212;40.15
+4;4;1281;PS;528;41.22;glaces;7;1.33
+4;4;1281;PS;528;41.22;gâteaux;66;12.5
+4;4;1281;PS;528;41.22;pâte chocolatée à tartiner;11;2.08
+4;4;1281;PS;528;41.22;pâtisseries et tartes;25;4.73
+4;4;1281;PS;528;41.22;viennoiserie;39;7.39
+4;4;1281;S;288;22.48;confiserie;60;20.83
+4;4;1281;S;288;22.48;confiture et miel;31;10.76
+4;4;1281;S;288;22.48;sucre et assimilés;224;77.78
+4;5;1830;A;18;0.98;aliments destinés à une alimentation particulière;18;100.0
+4;5;1830;BC;252;13.77;cacao, poudres et boissons cacaotées;3;1.19
+4;5;1830;BC;252;13.77;café;191;75.79
+4;5;1830;BC;252;13.77;chicorée et poudre maltée;6;2.38
+4;5;1830;BC;252;13.77;thé et infusions;52;20.63
+4;5;1830;BF;1562;85.36;autre eau;76;4.87
+4;5;1830;BF;1562;85.36;autres boissons fraîches;41;2.62
+4;5;1830;BF;1562;85.36;bière;60;3.84
+4;5;1830;BF;1562;85.36;boissons aux fruits;6;0.38
+4;5;1830;BF;1562;85.36;cidre;19;1.22
+4;5;1830;BF;1562;85.36;cocktails et mélanges;47;3.01
+4;5;1830;BF;1562;85.36;eau de source;288;18.44
+4;5;1830;BF;1562;85.36;eau du robinet;578;37.0
+4;5;1830;BF;1562;85.36;eau minérale gazeuse;64;4.1
+4;5;1830;BF;1562;85.36;eau minérale plate;204;13.06
+4;5;1830;BF;1562;85.36;jus de fruits (purs et à base  de concentré);52;3.33
+4;5;1830;BF;1562;85.36;sodas et colas;69;4.42
+4;5;1830;BF;1562;85.36;spiritueux et vins cuits;71;4.55
+4;5;1830;BF;1562;85.36;vin;545;34.89
+4;5;1830;C;737;40.27;condiments d'accompagnement;97;13.16
+4;5;1830;C;737;40.27;condiments d'assaisonnement;173;23.47
+4;5;1830;C;737;40.27;herbes aromatiques;72;9.77
+4;5;1830;C;737;40.27;sauces;471;63.91
+4;5;1830;C;737;40.27;sel et épices;136;18.45
+4;5;1830;F;1346;73.55;autres céréales;2;0.15
+4;5;1830;F;1346;73.55;autres produits de panification;7;0.52
+4;5;1830;F;1346;73.55;biscottes et panification sèche;15;1.11
+4;5;1830;F;1346;73.55;blé;26;1.93
+4;5;1830;F;1346;73.55;pain;1036;76.97
+4;5;1830;F;1346;73.55;pommes de terre et apparentés;269;19.99
+4;5;1830;F;1346;73.55;pâtes alimentaires;215;15.97
+4;5;1830;F;1346;73.55;riz;125;9.29
+4;5;1830;L;1072;58.58;champignons;56;5.22
+4;5;1830;L;1072;58.58;choux;51;4.76
+4;5;1830;L;1072;58.58;haricots verts et petits pois (légumes potagers);101;9.42
+4;5;1830;L;1072;58.58;légumes feuilles;505;47.11
+4;5;1830;L;1072;58.58;légumes fruits;329;30.69
+4;5;1830;L;1072;58.58;légumes racines, tubercules ou bulbes;236;22.01
+4;5;1830;L;1072;58.58;légumes tiges;64;5.97
+4;5;1830;L;1072;58.58;mélanges de légumes, légumes préparés et autres légumes;112;10.45
+4;5;1830;MG;985;53.83;autres graisses;8;0.81
+4;5;1830;MG;985;53.83;beurre;479;48.63
+4;5;1830;MG;985;53.83;huile;655;66.5
+4;5;1830;MG;985;53.83;margarine;118;11.98
+4;5;1830;P;1255;68.58;abats;21;1.67
+4;5;1830;P;1255;68.58;agneau;22;1.75
+4;5;1830;P;1255;68.58;autre charcuterie ou charcuterie  sans précision;11;0.88
+4;5;1830;P;1255;68.58;autre viande;18;1.43
+4;5;1830;P;1255;68.58;autres fruits de mer ou fruits de mer sans précision;4;0.32
+4;5;1830;P;1255;68.58;autres poissons ou poissons sans précision;29;2.31
+4;5;1830;P;1255;68.58;boeuf en pièces ou haché;133;10.6
+4;5;1830;P;1255;68.58;crustacés;25;1.99
+4;5;1830;P;1255;68.58;fruits secs et châtaignes;32;2.55
+4;5;1830;P;1255;68.58;gibier;2;0.16
+4;5;1830;P;1255;68.58;jambons et charcuteries en pièces;286;22.79
+4;5;1830;P;1255;68.58;légumes secs;35;2.79
+4;5;1830;P;1255;68.58;légumes secs préparés;11;0.88
+4;5;1830;P;1255;68.58;mollusques et coquillage;51;4.06
+4;5;1830;P;1255;68.58;mélanges;5;0.4
+4;5;1830;P;1255;68.58;oeufs et dérivés;147;11.71
+4;5;1830;P;1255;68.58;oléagineux et graines;58;4.62
+4;5;1830;P;1255;68.58;poissons d'eau douce;1;0.08
+4;5;1830;P;1255;68.58;poissons de mer;183;14.58
+4;5;1830;P;1255;68.58;porc;63;5.02
+4;5;1830;P;1255;68.58;produits dérivés des poissons;58;4.62
+4;5;1830;P;1255;68.58;pâtés, terrines, rillettes et foie gras;82;6.53
+4;5;1830;P;1255;68.58;saucisses, saucissons, andouilles et boudins;169;13.47
+4;5;1830;P;1255;68.58;veau;18;1.43
+4;5;1830;P;1255;68.58;volailles et lapins;197;15.7
+4;5;1830;PC;762;41.64;autres sandwichs;37;4.86
+4;5;1830;PC;762;41.64;beignets, crêpes et bouchées à la reine;35;4.59
+4;5;1830;PC;762;41.64;bouillons;22;2.89
+4;5;1830;PC;762;41.64;feuilletés et friands;14;1.84
+4;5;1830;PC;762;41.64;garnitures composées;33;4.33
+4;5;1830;PC;762;41.64;hamburgers et hot-dog;15;1.97
+4;5;1830;PC;762;41.64;pizzas;96;12.6
+4;5;1830;PC;762;41.64;plats garnis à base de viande;43;5.64
+4;5;1830;PC;762;41.64;plats sans garniture;23;3.02
+4;5;1830;PC;762;41.64;plats à base de fromage;2;0.26
+4;5;1830;PC;762;41.64;plats à base de légumes;52;6.82
+4;5;1830;PC;762;41.64;plats à base de pâtes ou de pommes de terre;73;9.58
+4;5;1830;PC;762;41.64;potages et soupes;340;44.62
+4;5;1830;PC;762;41.64;quiches et tartes salées;59;7.74
+4;5;1830;PC;762;41.64;sandwichs baguette;9;1.18
+4;5;1830;PL;1124;61.42;autres fromages ou fromage sans précision;6;0.53
+4;5;1830;PL;1124;61.42;crème fraîche;117;10.41
+4;5;1830;PL;1124;61.42;fromage blanc et petits suisses;82;7.3
+4;5;1830;PL;1124;61.42;fromages affinés;757;67.35
+4;5;1830;PL;1124;61.42;fromages fondus;58;5.16
+4;5;1830;PL;1124;61.42;fromages frais non affinés;52;4.63
+4;5;1830;PL;1124;61.42;lait en bouteille ou en brique;31;2.76
+4;5;1830;PL;1124;61.42;yaourts et assimilés;272;24.2
+4;5;1830;PS;1134;61.97;barres chocolatées;3;0.26
+4;5;1830;PS;1134;61.97;barres céréalières;2;0.18
+4;5;1830;PS;1134;61.97;beignets, crêpes et gaufres;35;3.09
+4;5;1830;PS;1134;61.97;biscuits salés pour apéritif;53;4.67
+4;5;1830;PS;1134;61.97;biscuits sucrés;23;2.03
+4;5;1830;PS;1134;61.97;chocolat en tablettes;73;6.44
+4;5;1830;PS;1134;61.97;compotes;86;7.58
+4;5;1830;PS;1134;61.97;crème dessert et lait gélifié;85;7.5
+4;5;1830;PS;1134;61.97;céréales sucrées, glacées ou au miel;1;0.09
+4;5;1830;PS;1134;61.97;desserts glacés;5;0.44
+4;5;1830;PS;1134;61.97;entremets;77;6.79
+4;5;1830;PS;1134;61.97;fruits;665;58.64
+4;5;1830;PS;1134;61.97;fruits au sirop;12;1.06
+4;5;1830;PS;1134;61.97;glaces;75;6.61
+4;5;1830;PS;1134;61.97;gâteaux;74;6.53
+4;5;1830;PS;1134;61.97;pâte chocolatée à tartiner;8;0.71
+4;5;1830;PS;1134;61.97;pâtisseries et tartes;66;5.82
+4;5;1830;PS;1134;61.97;sorbets;14;1.23
+4;5;1830;PS;1134;61.97;viennoiserie;7;0.62
+4;5;1830;S;242;13.22;confiserie;25;10.33
+4;5;1830;S;242;13.22;confiture et miel;37;15.29
+4;5;1830;S;242;13.22;sucre et assimilés;190;78.51
+5;1;2441;A;265;10.86;aliments destinés à une alimentation particulière;265;100.0
+5;1;2441;BC;2254;92.34;cacao, poudres et boissons cacaotées;197;8.74
+5;1;2441;BC;2254;92.34;café;1416;62.82
+5;1;2441;BC;2254;92.34;chicorée et poudre maltée;227;10.07
+5;1;2441;BC;2254;92.34;thé et infusions;489;21.69
+5;1;2441;BF;1069;43.79;autre eau;38;3.55
+5;1;2441;BF;1069;43.79;autres boissons fraîches;47;4.4
+5;1;2441;BF;1069;43.79;boissons aux fruits;1;0.09
+5;1;2441;BF;1069;43.79;eau de source;90;8.42
+5;1;2441;BF;1069;43.79;eau du robinet;319;29.84
+5;1;2441;BF;1069;43.79;eau minérale gazeuse;15;1.4
+5;1;2441;BF;1069;43.79;eau minérale plate;168;15.72
+5;1;2441;BF;1069;43.79;jus de fruits (purs et à base  de concentré);516;48.27
+5;1;2441;BF;1069;43.79;nectars;13;1.22
+5;1;2441;BF;1069;43.79;sodas et colas;1;0.09
+5;1;2441;BF;1069;43.79;spiritueux et vins cuits;1;0.09
+5;1;2441;BF;1069;43.79;vin;7;0.65
+5;1;2441;C;15;0.61;condiments d'assaisonnement;8;53.33
+5;1;2441;C;15;0.61;sauces;6;40.0
+5;1;2441;C;15;0.61;sel et épices;3;20.0
+5;1;2441;F;1633;66.9;autres céréales;7;0.43
+5;1;2441;F;1633;66.9;autres produits de panification;1;0.06
+5;1;2441;F;1633;66.9;biscottes et panification sèche;311;19.04
+5;1;2441;F;1633;66.9;blé;5;0.31
+5;1;2441;F;1633;66.9;pain;1331;81.51
+5;1;2441;L;5;0.2;légumes fruits;3;60.0
+5;1;2441;L;5;0.2;légumes racines, tubercules ou bulbes;2;40.0
+5;1;2441;MG;1119;45.84;beurre;706;63.09
+5;1;2441;MG;1119;45.84;huile;11;0.98
+5;1;2441;MG;1119;45.84;margarine;407;36.37
+5;1;2441;P;81;3.32;autre charcuterie ou charcuterie  sans précision;7;8.64
+5;1;2441;P;81;3.32;fruits secs et châtaignes;32;39.51
+5;1;2441;P;81;3.32;jambons et charcuteries en pièces;11;13.58
+5;1;2441;P;81;3.32;oeufs et dérivés;9;11.11
+5;1;2441;P;81;3.32;oléagineux et graines;16;19.75
+5;1;2441;P;81;3.32;poissons de mer;1;1.23
+5;1;2441;P;81;3.32;pâtés, terrines, rillettes et foie gras;5;6.17
+5;1;2441;P;81;3.32;saucisses, saucissons, andouilles et boudins;8;9.88
+5;1;2441;PC;13;0.53;autres sandwichs;1;7.69
+5;1;2441;PC;13;0.53;bouillons;4;30.77
+5;1;2441;PC;13;0.53;plats à base de pâtes ou de pommes de terre;1;7.69
+5;1;2441;PC;13;0.53;potages et soupes;3;23.08
+5;1;2441;PC;13;0.53;sandwichs baguette;4;30.77
+5;1;2441;PL;1160;47.52;autre lait;31;2.67
+5;1;2441;PL;1160;47.52;autres fromages ou fromage sans précision;1;0.09
+5;1;2441;PL;1160;47.52;crème fraîche;21;1.81
+5;1;2441;PL;1160;47.52;fromage blanc et petits suisses;36;3.1
+5;1;2441;PL;1160;47.52;fromages affinés;69;5.95
+5;1;2441;PL;1160;47.52;fromages fondus;17;1.47
+5;1;2441;PL;1160;47.52;fromages frais non affinés;2;0.17
+5;1;2441;PL;1160;47.52;lait aromatisé;3;0.26
+5;1;2441;PL;1160;47.52;lait concentré ou en poudre;19;1.64
+5;1;2441;PL;1160;47.52;lait en bouteille ou en brique;789;68.02
+5;1;2441;PL;1160;47.52;yaourts et assimilés;227;19.57
+5;1;2441;PS;935;38.3;autres céréales pour petit déjeuner;49;5.24
+5;1;2441;PS;935;38.3;barres chocolatées;1;0.11
+5;1;2441;PS;935;38.3;barres céréalières;5;0.53
+5;1;2441;PS;935;38.3;beignets, crêpes et gaufres;13;1.39
+5;1;2441;PS;935;38.3;biscuits salés pour apéritif;3;0.32
+5;1;2441;PS;935;38.3;biscuits sucrés;89;9.52
+5;1;2441;PS;935;38.3;chocolat en tablettes;30;3.21
+5;1;2441;PS;935;38.3;compotes;72;7.7
+5;1;2441;PS;935;38.3;crème dessert et lait gélifié;20;2.14
+5;1;2441;PS;935;38.3;céréales aux fruits frais ou secs;40;4.28
+5;1;2441;PS;935;38.3;céréales chocolatées;17;1.82
+5;1;2441;PS;935;38.3;céréales sucrées, glacées ou au miel;114;12.19
+5;1;2441;PS;935;38.3;entremets;2;0.21
+5;1;2441;PS;935;38.3;fruits;335;35.83
+5;1;2441;PS;935;38.3;fruits au sirop;1;0.11
+5;1;2441;PS;935;38.3;gâteaux;70;7.49
+5;1;2441;PS;935;38.3;pâte chocolatée à tartiner;23;2.46
+5;1;2441;PS;935;38.3;pâtisseries et tartes;4;0.43
+5;1;2441;PS;935;38.3;viennoiserie;233;24.92
+5;1;2441;S;1457;59.69;confiserie;3;0.21
+5;1;2441;S;1457;59.69;confiture et miel;892;61.22
+5;1;2441;S;1457;59.69;sucre et assimilés;835;57.31
+5;3;2437;A;98;4.02;aliments destinés à une alimentation particulière;98;100.0
+5;3;2437;BC;893;36.64;cacao, poudres et boissons cacaotées;2;0.22
+5;3;2437;BC;893;36.64;café;794;88.91
+5;3;2437;BC;893;36.64;chicorée et poudre maltée;14;1.57
+5;3;2437;BC;893;36.64;thé et infusions;91;10.19
+5;3;2437;BF;2013;82.6;autre eau;121;6.01
+5;3;2437;BF;2013;82.6;autres boissons fraîches;34;1.69
+5;3;2437;BF;2013;82.6;bière;28;1.39
+5;3;2437;BF;2013;82.6;boissons aux fruits;2;0.1
+5;3;2437;BF;2013;82.6;cidre;8;0.4
+5;3;2437;BF;2013;82.6;cocktails et mélanges;37;1.84
+5;3;2437;BF;2013;82.6;eau de source;337;16.74
+5;3;2437;BF;2013;82.6;eau du robinet;768;38.15
+5;3;2437;BF;2013;82.6;eau minérale gazeuse;94;4.67
+5;3;2437;BF;2013;82.6;eau minérale plate;396;19.67
+5;3;2437;BF;2013;82.6;jus de fruits (purs et à base  de concentré);65;3.23
+5;3;2437;BF;2013;82.6;nectars;4;0.2
+5;3;2437;BF;2013;82.6;sodas et colas;41;2.04
+5;3;2437;BF;2013;82.6;spiritueux et vins cuits;57;2.83
+5;3;2437;BF;2013;82.6;vin;573;28.46
+5;3;2437;C;993;40.75;condiments d'accompagnement;132;13.29
+5;3;2437;C;993;40.75;condiments d'assaisonnement;286;28.8
+5;3;2437;C;993;40.75;herbes aromatiques;142;14.3
+5;3;2437;C;993;40.75;sauces;660;66.47
+5;3;2437;C;993;40.75;sel et épices;131;13.19
+5;3;2437;F;1834;75.26;autres céréales;7;0.38
+5;3;2437;F;1834;75.26;autres produits de panification;16;0.87
+5;3;2437;F;1834;75.26;biscottes et panification sèche;16;0.87
+5;3;2437;F;1834;75.26;blé;56;3.05
+5;3;2437;F;1834;75.26;pain;1339;73.01
+5;3;2437;F;1834;75.26;pommes de terre et apparentés;518;28.24
+5;3;2437;F;1834;75.26;pâtes alimentaires;240;13.09
+5;3;2437;F;1834;75.26;pâtes pour pâtisserie prêtes à l'emploi;2;0.11
+5;3;2437;F;1834;75.26;riz;194;10.58
+5;3;2437;L;1666;68.36;champignons;96;5.76
+5;3;2437;L;1666;68.36;choux;138;8.28
+5;3;2437;L;1666;68.36;haricots verts et petits pois (légumes potagers);335;20.11
+5;3;2437;L;1666;68.36;légumes feuilles;552;33.13
+5;3;2437;L;1666;68.36;légumes fruits;506;30.37
+5;3;2437;L;1666;68.36;légumes racines, tubercules ou bulbes;440;26.41
+5;3;2437;L;1666;68.36;légumes tiges;116;6.96
+5;3;2437;L;1666;68.36;mélanges de légumes, légumes préparés et autres légumes;213;12.79
+5;3;2437;MG;1425;58.47;autres graisses;26;1.82
+5;3;2437;MG;1425;58.47;beurre;705;49.47
+5;3;2437;MG;1425;58.47;huile;918;64.42
+5;3;2437;MG;1425;58.47;margarine;316;22.18
+5;3;2437;P;1905;78.17;abats;36;1.89
+5;3;2437;P;1905;78.17;agneau;65;3.41
+5;3;2437;P;1905;78.17;autre charcuterie ou charcuterie  sans précision;12;0.63
+5;3;2437;P;1905;78.17;autre viande;28;1.47
+5;3;2437;P;1905;78.17;autres fruits de mer ou fruits de mer sans précision;11;0.58
+5;3;2437;P;1905;78.17;autres poissons ou poissons sans précision;64;3.36
+5;3;2437;P;1905;78.17;boeuf en pièces ou haché;391;20.52
+5;3;2437;P;1905;78.17;crustacés;45;2.36
+5;3;2437;P;1905;78.17;fruits secs et châtaignes;25;1.31
+5;3;2437;P;1905;78.17;gibier;12;0.63
+5;3;2437;P;1905;78.17;jambons et charcuteries en pièces;216;11.34
+5;3;2437;P;1905;78.17;légumes secs;92;4.83
+5;3;2437;P;1905;78.17;légumes secs préparés;15;0.79
+5;3;2437;P;1905;78.17;mollusques et coquillage;56;2.94
+5;3;2437;P;1905;78.17;mélanges;2;0.1
+5;3;2437;P;1905;78.17;oeufs et dérivés;173;9.08
+5;3;2437;P;1905;78.17;oléagineux et graines;38;1.99
+5;3;2437;P;1905;78.17;poissons d'eau douce;2;0.1
+5;3;2437;P;1905;78.17;poissons de mer;265;13.91
+5;3;2437;P;1905;78.17;porc;196;10.29
+5;3;2437;P;1905;78.17;produits dérivés des poissons;69;3.62
+5;3;2437;P;1905;78.17;pâtés, terrines, rillettes et foie gras;67;3.52
+5;3;2437;P;1905;78.17;saucisses, saucissons, andouilles et boudins;210;11.02
+5;3;2437;P;1905;78.17;veau;95;4.99
+5;3;2437;P;1905;78.17;volailles et lapins;284;14.91
+5;3;2437;PC;624;25.61;autres sandwichs;29;4.65
+5;3;2437;PC;624;25.61;beignets, crêpes et bouchées à la reine;28;4.49
+5;3;2437;PC;624;25.61;bouillons;16;2.56
+5;3;2437;PC;624;25.61;feuilletés et friands;17;2.72
+5;3;2437;PC;624;25.61;garnitures composées;35;5.61
+5;3;2437;PC;624;25.61;hamburgers et hot-dog;17;2.72
+5;3;2437;PC;624;25.61;pizzas;36;5.77
+5;3;2437;PC;624;25.61;plats garnis à base de viande;109;17.47
+5;3;2437;PC;624;25.61;plats sans garniture;61;9.78
+5;3;2437;PC;624;25.61;plats à base de fromage;4;0.64
+5;3;2437;PC;624;25.61;plats à base de légumes;85;13.62
+5;3;2437;PC;624;25.61;plats à base de pâtes ou de pommes de terre;107;17.15
+5;3;2437;PC;624;25.61;potages et soupes;51;8.17
+5;3;2437;PC;624;25.61;quiches et tartes salées;31;4.97
+5;3;2437;PC;624;25.61;sandwichs baguette;39;6.25
+5;3;2437;PL;1322;54.25;autre lait;4;0.3
+5;3;2437;PL;1322;54.25;autres fromages ou fromage sans précision;1;0.08
+5;3;2437;PL;1322;54.25;crème fraîche;143;10.82
+5;3;2437;PL;1322;54.25;fromage blanc et petits suisses;100;7.56
+5;3;2437;PL;1322;54.25;fromages affinés;813;61.5
+5;3;2437;PL;1322;54.25;fromages fondus;40;3.03
+5;3;2437;PL;1322;54.25;fromages frais non affinés;49;3.71
+5;3;2437;PL;1322;54.25;lait concentré ou en poudre;3;0.23
+5;3;2437;PL;1322;54.25;lait en bouteille ou en brique;26;1.97
+5;3;2437;PL;1322;54.25;yaourts et assimilés;349;26.4
+5;3;2437;PS;1695;69.55;autres céréales pour petit déjeuner;1;0.06
+5;3;2437;PS;1695;69.55;barres chocolatées;1;0.06
+5;3;2437;PS;1695;69.55;barres céréalières;2;0.12
+5;3;2437;PS;1695;69.55;beignets, crêpes et gaufres;18;1.06
+5;3;2437;PS;1695;69.55;biscuits salés pour apéritif;45;2.65
+5;3;2437;PS;1695;69.55;biscuits sucrés;26;1.53
+5;3;2437;PS;1695;69.55;chocolat en tablettes;106;6.25
+5;3;2437;PS;1695;69.55;compotes;73;4.31
+5;3;2437;PS;1695;69.55;crème dessert et lait gélifié;89;5.25
+5;3;2437;PS;1695;69.55;céréales aux fruits frais ou secs;1;0.06
+5;3;2437;PS;1695;69.55;desserts glacés;5;0.29
+5;3;2437;PS;1695;69.55;entremets;94;5.55
+5;3;2437;PS;1695;69.55;fruits;1201;70.86
+5;3;2437;PS;1695;69.55;fruits au sirop;24;1.42
+5;3;2437;PS;1695;69.55;glaces;49;2.89
+5;3;2437;PS;1695;69.55;gâteaux;104;6.14
+5;3;2437;PS;1695;69.55;pâte chocolatée à tartiner;1;0.06
+5;3;2437;PS;1695;69.55;pâtisseries et tartes;126;7.43
+5;3;2437;PS;1695;69.55;sorbets;4;0.24
+5;3;2437;PS;1695;69.55;viennoiserie;12;0.71
+5;3;2437;S;448;18.38;confiserie;14;3.12
+5;3;2437;S;448;18.38;confiture et miel;24;5.36
+5;3;2437;S;448;18.38;sucre et assimilés;419;93.53
+5;4;1760;A;43;2.44;aliments destinés à une alimentation particulière;43;100.0
+5;4;1760;BC;679;38.58;cacao, poudres et boissons cacaotées;13;1.91
+5;4;1760;BC;679;38.58;café;349;51.4
+5;4;1760;BC;679;38.58;chicorée et poudre maltée;21;3.09
+5;4;1760;BC;679;38.58;thé et infusions;307;45.21
+5;4;1760;BF;1180;67.05;autre eau;66;5.59
+5;4;1760;BF;1180;67.05;autres boissons fraîches;66;5.59
+5;4;1760;BF;1180;67.05;bière;67;5.68
+5;4;1760;BF;1180;67.05;boissons aux fruits;2;0.17
+5;4;1760;BF;1180;67.05;cidre;10;0.85
+5;4;1760;BF;1180;67.05;cocktails et mélanges;21;1.78
+5;4;1760;BF;1180;67.05;eau de source;192;16.27
+5;4;1760;BF;1180;67.05;eau du robinet;386;32.71
+5;4;1760;BF;1180;67.05;eau minérale gazeuse;86;7.29
+5;4;1760;BF;1180;67.05;eau minérale plate;290;24.58
+5;4;1760;BF;1180;67.05;jus de fruits (purs et à base  de concentré);72;6.1
+5;4;1760;BF;1180;67.05;nectars;5;0.42
+5;4;1760;BF;1180;67.05;sodas et colas;54;4.58
+5;4;1760;BF;1180;67.05;spiritueux et vins cuits;13;1.1
+5;4;1760;BF;1180;67.05;vin;25;2.12
+5;4;1760;C;7;0.4;condiments d'accompagnement;5;71.43
+5;4;1760;C;7;0.4;condiments d'assaisonnement;1;14.29
+5;4;1760;C;7;0.4;herbes aromatiques;2;28.57
+5;4;1760;F;109;6.19;autres céréales;4;3.67
+5;4;1760;F;109;6.19;biscottes et panification sèche;16;14.68
+5;4;1760;F;109;6.19;blé;2;1.83
+5;4;1760;F;109;6.19;pain;85;77.98
+5;4;1760;F;109;6.19;pommes de terre et apparentés;2;1.83
+5;4;1760;L;6;0.34;légumes fruits;2;33.33
+5;4;1760;L;6;0.34;légumes racines, tubercules ou bulbes;4;66.67
+5;4;1760;MG;29;1.65;beurre;13;44.83
+5;4;1760;MG;29;1.65;margarine;16;55.17
+5;4;1760;P;44;2.5;autre charcuterie ou charcuterie  sans précision;1;2.27
+5;4;1760;P;44;2.5;fruits secs et châtaignes;13;29.55
+5;4;1760;P;44;2.5;jambons et charcuteries en pièces;2;4.55
+5;4;1760;P;44;2.5;mélanges;6;13.64
+5;4;1760;P;44;2.5;oléagineux et graines;17;38.64
+5;4;1760;P;44;2.5;produits dérivés des poissons;1;2.27
+5;4;1760;P;44;2.5;pâtés, terrines, rillettes et foie gras;3;6.82
+5;4;1760;P;44;2.5;saucisses, saucissons, andouilles et boudins;5;11.36
+5;4;1760;PC;14;0.8;autres sandwichs;2;14.29
+5;4;1760;PC;14;0.8;bouillons;3;21.43
+5;4;1760;PC;14;0.8;hamburgers et hot-dog;2;14.29
+5;4;1760;PC;14;0.8;pizzas;1;7.14
+5;4;1760;PC;14;0.8;potages et soupes;1;7.14
+5;4;1760;PC;14;0.8;quiches et tartes salées;2;14.29
+5;4;1760;PC;14;0.8;sandwichs baguette;3;21.43
+5;4;1760;PL;147;8.35;autre lait;2;1.36
+5;4;1760;PL;147;8.35;crème fraîche;1;0.68
+5;4;1760;PL;147;8.35;fromage blanc et petits suisses;11;7.48
+5;4;1760;PL;147;8.35;fromages affinés;24;16.33
+5;4;1760;PL;147;8.35;fromages fondus;1;0.68
+5;4;1760;PL;147;8.35;fromages frais non affinés;2;1.36
+5;4;1760;PL;147;8.35;lait aromatisé;1;0.68
+5;4;1760;PL;147;8.35;lait concentré ou en poudre;4;2.72
+5;4;1760;PL;147;8.35;lait en bouteille ou en brique;48;32.65
+5;4;1760;PL;147;8.35;yaourts et assimilés;57;38.78
+5;4;1760;PS;747;42.44;autres céréales pour petit déjeuner;1;0.13
+5;4;1760;PS;747;42.44;barres chocolatées;12;1.61
+5;4;1760;PS;747;42.44;barres céréalières;18;2.41
+5;4;1760;PS;747;42.44;beignets, crêpes et gaufres;28;3.75
+5;4;1760;PS;747;42.44;biscuits salés pour apéritif;16;2.14
+5;4;1760;PS;747;42.44;biscuits sucrés;115;15.39
+5;4;1760;PS;747;42.44;chocolat en tablettes;130;17.4
+5;4;1760;PS;747;42.44;compotes;11;1.47
+5;4;1760;PS;747;42.44;crème dessert et lait gélifié;9;1.2
+5;4;1760;PS;747;42.44;céréales aux fruits frais ou secs;1;0.13
+5;4;1760;PS;747;42.44;céréales chocolatées;1;0.13
+5;4;1760;PS;747;42.44;céréales sucrées, glacées ou au miel;9;1.2
+5;4;1760;PS;747;42.44;desserts glacés;1;0.13
+5;4;1760;PS;747;42.44;entremets;11;1.47
+5;4;1760;PS;747;42.44;fruits;299;40.03
+5;4;1760;PS;747;42.44;fruits au sirop;3;0.4
+5;4;1760;PS;747;42.44;glaces;14;1.87
+5;4;1760;PS;747;42.44;gâteaux;110;14.73
+5;4;1760;PS;747;42.44;pâte chocolatée à tartiner;8;1.07
+5;4;1760;PS;747;42.44;pâtisseries et tartes;33;4.42
+5;4;1760;PS;747;42.44;sorbets;2;0.27
+5;4;1760;PS;747;42.44;viennoiserie;44;5.89
+5;4;1760;S;270;15.34;confiserie;64;23.7
+5;4;1760;S;270;15.34;confiture et miel;35;12.96
+5;4;1760;S;270;15.34;sucre et assimilés;188;69.63
+5;5;2454;A;51;2.08;aliments destinés à une alimentation particulière;51;100.0
+5;5;2454;BC;267;10.88;cacao, poudres et boissons cacaotées;6;2.25
+5;5;2454;BC;267;10.88;café;203;76.03
+5;5;2454;BC;267;10.88;chicorée et poudre maltée;5;1.87
+5;5;2454;BC;267;10.88;thé et infusions;55;20.6
+5;5;2454;BF;2005;81.7;autre eau;133;6.63
+5;5;2454;BF;2005;81.7;autres boissons fraîches;38;1.9
+5;5;2454;BF;2005;81.7;bière;34;1.7
+5;5;2454;BF;2005;81.7;boissons aux fruits;2;0.1
+5;5;2454;BF;2005;81.7;cidre;22;1.1
+5;5;2454;BF;2005;81.7;cocktails et mélanges;51;2.54
+5;5;2454;BF;2005;81.7;eau de source;335;16.71
+5;5;2454;BF;2005;81.7;eau du robinet;722;36.01
+5;5;2454;BF;2005;81.7;eau minérale gazeuse;81;4.04
+5;5;2454;BF;2005;81.7;eau minérale plate;392;19.55
+5;5;2454;BF;2005;81.7;jus de fruits (purs et à base  de concentré);43;2.14
+5;5;2454;BF;2005;81.7;sodas et colas;44;2.19
+5;5;2454;BF;2005;81.7;spiritueux et vins cuits;71;3.54
+5;5;2454;BF;2005;81.7;vin;530;26.43
+5;5;2454;C;900;36.67;condiments d'accompagnement;117;13.0
+5;5;2454;C;900;36.67;condiments d'assaisonnement;234;26.0
+5;5;2454;C;900;36.67;herbes aromatiques;94;10.44
+5;5;2454;C;900;36.67;sauces;586;65.11
+5;5;2454;C;900;36.67;sel et épices;129;14.33
+5;5;2454;F;1626;66.26;autres céréales;5;0.31
+5;5;2454;F;1626;66.26;autres produits de panification;12;0.74
+5;5;2454;F;1626;66.26;biscottes et panification sèche;31;1.91
+5;5;2454;F;1626;66.26;blé;46;2.83
+5;5;2454;F;1626;66.26;pain;1233;75.83
+5;5;2454;F;1626;66.26;pommes de terre et apparentés;297;18.27
+5;5;2454;F;1626;66.26;pâtes alimentaires;221;13.59
+5;5;2454;F;1626;66.26;pâtes pour pâtisserie prêtes à l'emploi;1;0.06
+5;5;2454;F;1626;66.26;riz;125;7.69
+5;5;2454;L;1376;56.07;champignons;48;3.49
+5;5;2454;L;1376;56.07;choux;53;3.85
+5;5;2454;L;1376;56.07;haricots verts et petits pois (légumes potagers);156;11.34
+5;5;2454;L;1376;56.07;légumes feuilles;676;49.13
+5;5;2454;L;1376;56.07;légumes fruits;404;29.36
+5;5;2454;L;1376;56.07;légumes racines, tubercules ou bulbes;261;18.97
+5;5;2454;L;1376;56.07;légumes tiges;79;5.74
+5;5;2454;L;1376;56.07;mélanges de légumes, légumes préparés et autres légumes;125;9.08
+5;5;2454;MG;1136;46.29;autres graisses;10;0.88
+5;5;2454;MG;1136;46.29;beurre;509;44.81
+5;5;2454;MG;1136;46.29;huile;791;69.63
+5;5;2454;MG;1136;46.29;margarine;185;16.29
+5;5;2454;P;1550;63.16;abats;26;1.68
+5;5;2454;P;1550;63.16;agneau;25;1.61
+5;5;2454;P;1550;63.16;autre charcuterie ou charcuterie  sans précision;28;1.81
+5;5;2454;P;1550;63.16;autre viande;11;0.71
+5;5;2454;P;1550;63.16;autres fruits de mer ou fruits de mer sans précision;5;0.32
+5;5;2454;P;1550;63.16;autres poissons ou poissons sans précision;36;2.32
+5;5;2454;P;1550;63.16;boeuf en pièces ou haché;167;10.77
+5;5;2454;P;1550;63.16;crustacés;46;2.97
+5;5;2454;P;1550;63.16;fruits secs et châtaignes;12;0.77
+5;5;2454;P;1550;63.16;gibier;7;0.45
+5;5;2454;P;1550;63.16;jambons et charcuteries en pièces;402;25.94
+5;5;2454;P;1550;63.16;légumes secs;35;2.26
+5;5;2454;P;1550;63.16;légumes secs préparés;8;0.52
+5;5;2454;P;1550;63.16;mollusques et coquillage;44;2.84
+5;5;2454;P;1550;63.16;mélanges;6;0.39
+5;5;2454;P;1550;63.16;oeufs et dérivés;225;14.52
+5;5;2454;P;1550;63.16;oléagineux et graines;51;3.29
+5;5;2454;P;1550;63.16;poissons d'eau douce;2;0.13
+5;5;2454;P;1550;63.16;poissons de mer;177;11.42
+5;5;2454;P;1550;63.16;porc;85;5.48
+5;5;2454;P;1550;63.16;produits dérivés des poissons;54;3.48
+5;5;2454;P;1550;63.16;pâtés, terrines, rillettes et foie gras;99;6.39
+5;5;2454;P;1550;63.16;saucisses, saucissons, andouilles et boudins;185;11.94
+5;5;2454;P;1550;63.16;veau;31;2.0
+5;5;2454;P;1550;63.16;volailles et lapins;141;9.1
+5;5;2454;PC;1066;43.44;autres sandwichs;33;3.1
+5;5;2454;PC;1066;43.44;beignets, crêpes et bouchées à la reine;54;5.07
+5;5;2454;PC;1066;43.44;bouillons;34;3.19
+5;5;2454;PC;1066;43.44;feuilletés et friands;18;1.69
+5;5;2454;PC;1066;43.44;garnitures composées;31;2.91
+5;5;2454;PC;1066;43.44;hamburgers et hot-dog;6;0.56
+5;5;2454;PC;1066;43.44;pizzas;83;7.79
+5;5;2454;PC;1066;43.44;plats garnis à base de viande;74;6.94
+5;5;2454;PC;1066;43.44;plats sans garniture;35;3.28
+5;5;2454;PC;1066;43.44;plats à base de fromage;3;0.28
+5;5;2454;PC;1066;43.44;plats à base de légumes;64;6.0
+5;5;2454;PC;1066;43.44;plats à base de pâtes ou de pommes de terre;102;9.57
+5;5;2454;PC;1066;43.44;potages et soupes;532;49.91
+5;5;2454;PC;1066;43.44;quiches et tartes salées;77;7.22
+5;5;2454;PC;1066;43.44;sandwichs baguette;16;1.5
+5;5;2454;PL;1405;57.25;autre lait;1;0.07
+5;5;2454;PL;1405;57.25;autres fromages ou fromage sans précision;13;0.93
+5;5;2454;PL;1405;57.25;crème fraîche;121;8.61
+5;5;2454;PL;1405;57.25;fromage blanc et petits suisses;142;10.11
+5;5;2454;PL;1405;57.25;fromages affinés;720;51.25
+5;5;2454;PL;1405;57.25;fromages fondus;36;2.56
+5;5;2454;PL;1405;57.25;fromages frais non affinés;59;4.2
+5;5;2454;PL;1405;57.25;lait concentré ou en poudre;1;0.07
+5;5;2454;PL;1405;57.25;lait en bouteille ou en brique;27;1.92
+5;5;2454;PL;1405;57.25;yaourts et assimilés;503;35.8
+5;5;2454;PS;1566;63.81;autres céréales pour petit déjeuner;5;0.32
+5;5;2454;PS;1566;63.81;barres chocolatées;2;0.13
+5;5;2454;PS;1566;63.81;beignets, crêpes et gaufres;36;2.3
+5;5;2454;PS;1566;63.81;biscuits salés pour apéritif;54;3.45
+5;5;2454;PS;1566;63.81;biscuits sucrés;21;1.34
+5;5;2454;PS;1566;63.81;chocolat en tablettes;76;4.85
+5;5;2454;PS;1566;63.81;compotes;102;6.51
+5;5;2454;PS;1566;63.81;crème dessert et lait gélifié;119;7.6
+5;5;2454;PS;1566;63.81;céréales aux fruits frais ou secs;1;0.06
+5;5;2454;PS;1566;63.81;desserts glacés;5;0.32
+5;5;2454;PS;1566;63.81;entremets;81;5.17
+5;5;2454;PS;1566;63.81;fruits;1061;67.75
+5;5;2454;PS;1566;63.81;fruits au sirop;23;1.47
+5;5;2454;PS;1566;63.81;glaces;60;3.83
+5;5;2454;PS;1566;63.81;gâteaux;90;5.75
+5;5;2454;PS;1566;63.81;pâte chocolatée à tartiner;9;0.57
+5;5;2454;PS;1566;63.81;pâtisseries et tartes;66;4.21
+5;5;2454;PS;1566;63.81;sorbets;12;0.77
+5;5;2454;PS;1566;63.81;viennoiserie;15;0.96
+5;5;2454;S;324;13.2;confiserie;13;4.01
+5;5;2454;S;324;13.2;confiture et miel;64;19.75
+5;5;2454;S;324;13.2;sucre et assimilés;265;81.79
+6;1;1388;A;79;5.69;aliments destinés à une alimentation particulière;79;100.0
+6;1;1388;BC;1275;91.86;cacao, poudres et boissons cacaotées;112;8.78
+6;1;1388;BC;1275;91.86;café;881;69.1
+6;1;1388;BC;1275;91.86;chicorée et poudre maltée;104;8.16
+6;1;1388;BC;1275;91.86;thé et infusions;214;16.78
+6;1;1388;BF;565;40.71;autre eau;20;3.54
+6;1;1388;BF;565;40.71;autres boissons fraîches;6;1.06
+6;1;1388;BF;565;40.71;boissons aux fruits;13;2.3
+6;1;1388;BF;565;40.71;eau de source;51;9.03
+6;1;1388;BF;565;40.71;eau du robinet;151;26.73
+6;1;1388;BF;565;40.71;eau minérale gazeuse;9;1.59
+6;1;1388;BF;565;40.71;eau minérale plate;47;8.32
+6;1;1388;BF;565;40.71;jus de fruits (purs et à base  de concentré);285;50.44
+6;1;1388;BF;565;40.71;nectars;7;1.24
+6;1;1388;BF;565;40.71;sodas et colas;1;0.18
+6;1;1388;C;2;0.14;condiments d'accompagnement;1;50.0
+6;1;1388;C;2;0.14;sauces;1;50.0
+6;1;1388;F;799;57.56;biscottes et panification sèche;168;21.03
+6;1;1388;F;799;57.56;pain;644;80.6
+6;1;1388;L;6;0.43;légumes feuilles;2;33.33
+6;1;1388;L;6;0.43;légumes fruits;1;16.67
+6;1;1388;L;6;0.43;légumes racines, tubercules ou bulbes;2;33.33
+6;1;1388;L;6;0.43;mélanges de légumes, légumes préparés et autres légumes;1;16.67
+6;1;1388;MG;588;42.36;beurre;470;79.93
+6;1;1388;MG;588;42.36;huile;13;2.21
+6;1;1388;MG;588;42.36;margarine;109;18.54
+6;1;1388;P;47;3.39;autres poissons ou poissons sans précision;1;2.13
+6;1;1388;P;47;3.39;crustacés;1;2.13
+6;1;1388;P;47;3.39;fruits secs et châtaignes;13;27.66
+6;1;1388;P;47;3.39;jambons et charcuteries en pièces;8;17.02
+6;1;1388;P;47;3.39;légumes secs;1;2.13
+6;1;1388;P;47;3.39;mélanges;2;4.26
+6;1;1388;P;47;3.39;oeufs et dérivés;9;19.15
+6;1;1388;P;47;3.39;oléagineux et graines;4;8.51
+6;1;1388;P;47;3.39;poissons de mer;1;2.13
+6;1;1388;P;47;3.39;pâtés, terrines, rillettes et foie gras;3;6.38
+6;1;1388;P;47;3.39;saucisses, saucissons, andouilles et boudins;4;8.51
+6;1;1388;P;47;3.39;volailles et lapins;2;4.26
+6;1;1388;PC;1;0.07;sandwichs baguette;1;100.0
+6;1;1388;PL;576;41.5;autre lait;7;1.22
+6;1;1388;PL;576;41.5;autres fromages ou fromage sans précision;2;0.35
+6;1;1388;PL;576;41.5;fromage blanc et petits suisses;18;3.12
+6;1;1388;PL;576;41.5;fromages affinés;57;9.9
+6;1;1388;PL;576;41.5;fromages fondus;1;0.17
+6;1;1388;PL;576;41.5;fromages frais non affinés;7;1.22
+6;1;1388;PL;576;41.5;lait concentré ou en poudre;20;3.47
+6;1;1388;PL;576;41.5;lait en bouteille ou en brique;419;72.74
+6;1;1388;PL;576;41.5;yaourts et assimilés;119;20.66
+6;1;1388;PS;501;36.1;autres céréales pour petit déjeuner;12;2.4
+6;1;1388;PS;501;36.1;barres chocolatées;2;0.4
+6;1;1388;PS;501;36.1;beignets, crêpes et gaufres;19;3.79
+6;1;1388;PS;501;36.1;biscuits sucrés;51;10.18
+6;1;1388;PS;501;36.1;chocolat en tablettes;29;5.79
+6;1;1388;PS;501;36.1;compotes;14;2.79
+6;1;1388;PS;501;36.1;crème dessert et lait gélifié;6;1.2
+6;1;1388;PS;501;36.1;céréales aux fruits frais ou secs;22;4.39
+6;1;1388;PS;501;36.1;céréales chocolatées;5;1.0
+6;1;1388;PS;501;36.1;céréales sucrées, glacées ou au miel;29;5.79
+6;1;1388;PS;501;36.1;desserts glacés;1;0.2
+6;1;1388;PS;501;36.1;entremets;3;0.6
+6;1;1388;PS;501;36.1;fruits;166;33.13
+6;1;1388;PS;501;36.1;gâteaux;26;5.19
+6;1;1388;PS;501;36.1;pâte chocolatée à tartiner;16;3.19
+6;1;1388;PS;501;36.1;pâtisseries et tartes;5;1.0
+6;1;1388;PS;501;36.1;viennoiserie;195;38.92
+6;1;1388;S;935;67.36;confiserie;1;0.11
+6;1;1388;S;935;67.36;confiture et miel;416;44.49
+6;1;1388;S;935;67.36;sucre et assimilés;694;74.22
+6;3;1420;A;48;3.38;aliments destinés à une alimentation particulière;48;100.0
+6;3;1420;BC;531;37.39;cacao, poudres et boissons cacaotées;1;0.19
+6;3;1420;BC;531;37.39;café;502;94.54
+6;3;1420;BC;531;37.39;chicorée et poudre maltée;3;0.56
+6;3;1420;BC;531;37.39;thé et infusions;25;4.71
+6;3;1420;BF;1246;87.75;autre eau;42;3.37
+6;3;1420;BF;1246;87.75;autres boissons fraîches;33;2.65
+6;3;1420;BF;1246;87.75;bière;40;3.21
+6;3;1420;BF;1246;87.75;boissons aux fruits;6;0.48
+6;3;1420;BF;1246;87.75;cidre;4;0.32
+6;3;1420;BF;1246;87.75;cocktails et mélanges;40;3.21
+6;3;1420;BF;1246;87.75;eau de source;223;17.9
+6;3;1420;BF;1246;87.75;eau du robinet;412;33.07
+6;3;1420;BF;1246;87.75;eau minérale gazeuse;62;4.98
+6;3;1420;BF;1246;87.75;eau minérale plate;214;17.17
+6;3;1420;BF;1246;87.75;jus de fruits (purs et à base  de concentré);44;3.53
+6;3;1420;BF;1246;87.75;sodas et colas;61;4.9
+6;3;1420;BF;1246;87.75;spiritueux et vins cuits;32;2.57
+6;3;1420;BF;1246;87.75;vin;359;28.81
+6;3;1420;C;444;31.27;condiments d'accompagnement;70;15.77
+6;3;1420;C;444;31.27;condiments d'assaisonnement;71;15.99
+6;3;1420;C;444;31.27;herbes aromatiques;40;9.01
+6;3;1420;C;444;31.27;sauces;311;70.05
+6;3;1420;C;444;31.27;sel et épices;64;14.41
+6;3;1420;F;1078;75.92;autres céréales;5;0.46
+6;3;1420;F;1078;75.92;autres produits de panification;6;0.56
+6;3;1420;F;1078;75.92;biscottes et panification sèche;6;0.56
+6;3;1420;F;1078;75.92;blé;20;1.86
+6;3;1420;F;1078;75.92;pain;726;67.35
+6;3;1420;F;1078;75.92;pommes de terre et apparentés;361;33.49
+6;3;1420;F;1078;75.92;pâtes alimentaires;199;18.46
+6;3;1420;F;1078;75.92;pâtes pour pâtisserie prêtes à l'emploi;1;0.09
+6;3;1420;F;1078;75.92;riz;108;10.02
+6;3;1420;L;635;44.72;champignons;31;4.88
+6;3;1420;L;635;44.72;choux;47;7.4
+6;3;1420;L;635;44.72;haricots verts et petits pois (légumes potagers);110;17.32
+6;3;1420;L;635;44.72;légumes feuilles;239;37.64
+6;3;1420;L;635;44.72;légumes fruits;125;19.69
+6;3;1420;L;635;44.72;légumes racines, tubercules ou bulbes;154;24.25
+6;3;1420;L;635;44.72;légumes tiges;33;5.2
+6;3;1420;L;635;44.72;mélanges de légumes, légumes préparés et autres légumes;60;9.45
+6;3;1420;MG;707;49.79;autres graisses;9;1.27
+6;3;1420;MG;707;49.79;beurre;411;58.13
+6;3;1420;MG;707;49.79;huile;356;50.35
+6;3;1420;MG;707;49.79;margarine;188;26.59
+6;3;1420;P;1037;73.03;abats;28;2.7
+6;3;1420;P;1037;73.03;agneau;36;3.47
+6;3;1420;P;1037;73.03;autre charcuterie ou charcuterie  sans précision;7;0.68
+6;3;1420;P;1037;73.03;autre viande;7;0.68
+6;3;1420;P;1037;73.03;autres fruits de mer ou fruits de mer sans précision;3;0.29
+6;3;1420;P;1037;73.03;autres poissons ou poissons sans précision;20;1.93
+6;3;1420;P;1037;73.03;boeuf en pièces ou haché;219;21.12
+6;3;1420;P;1037;73.03;crustacés;23;2.22
+6;3;1420;P;1037;73.03;fruits secs et châtaignes;20;1.93
+6;3;1420;P;1037;73.03;gibier;4;0.39
+6;3;1420;P;1037;73.03;jambons et charcuteries en pièces;152;14.66
+6;3;1420;P;1037;73.03;légumes secs;48;4.63
+6;3;1420;P;1037;73.03;légumes secs préparés;11;1.06
+6;3;1420;P;1037;73.03;mollusques et coquillage;27;2.6
+6;3;1420;P;1037;73.03;mélanges;1;0.1
+6;3;1420;P;1037;73.03;oeufs et dérivés;90;8.68
+6;3;1420;P;1037;73.03;oléagineux et graines;17;1.64
+6;3;1420;P;1037;73.03;poissons de mer;120;11.57
+6;3;1420;P;1037;73.03;porc;109;10.51
+6;3;1420;P;1037;73.03;produits dérivés des poissons;21;2.03
+6;3;1420;P;1037;73.03;pâtés, terrines, rillettes et foie gras;87;8.39
+6;3;1420;P;1037;73.03;saucisses, saucissons, andouilles et boudins;144;13.89
+6;3;1420;P;1037;73.03;veau;26;2.51
+6;3;1420;P;1037;73.03;volailles et lapins;149;14.37
+6;3;1420;PC;428;30.14;autres sandwichs;20;4.67
+6;3;1420;PC;428;30.14;beignets, crêpes et bouchées à la reine;20;4.67
+6;3;1420;PC;428;30.14;bouillons;8;1.87
+6;3;1420;PC;428;30.14;feuilletés et friands;10;2.34
+6;3;1420;PC;428;30.14;garnitures composées;21;4.91
+6;3;1420;PC;428;30.14;hamburgers et hot-dog;13;3.04
+6;3;1420;PC;428;30.14;pizzas;32;7.48
+6;3;1420;PC;428;30.14;plats garnis à base de viande;98;22.9
+6;3;1420;PC;428;30.14;plats sans garniture;27;6.31
+6;3;1420;PC;428;30.14;plats à base de légumes;35;8.18
+6;3;1420;PC;428;30.14;plats à base de pâtes ou de pommes de terre;63;14.72
+6;3;1420;PC;428;30.14;potages et soupes;44;10.28
+6;3;1420;PC;428;30.14;quiches et tartes salées;13;3.04
+6;3;1420;PC;428;30.14;sandwichs baguette;56;13.08
+6;3;1420;PL;777;54.72;autres fromages ou fromage sans précision;1;0.13
+6;3;1420;PL;777;54.72;crème fraîche;68;8.75
+6;3;1420;PL;777;54.72;fromage blanc et petits suisses;37;4.76
+6;3;1420;PL;777;54.72;fromages affinés;512;65.89
+6;3;1420;PL;777;54.72;fromages fondus;19;2.45
+6;3;1420;PL;777;54.72;fromages frais non affinés;30;3.86
+6;3;1420;PL;777;54.72;lait en bouteille ou en brique;16;2.06
+6;3;1420;PL;777;54.72;yaourts et assimilés;234;30.12
+6;3;1420;PS;810;57.04;barres céréalières;1;0.12
+6;3;1420;PS;810;57.04;beignets, crêpes et gaufres;20;2.47
+6;3;1420;PS;810;57.04;biscuits salés pour apéritif;20;2.47
+6;3;1420;PS;810;57.04;biscuits sucrés;16;1.98
+6;3;1420;PS;810;57.04;chocolat en tablettes;60;7.41
+6;3;1420;PS;810;57.04;compotes;27;3.33
+6;3;1420;PS;810;57.04;crème dessert et lait gélifié;60;7.41
+6;3;1420;PS;810;57.04;céréales chocolatées;1;0.12
+6;3;1420;PS;810;57.04;céréales sucrées, glacées ou au miel;3;0.37
+6;3;1420;PS;810;57.04;desserts glacés;1;0.12
+6;3;1420;PS;810;57.04;entremets;45;5.56
+6;3;1420;PS;810;57.04;fruits;546;67.41
+6;3;1420;PS;810;57.04;fruits au sirop;17;2.1
+6;3;1420;PS;810;57.04;glaces;22;2.72
+6;3;1420;PS;810;57.04;gâteaux;52;6.42
+6;3;1420;PS;810;57.04;pâte chocolatée à tartiner;2;0.25
+6;3;1420;PS;810;57.04;pâtisseries et tartes;57;7.04
+6;3;1420;PS;810;57.04;sorbets;5;0.62
+6;3;1420;PS;810;57.04;viennoiserie;4;0.49
+6;3;1420;S;375;26.41;confiserie;13;3.47
+6;3;1420;S;375;26.41;confiture et miel;16;4.27
+6;3;1420;S;375;26.41;sucre et assimilés;353;94.13
+6;4;961;A;14;1.46;aliments destinés à une alimentation particulière;14;100.0
+6;4;961;BC;316;32.88;cacao, poudres et boissons cacaotées;9;2.85
+6;4;961;BC;316;32.88;café;228;72.15
+6;4;961;BC;316;32.88;chicorée et poudre maltée;3;0.95
+6;4;961;BC;316;32.88;thé et infusions;84;26.58
+6;4;961;BF;636;66.18;autre eau;42;6.6
+6;4;961;BF;636;66.18;autres boissons fraîches;22;3.46
+6;4;961;BF;636;66.18;bière;82;12.89
+6;4;961;BF;636;66.18;boissons aux fruits;5;0.79
+6;4;961;BF;636;66.18;cidre;5;0.79
+6;4;961;BF;636;66.18;cocktails et mélanges;12;1.89
+6;4;961;BF;636;66.18;eau de source;87;13.68
+6;4;961;BF;636;66.18;eau du robinet;199;31.29
+6;4;961;BF;636;66.18;eau minérale gazeuse;38;5.97
+6;4;961;BF;636;66.18;eau minérale plate;114;17.92
+6;4;961;BF;636;66.18;jus de fruits (purs et à base  de concentré);40;6.29
+6;4;961;BF;636;66.18;nectars;3;0.47
+6;4;961;BF;636;66.18;sodas et colas;41;6.45
+6;4;961;BF;636;66.18;spiritueux et vins cuits;11;1.73
+6;4;961;BF;636;66.18;vin;22;3.46
+6;4;961;C;4;0.42;condiments d'accompagnement;2;50.0
+6;4;961;C;4;0.42;sauces;2;50.0
+6;4;961;F;91;9.47;biscottes et panification sèche;3;3.3
+6;4;961;F;91;9.47;pain;82;90.11
+6;4;961;F;91;9.47;pâtes alimentaires;5;5.49
+6;4;961;F;91;9.47;riz;1;1.1
+6;4;961;L;1;0.1;légumes feuilles;1;100.0
+6;4;961;MG;31;3.23;beurre;21;67.74
+6;4;961;MG;31;3.23;huile;1;3.23
+6;4;961;MG;31;3.23;margarine;10;32.26
+6;4;961;P;45;4.68;autre charcuterie ou charcuterie  sans précision;1;2.22
+6;4;961;P;45;4.68;boeuf en pièces ou haché;2;4.44
+6;4;961;P;45;4.68;crustacés;1;2.22
+6;4;961;P;45;4.68;fruits secs et châtaignes;5;11.11
+6;4;961;P;45;4.68;jambons et charcuteries en pièces;6;13.33
+6;4;961;P;45;4.68;mélanges;1;2.22
+6;4;961;P;45;4.68;oeufs et dérivés;2;4.44
+6;4;961;P;45;4.68;oléagineux et graines;11;24.44
+6;4;961;P;45;4.68;poissons de mer;3;6.67
+6;4;961;P;45;4.68;pâtés, terrines, rillettes et foie gras;5;11.11
+6;4;961;P;45;4.68;saucisses, saucissons, andouilles et boudins;8;17.78
+6;4;961;P;45;4.68;volailles et lapins;5;11.11
+6;4;961;PC;13;1.35;autres sandwichs;5;38.46
+6;4;961;PC;13;1.35;hamburgers et hot-dog;2;15.38
+6;4;961;PC;13;1.35;quiches et tartes salées;2;15.38
+6;4;961;PC;13;1.35;sandwichs baguette;4;30.77
+6;4;961;PL;99;10.3;autre lait;6;6.06
+6;4;961;PL;99;10.3;autres fromages ou fromage sans précision;4;4.04
+6;4;961;PL;99;10.3;crème fraîche;6;6.06
+6;4;961;PL;99;10.3;fromage blanc et petits suisses;3;3.03
+6;4;961;PL;99;10.3;fromages affinés;26;26.26
+6;4;961;PL;99;10.3;fromages fondus;5;5.05
+6;4;961;PL;99;10.3;fromages frais non affinés;1;1.01
+6;4;961;PL;99;10.3;lait en bouteille ou en brique;43;43.43
+6;4;961;PL;99;10.3;yaourts et assimilés;11;11.11
+6;4;961;PS;369;38.4;barres chocolatées;15;4.07
+6;4;961;PS;369;38.4;barres céréalières;2;0.54
+6;4;961;PS;369;38.4;beignets, crêpes et gaufres;6;1.63
+6;4;961;PS;369;38.4;biscuits salés pour apéritif;13;3.52
+6;4;961;PS;369;38.4;biscuits sucrés;61;16.53
+6;4;961;PS;369;38.4;chocolat en tablettes;52;14.09
+6;4;961;PS;369;38.4;compotes;3;0.81
+6;4;961;PS;369;38.4;crème dessert et lait gélifié;5;1.36
+6;4;961;PS;369;38.4;entremets;11;2.98
+6;4;961;PS;369;38.4;fruits;134;36.31
+6;4;961;PS;369;38.4;glaces;9;2.44
+6;4;961;PS;369;38.4;gâteaux;46;12.47
+6;4;961;PS;369;38.4;pâte chocolatée à tartiner;9;2.44
+6;4;961;PS;369;38.4;pâtisseries et tartes;18;4.88
+6;4;961;PS;369;38.4;sorbets;1;0.27
+6;4;961;PS;369;38.4;viennoiserie;42;11.38
+6;4;961;S;194;20.19;confiserie;31;15.98
+6;4;961;S;194;20.19;confiture et miel;9;4.64
+6;4;961;S;194;20.19;sucre et assimilés;165;85.05
+6;5;1461;A;31;2.12;aliments destinés à une alimentation particulière;31;100.0
+6;5;1461;BC;173;11.84;cacao, poudres et boissons cacaotées;5;2.89
+6;5;1461;BC;173;11.84;café;131;75.72
+6;5;1461;BC;173;11.84;thé et infusions;37;21.39
+6;5;1461;BF;1250;85.56;autre eau;44;3.52
+6;5;1461;BF;1250;85.56;autres boissons fraîches;47;3.76
+6;5;1461;BF;1250;85.56;bière;29;2.32
+6;5;1461;BF;1250;85.56;boissons aux fruits;3;0.24
+6;5;1461;BF;1250;85.56;cidre;7;0.56
+6;5;1461;BF;1250;85.56;cocktails et mélanges;46;3.68
+6;5;1461;BF;1250;85.56;eau de source;222;17.76
+6;5;1461;BF;1250;85.56;eau du robinet;367;29.36
+6;5;1461;BF;1250;85.56;eau minérale gazeuse;71;5.68
+6;5;1461;BF;1250;85.56;eau minérale plate;224;17.92
+6;5;1461;BF;1250;85.56;jus de fruits (purs et à base  de concentré);39;3.12
+6;5;1461;BF;1250;85.56;sodas et colas;94;7.52
+6;5;1461;BF;1250;85.56;spiritueux et vins cuits;59;4.72
+6;5;1461;BF;1250;85.56;vin;374;29.92
+6;5;1461;C;329;22.52;condiments d'accompagnement;51;15.5
+6;5;1461;C;329;22.52;condiments d'assaisonnement;73;22.19
+6;5;1461;C;329;22.52;herbes aromatiques;24;7.29
+6;5;1461;C;329;22.52;sauces;212;64.44
+6;5;1461;C;329;22.52;sel et épices;59;17.93
+6;5;1461;F;1019;69.75;autres produits de panification;7;0.69
+6;5;1461;F;1019;69.75;biscottes et panification sèche;27;2.65
+6;5;1461;F;1019;69.75;blé;21;2.06
+6;5;1461;F;1019;69.75;pain;746;73.21
+6;5;1461;F;1019;69.75;pommes de terre et apparentés;203;19.92
+6;5;1461;F;1019;69.75;pâtes alimentaires;176;17.27
+6;5;1461;F;1019;69.75;riz;57;5.59
+6;5;1461;L;523;35.8;champignons;25;4.78
+6;5;1461;L;523;35.8;choux;20;3.82
+6;5;1461;L;523;35.8;haricots verts et petits pois (légumes potagers);73;13.96
+6;5;1461;L;523;35.8;légumes feuilles;230;43.98
+6;5;1461;L;523;35.8;légumes fruits;123;23.52
+6;5;1461;L;523;35.8;légumes racines, tubercules ou bulbes;128;24.47
+6;5;1461;L;523;35.8;légumes tiges;31;5.93
+6;5;1461;L;523;35.8;mélanges de légumes, légumes préparés et autres légumes;36;6.88
+6;5;1461;MG;633;43.33;autres graisses;2;0.32
+6;5;1461;MG;633;43.33;beurre;376;59.4
+6;5;1461;MG;633;43.33;huile;314;49.61
+6;5;1461;MG;633;43.33;margarine;121;19.12
+6;5;1461;P;872;59.69;abats;7;0.8
+6;5;1461;P;872;59.69;agneau;15;1.72
+6;5;1461;P;872;59.69;autre charcuterie ou charcuterie  sans précision;13;1.49
+6;5;1461;P;872;59.69;autre viande;5;0.57
+6;5;1461;P;872;59.69;autres fruits de mer ou fruits de mer sans précision;3;0.34
+6;5;1461;P;872;59.69;autres poissons ou poissons sans précision;8;0.92
+6;5;1461;P;872;59.69;boeuf en pièces ou haché;103;11.81
+6;5;1461;P;872;59.69;crustacés;24;2.75
+6;5;1461;P;872;59.69;fruits secs et châtaignes;17;1.95
+6;5;1461;P;872;59.69;gibier;1;0.11
+6;5;1461;P;872;59.69;jambons et charcuteries en pièces;235;26.95
+6;5;1461;P;872;59.69;légumes secs;21;2.41
+6;5;1461;P;872;59.69;légumes secs préparés;6;0.69
+6;5;1461;P;872;59.69;mollusques et coquillage;21;2.41
+6;5;1461;P;872;59.69;mélanges;2;0.23
+6;5;1461;P;872;59.69;oeufs et dérivés;103;11.81
+6;5;1461;P;872;59.69;oléagineux et graines;35;4.01
+6;5;1461;P;872;59.69;poissons d'eau douce;2;0.23
+6;5;1461;P;872;59.69;poissons de mer;79;9.06
+6;5;1461;P;872;59.69;porc;57;6.54
+6;5;1461;P;872;59.69;produits dérivés des poissons;19;2.18
+6;5;1461;P;872;59.69;pâtés, terrines, rillettes et foie gras;91;10.44
+6;5;1461;P;872;59.69;saucisses, saucissons, andouilles et boudins;149;17.09
+6;5;1461;P;872;59.69;veau;12;1.38
+6;5;1461;P;872;59.69;volailles et lapins;94;10.78
+6;5;1461;PC;712;48.73;autres sandwichs;44;6.18
+6;5;1461;PC;712;48.73;beignets, crêpes et bouchées à la reine;27;3.79
+6;5;1461;PC;712;48.73;bouillons;28;3.93
+6;5;1461;PC;712;48.73;feuilletés et friands;12;1.69
+6;5;1461;PC;712;48.73;garnitures composées;19;2.67
+6;5;1461;PC;712;48.73;hamburgers et hot-dog;10;1.4
+6;5;1461;PC;712;48.73;pizzas;61;8.57
+6;5;1461;PC;712;48.73;plats garnis à base de viande;59;8.29
+6;5;1461;PC;712;48.73;plats sans garniture;13;1.83
+6;5;1461;PC;712;48.73;plats à base de fromage;3;0.42
+6;5;1461;PC;712;48.73;plats à base de légumes;23;3.23
+6;5;1461;PC;712;48.73;plats à base de pâtes ou de pommes de terre;60;8.43
+6;5;1461;PC;712;48.73;potages et soupes;352;49.44
+6;5;1461;PC;712;48.73;quiches et tartes salées;48;6.74
+6;5;1461;PC;712;48.73;sandwichs baguette;11;1.54
+6;5;1461;PL;904;61.88;autre lait;1;0.11
+6;5;1461;PL;904;61.88;autres fromages ou fromage sans précision;3;0.33
+6;5;1461;PL;904;61.88;crème fraîche;59;6.53
+6;5;1461;PL;904;61.88;fromage blanc et petits suisses;63;6.97
+6;5;1461;PL;904;61.88;fromages affinés;606;67.04
+6;5;1461;PL;904;61.88;fromages fondus;34;3.76
+6;5;1461;PL;904;61.88;fromages frais non affinés;27;2.99
+6;5;1461;PL;904;61.88;lait en bouteille ou en brique;28;3.1
+6;5;1461;PL;904;61.88;yaourts et assimilés;307;33.96
+6;5;1461;PS;813;55.65;barres chocolatées;6;0.74
+6;5;1461;PS;813;55.65;barres céréalières;2;0.25
+6;5;1461;PS;813;55.65;beignets, crêpes et gaufres;21;2.58
+6;5;1461;PS;813;55.65;biscuits salés pour apéritif;40;4.92
+6;5;1461;PS;813;55.65;biscuits sucrés;26;3.2
+6;5;1461;PS;813;55.65;chocolat en tablettes;46;5.66
+6;5;1461;PS;813;55.65;compotes;48;5.9
+6;5;1461;PS;813;55.65;crème dessert et lait gélifié;64;7.87
+6;5;1461;PS;813;55.65;céréales aux fruits frais ou secs;1;0.12
+6;5;1461;PS;813;55.65;céréales sucrées, glacées ou au miel;10;1.23
+6;5;1461;PS;813;55.65;desserts glacés;1;0.12
+6;5;1461;PS;813;55.65;entremets;51;6.27
+6;5;1461;PS;813;55.65;fruits;503;61.87
+6;5;1461;PS;813;55.65;fruits au sirop;7;0.86
+6;5;1461;PS;813;55.65;glaces;36;4.43
+6;5;1461;PS;813;55.65;gâteaux;44;5.41
+6;5;1461;PS;813;55.65;pâte chocolatée à tartiner;2;0.25
+6;5;1461;PS;813;55.65;pâtisseries et tartes;47;5.78
+6;5;1461;PS;813;55.65;sorbets;5;0.62
+6;5;1461;PS;813;55.65;viennoiserie;8;0.98
+6;5;1461;S;248;16.97;confiserie;10;4.03
+6;5;1461;S;248;16.97;confiture et miel;35;14.11
+6;5;1461;S;248;16.97;sucre et assimilés;210;84.68
+7;1;3074;A;123;4.0;aliments destinés à une alimentation particulière;123;100.0
+7;1;3074;BC;2596;84.45;cacao, poudres et boissons cacaotées;295;11.36
+7;1;3074;BC;2596;84.45;café;1789;68.91
+7;1;3074;BC;2596;84.45;chicorée et poudre maltée;146;5.62
+7;1;3074;BC;2596;84.45;thé et infusions;379;14.6
+7;1;3074;BF;1104;35.91;autre eau;32;2.9
+7;1;3074;BF;1104;35.91;autres boissons fraîches;50;4.53
+7;1;3074;BF;1104;35.91;boissons aux fruits;21;1.9
+7;1;3074;BF;1104;35.91;eau de source;110;9.96
+7;1;3074;BF;1104;35.91;eau du robinet;298;26.99
+7;1;3074;BF;1104;35.91;eau minérale gazeuse;5;0.45
+7;1;3074;BF;1104;35.91;eau minérale plate;74;6.7
+7;1;3074;BF;1104;35.91;jus de fruits (purs et à base  de concentré);612;55.43
+7;1;3074;BF;1104;35.91;nectars;12;1.09
+7;1;3074;BF;1104;35.91;sodas et colas;23;2.08
+7;1;3074;BF;1104;35.91;vin;1;0.09
+7;1;3074;C;2;0.07;sauces;2;100.0
+7;1;3074;F;1232;40.08;autres céréales;1;0.08
+7;1;3074;F;1232;40.08;biscottes et panification sèche;213;17.29
+7;1;3074;F;1232;40.08;pain;1020;82.79
+7;1;3074;F;1232;40.08;pommes de terre et apparentés;1;0.08
+7;1;3074;F;1232;40.08;pâtes alimentaires;1;0.08
+7;1;3074;F;1232;40.08;riz;1;0.08
+7;1;3074;L;3;0.1;légumes feuilles;2;66.67
+7;1;3074;L;3;0.1;légumes fruits;1;33.33
+7;1;3074;MG;880;28.63;beurre;673;76.48
+7;1;3074;MG;880;28.63;huile;2;0.23
+7;1;3074;MG;880;28.63;margarine;207;23.52
+7;1;3074;P;23;0.75;autres poissons ou poissons sans précision;1;4.35
+7;1;3074;P;23;0.75;boeuf en pièces ou haché;2;8.7
+7;1;3074;P;23;0.75;fruits secs et châtaignes;3;13.04
+7;1;3074;P;23;0.75;gibier;1;4.35
+7;1;3074;P;23;0.75;jambons et charcuteries en pièces;9;39.13
+7;1;3074;P;23;0.75;oeufs et dérivés;4;17.39
+7;1;3074;P;23;0.75;oléagineux et graines;3;13.04
+7;1;3074;P;23;0.75;poissons de mer;1;4.35
+7;1;3074;P;23;0.75;saucisses, saucissons, andouilles et boudins;1;4.35
+7;1;3074;PC;6;0.2;plats garnis à base de viande;1;16.67
+7;1;3074;PC;6;0.2;sandwichs baguette;5;83.33
+7;1;3074;PL;1241;40.37;autre lait;23;1.85
+7;1;3074;PL;1241;40.37;autres fromages ou fromage sans précision;3;0.24
+7;1;3074;PL;1241;40.37;crème fraîche;2;0.16
+7;1;3074;PL;1241;40.37;fromage blanc et petits suisses;17;1.37
+7;1;3074;PL;1241;40.37;fromages affinés;32;2.58
+7;1;3074;PL;1241;40.37;fromages fondus;9;0.73
+7;1;3074;PL;1241;40.37;fromages frais non affinés;2;0.16
+7;1;3074;PL;1241;40.37;lait aromatisé;1;0.08
+7;1;3074;PL;1241;40.37;lait concentré ou en poudre;14;1.13
+7;1;3074;PL;1241;40.37;lait en bouteille ou en brique;1050;84.61
+7;1;3074;PL;1241;40.37;yaourts et assimilés;135;10.88
+7;1;3074;PS;1243;40.44;autres céréales pour petit déjeuner;17;1.37
+7;1;3074;PS;1243;40.44;barres chocolatées;5;0.4
+7;1;3074;PS;1243;40.44;barres céréalières;13;1.05
+7;1;3074;PS;1243;40.44;beignets, crêpes et gaufres;28;2.25
+7;1;3074;PS;1243;40.44;biscuits salés pour apéritif;1;0.08
+7;1;3074;PS;1243;40.44;biscuits sucrés;190;15.29
+7;1;3074;PS;1243;40.44;chocolat en tablettes;26;2.09
+7;1;3074;PS;1243;40.44;compotes;37;2.98
+7;1;3074;PS;1243;40.44;crème dessert et lait gélifié;19;1.53
+7;1;3074;PS;1243;40.44;céréales aux fruits frais ou secs;40;3.22
+7;1;3074;PS;1243;40.44;céréales chocolatées;63;5.07
+7;1;3074;PS;1243;40.44;céréales sucrées, glacées ou au miel;93;7.48
+7;1;3074;PS;1243;40.44;entremets;4;0.32
+7;1;3074;PS;1243;40.44;fruits;101;8.13
+7;1;3074;PS;1243;40.44;gâteaux;119;9.57
+7;1;3074;PS;1243;40.44;pâte chocolatée à tartiner;167;13.44
+7;1;3074;PS;1243;40.44;pâtisseries et tartes;5;0.4
+7;1;3074;PS;1243;40.44;viennoiserie;502;40.39
+7;1;3074;S;1923;62.56;confiserie;5;0.26
+7;1;3074;S;1923;62.56;confiture et miel;565;29.38
+7;1;3074;S;1923;62.56;sucre et assimilés;1590;82.68
+7;3;3191;A;45;1.41;aliments destinés à une alimentation particulière;45;100.0
+7;3;3191;BC;808;25.32;cacao, poudres et boissons cacaotées;3;0.37
+7;3;3191;BC;808;25.32;café;736;91.09
+7;3;3191;BC;808;25.32;chicorée et poudre maltée;10;1.24
+7;3;3191;BC;808;25.32;thé et infusions;60;7.43
+7;3;3191;BF;2531;79.32;autre eau;140;5.53
+7;3;3191;BF;2531;79.32;autres boissons fraîches;99;3.91
+7;3;3191;BF;2531;79.32;bière;29;1.15
+7;3;3191;BF;2531;79.32;boissons aux fruits;5;0.2
+7;3;3191;BF;2531;79.32;cidre;7;0.28
+7;3;3191;BF;2531;79.32;cocktails et mélanges;59;2.33
+7;3;3191;BF;2531;79.32;eau de source;540;21.34
+7;3;3191;BF;2531;79.32;eau du robinet;983;38.84
+7;3;3191;BF;2531;79.32;eau minérale gazeuse;75;2.96
+7;3;3191;BF;2531;79.32;eau minérale plate;309;12.21
+7;3;3191;BF;2531;79.32;jus de fruits (purs et à base  de concentré);74;2.92
+7;3;3191;BF;2531;79.32;nectars;4;0.16
+7;3;3191;BF;2531;79.32;sodas et colas;288;11.38
+7;3;3191;BF;2531;79.32;spiritueux et vins cuits;51;2.02
+7;3;3191;BF;2531;79.32;vin;256;10.11
+7;3;3191;C;920;28.83;condiments d'accompagnement;124;13.48
+7;3;3191;C;920;28.83;condiments d'assaisonnement;129;14.02
+7;3;3191;C;920;28.83;herbes aromatiques;68;7.39
+7;3;3191;C;920;28.83;sauces;665;72.28
+7;3;3191;C;920;28.83;sel et épices;146;15.87
+7;3;3191;F;2116;66.31;autres céréales;3;0.14
+7;3;3191;F;2116;66.31;autres produits de panification;14;0.66
+7;3;3191;F;2116;66.31;biscottes et panification sèche;15;0.71
+7;3;3191;F;2116;66.31;blé;53;2.5
+7;3;3191;F;2116;66.31;pain;1099;51.94
+7;3;3191;F;2116;66.31;pommes de terre et apparentés;768;36.29
+7;3;3191;F;2116;66.31;pâtes alimentaires;419;19.8
+7;3;3191;F;2116;66.31;pâtes pour pâtisserie prêtes à l'emploi;4;0.19
+7;3;3191;F;2116;66.31;riz;251;11.86
+7;3;3191;L;1287;40.33;champignons;59;4.58
+7;3;3191;L;1287;40.33;choux;84;6.53
+7;3;3191;L;1287;40.33;haricots verts et petits pois (légumes potagers);251;19.5
+7;3;3191;L;1287;40.33;légumes feuilles;455;35.35
+7;3;3191;L;1287;40.33;légumes fruits;289;22.46
+7;3;3191;L;1287;40.33;légumes racines, tubercules ou bulbes;291;22.61
+7;3;3191;L;1287;40.33;légumes tiges;51;3.96
+7;3;3191;L;1287;40.33;mélanges de légumes, légumes préparés et autres légumes;162;12.59
+7;3;3191;MG;1441;45.16;autres graisses;10;0.69
+7;3;3191;MG;1441;45.16;beurre;795;55.17
+7;3;3191;MG;1441;45.16;huile;729;50.59
+7;3;3191;MG;1441;45.16;margarine;337;23.39
+7;3;3191;P;2133;66.84;abats;41;1.92
+7;3;3191;P;2133;66.84;agneau;66;3.09
+7;3;3191;P;2133;66.84;autre charcuterie ou charcuterie  sans précision;13;0.61
+7;3;3191;P;2133;66.84;autre viande;40;1.88
+7;3;3191;P;2133;66.84;autres fruits de mer ou fruits de mer sans précision;5;0.23
+7;3;3191;P;2133;66.84;autres poissons ou poissons sans précision;40;1.88
+7;3;3191;P;2133;66.84;boeuf en pièces ou haché;483;22.64
+7;3;3191;P;2133;66.84;crustacés;47;2.2
+7;3;3191;P;2133;66.84;fruits secs et châtaignes;10;0.47
+7;3;3191;P;2133;66.84;gibier;15;0.7
+7;3;3191;P;2133;66.84;jambons et charcuteries en pièces;273;12.8
+7;3;3191;P;2133;66.84;légumes secs;80;3.75
+7;3;3191;P;2133;66.84;légumes secs préparés;18;0.84
+7;3;3191;P;2133;66.84;mollusques et coquillage;47;2.2
+7;3;3191;P;2133;66.84;mélanges;3;0.14
+7;3;3191;P;2133;66.84;oeufs et dérivés;166;7.78
+7;3;3191;P;2133;66.84;oléagineux et graines;22;1.03
+7;3;3191;P;2133;66.84;poissons de mer;172;8.06
+7;3;3191;P;2133;66.84;porc;209;9.8
+7;3;3191;P;2133;66.84;produits dérivés des poissons;76;3.56
+7;3;3191;P;2133;66.84;pâtés, terrines, rillettes et foie gras;157;7.36
+7;3;3191;P;2133;66.84;saucisses, saucissons, andouilles et boudins;239;11.2
+7;3;3191;P;2133;66.84;veau;58;2.72
+7;3;3191;P;2133;66.84;volailles et lapins;433;20.3
+7;3;3191;PC;1101;34.5;autres sandwichs;56;5.09
+7;3;3191;PC;1101;34.5;beignets, crêpes et bouchées à la reine;64;5.81
+7;3;3191;PC;1101;34.5;bouillons;14;1.27
+7;3;3191;PC;1101;34.5;feuilletés et friands;30;2.72
+7;3;3191;PC;1101;34.5;garnitures composées;70;6.36
+7;3;3191;PC;1101;34.5;hamburgers et hot-dog;78;7.08
+7;3;3191;PC;1101;34.5;pizzas;84;7.63
+7;3;3191;PC;1101;34.5;plats garnis à base de viande;184;16.71
+7;3;3191;PC;1101;34.5;plats sans garniture;66;5.99
+7;3;3191;PC;1101;34.5;plats à base de fromage;2;0.18
+7;3;3191;PC;1101;34.5;plats à base de légumes;58;5.27
+7;3;3191;PC;1101;34.5;plats à base de pâtes ou de pommes de terre;178;16.17
+7;3;3191;PC;1101;34.5;potages et soupes;100;9.08
+7;3;3191;PC;1101;34.5;quiches et tartes salées;51;4.63
+7;3;3191;PC;1101;34.5;sandwichs baguette;125;11.35
+7;3;3191;PL;1253;39.27;autre lait;4;0.32
+7;3;3191;PL;1253;39.27;autres fromages ou fromage sans précision;1;0.08
+7;3;3191;PL;1253;39.27;crème fraîche;174;13.89
+7;3;3191;PL;1253;39.27;fromage blanc et petits suisses;70;5.59
+7;3;3191;PL;1253;39.27;fromages affinés;661;52.75
+7;3;3191;PL;1253;39.27;fromages fondus;55;4.39
+7;3;3191;PL;1253;39.27;fromages frais non affinés;39;3.11
+7;3;3191;PL;1253;39.27;lait aromatisé;3;0.24
+7;3;3191;PL;1253;39.27;lait concentré ou en poudre;5;0.4
+7;3;3191;PL;1253;39.27;lait en bouteille ou en brique;51;4.07
+7;3;3191;PL;1253;39.27;yaourts et assimilés;387;30.89
+7;3;3191;PS;1275;39.96;autres céréales pour petit déjeuner;4;0.31
+7;3;3191;PS;1275;39.96;barres chocolatées;5;0.39
+7;3;3191;PS;1275;39.96;barres céréalières;1;0.08
+7;3;3191;PS;1275;39.96;beignets, crêpes et gaufres;22;1.73
+7;3;3191;PS;1275;39.96;biscuits salés pour apéritif;59;4.63
+7;3;3191;PS;1275;39.96;biscuits sucrés;28;2.2
+7;3;3191;PS;1275;39.96;chocolat en tablettes;85;6.67
+7;3;3191;PS;1275;39.96;compotes;116;9.1
+7;3;3191;PS;1275;39.96;crème dessert et lait gélifié;159;12.47
+7;3;3191;PS;1275;39.96;céréales chocolatées;1;0.08
+7;3;3191;PS;1275;39.96;céréales sucrées, glacées ou au miel;3;0.24
+7;3;3191;PS;1275;39.96;desserts glacés;6;0.47
+7;3;3191;PS;1275;39.96;entremets;111;8.71
+7;3;3191;PS;1275;39.96;fruits;508;39.84
+7;3;3191;PS;1275;39.96;fruits au sirop;33;2.59
+7;3;3191;PS;1275;39.96;glaces;72;5.65
+7;3;3191;PS;1275;39.96;gâteaux;129;10.12
+7;3;3191;PS;1275;39.96;pâte chocolatée à tartiner;5;0.39
+7;3;3191;PS;1275;39.96;pâtisseries et tartes;98;7.69
+7;3;3191;PS;1275;39.96;sorbets;7;0.55
+7;3;3191;PS;1275;39.96;viennoiserie;20;1.57
+7;3;3191;S;601;18.83;confiserie;15;2.5
+7;3;3191;S;601;18.83;confiture et miel;39;6.49
+7;3;3191;S;601;18.83;sucre et assimilés;556;92.51
+7;4;2091;A;27;1.29;aliments destinés à une alimentation particulière;27;100.0
+7;4;2091;BC;877;41.94;cacao, poudres et boissons cacaotées;35;3.99
+7;4;2091;BC;877;41.94;café;582;66.36
+7;4;2091;BC;877;41.94;chicorée et poudre maltée;33;3.76
+7;4;2091;BC;877;41.94;thé et infusions;244;27.82
+7;4;2091;BF;1229;58.78;autre eau;49;3.99
+7;4;2091;BF;1229;58.78;autres boissons fraîches;78;6.35
+7;4;2091;BF;1229;58.78;bière;35;2.85
+7;4;2091;BF;1229;58.78;boissons aux fruits;9;0.73
+7;4;2091;BF;1229;58.78;cidre;5;0.41
+7;4;2091;BF;1229;58.78;cocktails et mélanges;29;2.36
+7;4;2091;BF;1229;58.78;eau de source;227;18.47
+7;4;2091;BF;1229;58.78;eau du robinet;385;31.33
+7;4;2091;BF;1229;58.78;eau minérale gazeuse;48;3.91
+7;4;2091;BF;1229;58.78;eau minérale plate;201;16.35
+7;4;2091;BF;1229;58.78;jus de fruits (purs et à base  de concentré);92;7.49
+7;4;2091;BF;1229;58.78;nectars;3;0.24
+7;4;2091;BF;1229;58.78;sodas et colas;187;15.22
+7;4;2091;BF;1229;58.78;spiritueux et vins cuits;22;1.79
+7;4;2091;BF;1229;58.78;vin;19;1.55
+7;4;2091;C;16;0.77;condiments d'accompagnement;7;43.75
+7;4;2091;C;16;0.77;condiments d'assaisonnement;2;12.5
+7;4;2091;C;16;0.77;herbes aromatiques;1;6.25
+7;4;2091;C;16;0.77;sauces;4;25.0
+7;4;2091;C;16;0.77;sel et épices;4;25.0
+7;4;2091;F;188;8.99;autres céréales;1;0.53
+7;4;2091;F;188;8.99;autres produits de panification;2;1.06
+7;4;2091;F;188;8.99;biscottes et panification sèche;14;7.45
+7;4;2091;F;188;8.99;pain;163;86.7
+7;4;2091;F;188;8.99;pommes de terre et apparentés;4;2.13
+7;4;2091;F;188;8.99;pâtes alimentaires;6;3.19
+7;4;2091;F;188;8.99;riz;2;1.06
+7;4;2091;L;6;0.29;légumes fruits;5;83.33
+7;4;2091;L;6;0.29;mélanges de légumes, légumes préparés et autres légumes;1;16.67
+7;4;2091;MG;58;2.77;autres graisses;1;1.72
+7;4;2091;MG;58;2.77;beurre;36;62.07
+7;4;2091;MG;58;2.77;huile;1;1.72
+7;4;2091;MG;58;2.77;margarine;20;34.48
+7;4;2091;P;69;3.3;crustacés;1;1.45
+7;4;2091;P;69;3.3;fruits secs et châtaignes;1;1.45
+7;4;2091;P;69;3.3;jambons et charcuteries en pièces;12;17.39
+7;4;2091;P;69;3.3;mélanges;2;2.9
+7;4;2091;P;69;3.3;oeufs et dérivés;1;1.45
+7;4;2091;P;69;3.3;oléagineux et graines;16;23.19
+7;4;2091;P;69;3.3;poissons de mer;1;1.45
+7;4;2091;P;69;3.3;produits dérivés des poissons;1;1.45
+7;4;2091;P;69;3.3;pâtés, terrines, rillettes et foie gras;12;17.39
+7;4;2091;P;69;3.3;saucisses, saucissons, andouilles et boudins;19;27.54
+7;4;2091;P;69;3.3;volailles et lapins;6;8.7
+7;4;2091;PC;36;1.72;autres sandwichs;9;25.0
+7;4;2091;PC;36;1.72;beignets, crêpes et bouchées à la reine;2;5.56
+7;4;2091;PC;36;1.72;feuilletés et friands;3;8.33
+7;4;2091;PC;36;1.72;hamburgers et hot-dog;5;13.89
+7;4;2091;PC;36;1.72;pizzas;5;13.89
+7;4;2091;PC;36;1.72;plats à base de pâtes ou de pommes de terre;3;8.33
+7;4;2091;PC;36;1.72;quiches et tartes salées;3;8.33
+7;4;2091;PC;36;1.72;sandwichs baguette;6;16.67
+7;4;2091;PL;209;10.0;autre lait;7;3.35
+7;4;2091;PL;209;10.0;crème fraîche;2;0.96
+7;4;2091;PL;209;10.0;fromage blanc et petits suisses;9;4.31
+7;4;2091;PL;209;10.0;fromages affinés;26;12.44
+7;4;2091;PL;209;10.0;fromages fondus;11;5.26
+7;4;2091;PL;209;10.0;fromages frais non affinés;3;1.44
+7;4;2091;PL;209;10.0;lait aromatisé;1;0.48
+7;4;2091;PL;209;10.0;lait concentré ou en poudre;2;0.96
+7;4;2091;PL;209;10.0;lait en bouteille ou en brique;123;58.85
+7;4;2091;PL;209;10.0;yaourts et assimilés;34;16.27
+7;4;2091;PS;864;41.32;autres céréales pour petit déjeuner;1;0.12
+7;4;2091;PS;864;41.32;barres chocolatées;38;4.4
+7;4;2091;PS;864;41.32;barres céréalières;14;1.62
+7;4;2091;PS;864;41.32;beignets, crêpes et gaufres;55;6.37
+7;4;2091;PS;864;41.32;biscuits salés pour apéritif;50;5.79
+7;4;2091;PS;864;41.32;biscuits sucrés;173;20.02
+7;4;2091;PS;864;41.32;chocolat en tablettes;137;15.86
+7;4;2091;PS;864;41.32;compotes;7;0.81
+7;4;2091;PS;864;41.32;crème dessert et lait gélifié;12;1.39
+7;4;2091;PS;864;41.32;céréales aux fruits frais ou secs;3;0.35
+7;4;2091;PS;864;41.32;céréales chocolatées;8;0.93
+7;4;2091;PS;864;41.32;céréales sucrées, glacées ou au miel;4;0.46
+7;4;2091;PS;864;41.32;desserts glacés;2;0.23
+7;4;2091;PS;864;41.32;entremets;18;2.08
+7;4;2091;PS;864;41.32;fruits;124;14.35
+7;4;2091;PS;864;41.32;glaces;22;2.55
+7;4;2091;PS;864;41.32;gâteaux;123;14.24
+7;4;2091;PS;864;41.32;pâte chocolatée à tartiner;53;6.13
+7;4;2091;PS;864;41.32;pâtisseries et tartes;50;5.79
+7;4;2091;PS;864;41.32;sorbets;1;0.12
+7;4;2091;PS;864;41.32;viennoiserie;97;11.23
+7;4;2091;S;605;28.93;confiserie;101;16.69
+7;4;2091;S;605;28.93;confiture et miel;34;5.62
+7;4;2091;S;605;28.93;sucre et assimilés;492;81.32
+7;5;3308;A;30;0.91;aliments destinés à une alimentation particulière;30;100.0
+7;5;3308;BC;401;12.12;cacao, poudres et boissons cacaotées;13;3.24
+7;5;3308;BC;401;12.12;café;314;78.3
+7;5;3308;BC;401;12.12;chicorée et poudre maltée;5;1.25
+7;5;3308;BC;401;12.12;thé et infusions;70;17.46
+7;5;3308;BF;2628;79.44;autre eau;123;4.68
+7;5;3308;BF;2628;79.44;autres boissons fraîches;88;3.35
+7;5;3308;BF;2628;79.44;bière;43;1.64
+7;5;3308;BF;2628;79.44;boissons aux fruits;13;0.49
+7;5;3308;BF;2628;79.44;cidre;21;0.8
+7;5;3308;BF;2628;79.44;cocktails et mélanges;71;2.7
+7;5;3308;BF;2628;79.44;eau de source;576;21.92
+7;5;3308;BF;2628;79.44;eau du robinet;959;36.49
+7;5;3308;BF;2628;79.44;eau minérale gazeuse;96;3.65
+7;5;3308;BF;2628;79.44;eau minérale plate;276;10.5
+7;5;3308;BF;2628;79.44;jus de fruits (purs et à base  de concentré);78;2.97
+7;5;3308;BF;2628;79.44;nectars;2;0.08
+7;5;3308;BF;2628;79.44;sodas et colas;325;12.37
+7;5;3308;BF;2628;79.44;spiritueux et vins cuits;107;4.07
+7;5;3308;BF;2628;79.44;vin;349;13.28
+7;5;3308;C;846;25.57;condiments d'accompagnement;134;15.84
+7;5;3308;C;846;25.57;condiments d'assaisonnement;176;20.8
+7;5;3308;C;846;25.57;herbes aromatiques;70;8.27
+7;5;3308;C;846;25.57;sauces;568;67.14
+7;5;3308;C;846;25.57;sel et épices;157;18.56
+7;5;3308;F;1975;59.7;autres céréales;3;0.15
+7;5;3308;F;1975;59.7;autres produits de panification;22;1.11
+7;5;3308;F;1975;59.7;biscottes et panification sèche;24;1.22
+7;5;3308;F;1975;59.7;blé;28;1.42
+7;5;3308;F;1975;59.7;pain;1102;55.8
+7;5;3308;F;1975;59.7;pommes de terre et apparentés;586;29.67
+7;5;3308;F;1975;59.7;pâtes alimentaires;358;18.13
+7;5;3308;F;1975;59.7;riz;210;10.63
+7;5;3308;L;1133;34.25;champignons;46;4.06
+7;5;3308;L;1133;34.25;choux;60;5.3
+7;5;3308;L;1133;34.25;haricots verts et petits pois (légumes potagers);163;14.39
+7;5;3308;L;1133;34.25;légumes feuilles;462;40.78
+7;5;3308;L;1133;34.25;légumes fruits;250;22.07
+7;5;3308;L;1133;34.25;légumes racines, tubercules ou bulbes;226;19.95
+7;5;3308;L;1133;34.25;légumes tiges;57;5.03
+7;5;3308;L;1133;34.25;mélanges de légumes, légumes préparés et autres légumes;114;10.06
+7;5;3308;MG;1305;39.45;autres graisses;3;0.23
+7;5;3308;MG;1305;39.45;beurre;731;56.02
+7;5;3308;MG;1305;39.45;huile;685;52.49
+7;5;3308;MG;1305;39.45;margarine;233;17.85
+7;5;3308;P;1859;56.2;abats;30;1.61
+7;5;3308;P;1859;56.2;agneau;28;1.51
+7;5;3308;P;1859;56.2;autre charcuterie ou charcuterie  sans précision;18;0.97
+7;5;3308;P;1859;56.2;autre viande;31;1.67
+7;5;3308;P;1859;56.2;autres fruits de mer ou fruits de mer sans précision;10;0.54
+7;5;3308;P;1859;56.2;autres poissons ou poissons sans précision;29;1.56
+7;5;3308;P;1859;56.2;boeuf en pièces ou haché;292;15.71
+7;5;3308;P;1859;56.2;crustacés;57;3.07
+7;5;3308;P;1859;56.2;fruits secs et châtaignes;19;1.02
+7;5;3308;P;1859;56.2;gibier;9;0.48
+7;5;3308;P;1859;56.2;jambons et charcuteries en pièces;394;21.19
+7;5;3308;P;1859;56.2;légumes secs;50;2.69
+7;5;3308;P;1859;56.2;légumes secs préparés;8;0.43
+7;5;3308;P;1859;56.2;mollusques et coquillage;57;3.07
+7;5;3308;P;1859;56.2;mélanges;2;0.11
+7;5;3308;P;1859;56.2;oeufs et dérivés;206;11.08
+7;5;3308;P;1859;56.2;oléagineux et graines;35;1.88
+7;5;3308;P;1859;56.2;poissons d'eau douce;3;0.16
+7;5;3308;P;1859;56.2;poissons de mer;155;8.34
+7;5;3308;P;1859;56.2;porc;111;5.97
+7;5;3308;P;1859;56.2;produits dérivés des poissons;62;3.34
+7;5;3308;P;1859;56.2;pâtés, terrines, rillettes et foie gras;155;8.34
+7;5;3308;P;1859;56.2;saucisses, saucissons, andouilles et boudins;261;14.04
+7;5;3308;P;1859;56.2;veau;34;1.83
+7;5;3308;P;1859;56.2;volailles et lapins;286;15.38
+7;5;3308;PC;1544;46.67;autres sandwichs;98;6.35
+7;5;3308;PC;1544;46.67;beignets, crêpes et bouchées à la reine;99;6.41
+7;5;3308;PC;1544;46.67;bouillons;35;2.27
+7;5;3308;PC;1544;46.67;feuilletés et friands;32;2.07
+7;5;3308;PC;1544;46.67;garnitures composées;45;2.91
+7;5;3308;PC;1544;46.67;hamburgers et hot-dog;77;4.99
+7;5;3308;PC;1544;46.67;pizzas;208;13.47
+7;5;3308;PC;1544;46.67;plats garnis à base de viande;118;7.64
+7;5;3308;PC;1544;46.67;plats sans garniture;56;3.63
+7;5;3308;PC;1544;46.67;plats à base de fromage;5;0.32
+7;5;3308;PC;1544;46.67;plats à base de légumes;60;3.89
+7;5;3308;PC;1544;46.67;plats à base de pâtes ou de pommes de terre;168;10.88
+7;5;3308;PC;1544;46.67;potages et soupes;528;34.2
+7;5;3308;PC;1544;46.67;quiches et tartes salées;99;6.41
+7;5;3308;PC;1544;46.67;sandwichs baguette;26;1.68
+7;5;3308;PL;1450;43.83;autres fromages ou fromage sans précision;4;0.28
+7;5;3308;PL;1450;43.83;crème fraîche;176;12.14
+7;5;3308;PL;1450;43.83;fromage blanc et petits suisses;76;5.24
+7;5;3308;PL;1450;43.83;fromages affinés;778;53.66
+7;5;3308;PL;1450;43.83;fromages fondus;57;3.93
+7;5;3308;PL;1450;43.83;fromages frais non affinés;49;3.38
+7;5;3308;PL;1450;43.83;lait aromatisé;2;0.14
+7;5;3308;PL;1450;43.83;lait concentré ou en poudre;1;0.07
+7;5;3308;PL;1450;43.83;lait en bouteille ou en brique;88;6.07
+7;5;3308;PL;1450;43.83;yaourts et assimilés;492;33.93
+7;5;3308;PS;1232;37.24;autres céréales pour petit déjeuner;3;0.24
+7;5;3308;PS;1232;37.24;barres chocolatées;2;0.16
+7;5;3308;PS;1232;37.24;beignets, crêpes et gaufres;69;5.6
+7;5;3308;PS;1232;37.24;biscuits salés pour apéritif;96;7.79
+7;5;3308;PS;1232;37.24;biscuits sucrés;25;2.03
+7;5;3308;PS;1232;37.24;chocolat en tablettes;71;5.76
+7;5;3308;PS;1232;37.24;compotes;101;8.2
+7;5;3308;PS;1232;37.24;crème dessert et lait gélifié;177;14.37
+7;5;3308;PS;1232;37.24;céréales aux fruits frais ou secs;2;0.16
+7;5;3308;PS;1232;37.24;céréales chocolatées;6;0.49
+7;5;3308;PS;1232;37.24;céréales sucrées, glacées ou au miel;7;0.57
+7;5;3308;PS;1232;37.24;desserts glacés;7;0.57
+7;5;3308;PS;1232;37.24;entremets;100;8.12
+7;5;3308;PS;1232;37.24;fruits;413;33.52
+7;5;3308;PS;1232;37.24;fruits au sirop;19;1.54
+7;5;3308;PS;1232;37.24;glaces;80;6.49
+7;5;3308;PS;1232;37.24;gâteaux;123;9.98
+7;5;3308;PS;1232;37.24;pâte chocolatée à tartiner;17;1.38
+7;5;3308;PS;1232;37.24;pâtisseries et tartes;75;6.09
+7;5;3308;PS;1232;37.24;sorbets;11;0.89
+7;5;3308;PS;1232;37.24;viennoiserie;18;1.46
+7;5;3308;S;411;12.42;confiserie;9;2.19
+7;5;3308;S;411;12.42;confiture et miel;48;11.68
+7;5;3308;S;411;12.42;sucre et assimilés;362;88.08
+8;1;517;A;60;11.61;aliments destinés à une alimentation particulière;60;100.0
+8;1;517;BC;478;92.46;cacao, poudres et boissons cacaotées;28;5.86
+8;1;517;BC;478;92.46;café;294;61.51
+8;1;517;BC;478;92.46;chicorée et poudre maltée;62;12.97
+8;1;517;BC;478;92.46;thé et infusions;114;23.85
+8;1;517;BF;189;36.56;autre eau;7;3.7
+8;1;517;BF;189;36.56;eau de source;18;9.52
+8;1;517;BF;189;36.56;eau du robinet;63;33.33
+8;1;517;BF;189;36.56;eau minérale plate;30;15.87
+8;1;517;BF;189;36.56;jus de fruits (purs et à base  de concentré);89;47.09
+8;1;517;F;280;54.16;biscottes et panification sèche;41;14.64
+8;1;517;F;280;54.16;blé;4;1.43
+8;1;517;F;280;54.16;pain;243;86.79
+8;1;517;MG;194;37.52;beurre;155;79.9
+8;1;517;MG;194;37.52;margarine;39;20.1
+8;1;517;P;2;0.39;fruits secs et châtaignes;2;100.0
+8;1;517;PL;226;43.71;autre lait;8;3.54
+8;1;517;PL;226;43.71;fromage blanc et petits suisses;8;3.54
+8;1;517;PL;226;43.71;fromages affinés;1;0.44
+8;1;517;PL;226;43.71;lait aromatisé;4;1.77
+8;1;517;PL;226;43.71;lait concentré ou en poudre;7;3.1
+8;1;517;PL;226;43.71;lait en bouteille ou en brique;166;73.45
+8;1;517;PL;226;43.71;yaourts et assimilés;44;19.47
+8;1;517;PS;195;37.72;autres céréales pour petit déjeuner;10;5.13
+8;1;517;PS;195;37.72;barres céréalières;5;2.56
+8;1;517;PS;195;37.72;beignets, crêpes et gaufres;1;0.51
+8;1;517;PS;195;37.72;biscuits sucrés;9;4.62
+8;1;517;PS;195;37.72;chocolat en tablettes;4;2.05
+8;1;517;PS;195;37.72;compotes;6;3.08
+8;1;517;PS;195;37.72;crème dessert et lait gélifié;10;5.13
+8;1;517;PS;195;37.72;céréales aux fruits frais ou secs;27;13.85
+8;1;517;PS;195;37.72;céréales chocolatées;10;5.13
+8;1;517;PS;195;37.72;céréales sucrées, glacées ou au miel;21;10.77
+8;1;517;PS;195;37.72;fruits;50;25.64
+8;1;517;PS;195;37.72;gâteaux;14;7.18
+8;1;517;PS;195;37.72;pâte chocolatée à tartiner;6;3.08
+8;1;517;PS;195;37.72;viennoiserie;55;28.21
+8;1;517;S;323;62.48;confiture et miel;203;62.85
+8;1;517;S;323;62.48;sucre et assimilés;171;52.94
+8;3;507;A;6;1.18;aliments destinés à une alimentation particulière;6;100.0
+8;3;507;BC;194;38.26;café;185;95.36
+8;3;507;BC;194;38.26;chicorée et poudre maltée;3;1.55
+8;3;507;BC;194;38.26;thé et infusions;6;3.09
+8;3;507;BF;405;79.88;autre eau;18;4.44
+8;3;507;BF;405;79.88;autres boissons fraîches;13;3.21
+8;3;507;BF;405;79.88;bière;1;0.25
+8;3;507;BF;405;79.88;cidre;2;0.49
+8;3;507;BF;405;79.88;cocktails et mélanges;7;1.73
+8;3;507;BF;405;79.88;eau de source;50;12.35
+8;3;507;BF;405;79.88;eau du robinet;183;45.19
+8;3;507;BF;405;79.88;eau minérale gazeuse;23;5.68
+8;3;507;BF;405;79.88;eau minérale plate;69;17.04
+8;3;507;BF;405;79.88;jus de fruits (purs et à base  de concentré);13;3.21
+8;3;507;BF;405;79.88;sodas et colas;13;3.21
+8;3;507;BF;405;79.88;spiritueux et vins cuits;9;2.22
+8;3;507;BF;405;79.88;vin;89;21.98
+8;3;507;C;221;43.59;condiments d'accompagnement;24;10.86
+8;3;507;C;221;43.59;condiments d'assaisonnement;45;20.36
+8;3;507;C;221;43.59;herbes aromatiques;32;14.48
+8;3;507;C;221;43.59;sauces;159;71.95
+8;3;507;C;221;43.59;sel et épices;22;9.95
+8;3;507;F;392;77.32;autres produits de panification;4;1.02
+8;3;507;F;392;77.32;biscottes et panification sèche;4;1.02
+8;3;507;F;392;77.32;blé;7;1.79
+8;3;507;F;392;77.32;pain;301;76.79
+8;3;507;F;392;77.32;pommes de terre et apparentés;106;27.04
+8;3;507;F;392;77.32;pâtes alimentaires;52;13.27
+8;3;507;F;392;77.32;riz;41;10.46
+8;3;507;L;348;68.64;champignons;26;7.47
+8;3;507;L;348;68.64;choux;28;8.05
+8;3;507;L;348;68.64;haricots verts et petits pois (légumes potagers);76;21.84
+8;3;507;L;348;68.64;légumes feuilles;112;32.18
+8;3;507;L;348;68.64;légumes fruits;122;35.06
+8;3;507;L;348;68.64;légumes racines, tubercules ou bulbes;108;31.03
+8;3;507;L;348;68.64;légumes tiges;19;5.46
+8;3;507;L;348;68.64;mélanges de légumes, légumes préparés et autres légumes;43;12.36
+8;3;507;MG;271;53.45;autres graisses;2;0.74
+8;3;507;MG;271;53.45;beurre;116;42.8
+8;3;507;MG;271;53.45;huile;182;67.16
+8;3;507;MG;271;53.45;margarine;59;21.77
+8;3;507;P;353;69.63;abats;9;2.55
+8;3;507;P;353;69.63;agneau;11;3.12
+8;3;507;P;353;69.63;autre charcuterie ou charcuterie  sans précision;1;0.28
+8;3;507;P;353;69.63;autre viande;4;1.13
+8;3;507;P;353;69.63;autres poissons ou poissons sans précision;4;1.13
+8;3;507;P;353;69.63;boeuf en pièces ou haché;48;13.6
+8;3;507;P;353;69.63;crustacés;14;3.97
+8;3;507;P;353;69.63;fruits secs et châtaignes;3;0.85
+8;3;507;P;353;69.63;gibier;4;1.13
+8;3;507;P;353;69.63;jambons et charcuteries en pièces;51;14.45
+8;3;507;P;353;69.63;légumes secs;13;3.68
+8;3;507;P;353;69.63;légumes secs préparés;1;0.28
+8;3;507;P;353;69.63;mollusques et coquillage;13;3.68
+8;3;507;P;353;69.63;mélanges;1;0.28
+8;3;507;P;353;69.63;oeufs et dérivés;33;9.35
+8;3;507;P;353;69.63;oléagineux et graines;9;2.55
+8;3;507;P;353;69.63;poissons de mer;36;10.2
+8;3;507;P;353;69.63;porc;22;6.23
+8;3;507;P;353;69.63;produits dérivés des poissons;10;2.83
+8;3;507;P;353;69.63;pâtés, terrines, rillettes et foie gras;22;6.23
+8;3;507;P;353;69.63;saucisses, saucissons, andouilles et boudins;53;15.01
+8;3;507;P;353;69.63;veau;12;3.4
+8;3;507;P;353;69.63;volailles et lapins;86;24.36
+8;3;507;PC;157;30.97;autres sandwichs;5;3.18
+8;3;507;PC;157;30.97;beignets, crêpes et bouchées à la reine;14;8.92
+8;3;507;PC;157;30.97;bouillons;4;2.55
+8;3;507;PC;157;30.97;garnitures composées;6;3.82
+8;3;507;PC;157;30.97;hamburgers et hot-dog;4;2.55
+8;3;507;PC;157;30.97;pizzas;6;3.82
+8;3;507;PC;157;30.97;plats garnis à base de viande;37;23.57
+8;3;507;PC;157;30.97;plats sans garniture;10;6.37
+8;3;507;PC;157;30.97;plats à base de légumes;18;11.46
+8;3;507;PC;157;30.97;plats à base de pâtes ou de pommes de terre;38;24.2
+8;3;507;PC;157;30.97;potages et soupes;5;3.18
+8;3;507;PC;157;30.97;quiches et tartes salées;11;7.01
+8;3;507;PC;157;30.97;sandwichs baguette;12;7.64
+8;3;507;PL;345;68.05;autres fromages ou fromage sans précision;5;1.45
+8;3;507;PL;345;68.05;crème fraîche;45;13.04
+8;3;507;PL;345;68.05;fromage blanc et petits suisses;21;6.09
+8;3;507;PL;345;68.05;fromages affinés;222;64.35
+8;3;507;PL;345;68.05;fromages fondus;11;3.19
+8;3;507;PL;345;68.05;fromages frais non affinés;22;6.38
+8;3;507;PL;345;68.05;lait en bouteille ou en brique;2;0.58
+8;3;507;PL;345;68.05;yaourts et assimilés;109;31.59
+8;3;507;PS;327;64.5;beignets, crêpes et gaufres;3;0.92
+8;3;507;PS;327;64.5;biscuits salés pour apéritif;8;2.45
+8;3;507;PS;327;64.5;biscuits sucrés;6;1.83
+8;3;507;PS;327;64.5;chocolat en tablettes;44;13.46
+8;3;507;PS;327;64.5;compotes;21;6.42
+8;3;507;PS;327;64.5;crème dessert et lait gélifié;25;7.65
+8;3;507;PS;327;64.5;desserts glacés;1;0.31
+8;3;507;PS;327;64.5;entremets;26;7.95
+8;3;507;PS;327;64.5;fruits;194;59.33
+8;3;507;PS;327;64.5;fruits au sirop;7;2.14
+8;3;507;PS;327;64.5;glaces;10;3.06
+8;3;507;PS;327;64.5;gâteaux;18;5.5
+8;3;507;PS;327;64.5;pâte chocolatée à tartiner;1;0.31
+8;3;507;PS;327;64.5;pâtisseries et tartes;23;7.03
+8;3;507;PS;327;64.5;sorbets;2;0.61
+8;3;507;PS;327;64.5;viennoiserie;5;1.53
+8;3;507;S;119;23.47;confiserie;3;2.52
+8;3;507;S;119;23.47;confiture et miel;9;7.56
+8;3;507;S;119;23.47;sucre et assimilés;109;91.6
+8;4;371;A;20;5.39;aliments destinés à une alimentation particulière;20;100.0
+8;4;371;BC;161;43.4;cacao, poudres et boissons cacaotées;1;0.62
+8;4;371;BC;161;43.4;café;93;57.76
+8;4;371;BC;161;43.4;chicorée et poudre maltée;3;1.86
+8;4;371;BC;161;43.4;thé et infusions;71;44.1
+8;4;371;BF;237;63.88;autre eau;13;5.49
+8;4;371;BF;237;63.88;autres boissons fraîches;10;4.22
+8;4;371;BF;237;63.88;bière;16;6.75
+8;4;371;BF;237;63.88;boissons aux fruits;1;0.42
+8;4;371;BF;237;63.88;cidre;1;0.42
+8;4;371;BF;237;63.88;cocktails et mélanges;3;1.27
+8;4;371;BF;237;63.88;eau de source;27;11.39
+8;4;371;BF;237;63.88;eau du robinet;90;37.97
+8;4;371;BF;237;63.88;eau minérale gazeuse;12;5.06
+8;4;371;BF;237;63.88;eau minérale plate;45;18.99
+8;4;371;BF;237;63.88;jus de fruits (purs et à base  de concentré);24;10.13
+8;4;371;BF;237;63.88;sodas et colas;8;3.38
+8;4;371;BF;237;63.88;spiritueux et vins cuits;6;2.53
+8;4;371;BF;237;63.88;vin;3;1.27
+8;4;371;F;21;5.66;biscottes et panification sèche;1;4.76
+8;4;371;F;21;5.66;pain;20;95.24
+8;4;371;L;1;0.27;légumes fruits;1;100.0
+8;4;371;MG;8;2.16;beurre;7;87.5
+8;4;371;MG;8;2.16;margarine;1;12.5
+8;4;371;P;10;2.7;fruits secs et châtaignes;1;10.0
+8;4;371;P;10;2.7;oléagineux et graines;9;90.0
+8;4;371;PC;8;2.16;autres sandwichs;1;12.5
+8;4;371;PC;8;2.16;pizzas;1;12.5
+8;4;371;PC;8;2.16;plats à base de pâtes ou de pommes de terre;1;12.5
+8;4;371;PC;8;2.16;potages et soupes;4;50.0
+8;4;371;PC;8;2.16;quiches et tartes salées;1;12.5
+8;4;371;PL;56;15.09;fromages affinés;2;3.57
+8;4;371;PL;56;15.09;fromages fondus;2;3.57
+8;4;371;PL;56;15.09;lait en bouteille ou en brique;36;64.29
+8;4;371;PL;56;15.09;yaourts et assimilés;16;28.57
+8;4;371;PS;166;44.74;barres chocolatées;2;1.2
+8;4;371;PS;166;44.74;barres céréalières;1;0.6
+8;4;371;PS;166;44.74;beignets, crêpes et gaufres;6;3.61
+8;4;371;PS;166;44.74;biscuits salés pour apéritif;1;0.6
+8;4;371;PS;166;44.74;biscuits sucrés;16;9.64
+8;4;371;PS;166;44.74;chocolat en tablettes;34;20.48
+8;4;371;PS;166;44.74;compotes;1;0.6
+8;4;371;PS;166;44.74;crème dessert et lait gélifié;1;0.6
+8;4;371;PS;166;44.74;céréales sucrées, glacées ou au miel;7;4.22
+8;4;371;PS;166;44.74;entremets;4;2.41
+8;4;371;PS;166;44.74;fruits;57;34.34
+8;4;371;PS;166;44.74;glaces;2;1.2
+8;4;371;PS;166;44.74;gâteaux;15;9.04
+8;4;371;PS;166;44.74;pâte chocolatée à tartiner;8;4.82
+8;4;371;PS;166;44.74;pâtisseries et tartes;9;5.42
+8;4;371;PS;166;44.74;viennoiserie;25;15.06
+8;4;371;S;70;18.87;confiserie;14;20.0
+8;4;371;S;70;18.87;confiture et miel;7;10.0
+8;4;371;S;70;18.87;sucre et assimilés;51;72.86
+8;5;520;A;6;1.15;aliments destinés à une alimentation particulière;6;100.0
+8;5;520;BC;63;12.12;café;33;52.38
+8;5;520;BC;63;12.12;chicorée et poudre maltée;4;6.35
+8;5;520;BC;63;12.12;thé et infusions;26;41.27
+8;5;520;BF;418;80.38;autre eau;16;3.83
+8;5;520;BF;418;80.38;autres boissons fraîches;12;2.87
+8;5;520;BF;418;80.38;bière;10;2.39
+8;5;520;BF;418;80.38;cidre;3;0.72
+8;5;520;BF;418;80.38;cocktails et mélanges;21;5.02
+8;5;520;BF;418;80.38;eau de source;52;12.44
+8;5;520;BF;418;80.38;eau du robinet;178;42.58
+8;5;520;BF;418;80.38;eau minérale gazeuse;22;5.26
+8;5;520;BF;418;80.38;eau minérale plate;65;15.55
+8;5;520;BF;418;80.38;jus de fruits (purs et à base  de concentré);6;1.44
+8;5;520;BF;418;80.38;sodas et colas;18;4.31
+8;5;520;BF;418;80.38;spiritueux et vins cuits;16;3.83
+8;5;520;BF;418;80.38;vin;106;25.36
+8;5;520;C;210;40.38;condiments d'accompagnement;25;11.9
+8;5;520;C;210;40.38;condiments d'assaisonnement;44;20.95
+8;5;520;C;210;40.38;herbes aromatiques;32;15.24
+8;5;520;C;210;40.38;sauces;142;67.62
+8;5;520;C;210;40.38;sel et épices;19;9.05
+8;5;520;F;354;68.08;autres céréales;3;0.85
+8;5;520;F;354;68.08;autres produits de panification;6;1.69
+8;5;520;F;354;68.08;biscottes et panification sèche;4;1.13
+8;5;520;F;354;68.08;blé;5;1.41
+8;5;520;F;354;68.08;pain;270;76.27
+8;5;520;F;354;68.08;pommes de terre et apparentés;74;20.9
+8;5;520;F;354;68.08;pâtes alimentaires;58;16.38
+8;5;520;F;354;68.08;pâtes pour pâtisserie prêtes à l'emploi;1;0.28
+8;5;520;F;354;68.08;riz;20;5.65
+8;5;520;L;306;58.85;champignons;15;4.9
+8;5;520;L;306;58.85;choux;15;4.9
+8;5;520;L;306;58.85;haricots verts et petits pois (légumes potagers);43;14.05
+8;5;520;L;306;58.85;légumes feuilles;146;47.71
+8;5;520;L;306;58.85;légumes fruits;93;30.39
+8;5;520;L;306;58.85;légumes racines, tubercules ou bulbes;83;27.12
+8;5;520;L;306;58.85;légumes tiges;10;3.27
+8;5;520;L;306;58.85;mélanges de légumes, légumes préparés et autres légumes;33;10.78
+8;5;520;MG;239;45.96;autres graisses;1;0.42
+8;5;520;MG;239;45.96;beurre;93;38.91
+8;5;520;MG;239;45.96;huile;161;67.36
+8;5;520;MG;239;45.96;margarine;28;11.72
+8;5;520;P;275;52.88;abats;5;1.82
+8;5;520;P;275;52.88;agneau;2;0.73
+8;5;520;P;275;52.88;autre charcuterie ou charcuterie  sans précision;2;0.73
+8;5;520;P;275;52.88;autre viande;2;0.73
+8;5;520;P;275;52.88;autres fruits de mer ou fruits de mer sans précision;1;0.36
+8;5;520;P;275;52.88;autres poissons ou poissons sans précision;1;0.36
+8;5;520;P;275;52.88;boeuf en pièces ou haché;11;4.0
+8;5;520;P;275;52.88;crustacés;7;2.55
+8;5;520;P;275;52.88;fruits secs et châtaignes;5;1.82
+8;5;520;P;275;52.88;gibier;3;1.09
+8;5;520;P;275;52.88;jambons et charcuteries en pièces;82;29.82
+8;5;520;P;275;52.88;légumes secs;8;2.91
+8;5;520;P;275;52.88;légumes secs préparés;1;0.36
+8;5;520;P;275;52.88;mollusques et coquillage;10;3.64
+8;5;520;P;275;52.88;mélanges;3;1.09
+8;5;520;P;275;52.88;oeufs et dérivés;51;18.55
+8;5;520;P;275;52.88;oléagineux et graines;18;6.55
+8;5;520;P;275;52.88;poissons de mer;18;6.55
+8;5;520;P;275;52.88;porc;9;3.27
+8;5;520;P;275;52.88;produits dérivés des poissons;8;2.91
+8;5;520;P;275;52.88;pâtés, terrines, rillettes et foie gras;36;13.09
+8;5;520;P;275;52.88;saucisses, saucissons, andouilles et boudins;37;13.45
+8;5;520;P;275;52.88;veau;1;0.36
+8;5;520;P;275;52.88;volailles et lapins;35;12.73
+8;5;520;PC;246;47.31;autres sandwichs;10;4.07
+8;5;520;PC;246;47.31;beignets, crêpes et bouchées à la reine;13;5.28
+8;5;520;PC;246;47.31;bouillons;23;9.35
+8;5;520;PC;246;47.31;feuilletés et friands;2;0.81
+8;5;520;PC;246;47.31;garnitures composées;5;2.03
+8;5;520;PC;246;47.31;hamburgers et hot-dog;4;1.63
+8;5;520;PC;246;47.31;pizzas;23;9.35
+8;5;520;PC;246;47.31;plats garnis à base de viande;17;6.91
+8;5;520;PC;246;47.31;plats sans garniture;5;2.03
+8;5;520;PC;246;47.31;plats à base de fromage;3;1.22
+8;5;520;PC;246;47.31;plats à base de légumes;9;3.66
+8;5;520;PC;246;47.31;plats à base de pâtes ou de pommes de terre;26;10.57
+8;5;520;PC;246;47.31;potages et soupes;104;42.28
+8;5;520;PC;246;47.31;quiches et tartes salées;23;9.35
+8;5;520;PC;246;47.31;sandwichs baguette;5;2.03
+8;5;520;PL;364;70.0;crème fraîche;40;10.99
+8;5;520;PL;364;70.0;fromage blanc et petits suisses;27;7.42
+8;5;520;PL;364;70.0;fromages affinés;216;59.34
+8;5;520;PL;364;70.0;fromages fondus;12;3.3
+8;5;520;PL;364;70.0;fromages frais non affinés;23;6.32
+8;5;520;PL;364;70.0;lait en bouteille ou en brique;3;0.82
+8;5;520;PL;364;70.0;yaourts et assimilés;141;38.74
+8;5;520;PS;307;59.04;beignets, crêpes et gaufres;12;3.91
+8;5;520;PS;307;59.04;biscuits salés pour apéritif;10;3.26
+8;5;520;PS;307;59.04;biscuits sucrés;9;2.93
+8;5;520;PS;307;59.04;chocolat en tablettes;30;9.77
+8;5;520;PS;307;59.04;compotes;26;8.47
+8;5;520;PS;307;59.04;crème dessert et lait gélifié;19;6.19
+8;5;520;PS;307;59.04;entremets;25;8.14
+8;5;520;PS;307;59.04;fruits;152;49.51
+8;5;520;PS;307;59.04;fruits au sirop;8;2.61
+8;5;520;PS;307;59.04;glaces;18;5.86
+8;5;520;PS;307;59.04;gâteaux;18;5.86
+8;5;520;PS;307;59.04;pâte chocolatée à tartiner;9;2.93
+8;5;520;PS;307;59.04;pâtisseries et tartes;20;6.51
+8;5;520;PS;307;59.04;sorbets;1;0.33
+8;5;520;PS;307;59.04;viennoiserie;5;1.63
+8;5;520;S;92;17.69;confiserie;2;2.17
+8;5;520;S;92;17.69;confiture et miel;26;28.26
+8;5;520;S;92;17.69;sucre et assimilés;67;72.83

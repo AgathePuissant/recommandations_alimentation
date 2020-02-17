@@ -8,34 +8,13 @@ Created on Mon Feb  3 09:36:39 2020
 # FUNCTION IMPORT
 import random
 import pandas as pd
-import numpy as np
-from mlxtend.frequent_patterns import fpgrowth
-import preference_consommateur as pref
-import motifs_frequents_substituabilite as mf
+#import numpy as np
+#from mlxtend.frequent_patterns import fpgrowth
+#import preference_consommateur as pref
+#import motifs_frequents_substituabilite as mf
 
 # =============================================================================
 
-
-# =============================================================================
-# DATA IMPORT
-#conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-#nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
-
-#t_subst = mf.tableau_substitution(regles, nomenclature)
-#tab_scores = mf.matrice_scores_diff_moy(t_subst, regles)
-
-# =============================================================================
-
-# =============================================================================
-# GLOBAL VARIABLE
-#supp = 0.001
-#conf = 0.01
-
-# DATA PREPARATION
-#motifs = mf.find_frequent(conso_pattern_sougr, seuil_support = supp, algo = fpgrowth)
-#regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = 0.1)
-#regles.to_csv('Base_Gestion_Systeme/regles.csv', sep = ';', encoding = 'latin-1', index = False)
-# =============================================================================
 
 class VirtualUser():
     """
@@ -81,7 +60,7 @@ class VirtualUser():
         
         # TABLE DE SUBSTITUTION (PERMETTRE AU SYSTÈME DE RECOMMANDER DES SUBSTITUTIONS)
         # Filtrage de table de substitution du cluster
-        self.tab_sub_indi = tab_sub[tab_sub['cluster'] == 'cluster_'+str(self.cluster)].reset_index(drop = True)
+        self.tab_sub_indi = tab_sub[tab_sub['cluster'].isin(['cluster_'+str(self.cluster), 'all'])].reset_index(drop = True)
         
         # Personnalisation de table de substitution : ajoute aléatoirement - 10 à 10% du score de substitution par groupe
         self.tab_sub_indi['score_substitution'] = self.tab_sub_indi['score_substitution'].apply(
@@ -143,18 +122,39 @@ class VirtualUser():
         
         return self.repas_propose
 
-
+    def reponse_substitution(self, cluster, type_repas, avecqui, recommandation) :
+        
+        print(self.id, self.cluster, cluster, type_repas, avecqui, recommandation)
+        if len(recommandation) == 0 :
+            reponse = 0
+        else :
+            try :
+                # RÉPONSE DE L'UTILISATEUR
+                if random.random() <= self.tab_rep_indi[(self.tab_rep_indi['cluster'] == cluster) &
+                                                        (self.tab_rep_indi['tyrep'] == type_repas) &
+                                                        (self.tab_rep_indi['avecqui'] == avecqui) &
+                                                        (self.tab_rep_indi['aliment_1'] == recommandation[0]) &
+                                                        (self.tab_rep_indi['aliment_2'] == recommandation[1])]['score_substitution'].tolist()[0] :
+                    reponse = 1
+            except :
+                reponse = 2
+        return reponse
+    
+    
 
 class System() :
     
-    def __init__(self, _nbre_user, _nbre_jour, _seuil_nutri = 70, _alpha = 1.005, _beta = 1.002, _seuil_recom = 5, _seuil_acc = 0.5, _pas_modif = 0.01) :
+    def __init__(self, nbre_user, nbre_jour, seuil_nutri = 70, alpha = 1.005, beta = 1.002, _seuil_recom = 5, _seuil_acc = 0.5, _pas_modif = 0.01) :
         
-        # Load dataframe
-        self.conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-        self.nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+        # LOAD DATAFRAME
+        #self.conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
+        #self.nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
         
         # Regles : supp = 0.001, conf = 0.01
         self.regles = pd.read_csv("Base_Gestion_Systeme/regles.csv", sep = ";", encoding = 'latin-1')
+        
+        # Création de table de préférence
+        self.tab_pref = pd.read_csv('Base_Gestion_Systeme/preference_consommation.csv', sep = ";", encoding = 'latin-1')
         
         # Score de nutrition
         self.score_nutri = pd.read_csv('Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv',sep=';', encoding="latin-1")
@@ -167,24 +167,21 @@ class System() :
         self.liste_avecqui = ['seul', 'accompagne']
 
         # constant d'apprentissage
-        self.seuil_nutri = _seuil_nutri
-        self.alpha = _alpha
-        self.beta = _beta
+        self.seuil_nutri = seuil_nutri
+        self.alpha = alpha
+        self.beta = beta
         
         # constant de pondération
         self.seuil_recom = _seuil_recom # nombre de dernière recommandation à évaluer
         self.seuil_acc = _seuil_acc # seuil du taux de réponse positive à self.seuil_recom dernières recommandations
         self.pas_modif = _pas_modif # pas de modification de chaque pondération
         
-        # Création de table de préférence
-        self.tab_pref = pref.construct_table_preference(self.conso_pattern_sougr, self.nomenclature)
-        
         # Création des utilisateurs
-        self.nbre_user = _nbre_user
+        self.nbre_user = nbre_user
         self.add_VirtualUser()
         
         # Création de table de suivi de consommation
-        self.nbre_jour = _nbre_jour
+        self.nbre_jour = nbre_jour
         self.jour_courant = 1
         self.table_suivi = pd.DataFrame(columns = ['user', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon'])
         
@@ -219,10 +216,10 @@ class System() :
         
         # Reset index de la table de suivi de consommation
         self.table_suivi.reset_index(drop = True, inplace = True)
+
+    
+    def recommandation_substitution(self, user, type_repas, avecqui, repas) :
         
-    
-    def recommandation_reponse(self, user, type_repas, avecqui, repas) :
-    
         """
         La fonction qui permet à l'utilisateur de recevoir une recommandation de substitution pour un repas donné.
         À réfléchir : la fonction appartient à quelle classe User / System pour que ce soit plus pratique?
@@ -240,8 +237,8 @@ class System() :
         
         global recomm_df
         
+        # Recommandation par défaut
         recommandation = ()
-        reponse = False
         
         # Identification de la liste des aliments à substituer 
         eval_repas = self.score_nutri[self.score_nutri['libsougr'].isin(repas)]
@@ -253,29 +250,33 @@ class System() :
             aliment_a_substituer = eval_repas[eval_repas['distance_origine'] == eval_repas['distance_origine'].min()]['libsougr'].tolist()
         
         # S'il existe des aliments à substituer, on lance l'algorithme epsilon-greeding
+        
         if len(aliment_a_substituer) > 0 :
             
-            recomm_df = recommandation
+            # EPSILON-GREEDY
             ep = random.random()
+            if ep <= user.epsilon :
+                recomm_epsi_df = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == False]
+            # Exploitation de la table (des substitutions déjà proposées)
+            else :
+                recomm_epsi_df = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == True]
+            
+            
+            # RECHERCHE DE SUBSTITUTION
+            
+            # Définition du niveau de recherche
+            cluster = 'cluster_'+str(user.cluster)
             niveau = 1
+            niveau_contexte = {1 : [cluster, avecqui], 2 : [cluster, 'all'], 3 : ['all', 'all']}
             
-            # Un boucle while à ajouter pour monter le niveau de filtrage (après car c'est un peu lourd)
-            # Idée : while len(recommandation) == 0 or table_a_filter sont pas encore au bout de niveau (tyrep comme contexte seulement)
-            # table_a_filter monte un niveau de recherche ; contexte = [......]
-            while len(recomm_df) == 0 and niveau < 2:
-            
-                # EPSILON-GREEDING
-                # Exploration de la table (des substitutions non proposées)
-                if ep <= user.epsilon :
-                    recomm_df = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == False]
-                # Exploitation de la table (des substitutions déjà proposées)
-                else :
-                    recomm_df = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == True]
+            while len(recommandation) == 0 and niveau <= 3:
                 
                 # Filtrage des substitutions possibles à partir du contexte et de la liste des aliments à substituer
-                recomm_df = recomm_df[(recomm_df['tyrep'] == type_repas) &
-                                      (recomm_df['avecqui'] == avecqui) &
-                                      (recomm_df['aliment_1'].isin(aliment_a_substituer))]
+                cluster, avecqui = niveau_contexte[niveau]
+                recomm_df = recomm_epsi_df[(recomm_epsi_df['cluster'] == cluster) &
+                                           (recomm_epsi_df['tyrep'] == type_repas) &
+                                           (recomm_epsi_df['avecqui'] == avecqui) &
+                                           (recomm_epsi_df['aliment_1'].isin(aliment_a_substituer))]
                 
                 # Malus de diversité
                 recomm_df['couples'] = list(zip(recomm_df['aliment_1'], recomm_df['aliment_2']))
@@ -287,22 +288,18 @@ class System() :
                 recomm_df = recomm_df[recomm_df['score'] == recomm_df['score'].max()]
                 recomm_df.reset_index(drop = True, inplace = True)
                 
+                # Recommandation
+                try :
+                    recommandation = (recomm_df['aliment_1'][0], recomm_df['aliment_2'][0])
+                except :
+                    pass
+                
                 niveau += 1
-            
-            try :
-                recommandation = (recomm_df['aliment_1'][0], recomm_df['aliment_2'][0])
-                if random.random() <= user.tab_rep_indi[(user.tab_rep_indi['tyrep'] == type_repas) &
-                                                        (user.tab_rep_indi['avecqui'] == avecqui) &
-                                                        (user.tab_rep_indi['aliment_1'] == recommandation[0]) &
-                                                        (user.tab_rep_indi['aliment_2'] == recommandation[1])]['score_substitution'].tolist()[0] :
-                    reponse = True
-            except :
-                pass
 
-        return recommandation, reponse
+        return recommandation, cluster, type_repas, avecqui
     
     
-    def mise_a_jour(self, user, type_repas, avecqui, repas, recommandation, reponse) :
+    def mise_a_jour(self, user, cluster, type_repas, avecqui, repas, recommandation, reponse) :
         """
         La fonction qui met à jour les scores de substituabilité après chaque accord / refus de proposition d'un repas substituable
         """
@@ -311,11 +308,12 @@ class System() :
             
             # MISE À JOUR LES SCORE DE SUBSTITUABILITÉ INDIVIDUELLE
             # ========================================================
+            
             # Dictionnaire de la puissance de alpha et beta
             dict_puis = {True : 1, False : -1}
             
             # Les filtres à appliquer
-            f_contexte = (user.tab_sub_indi['tyrep'] == type_repas) & (user.tab_sub_indi['avecqui'] == avecqui)
+            f_contexte = (user.tab_sub_indi['cluster'] == cluster) & (user.tab_sub_indi['tyrep'] == type_repas) & (user.tab_sub_indi['avecqui'] == avecqui)
             f_alim1 = user.tab_sub_indi['aliment_1'] == recommandation[0]
             f_alim2 = user.tab_sub_indi['aliment_2'] == recommandation[1]
             
@@ -329,14 +327,17 @@ class System() :
             user.tab_sub_indi['score_substitution'] = user.tab_sub_indi['score_substitution'].apply(
                     lambda score : 1 if score > 1 else score)
             
+            
             # MISE À JOUR L'HISTOIRE DE RECOMMANDATION
             # ==========================================
             user.tab_sub_indi.loc[f_contexte & f_alim1 & f_alim2, 'histoire_recomm'] = True
+            
             
             # MISE À JOUR LE MALUS DE DIVERSITÉ
             # ====================================
             if len(user.diversite) == 5 :
                 user.diversite = user.diversite[1:] + [recommandation]
+            
             
             # MISE À JOUR EPSILON 
             # ======================
@@ -379,27 +380,21 @@ class System() :
         """
         
         # Recommandation
-        recommandation, reponse = self.recommandation_reponse(user, type_repas, avecqui, repas)
+        recommandation, cluster_res, type_repas_res, avecqui_res = self.recommandation_substitution(user, type_repas, avecqui, repas)
         
-        # Mise à jour le malus de diversité 
-        # self.mise_a_jour_diversite(user, type_repas, avecqui, recommandation)
+        # Réponse de l'utilisateur à la recommandation
+        reponse = user.reponse_substitution(recommandation, cluster_res, type_repas_res, avecqui_res)
         
-        # Mise à jour le score
-        self.mise_a_jour(user, type_repas, avecqui, repas, recommandation, reponse)
+        # Mise à jour le système (histoire de recommandation, score de substitution, malus de diversité, epsilon)
+        self.mise_a_jour(user, type_repas_res, avecqui_res, repas, recommandation, reponse)
         
         # Pondération de omega de chaque utilisateur
         self.ponderation(user, recommandation, reponse)
         
         
         return pd.Series([recommandation, reponse, user.w, user.epsilon])
-    
-    
-    def train_test(self) :
+
         
-        self.table_suivi[['substitution', 'reponse', 'omega', 'epsilon']] = self.table_suivi.apply(
-                lambda row : self.processus_recommandation(row['user'], row['tyrep'], row['avecqui'], row['repas'])
-                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega'], row['epsilon']]), axis = 1)
-    
     def entrainement(self) :
         
         """
@@ -435,12 +430,18 @@ class System() :
 sys_test = System(10, 5) # 10 utilisateurs, 5 jours d'entrainement
 
 
-
 sys_test.entrainement()
 
 
 test = sys_test.table_suivi
 
+test[['substitution', 'reponse', 'omega', 'epsilon']] = test.apply(
+        lambda row : pd.Series(sys_test.recommandation_reponse(row['user'], row['tyrep'], row['avecqui'], row['repas']))
+        if row['nojour'] == 1 else pd.Series([row['substitution'], row['reponse'], row['omega'], row['epsilon']]), axis = 1)
+
+
+    
+    
 #=========
 
 
@@ -449,13 +450,22 @@ sys_test.train_test()
 
 sys_test.entrainement()
 
+1	1	petit-dejeuner	accompagne	
 
-user = sys_test.liste_user[4]
-type_repas = 'dejeuner'
+
+user = sys_test.liste_user[0]
+type_repas = 'petit-dejeuner'
 avecqui = 'accompagne'
-repas = ['beurre', 'huile', 'poissons de mer', 'porc', 'saucisses, saucissons, andouilles et boudins', 'fromages affinés', 'fromages fondus']
+repas = ['café', 'confiture et miel', 'sucre et assimilés']
 substitution = ('beurre', 'huile')
 
+recommandation, cluster, type_repas, avecqui = sys_test.recommandation_substitution(user, type_repas, avecqui, repas)
+
+user.reponse_substitution(cluster, type_repas, avecqui, recommandation)
+
+4	1	petit-dejeuner	accompagne	['pain', 'fruits', 'viennoiserie', 'confiture et miel']
+
+test1 = user.tab_sub_indi
 
 #import pickle
 #fileObject = open("save_sys", 'wb')
@@ -474,9 +484,9 @@ substitution = ('beurre', 'huile')
 def entrainement_systeme() :
     
     # Les constants 
-    nbre_test = 3
-    nbre_user = 100
-    nbre_jour = 20
+    nbre_test = 1
+    nbre_user = 40
+    nbre_jour = 30
     liste_alpha = []
     liste_beta = []
     liste_omega = []
@@ -488,6 +498,8 @@ def entrainement_systeme() :
                 for omega in liste_omega :
                     print(alpha, beta)
                     systeme = System(nbre_user, nbre_jour, alpha, beta, omega, pas_modif)
+                    systeme.entrainement()
+                    
 
 
 # =============================================================================

@@ -62,8 +62,7 @@ def construct_table_preference(data_conso, data_nomen) :
 
 # TEST DE FONCTION
 #table_preference = construct_table_preference(conso_pattern_sougr, nomenclature)
-
-
+#table_preference.to_csv('Base_Gestion_Systeme/preference_consommation.csv', sep = ";", encoding = 'latin-1', index = False)
 
 def diversite(pref):
     
