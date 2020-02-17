@@ -124,20 +124,17 @@ class VirtualUser():
 
     def reponse_substitution(self, cluster, type_repas, avecqui, recommandation) :
         
-        print(self.id, self.cluster, cluster, type_repas, avecqui, recommandation)
-        if len(recommandation) == 0 :
-            reponse = 0
-        else :
-            try :
-                # RÉPONSE DE L'UTILISATEUR
-                if random.random() <= self.tab_rep_indi[(self.tab_rep_indi['cluster'] == cluster) &
+        print(self.id, self.cluster, cluster, type_repas, avecqui)
+        print('recom : ', recommandation, 'len : ', len(recommandation))
+        
+        reponse = False
+        if len(recommandation) > 0 :
+            if random.random() <= self.tab_rep_indi[(self.tab_rep_indi['cluster'] == cluster) &
                                                         (self.tab_rep_indi['tyrep'] == type_repas) &
                                                         (self.tab_rep_indi['avecqui'] == avecqui) &
                                                         (self.tab_rep_indi['aliment_1'] == recommandation[0]) &
                                                         (self.tab_rep_indi['aliment_2'] == recommandation[1])]['score_substitution'].tolist()[0] :
-                    reponse = 1
-            except :
-                reponse = 2
+                reponse = True          
         return reponse
     
     
@@ -299,7 +296,7 @@ class System() :
         return recommandation, cluster, type_repas, avecqui
     
     
-    def mise_a_jour(self, user, cluster, type_repas, avecqui, repas, recommandation, reponse) :
+    def mise_a_jour(self, user, cluster, type_repas, avecqui, recommandation, reponse) :
         """
         La fonction qui met à jour les scores de substituabilité après chaque accord / refus de proposition d'un repas substituable
         """
@@ -323,7 +320,7 @@ class System() :
             # Modifier le score du couple a1 -> a2
             user.tab_sub_indi.loc[f_contexte & f_alim1 & f_alim2, 'score_substitution'] *= (self.alpha/self.beta)**dict_puis[reponse]
             
-            # Remise le score à 1 si le score est supérieur à 1
+            # Remise du score à 1 si le score est supérieur à 1
             user.tab_sub_indi['score_substitution'] = user.tab_sub_indi['score_substitution'].apply(
                     lambda score : 1 if score > 1 else score)
             
@@ -383,18 +380,33 @@ class System() :
         recommandation, cluster_res, type_repas_res, avecqui_res = self.recommandation_substitution(user, type_repas, avecqui, repas)
         
         # Réponse de l'utilisateur à la recommandation
-        reponse = user.reponse_substitution(recommandation, cluster_res, type_repas_res, avecqui_res)
+        reponse = user.reponse_substitution(cluster_res, type_repas_res, avecqui_res, recommandation)
         
         # Mise à jour le système (histoire de recommandation, score de substitution, malus de diversité, epsilon)
-        self.mise_a_jour(user, type_repas_res, avecqui_res, repas, recommandation, reponse)
+        self.mise_a_jour(user, cluster_res, type_repas_res, avecqui_res, recommandation, reponse)
         
         # Pondération de omega de chaque utilisateur
         self.ponderation(user, recommandation, reponse)
         
         
         return pd.Series([recommandation, reponse, user.w, user.epsilon])
-
+    
+    def processus_test(self, user, type_repas, avecqui, repas) :
+        recommandation, cluster_res, type_repas_res, avecqui_res = self.recommandation_substitution(user, type_repas, avecqui, repas)
         
+        # Réponse de l'utilisateur à la recommandation
+        reponse = user.reponse_substitution(cluster_res, type_repas_res, avecqui_res, recommandation)
+        
+        return pd.Series([recommandation, reponse])
+    
+    def train_test(self) :
+        
+        self.table_suivi[['substitution', 'reponse']] = self.table_suivi.apply(
+                lambda row : self.processus_test(row['user'], row['tyrep'], row['avecqui'], row['repas'])
+                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse']]), axis = 1)
+    
+        
+    
     def entrainement(self) :
         
         """
@@ -435,18 +447,15 @@ sys_test.entrainement()
 
 test = sys_test.table_suivi
 
-test[['substitution', 'reponse', 'omega', 'epsilon']] = test.apply(
-        lambda row : pd.Series(sys_test.recommandation_reponse(row['user'], row['tyrep'], row['avecqui'], row['repas']))
-        if row['nojour'] == 1 else pd.Series([row['substitution'], row['reponse'], row['omega'], row['epsilon']]), axis = 1)
-
-
     
     
 #=========
 
-
+sys_test = System(5, 5)
 sys_test.propose_repas()
 sys_test.train_test()
+test = sys_test.table_suivi
+
 
 sys_test.entrainement()
 
@@ -456,16 +465,23 @@ sys_test.entrainement()
 user = sys_test.liste_user[0]
 type_repas = 'petit-dejeuner'
 avecqui = 'accompagne'
-repas = ['café', 'confiture et miel', 'sucre et assimilés']
+repas = ['pain', 'beurre']
 substitution = ('beurre', 'huile')
 
-recommandation, cluster, type_repas, avecqui = sys_test.recommandation_substitution(user, type_repas, avecqui, repas)
+recommandation, cluster_res, type_repas_res, avecqui_res = sys_test.recommandation_substitution(user, type_repas, avecqui, repas)
 
 user.reponse_substitution(cluster, type_repas, avecqui, recommandation)
 
 4	1	petit-dejeuner	accompagne	['pain', 'fruits', 'viennoiserie', 'confiture et miel']
 
-test1 = user.tab_sub_indi
+recommandation = ('beurre', 'margarine')
+x = user.tab_rep_indi
+
+random.random() <= user.tab_rep_indi[(user.tab_rep_indi['cluster'] == cluster_res) &
+                  (user.tab_rep_indi['tyrep'] == type_repas_res) &
+                  (user.tab_rep_indi['avecqui'] == avecqui_res) &
+                  (user.tab_rep_indi['aliment_1'] == recommandation[0]) &
+                  (user.tab_rep_indi['aliment_2'] == recommandation[1])]['score_substitution'].tolist()[0]
 
 #import pickle
 #fileObject = open("save_sys", 'wb')
