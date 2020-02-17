@@ -124,9 +124,6 @@ class VirtualUser():
 
     def reponse_substitution(self, cluster, type_repas, avecqui, recommandation) :
         
-        print(self.id, self.cluster, cluster, type_repas, avecqui)
-        print('recom : ', recommandation, 'len : ', len(recommandation))
-        
         reponse = False
         if len(recommandation) > 0 :
             if random.random() <= self.tab_rep_indi[(self.tab_rep_indi['cluster'] == cluster) &
@@ -388,7 +385,6 @@ class System() :
         # Pondération de omega de chaque utilisateur
         self.ponderation(user, recommandation, reponse)
         
-        
         return pd.Series([recommandation, reponse, user.w, user.epsilon])
     
     def processus_test(self, user, type_repas, avecqui, repas) :
@@ -451,15 +447,6 @@ test = sys_test.table_suivi
     
 #=========
 
-sys_test = System(5, 5)
-sys_test.propose_repas()
-sys_test.train_test()
-test = sys_test.table_suivi
-
-
-sys_test.entrainement()
-
-1	1	petit-dejeuner	accompagne	
 
 
 user = sys_test.liste_user[0]
