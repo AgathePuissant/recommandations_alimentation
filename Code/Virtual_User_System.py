@@ -20,7 +20,7 @@ class VirtualUser():
     """
     Definit les caractéristiques de l'utilisateur
     """
-    def __init__(self, _id, tab_pref, tab_sub):
+    def __init__(self, _id, tab_pref, tab_sub, w):
         self.id = _id
         self.epsilon = 1
         
@@ -31,7 +31,7 @@ class VirtualUser():
         self.creation_tab_indi(tab_pref, tab_sub)
         
         # score de substitution**w*score de nutrition**(1-w) (score entre 0 et 1)
-        self.w = 0.1 #w initial petit -> on privilégie score de substitution (comme score appartient entre 0 et 1)
+        self.w = w #w initial petit -> on privilégie score de substitution (comme score appartient entre 0 et 1)
         
         # malus de diversité des recommandations
         self.diversite = []
@@ -137,7 +137,7 @@ class VirtualUser():
     
 class System() :
     
-    def __init__(self, nbre_user, nbre_jour, seuil_nutri = 70, alpha = 1.005, beta = 1.002, seuil_recom = 5, seuil_acc = 0.5, pas_modif = 0.01) :
+    def __init__(self, nbre_user, nbre_jour, seuil_nutri = 70, alpha = 1.005, beta = 1.002, omega = 0.1, seuil_recom = 5, seuil_acc = 0.5, pas_modif = 0.01) :
         
         # LOAD DATAFRAME
         #self.conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
@@ -163,6 +163,7 @@ class System() :
         self.seuil_nutri = seuil_nutri
         self.alpha = alpha
         self.beta = beta
+        self.omega = omega
         
         # constant de pondération
         self.seuil_recom = seuil_recom # nombre de dernière recommandation à évaluer
@@ -183,7 +184,7 @@ class System() :
         self.liste_user = []
         for iden in range(1, self.nbre_user + 1) :
             print(iden)
-            self.liste_user.append(VirtualUser(iden, self.tab_pref, self.score_contexte))    
+            self.liste_user.append(VirtualUser(iden, self.tab_pref, self.score_contexte, self.omega))    
     
     
     def propose_repas(self) :
@@ -433,7 +434,7 @@ def entrainement_systeme() :
     
     # Les constants 
     nbre_test = 1
-    nbre_user = 
+    nbre_user = 10
     nbre_jour = 30
     
     liste_alpha_beta = [[1.0001, 1.0005], [1.0005, 1.001], [1.001, 1.005], [1.005, 1.01]]
@@ -444,18 +445,18 @@ def entrainement_systeme() :
     data = pd.DataFrame(columns = colnames)
     
     for test in range(nbre_test) :
-        for alpha, beta in liste_alpha_beta :
+        for beta, alpha in liste_alpha_beta :
             for omega in liste_omega :
                 for seuil_acc in liste_seuil_acc :
-                    print(alpha, beta)
-                    systeme = System(nbre_user, nbre_jour, seuil_nutri = 70, alpha = alpha, beta = beta, seuil_recom = 10, seuil_acc = seuil_acc, pas_modif = 0.01)
+                    print(alpha, beta, omega, seuil_acc)
+                    systeme = System(nbre_user, nbre_jour, seuil_nutri = 70, alpha = alpha, beta = beta, omega = omega, seuil_recom = 10, seuil_acc = seuil_acc, pas_modif = 0.01)
                     systeme.entrainement()
                     df = pd.concat([pd.DataFrame(data = {'alpha' : alpha, 
                                                         'beta' : beta, 
                                                         'omega_ini' : omega, 
                                                         'seuil_acc' : seuil_acc}, index = range(len(systeme.table_suivi))),
                                    systeme.table_suivi], axis = 1)
-                    data = data.append(df)
+                    data = data.append(df, sort = False)
     return data
 
 #train_df = entrainement_systeme()
