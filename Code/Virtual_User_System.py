@@ -430,11 +430,10 @@ class System() :
 # =============================================================================
 # FONCTION D'ENTRAINEMENT
 
-def entrainement_systeme() :
+def entrainement_systeme(nbre_user) :
     
     # Les constants 
     nbre_test = 1
-    nbre_user = 10
     nbre_jour = 30
     
     liste_alpha_beta = [[1.0001, 1.0005], [1.0005, 1.001], [1.001, 1.005], [1.005, 1.01]]
@@ -459,7 +458,19 @@ def entrainement_systeme() :
                     data = data.append(df, sort = False)
     return data
 
-#train_df = entrainement_systeme()
+
+def add_user(nbre_user) :
+    
+    train_global_df = pd.read_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1")
+    iden_add = train_global_df['id_user'].max()
+    
+    train_df = entrainement_systeme(nbre_user)
+    train_df['id_user'] = train_df['id_user'].apply(lambda iden : iden + iden_add)
+    
+    train_global_df = train_global_df.append(train_df, sort = False)
+    train_global_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
+    
+#train_df = entrainement_systeme(10)
 #train_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
 # =============================================================================
 
