@@ -135,10 +135,9 @@ class VirtualUser():
         return reponse
     
     
-
 class System() :
     
-    def __init__(self, nbre_user, nbre_jour, seuil_nutri = 70, alpha = 1.005, beta = 1.002, _seuil_recom = 5, _seuil_acc = 0.5, _pas_modif = 0.01) :
+    def __init__(self, nbre_user, nbre_jour, seuil_nutri = 70, alpha = 1.005, beta = 1.002, seuil_recom = 5, seuil_acc = 0.5, pas_modif = 0.01) :
         
         # LOAD DATAFRAME
         #self.conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
@@ -166,9 +165,9 @@ class System() :
         self.beta = beta
         
         # constant de pondération
-        self.seuil_recom = _seuil_recom # nombre de dernière recommandation à évaluer
-        self.seuil_acc = _seuil_acc # seuil du taux de réponse positive à self.seuil_recom dernières recommandations
-        self.pas_modif = _pas_modif # pas de modification de chaque pondération
+        self.seuil_recom = seuil_recom # nombre de dernière recommandation à évaluer
+        self.seuil_acc = seuil_acc # seuil du taux de réponse positive à self.seuil_recom dernières recommandations
+        self.pas_modif = pas_modif # pas de modification de chaque pondération
         
         # Création des utilisateurs
         self.nbre_user = nbre_user
@@ -229,8 +228,6 @@ class System() :
             reponse : acceptation / refus de la recommandation - bool
         """
         
-        global recomm_df
-        
         # Recommandation par défaut
         recommandation = ()
         
@@ -250,10 +247,10 @@ class System() :
             # EPSILON-GREEDY
             ep = random.random()
             if ep <= user.epsilon :
-                recomm_epsi_df = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == False]
+                recomm_epsi_df = user.tab_sub_indi.loc[user.tab_sub_indi['histoire_recomm'] == False]
             # Exploitation de la table (des substitutions déjà proposées)
             else :
-                recomm_epsi_df = user.tab_sub_indi[user.tab_sub_indi['histoire_recomm'] == True]
+                recomm_epsi_df = user.tab_sub_indi.loc[user.tab_sub_indi['histoire_recomm'] == True]
             
             
             # RECHERCHE DE SUBSTITUTION
@@ -266,15 +263,17 @@ class System() :
             while len(recommandation) == 0 and niveau <= 3:
                 
                 # Filtrage des substitutions possibles à partir du contexte et de la liste des aliments à substituer
+                # Reset_index est nécessaire pour éviter SettingwithCopyWarning de python
                 cluster, avecqui = niveau_contexte[niveau]
-                recomm_df = recomm_epsi_df[(recomm_epsi_df['cluster'] == cluster) &
-                                           (recomm_epsi_df['tyrep'] == type_repas) &
-                                           (recomm_epsi_df['avecqui'] == avecqui) &
-                                           (recomm_epsi_df['aliment_1'].isin(aliment_a_substituer))]
+                recomm_df = recomm_epsi_df.loc[(recomm_epsi_df['cluster'] == cluster) &
+                                               (recomm_epsi_df['tyrep'] == type_repas) &
+                                               (recomm_epsi_df['avecqui'] == avecqui) &
+                                               (recomm_epsi_df['aliment_1'].isin(aliment_a_substituer))].reset_index(drop = True)
                 
                 # Malus de diversité
                 recomm_df['couples'] = list(zip(recomm_df['aliment_1'], recomm_df['aliment_2']))
-                recomm_df['diversite'] = recomm_df['couples'].apply(lambda couple : 1 / (user.diversite.count(couple) + 1))
+                recomm_df['diversite'] = 1
+                #recomm_df['couples'].apply(lambda couple : 1 / (user.diversite.count(couple) + 1))
                 
 
                 # Maximiser le score défini par la formule pour toutes les substitutions possibles
@@ -387,21 +386,6 @@ class System() :
         
         return pd.Series([recommandation, reponse, user.w, user.epsilon])
     
-    def processus_test(self, user, type_repas, avecqui, repas) :
-        recommandation, cluster_res, type_repas_res, avecqui_res = self.recommandation_substitution(user, type_repas, avecqui, repas)
-        
-        # Réponse de l'utilisateur à la recommandation
-        reponse = user.reponse_substitution(cluster_res, type_repas_res, avecqui_res, recommandation)
-        
-        return pd.Series([recommandation, reponse])
-    
-    def train_test(self) :
-        
-        self.table_suivi[['substitution', 'reponse']] = self.table_suivi.apply(
-                lambda row : self.processus_test(row['user'], row['tyrep'], row['avecqui'], row['repas'])
-                if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse']]), axis = 1)
-    
-        
     
     def entrainement(self) :
         
@@ -435,51 +419,12 @@ class System() :
         pass
 
 # TEST
-sys_test = System(10, 5) # 10 utilisateurs, 5 jours d'entrainement
-
-
-sys_test.entrainement()
-
-
-test = sys_test.table_suivi
-
-    
-    
-#=========
-
-
-
-user = sys_test.liste_user[0]
-type_repas = 'petit-dejeuner'
-avecqui = 'accompagne'
-repas = ['pain', 'beurre']
-substitution = ('beurre', 'huile')
-
-recommandation, cluster_res, type_repas_res, avecqui_res = sys_test.recommandation_substitution(user, type_repas, avecqui, repas)
-
-user.reponse_substitution(cluster, type_repas, avecqui, recommandation)
-
-4	1	petit-dejeuner	accompagne	['pain', 'fruits', 'viennoiserie', 'confiture et miel']
-
-recommandation = ('beurre', 'margarine')
-x = user.tab_rep_indi
-
-random.random() <= user.tab_rep_indi[(user.tab_rep_indi['cluster'] == cluster_res) &
-                  (user.tab_rep_indi['tyrep'] == type_repas_res) &
-                  (user.tab_rep_indi['avecqui'] == avecqui_res) &
-                  (user.tab_rep_indi['aliment_1'] == recommandation[0]) &
-                  (user.tab_rep_indi['aliment_2'] == recommandation[1])]['score_substitution'].tolist()[0]
-
-#import pickle
-#fileObject = open("save_sys", 'wb')
-#pickle.dump(sys_test, fileObject)
-#fileObject.close()
+#sys_test = System(10, 5) # 10 utilisateurs, 5 jours d'entrainement
 #
-#fileObject = open("save_sys", 'rb')
-#sys_test = pickle.load(fileObject)
-#fileObject.close()
+#sys_test.entrainement()
 #
 #test = sys_test.table_suivi
+
 
 # =============================================================================
 # FONCTION D'ENTRAINEMENT
@@ -490,20 +435,30 @@ def entrainement_systeme() :
     nbre_test = 1
     nbre_user = 40
     nbre_jour = 30
-    liste_alpha = []
-    liste_beta = []
-    liste_omega = []
-    liste_pas_modif = []
+    
+    liste_alpha_beta = [[1.0001, 1.0005], [1.0005, 1.001], [1.001, 1.005],  [1.005, 1.01]]
+    liste_omega = [0.05, 0.1, 0.15, 0.2]
+    liste_seuil_acc = [0.5, 0.75, 0.8]
+    
+    colnames = ['alpha', 'beta', 'omega', 'seuil_acc', 'user','id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon']
+    data = pd.DataFrame(columns = colnames)
     
     for test in range(nbre_test) :
-        for alpha in liste_alpha :
-            for beta in liste_beta :
-                for omega in liste_omega :
+        for alpha, beta in liste_alpha_beta :
+            for omega in liste_omega :
+                for seuil_acc in liste_seuil_acc :
                     print(alpha, beta)
-                    systeme = System(nbre_user, nbre_jour, alpha, beta, omega, pas_modif)
+                    systeme = System(nbre_user, nbre_jour, seuil_nutri = 70, alpha = alpha, beta = beta, seuil_recom = 5, seuil_acc = seuil_acc, pas_modif = 0.01)
                     systeme.entrainement()
-                    
+                    df = pd.concat([pd.DataFrame(data = {'alpha' : alpha, 
+                                                        'beta' : beta, 
+                                                        'omega_ini' : omega, 
+                                                        'seuil_acc' : seuil_acc}, index = range(len(systeme.table_suivi))),
+                                   systeme.table_suivi], axis = 1)
+                    data = data.append(df)
+    return data
 
-
+train_df = entrainement_systeme()
+train_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
 # =============================================================================
 
