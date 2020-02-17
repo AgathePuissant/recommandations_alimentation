@@ -433,14 +433,14 @@ def entrainement_systeme() :
     
     # Les constants 
     nbre_test = 1
-    nbre_user = 40
+    nbre_user = 
     nbre_jour = 30
     
     liste_alpha_beta = [[1.0001, 1.0005], [1.0005, 1.001], [1.001, 1.005], [1.005, 1.01]]
     liste_omega = [0.05, 0.1, 0.15, 0.2]
     liste_seuil_acc = [0.5, 0.75, 0.8]
     
-    colnames = ['alpha', 'beta', 'omega', 'seuil_acc', 'user','id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon']
+    colnames = ['alpha', 'beta', 'omega_ini', 'seuil_acc', 'user','id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon']
     data = pd.DataFrame(columns = colnames)
     
     for test in range(nbre_test) :
