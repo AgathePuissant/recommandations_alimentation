@@ -436,7 +436,7 @@ def entrainement_systeme() :
     nbre_user = 40
     nbre_jour = 30
     
-    liste_alpha_beta = [[1.0001, 1.0005], [1.0005, 1.001], [1.001, 1.005],  [1.005, 1.01]]
+    liste_alpha_beta = [[1.0001, 1.0005], [1.0005, 1.001], [1.001, 1.005], [1.005, 1.01]]
     liste_omega = [0.05, 0.1, 0.15, 0.2]
     liste_seuil_acc = [0.5, 0.75, 0.8]
     
@@ -448,7 +448,7 @@ def entrainement_systeme() :
             for omega in liste_omega :
                 for seuil_acc in liste_seuil_acc :
                     print(alpha, beta)
-                    systeme = System(nbre_user, nbre_jour, seuil_nutri = 70, alpha = alpha, beta = beta, seuil_recom = 5, seuil_acc = seuil_acc, pas_modif = 0.01)
+                    systeme = System(nbre_user, nbre_jour, seuil_nutri = 70, alpha = alpha, beta = beta, seuil_recom = 10, seuil_acc = seuil_acc, pas_modif = 0.01)
                     systeme.entrainement()
                     df = pd.concat([pd.DataFrame(data = {'alpha' : alpha, 
                                                         'beta' : beta, 
@@ -458,7 +458,7 @@ def entrainement_systeme() :
                     data = data.append(df)
     return data
 
-train_df = entrainement_systeme()
-train_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
+#train_df = entrainement_systeme()
+#train_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
 # =============================================================================
 
