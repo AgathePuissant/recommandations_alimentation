@@ -56,7 +56,7 @@ class Application(tk.Frame):
         self.quit = tk.Button(self,
                               text="QUIT",
                               fg="red",
-                              command=self.master.destroy)
+                              command=self.quitApp)
         self.quit.grid(padx=5)
 
     def clean_widgets(self):
@@ -148,7 +148,7 @@ class Application(tk.Frame):
         self.quit = tk.Button(self,
                               text="QUIT",
                               fg="red",
-                              command=self.master.destroy)
+                              command=self.quitApp)
         self.quit.grid(column=1,row=15)
 
 
@@ -179,8 +179,8 @@ class Application(tk.Frame):
         info['sexe'] = _sexe.get()
         info['id']=str(uuid.uuid4())
         info['epsilon']=0.5
-        info['omega1']=0.5
-        info['omega2']=0.5
+        info['omega']=0.5
+   
         
 
         self.currentUser = User(info)
@@ -214,7 +214,7 @@ class Application(tk.Frame):
                        text = "Bonjour "+self.currentUser.name+'. Nous aurions besoin d\'en savoir plus sur votre contexte de consommation pour ce repas')
         texte.grid(columnspan=4)
 
-        vals = ['Seul', 'Accompagné']
+        vals = ['seul', 'accompagne']
         etiqs = ['Seul', 'Accompagné']
         varGr_compagnie = tk.StringVar()
         varGr_compagnie.set(vals[1])
@@ -248,8 +248,13 @@ class Application(tk.Frame):
         self.quit = tk.Button(self,
                           text="QUIT",
                           fg="red",
-                          command=self.master.destroy)
+                          command=self.quitApp)
         self.quit.grid(column=1,row=4)
+    
+    def quitApp(self):
+        if self.currentUser!=None:
+            self.currentUser.saveUserInfo()
+        self.master.destroy()
 
     def getUpdateData(self, event,_alim):
         """
@@ -303,8 +308,9 @@ class Application(tk.Frame):
         """
         Affiche autant de combobox qu'il y a d'alims dans le repas
         """
-        self.currentUser.compagnie=_cie.get()
-        self.currentUser.repas=_repas.get()
+        self.currentUser.contexte={'cluster':None}
+        self.currentUser.contexte['compagnie']=_cie.get()
+        self.currentUser.contexte['repas']=_repas.get()
         self.grpbox={}
         self.clean_widgets()
         self.selectbox(_row=1)
@@ -318,7 +324,7 @@ class Application(tk.Frame):
         self.quit = tk.Button(self,
                           text="QUIT",
                           fg="red",
-                          command=self.master.destroy)
+                          command=self.quitApp)
         self.quit.grid(column=1,row=30,padx=10,pady=5)
         
         
@@ -345,12 +351,12 @@ class Application(tk.Frame):
         
         
         if not os.path.exists(os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')):
-            dataSubs=pd.read_csv(os.path.join("Base_Gestion_Systeme","score_par_contextes.csv"), sep=';',encoding = 'ISO-8859-1',index_col=0)
+            dataSubs=pd.read_csv(os.path.join("Base_Gestion_Systeme","score_par_contextes.csv"), sep=';',encoding = 'ISO-8859-1')
             dataSubs.to_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=';', encoding='utf-8')
-        self.currentUser.dataSubs=pd.read_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=';',encoding = "utf-8",index_col=0)
+        self.currentUser.dataSubs=pd.read_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=';',encoding = "utf-8")
        
-        param=[self.currentUser.epsilon,self.currentUser.omega1,self.currentUser.omega2]
-        repas=Aliments(repasCod,self.currentUser.repas,self.currentUser.dataSubs,param) 
+        param=[self.currentUser.epsilon,self.currentUser.omega]
+        repas=Aliments(repasCod,self.currentUser.contexte,self.currentUser.dataSubs,param) 
         alimentASubstituer=repas.alimentASubstituer #(libellé sgrp,SAIN,LIM)
         alimentPropose=repas.subsProposee #(libellé sgrp,SAIN,LIM)
         
@@ -421,8 +427,8 @@ class User():
         self.taille=_info['taille']
         self.poids=_info['poids']
         self.epsilon=_info['epsilon']
-        self.omega1=_info['omega1']
-        self.omega2=_info['omega2']
+        self.omega=_info['omega']
+
         if type(_info['pref'])==str:
             self.pref=ast.literal_eval(_info['pref']) #conversion en liste
         else:
@@ -455,8 +461,7 @@ class User():
                 'poids':self.poids,
                 'pref':self.pref,
                 'epsilon':self.epsilon,
-                'omega1':self.omega1,
-                'omega2':self.omega2,
+                'omega':self.omega
                 }
         with open(os.path.join(self.userdir,self.id+'.ini'), 'w') as configfile:
             config.write(configfile)
@@ -565,25 +570,23 @@ class Aliments() :
     Fourni la liste des aliments proposés en substitution, scorés
     """
     
-    def __init__(self,_repasEntre,_repas,_tabSubst,param):
+    def __init__(self,_repasEntre,_contexte,_tabSubst,param):
         """
         _repasEntre : [(code grp,code sgrp,libelle sgrp)]
-        _repas : petit-dejeuner, dejeuner, diner
+        _contexte : {repas:petit-dejeuner, dejeuner, diner,cluster:,compagnie:}
         _tabSubst : dataframe sur lequel on se base pour les scores de subs
         """
-        self.repas=_repas
+        self.contexte=_contexte
         self.dataSubs=_tabSubst
         self.epsilon=param[0]
-        self.omega1=param[1]
-        self.omega2=param[2]
+        self.omega=float(param[1])
+
         dataNutri=pd.read_csv(os.path.join('Base_Gestion_Systeme','scores_sainlim_ssgroupes.csv'),sep=';',encoding="ISO-8859-1")
         
         self.gamma=0.2 #Malus
         self.dataSubs['malus']=False #ajout colonne malus
         self.dataSubs['Valeur_malus']=0 #malus à 0 pour tous
         self.dataSubs.loc[self.dataSubs['malus']==True,'Valeur_malus']=self.gamma #actualisation de la valeur du malus
-        
-
         
         self.NutriScore(_repasEntre,dataNutri)
         
@@ -597,17 +600,31 @@ class Aliments() :
             repasScore.append((alim[0],alim[1],alim[2],round(scoreSain,3),round(scoreLim,3),round(scoreDist,3)))
         
 
-        repasScoreSort=sorted(repasScore,key=lambda alim:alim[5]) #sort by distance SAIN/LIM
+        repasScoreSort=sorted(repasScore,key=lambda alim:alim[5],reverse=True) #sort by distance SAIN/LIM
+        print(repasScoreSort)
         
 # =============================================================================
 #       Continuer à prendre le pire, deuxième pire, troisième pire etc mais jusqu'à un certain seuil, 
 # i.e tronquer la liste des aliments avec score aliment[0]= seuil
 # =============================================================================
+        if repasScoreSort[-1][5]<80:
+            i=len(repasScoreSort)-1 #dernier aliment
+            while repasScoreSort[i][5]<80:
+                self.alimentASubstituer=repasScoreSort[i] #(libellé,scoreSAIN,scoreLIM)
+                self.calculSubstitution(repasScoreSort,dataNutri)
+                
+        else: #on ne substitue que le pire aliment
+            self.alimentASubstituer=repasScoreSort[-1] #(libellé,scoreSAIN,scoreLIM)
+            self.calculSubstitution(repasScoreSort,dataNutri)
     
-        self.alimentASubstituer=repasScoreSort[indPireScore] #(libellé,scoreSAIN,scoreLIM)
-        self.calculSubstitution(repasScoreSort,dataNutri,indPireScore)
+    def findSubstitution(self,subData):
+        Subst_envisageables=subData[subData['aliment_1']==self.alimentASubstituer[2]][['aliment_2','score_substitution','Valeur_malus','score_sainlim_nor']]       
+        Subst_envisageables['S'] = Subst_envisageables['Valeur_malus']*(Subst_envisageables['score_substitution']**self.omega+Subst_envisageables['score_sainlim_nor']**(1-self.omega))
         
-    def calculSubstitution(self,_repasEntre,dataNutri,_indPireAlim):
+        return Subst_envisageables.loc[Subst_envisageables['S'].idxmax()]
+        print('existe',self.alimentASubstituer,Subst_envisageables)
+        
+    def calculSubstitution(self,_repasEntre,dataNutri):
         """
         renvoie liste des aliments scorés
         _repasEntre : 
@@ -628,28 +645,34 @@ class Aliments() :
 # =============================================================================
 # Incorporer la nouvelle table avec scores nutris intégrés, voir quels filtres on applique
 # =============================================================================
-        #Test existence substitution, filtre = repas
-        if not (self.dataSubs[(self.dataSubs['tyrep']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])]).dropna(subset=['aliment_2']).empty: 
-            Subst_envisageables=self.dataSubs[(self.dataSubs['tyrep']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])][['aliment_2','score_substitution','Valeur_malus']]
-            
-            ScoreSubst=Subst_envisageables['score_substitution']
-            ScoreNutri=dataNutri[(dataNutri['sougr']==self.alimentASubstituer[1])]['distance_origine']
-            
-            print('existe',self.alimentASubstituer,Subst_envisageables)
-            
-        #Essai substitution du même groupe
-        elif (dataNutri[dataNutri['codgr']==self.alimentASubstituer[0]]).dropna(subset=['libsougr']).shape[0]>1: #si contient autres aliments du mm groupe
-            Subst_secours=dataNutri[(dataNutri['codgr']==self.alimentASubstituer[0])&(dataNutri['sougr']!=self.alimentASubstituer[1])]
-            print('secours',self.alimentASubstituer,Subst_secours)
-            
-        else: #si seul aliment du groupe et aucune substitution possible
-            if _indPireAlim<len(_repasEntre)-1 : #autre aliment qu'on peut substituer
-                self.NutriScore(_repasEntre,dataNutri,_indPireAlim+1) #on substitue le 2e pire aliment,etc...
+        #Test existence substitution, filtre = repas,cluster,compagnie
+        subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&(self.dataSubs['cluster']==self.contexte['cluster'])&(self.dataSubs['avecqui']==self.contexte['compagnie'])]
+        if not (subData[subData['aliment_1']==self.alimentASubstituer[2]]).dropna(subset=['aliment_2']).empty: 
+            self.subsProposee=self.findSubstitution(subData)['aliment_2']
+            self.subsProposee.append(dataNutri[dataNutri['libsougr']==self.subsProposee[0]][['SAIN 5 opt','LIM3']])
+              
+        else:
+            subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&(self.dataSubs['cluster']==self.contexte['cluster'])&(self.dataSubs['avecqui']=='all')]    
+            if not (subData[subData['aliment_1']==self.alimentASubstituer[2]]).dropna(subset=['aliment_2']).empty:
+                self.subsProposee=self.findSubstitution(subData)['aliment_2']
+                self.subsProposee.append(dataNutri[dataNutri['libsougr']==self.subsProposee[0]][['SAIN 5 opt','LIM3']])
+              
             else:
-                print('deso on peut rien faire')
+                subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&(self.dataSubs['cluster']=='all')&(self.dataSubs['avecqui']=='all')]
+                if not (subData[subData['aliment_1']==self.alimentASubstituer[2]]).dropna(subset=['aliment_2']).empty:
+                    self.subsProposee=[self.findSubstitution(subData)['aliment_2']]
+                    self.subsProposee.append(dataNutri[dataNutri['libsougr']==self.subsProposee[0]][['SAIN 5 opt','LIM3']])
+                else:
+                    #Essai substitution du même groupe
+                    if (dataNutri[dataNutri['codgr']==self.alimentASubstituer[0]]).dropna(subset=['libsougr']).shape[0]>1: #si contient autres aliments du mm groupe
+                        Subst_secours=dataNutri[(dataNutri['codgr']==self.alimentASubstituer[0])&(dataNutri['sougr']!=self.alimentASubstituer[1])]
+                        print('secours',Subst_secours)
+                    else: #si seul aliment du groupe et aucune substitution possible
+                        print('deso on peut rien faire')
 
-        print(self.epsilon, self.omega1, self.omega2)
-        self.subsProposee=('vin', 1.084, 1.430) #test
+
+        print(self.epsilon, self.omega)
+        #self.subsProposee=('vin', 1.084, 1.430) #test
      
 # =============================================================================
 # Incorporer ici la notion de epsilon avec exploration/Exploitation

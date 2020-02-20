@@ -24,6 +24,27 @@ plt.hist(dfLai['score_substitution'])
 plt.xlabel('Score de substitution')
 plt.ylabel('Nombre de substitution')
 plt.title('Histogramme de répartition des scores de substitution')
-plt.text(0.2,500, str(dfLai.size)+' substitutions',color='green')
+plt.text(0.2,1200, str(dfLai.size)+' substitutions',color='green')
 
 
+# =============================================================================
+# Histogramme pour le seuil du score nutritionnel
+# =============================================================================
+dataNutri=pd.read_csv(os.path.join('Base_Gestion_Systeme','scores_sainlim_ssgroupes.csv'),sep=';',encoding="ISO-8859-1")
+plt.hist(dataNutri['distance_origine'])
+
+plt.hist(dfLai['score_sainlim_nor'])
+
+dataNutri=pd.read_csv(os.path.join('Base_Gestion_Systeme','scores_sainlim_ssgroupes.csv'),sep=';',encoding="ISO-8859-1")
+dfLai=pd.read_csv(os.path.join("Base_Gestion_Systeme","score_par_contextes.csv"),sep=";",encoding="ISO-8859-1")
+dfLai.dtypes
+dfLai['Valeur_malus']=0.2
+Malus=dfLai['Valeur_malus']
+ScoreSubst=dfLai['score_substitution']
+ScoreNutri=dfLai['score_sainlim_nor']
+omega=0.5
+dfLai['S'] = Malus*(ScoreSubst**omega+ScoreNutri**(1-omega))
+result=dfLai.loc[dfLai['S'].idxmax()]
+result
+nutri_result=dataNutri[dataNutri['libsougr']==result['aliment_2']][['libsougr','SAIN 5 opt','LIM3']]
+nutri_result
