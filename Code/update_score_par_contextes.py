@@ -201,6 +201,6 @@ def main() :
 # =============================================================================
 
 #score_par_contextes = main()
-score_par_contextes.to_csv("Base_Gestion_Systeme/score_par_contextes.csv", sep = ";", encoding = "latin-1", index = False)
+#score_par_contextes.to_csv("Base_Gestion_Systeme/score_par_contextes.csv", sep = ";", encoding = "latin-1", index = False)
 
 

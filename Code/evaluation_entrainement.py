@@ -7,9 +7,13 @@ Created on Tue Feb 18 10:43:31 2020
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from ast import literal_eval
+import numpy as np
 
 train_global_df = pd.read_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1")
-#train_global_df['cluster'] = train_global_df['user'].apply(lambda user : user.cluster)
+nutri_df = pd.read_csv("Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv", sep = ";", encoding = "latin-1")
+train_global_df['repas'] = train_global_df['repas'].apply(lambda repas : literal_eval(repas))
+
 
 # =============================================================================
 # % RECOMMANDATIONS / REPAS PAR CLUSTER (IL FAUT AJOUTER LES CLUSTERS DANS LA TABLE AVANT D'ENREGISTRER)
@@ -73,15 +77,34 @@ visualisation_tx_acc(tx_acc_df)
 
 # =============================================================================
 # AMÉLIORATION DU SCORE NUTRI PAR COEFF
-def manipulation3() :
-    pass
+def manipulation3(data,nutri) :
+    # Déplacer chacune des paires d'indices en une ligne séparément 
+    
+    lst_col = 'repas'
+    data = pd.DataFrame({
+          col:np.repeat(data[col].values, data[lst_col].str.len())
+          for col in data.columns.drop(lst_col)}
+        ).assign(**{lst_col:pd.DataFrame(np.concatenate(data[lst_col].values))})
+    
+    data = data.rename(columns = {'repas' : 'libsougr'})
+    
+    data = pd.DataFrame.merge(data, nutri, on = 'libsougr', how = 'left').drop([
+            'codgr','libgr','sougr','sougr ciqual correspondant',
+       'SAIN 5 opt', 'LIM3', '100_LIM3'], axis = 1)
+    
+    moyenne = data.groupby(['alpha','beta','omega_ini','seuil_acc','id_user', 'nojour', 'tyrep'])['distance_origine'].apply(np.mean).reset_index().rename(
+                    columns = {'distance_origine' : 'scorenutri_moyenne'})
+    
+    data = pd.DataFrame.merge(data, moyenne, on = ['alpha','beta','omega_ini','seuil_acc','id_user','nojour','tyrep'], how = 'left')
+    
+    return data
 
 def visualisation3() :
     pass
-# =============================================================================
-
-
-
+    
+# ==============================================
+    
+#score_nutri = manipulation3(train_global_df,nutri_df)
 
 
 
