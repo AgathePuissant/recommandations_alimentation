@@ -17,59 +17,6 @@ from mlxtend.frequent_patterns import fpgrowth
 # =============================================================================
 # FUNCTIONS
 
-#def score_substitution_contextes(regles_global) :    
-#    
-#    """
-#    La fonction qui à partir de la table des règles d'association globale calcule le score de substitutiabilité pour toutes les substitutions par contexte.
-#    
-#    INPUT :
-#        1, regles_globale: table des règles d'association globale qui résulte des fonctions du module motifs_frequents_substituabilite -- df
-#    
-#    OUTPUT :
-#        1, score_sub_contextes : table de score de substitutiabilité des substitutions par contexte de consommation -- df
-#    """
-#    
-#    liste_tyrep = ['petit-dejeuner', 'dejeuner', 'gouter', 'diner']
-#    liste_cluster = ['cluster_1', 'cluster_2', 'cluster_3', 'cluster_4', 'cluster_5', 'cluster_6', 'cluster_7', 'cluster_8']
-#    liste_avecqui = ['seul', 'accompagne']
-#    
-#    colnames = ['cluster', 'tyrep', 'avecqui', 'consequents', 'confidence', 'Score confiance', 'Score biblio', 'Score combiné']
-#    score_sub_contextes = pd.DataFrame(columns = colnames)
-#    
-#    for tyrep in liste_tyrep :
-#        for cluster in liste_cluster :
-#            for avecqui in liste_avecqui :
-#                regles_filtre = mf.filtrage(regles_global, tyrep, cluster, avecqui)
-#                print(tyrep, cluster, avecqui, len(regles_filtre))
-#                if regles_filtre.shape[0] > 0 :
-#                    
-#                    # Création de la table de substitution
-#                    t_subst = mf.tableau_substitution(regles_filtre, nomenclature)
-#                    
-#                    # Calcul du score de substitution
-#                    score_contexte = mf.matrice_scores_diff_moy(t_subst, regles_filtre)
-#                    
-#                    # Ajout des colonnes de cluster, type_rep et avecqui
-#                    score_contexte = pd.concat([pd.DataFrame(columns = colnames[:3]), score_contexte], sort = False)
-#                    score_contexte[colnames[:3]] = [cluster, tyrep, avecqui]
-#                    
-#                    # Ajout de la table partielle de score dans score_par_contextes
-#                    score_sub_contextes = score_sub_contextes.append(score_contexte)
-#    
-#    # Reset index nécessaire pour la transformation qui suit
-#    score_sub_contextes.reset_index(drop = True, inplace = True)
-#    
-#    # Transformation de la colonne conséquents à deux colonnes aliment_1 et aliment_2
-#    score_sub_contextes = pd.concat([score_sub_contextes.iloc[:, 0:3], 
-#                                     pd.DataFrame(score_sub_contextes['consequents'].tolist()).rename(
-#                                             columns = {0 : 'aliment_1', 1 : 'aliment_2'}),
-#                                     score_sub_contextes.iloc[:, -1:].rename(
-#                                             columns = {'Score combiné' : 'score_substitution'})],
-#                                     axis = 1)
-#    
-#    return score_sub_contextes
-
-
 def score_substitution_contextes(regles_global) :    
     
     """
@@ -94,7 +41,7 @@ def score_substitution_contextes(regles_global) :
     for tyrep in liste_tyrep :
         
         regles_filtre_ssavecquicluster = mf.filtrage(regles_global, tyrep, '', '')
-            
+        print(tyrep, '', '', len(regles_filtre_ssavecquicluster))    
         if len(regles_filtre_ssavecquicluster) > 0 :
                 
                 # Création de la table des couples
@@ -105,7 +52,7 @@ def score_substitution_contextes(regles_global) :
                 
                 # Ajout des colonnes de cluster, type_rep et avecqui
                 score_contexte_ssavecquicluster = pd.concat([pd.DataFrame(columns = colnames[:3]), score_contexte_ssavecquicluster], sort = False)
-                score_contexte_ssavecquicluster[colnames[:3]] = ['nan' , tyrep, 'nan']
+                score_contexte_ssavecquicluster[colnames[:3]] = ['all' , tyrep, 'all']
                 
                 # Ajout de la table partielle de score dans score_par_contextes 
                 score_sub_contextes_ssavecquicluster = score_sub_contextes_ssavecquicluster.append(score_contexte_ssavecquicluster)
@@ -113,7 +60,7 @@ def score_substitution_contextes(regles_global) :
         for cluster in liste_cluster :
             
             regles_filtre_ssavecqui = mf.filtrage(regles_global, tyrep, cluster, '')
-            
+            print(tyrep, cluster, '', len(regles_filtre_ssavecqui))
             if len(regles_filtre_ssavecqui) > 0 :
                     
                     # Création de la table des couples
@@ -124,7 +71,7 @@ def score_substitution_contextes(regles_global) :
                     
                     # Ajout des colonnes de cluster, type_rep et avecqui
                     score_contexte_ssavecqui = pd.concat([pd.DataFrame(columns = colnames[:3]), score_contexte_ssavecqui], sort = False)
-                    score_contexte_ssavecqui[colnames[:3]] = [cluster, tyrep, 'nan']
+                    score_contexte_ssavecqui[colnames[:3]] = [cluster, tyrep, 'all']
                     
                     # Ajout de la table partielle de score dans score_par_contextes 
                     score_sub_contextes_ssavecqui = score_sub_contextes_ssavecqui.append(score_contexte_ssavecqui)
@@ -180,8 +127,10 @@ def score_substitution_contextes(regles_global) :
                                      score_sub_contextes_ssavecquicluster.iloc[:, -1:].rename(
                                              columns = {'score' : 'score_substitution'})],
                                      axis = 1)
+                                     
+    scores = pd.concat(score_sub_contextes,score_sub_contextes_ssavecqui,score_sub_contextes_ssavecquicluster)
     
-    return (score_sub_contextes,score_sub_contextes_ssavecqui,score_sub_contextes_ssavecquicluster)
+    return scores
 
 
 def add_score_sainlim(score_sub_ori, sainlim) :
@@ -243,6 +192,7 @@ def main() :
     regles = mf.regles_association(motifs, confiance = conf, support_only = False, support = supp)
     
     score_sub_contextes = score_substitution_contextes(regles)
+
     score_par_contextes = add_score_sainlim(score_sub_contextes, sainlim_df)
     
     
@@ -250,7 +200,7 @@ def main() :
 
 # =============================================================================
 
-score_par_contextes = main()
-# score_par_contextes.to_csv("Base_Gestion_Systeme/score_par_contextes.csv", sep = ";", encoding = "latin-1", index = False)
+#score_par_contextes = main()
+score_par_contextes.to_csv("Base_Gestion_Systeme/score_par_contextes.csv", sep = ";", encoding = "latin-1", index = False)
 
 
