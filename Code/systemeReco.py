@@ -345,9 +345,9 @@ class Application(tk.Frame):
         
         
         if not os.path.exists(os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')):
-            dataSubs=pd.read_csv('scores_tous_contextes_v3.csv', sep=',',encoding = "utf-8",index_col=0)
-            dataSubs.to_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=',', encoding='utf-8')
-        self.currentUser.dataSubs=pd.read_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=',',encoding = "utf-8",index_col=0)
+            dataSubs=pd.read_csv(os.path.join("Base_Gestion_Systeme","score_par_contextes.csv"), sep=';',encoding = 'ISO-8859-1',index_col=0)
+            dataSubs.to_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=';', encoding='utf-8')
+        self.currentUser.dataSubs=pd.read_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=';',encoding = "utf-8",index_col=0)
        
         param=[self.currentUser.epsilon,self.currentUser.omega1,self.currentUser.omega2]
         repas=Aliments(repasCod,self.currentUser.repas,self.currentUser.dataSubs,param) 
@@ -579,7 +579,7 @@ class Aliments() :
         dataNutri=pd.read_csv(os.path.join('Base_Gestion_Systeme','scores_sainlim_ssgroupes.csv'),sep=';',encoding="ISO-8859-1")
         
         self.gamma=0.2 #Malus
-        
+        self.dataSubs['malus']=False #ajout colonne malus
         self.dataSubs['Valeur_malus']=0 #malus à 0 pour tous
         self.dataSubs.loc[self.dataSubs['malus']==True,'Valeur_malus']=self.gamma #actualisation de la valeur du malus
         
@@ -629,10 +629,10 @@ class Aliments() :
 # Incorporer la nouvelle table avec scores nutris intégrés, voir quels filtres on applique
 # =============================================================================
         #Test existence substitution, filtre = repas
-        if not (self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])]).dropna(subset=['aliment_2']).empty: 
-            Subst_envisageables=self.dataSubs[(self.dataSubs['repas']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])][['aliment_2','score','Valeur_malus']]
+        if not (self.dataSubs[(self.dataSubs['tyrep']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])]).dropna(subset=['aliment_2']).empty: 
+            Subst_envisageables=self.dataSubs[(self.dataSubs['tyrep']==self.repas)&(self.dataSubs['aliment_1']==self.alimentASubstituer[2])][['aliment_2','score_substitution','Valeur_malus']]
             
-            ScoreSubst=Subst_envisageables['score']
+            ScoreSubst=Subst_envisageables['score_substitution']
             ScoreNutri=dataNutri[(dataNutri['sougr']==self.alimentASubstituer[1])]['distance_origine']
             
             print('existe',self.alimentASubstituer,Subst_envisageables)
@@ -661,7 +661,7 @@ class Aliments() :
         pass
     
     def refus(self,_antec,_conseq):
-         """mise à jour du score avec alpha et beta"""
+        """mise à jour du score avec alpha et beta"""
         print("dommaaaaaage")
         pass
 
