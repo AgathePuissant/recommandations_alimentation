@@ -7,10 +7,12 @@ Created on Tue Feb 18 10:43:31 2020
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from ast import literal_eval
 import numpy as np
 
 train_global_df = pd.read_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1")
-#train_global_df['cluster'] = train_global_df['user'].apply(lambda user : user.cluster)
+train_global_df['repas'] = train_global_df['repas'].apply(lambda repas : literal_eval(repas))
+
 
 # =============================================================================
 # % RECOMMANDATIONS / REPAS PAR CLUSTER (IL FAUT AJOUTER LES CLUSTERS DANS LA TABLE AVANT D'ENREGISTRER)
@@ -80,7 +82,7 @@ def manipulation3(data) :
     data = pd.DataFrame({
           col:np.repeat(data[col].values, data[lst_col].str.len())
           for col in data.columns.drop(lst_col)}
-        ).assign(**{lst_col:pd.DataFrame(np.concatenate(data[lst_col].values)).values.tolist()})
+        ).assign(**{lst_col:pd.DataFrame(np.concatenate(data[lst_col].values))})
     
     return data
 
@@ -89,7 +91,6 @@ def visualisation3() :
 # =============================================================================
 
 test = manipulation3(train_global_df)
-
 
 
 
