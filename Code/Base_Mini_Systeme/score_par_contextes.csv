@@ -1,0 +1,314 @@
+cluster;tyrep;avecqui;aliment_1;aliment_2;score_substitution;score_sainlim_1;score_sainlim_2;score_sainlim;score_sainlim_nor
+cluster_1;dejeuner;seul;boeuf en pièces ou haché;poissons de mer;0.45508982;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_1;dejeuner;accompagne;porc;boeuf en pièces ou haché;0.871749814;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_1;dejeuner;accompagne;porc;volailles et lapins;0.357716366;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_1;dejeuner;accompagne;porc;poissons de mer;0.682885672;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_1;dejeuner;accompagne;porc;veau;0.158482143;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_1;dejeuner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.079382248;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_1;dejeuner;accompagne;boeuf en pièces ou haché;poissons de mer;0.237497371;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_1;dejeuner;accompagne;boeuf en pièces ou haché;veau;0.026296296;95.10780542;95.10780542;0;0
+cluster_1;dejeuner;accompagne;volailles et lapins;poissons de mer;0.7854201;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_1;dejeuner;accompagne;veau;boeuf en pièces ou haché;0.973703704;95.10780542;95.10780542;0;0
+cluster_1;dejeuner;accompagne;veau;volailles et lapins;0.773524721;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_1;dejeuner;accompagne;veau;poissons de mer;0.919180421;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_2;dejeuner;accompagne;porc;boeuf en pièces ou haché;0.924470129;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_2;dejeuner;accompagne;porc;volailles et lapins;0.934053335;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_2;dejeuner;accompagne;porc;poissons de mer;0.629003489;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_2;dejeuner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.525643493;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_2;dejeuner;accompagne;boeuf en pièces ou haché;poissons de mer;0.124242678;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_2;dejeuner;accompagne;volailles et lapins;poissons de mer;0.113553057;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_3;dejeuner;seul;volailles et lapins;poissons de mer;0.310502283;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_3;dejeuner;accompagne;porc;boeuf en pièces ou haché;0.920187793;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_3;dejeuner;accompagne;porc;volailles et lapins;0.993995762;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_3;dejeuner;accompagne;porc;poissons de mer;0.974802372;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_3;dejeuner;accompagne;porc;légumes secs;0.396449704;90.63694509;99.19941331;8.562468221;0.11499296
+cluster_3;dejeuner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.930125207;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_3;dejeuner;accompagne;boeuf en pièces ou haché;poissons de mer;0.771490426;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_3;dejeuner;accompagne;boeuf en pièces ou haché;légumes secs;0.059794734;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_3;dejeuner;accompagne;volailles et lapins;poissons de mer;0.201494718;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_3;dejeuner;accompagne;volailles et lapins;légumes secs;0.004213042;97.01598859;99.19941331;2.183424724;0.029323142
+cluster_3;dejeuner;accompagne;poissons de mer;légumes secs;0.018291018;97.35574391;99.19941331;1.843669396;0.024760267
+cluster_4;dejeuner;accompagne;porc;boeuf en pièces ou haché;0.885820493;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_4;dejeuner;accompagne;porc;volailles et lapins;0.929195214;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_4;dejeuner;accompagne;porc;poissons de mer;0.843827883;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_4;dejeuner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.630306057;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_4;dejeuner;accompagne;boeuf en pièces ou haché;poissons de mer;0.489382115;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_4;dejeuner;accompagne;volailles et lapins;poissons de mer;0.282817156;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_5;dejeuner;seul;boeuf en pièces ou haché;poissons de mer;0.448979592;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_5;dejeuner;accompagne;porc;boeuf en pièces ou haché;0.874638503;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_5;dejeuner;accompagne;porc;volailles et lapins;0.670790019;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_5;dejeuner;accompagne;porc;poissons de mer;0.526728561;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_5;dejeuner;accompagne;porc;légumes secs;0.122488038;90.63694509;99.19941331;8.562468221;0.11499296
+cluster_5;dejeuner;accompagne;porc;veau;0.127699531;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_5;dejeuner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.221262862;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_5;dejeuner;accompagne;boeuf en pièces ou haché;poissons de mer;0.196172136;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_5;dejeuner;accompagne;boeuf en pièces ou haché;légumes secs;0.018823529;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_5;dejeuner;accompagne;boeuf en pièces ou haché;veau;0.019767442;95.10780542;95.10780542;0;0
+cluster_5;dejeuner;accompagne;volailles et lapins;poissons de mer;0.489671563;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_5;dejeuner;accompagne;volailles et lapins;légumes secs;0.060606061;97.01598859;99.19941331;2.183424724;0.029323142
+cluster_5;dejeuner;accompagne;poissons de mer;légumes secs;0.076830732;97.35574391;99.19941331;1.843669396;0.024760267
+cluster_5;dejeuner;accompagne;veau;boeuf en pièces ou haché;0.980232558;95.10780542;95.10780542;0;0
+cluster_5;dejeuner;accompagne;veau;volailles et lapins;0.936567164;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_5;dejeuner;accompagne;veau;poissons de mer;0.919716647;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_5;dejeuner;accompagne;veau;légumes secs;0.484848485;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_6;dejeuner;accompagne;porc;boeuf en pièces ou haché;0.843317972;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_6;dejeuner;accompagne;porc;volailles et lapins;0.582822086;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_6;dejeuner;accompagne;porc;poissons de mer;0.507246377;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_6;dejeuner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.194672131;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_6;dejeuner;accompagne;boeuf en pièces ou haché;poissons de mer;0.159817352;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_6;dejeuner;accompagne;volailles et lapins;poissons de mer;0.424242424;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_7;dejeuner;seul;boeuf en pièces ou haché;volailles et lapins;0.408163265;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_7;dejeuner;accompagne;porc;boeuf en pièces ou haché;0.829752809;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_7;dejeuner;accompagne;porc;volailles et lapins;0.837934659;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_7;dejeuner;accompagne;porc;poissons de mer;0.223076923;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_7;dejeuner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.48827872;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_7;dejeuner;accompagne;boeuf en pièces ou haché;poissons de mer;0.053828306;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_7;dejeuner;accompagne;volailles et lapins;poissons de mer;0.049860305;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_1;diner;accompagne;porc;boeuf en pièces ou haché;0.669950739;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_1;diner;accompagne;porc;volailles et lapins;0.567741935;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_1;diner;accompagne;porc;poissons de mer;0.856223176;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_1;diner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.392857143;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_1;diner;accompagne;boeuf en pièces ou haché;poissons de mer;0.774834437;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_1;diner;accompagne;volailles et lapins;poissons de mer;0.826771654;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_2;diner;accompagne;porc;boeuf en pièces ou haché;0.741666667;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_2;diner;accompagne;porc;volailles et lapins;0.863736264;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_2;diner;accompagne;porc;poissons de mer;0.86119403;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_2;diner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.696891988;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_2;diner;accompagne;boeuf en pièces ou haché;poissons de mer;0.697714227;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_2;diner;accompagne;volailles et lapins;poissons de mer;0.488162112;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_3;diner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.956952705;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_3;diner;accompagne;boeuf en pièces ou haché;poissons de mer;0.939897193;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_3;diner;accompagne;volailles et lapins;poissons de mer;0.492948966;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_4;diner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.870238095;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_4;diner;accompagne;boeuf en pièces ou haché;poissons de mer;0.861850444;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_4;diner;accompagne;volailles et lapins;poissons de mer;0.468595689;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_5;diner;accompagne;porc;boeuf en pièces ou haché;0.751152074;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_5;diner;accompagne;porc;volailles et lapins;0.725888325;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_5;diner;accompagne;porc;poissons de mer;0.855357143;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_5;diner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.468850182;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_5;diner;accompagne;boeuf en pièces ou haché;poissons de mer;0.67135146;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_5;diner;accompagne;volailles et lapins;poissons de mer;0.69209574;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_6;diner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.455782313;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_7;diner;accompagne;porc;boeuf en pièces ou haché;0.92275477;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_7;diner;accompagne;porc;volailles et lapins;0.911608094;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_7;diner;accompagne;porc;poissons de mer;0.582914573;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_7;diner;accompagne;boeuf en pièces ou haché;volailles et lapins;0.479241108;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_7;diner;accompagne;boeuf en pièces ou haché;poissons de mer;0.097478992;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_7;diner;accompagne;volailles et lapins;poissons de mer;0.111753372;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_1;dejeuner;all;porc;boeuf en pièces ou haché;0.871540475;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_1;dejeuner;all;porc;volailles et lapins;0.411691585;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_1;dejeuner;all;porc;poissons de mer;0.721899299;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_1;dejeuner;all;porc;légumes secs;0.052857143;90.63694509;99.19941331;8.562468221;0.11499296
+cluster_1;dejeuner;all;porc;agneau;0.04797048;90.63694509;92.34237363;1.705428546;0.022903709
+cluster_1;dejeuner;all;porc;veau;0.113148517;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_1;dejeuner;all;boeuf en pièces ou haché;volailles et lapins;0.095054254;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_1;dejeuner;all;boeuf en pièces ou haché;poissons de mer;0.275794023;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_1;dejeuner;all;boeuf en pièces ou haché;légumes secs;0.00741223;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_1;dejeuner;all;boeuf en pièces ou haché;veau;0.017975358;95.10780542;95.10780542;0;0
+cluster_1;dejeuner;all;volailles et lapins;poissons de mer;0.786220406;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_1;dejeuner;all;volailles et lapins;légumes secs;0.070881226;97.01598859;99.19941331;2.183424724;0.029323142
+cluster_1;dejeuner;all;poissons de mer;légumes secs;0.020078687;97.35574391;99.19941331;1.843669396;0.024760267
+cluster_1;dejeuner;all;agneau;boeuf en pièces ou haché;0.99336667;92.34237363;95.10780542;2.765431788;0.03713943
+cluster_1;dejeuner;all;agneau;volailles et lapins;0.935515873;92.34237363;97.01598859;4.673614952;0.062766109
+cluster_1;dejeuner;all;agneau;poissons de mer;0.981899192;92.34237363;97.35574391;5.013370279;0.067328984
+cluster_1;dejeuner;all;agneau;légumes secs;0.532374101;92.34237363;99.19941331;6.857039676;0.092089251
+cluster_1;dejeuner;all;agneau;veau;0.720430108;92.34237363;95.10780542;2.765431788;0.03713943
+cluster_1;dejeuner;all;veau;boeuf en pièces ou haché;0.982024642;95.10780542;95.10780542;0;0
+cluster_1;dejeuner;all;veau;volailles et lapins;0.851980045;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_1;dejeuner;all;veau;poissons de mer;0.95181886;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_1;dejeuner;all;veau;légumes secs;0.300813008;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_2;dejeuner;all;porc;boeuf en pièces ou haché;0.890242593;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_2;dejeuner;all;porc;volailles et lapins;0.878216404;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_2;dejeuner;all;porc;poissons de mer;0.520540801;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_2;dejeuner;all;porc;légumes secs;0.055123675;90.63694509;99.19941331;8.562468221;0.11499296
+cluster_2;dejeuner;all;porc;agneau;0.047583643;90.63694509;92.34237363;1.705428546;0.022903709
+cluster_2;dejeuner;all;porc;veau;0.04981685;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_2;dejeuner;all;boeuf en pièces ou haché;volailles et lapins;0.499816742;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_2;dejeuner;all;boeuf en pièces ou haché;poissons de mer;0.186531803;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_2;dejeuner;all;boeuf en pièces ou haché;légumes secs;0.006610169;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_2;dejeuner;all;boeuf en pièces ou haché;veau;0.005887446;95.10780542;95.10780542;0;0
+cluster_2;dejeuner;all;volailles et lapins;poissons de mer;0.202039008;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_2;dejeuner;all;volailles et lapins;légumes secs;0.007772795;97.01598859;99.19941331;2.183424724;0.029323142
+cluster_2;dejeuner;all;poissons de mer;légumes secs;0.032608696;97.35574391;99.19941331;1.843669396;0.024760267
+cluster_2;dejeuner;all;agneau;boeuf en pièces ou haché;0.99441048;92.34237363;95.10780542;2.765431788;0.03713943
+cluster_2;dejeuner;all;agneau;volailles et lapins;0.993415638;92.34237363;97.01598859;4.673614952;0.062766109
+cluster_2;dejeuner;all;agneau;poissons de mer;0.971929825;92.34237363;97.35574391;5.013370279;0.067328984
+cluster_2;dejeuner;all;agneau;légumes secs;0.549295775;92.34237363;99.19941331;6.857039676;0.092089251
+cluster_2;dejeuner;all;agneau;veau;0.515151515;92.34237363;95.10780542;2.765431788;0.03713943
+cluster_2;dejeuner;all;veau;boeuf en pièces ou haché;0.994112554;95.10780542;95.10780542;0;0
+cluster_2;dejeuner;all;veau;volailles et lapins;0.993068298;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_2;dejeuner;all;veau;poissons de mer;0.970588235;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_2;dejeuner;all;veau;légumes secs;0.534246575;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_3;dejeuner;all;porc;boeuf en pièces ou haché;0.840619621;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_3;dejeuner;all;porc;poissons de mer;0.961137977;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_3;dejeuner;all;porc;volailles et lapins;0.987829976;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_3;dejeuner;all;porc;légumes secs;0.228205504;90.63694509;99.19941331;8.562468221;0.11499296
+cluster_3;dejeuner;all;boeuf en pièces ou haché;poissons de mer;0.813680337;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_3;dejeuner;all;boeuf en pièces ou haché;volailles et lapins;0.934762734;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_3;dejeuner;all;boeuf en pièces ou haché;légumes secs;0.051627532;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_3;dejeuner;all;poissons de mer;légumes secs;0.012179842;97.35574391;99.19941331;1.843669396;0.024760267
+cluster_3;dejeuner;all;volailles et lapins;poissons de mer;0.448027604;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_3;dejeuner;all;volailles et lapins;légumes secs;0.003375737;97.01598859;99.19941331;2.183424724;0.029323142
+cluster_4;dejeuner;all;porc;boeuf en pièces ou haché;0.869369279;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_4;dejeuner;all;porc;volailles et lapins;0.910421138;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_4;dejeuner;all;porc;poissons de mer;0.841102823;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_4;dejeuner;all;porc;veau;0.081218274;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_4;dejeuner;all;boeuf en pièces ou haché;volailles et lapins;0.53331713;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_4;dejeuner;all;boeuf en pièces ou haché;poissons de mer;0.485737976;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_4;dejeuner;all;boeuf en pièces ou haché;veau;0.011976048;95.10780542;95.10780542;0;0
+cluster_4;dejeuner;all;volailles et lapins;poissons de mer;0.335265558;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_4;dejeuner;all;veau;boeuf en pièces ou haché;0.988023952;95.10780542;95.10780542;0;0
+cluster_4;dejeuner;all;veau;volailles et lapins;0.992248062;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_4;dejeuner;all;veau;poissons de mer;0.984015984;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_5;dejeuner;all;porc;boeuf en pièces ou haché;0.871291266;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_5;dejeuner;all;porc;volailles et lapins;0.718844498;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_5;dejeuner;all;porc;poissons de mer;0.540805585;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_5;dejeuner;all;porc;légumes secs;0.089259279;90.63694509;99.19941331;8.562468221;0.11499296
+cluster_5;dejeuner;all;porc;agneau;0.038314176;90.63694509;92.34237363;1.705428546;0.022903709
+cluster_5;dejeuner;all;porc;veau;0.092173592;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_5;dejeuner;all;boeuf en pièces ou haché;volailles et lapins;0.26738898;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_5;dejeuner;all;boeuf en pièces ou haché;poissons de mer;0.259763288;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_5;dejeuner;all;boeuf en pièces ou haché;légumes secs;0.013767328;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_5;dejeuner;all;boeuf en pièces ou haché;veau;0.014300426;95.10780542;95.10780542;0;0
+cluster_5;dejeuner;all;volailles et lapins;poissons de mer;0.495201564;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_5;dejeuner;all;volailles et lapins;légumes secs;0.03607387;97.01598859;99.19941331;2.183424724;0.029323142
+cluster_5;dejeuner;all;poissons de mer;légumes secs;0.040527395;97.35574391;99.19941331;1.843669396;0.024760267
+cluster_5;dejeuner;all;agneau;boeuf en pièces ou haché;0.994720598;92.34237363;95.10780542;2.765431788;0.03713943
+cluster_5;dejeuner;all;agneau;volailles et lapins;0.985673352;92.34237363;97.01598859;4.673614952;0.062766109
+cluster_5;dejeuner;all;agneau;poissons de mer;0.984242424;92.34237363;97.35574391;5.013370279;0.067328984
+cluster_5;dejeuner;all;agneau;légumes secs;0.723991507;92.34237363;99.19941331;6.857039676;0.092089251
+cluster_5;dejeuner;all;agneau;veau;0.729166667;92.34237363;95.10780542;2.765431788;0.03713943
+cluster_5;dejeuner;all;veau;boeuf en pièces ou haché;0.985699574;95.10780542;95.10780542;0;0
+cluster_5;dejeuner;all;veau;volailles et lapins;0.962626027;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_5;dejeuner;all;veau;poissons de mer;0.958051825;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_5;dejeuner;all;veau;légumes secs;0.48823369;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_6;dejeuner;all;porc;boeuf en pièces ou haché;0.900896395;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_6;dejeuner;all;porc;volailles et lapins;0.664256661;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_6;dejeuner;all;porc;poissons de mer;0.612283962;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_6;dejeuner;all;boeuf en pièces ou haché;volailles et lapins;0.169714938;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_6;dejeuner;all;boeuf en pièces ou haché;poissons de mer;0.150312174;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_6;dejeuner;all;volailles et lapins;poissons de mer;0.451729473;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_7;dejeuner;all;porc;boeuf en pièces ou haché;0.865241899;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_7;dejeuner;all;porc;volailles et lapins;0.843612002;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_7;dejeuner;all;porc;poissons de mer;0.343619183;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_7;dejeuner;all;porc;légumes secs;0.061514802;90.63694509;99.19941331;8.562468221;0.11499296
+cluster_7;dejeuner;all;porc;agneau;0.053333333;90.63694509;92.34237363;1.705428546;0.022903709
+cluster_7;dejeuner;all;boeuf en pièces ou haché;volailles et lapins;0.481939564;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_7;dejeuner;all;boeuf en pièces ou haché;poissons de mer;0.077400876;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_7;dejeuner;all;boeuf en pièces ou haché;légumes secs;0.008880995;95.10780542;99.19941331;4.091607888;0.054949822
+cluster_7;dejeuner;all;volailles et lapins;poissons de mer;0.090169493;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_7;dejeuner;all;volailles et lapins;légumes secs;0.010754856;97.01598859;99.19941331;2.183424724;0.029323142
+cluster_7;dejeuner;all;poissons de mer;légumes secs;0.105820106;97.35574391;99.19941331;1.843669396;0.024760267
+cluster_7;dejeuner;all;agneau;boeuf en pièces ou haché;0.992486339;92.34237363;95.10780542;2.765431788;0.03713943
+cluster_7;dejeuner;all;agneau;volailles et lapins;0.990878308;92.34237363;97.01598859;4.673614952;0.062766109
+cluster_7;dejeuner;all;agneau;poissons de mer;0.907563025;92.34237363;97.35574391;5.013370279;0.067328984
+cluster_7;dejeuner;all;agneau;légumes secs;0.547945205;92.34237363;99.19941331;6.857039676;0.092089251
+cluster_1;diner;all;porc;boeuf en pièces ou haché;0.662187383;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_1;diner;all;porc;volailles et lapins;0.560102236;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_1;diner;all;porc;poissons de mer;0.896982029;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_1;diner;all;boeuf en pièces ou haché;volailles et lapins;0.393772922;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_1;diner;all;boeuf en pièces ou haché;poissons de mer;0.84124747;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_1;diner;all;volailles et lapins;poissons de mer;0.878256359;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_2;diner;all;porc;boeuf en pièces ou haché;0.811073275;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_2;diner;all;porc;volailles et lapins;0.894919696;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_2;diner;all;porc;poissons de mer;0.8942266;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_2;diner;all;boeuf en pièces ou haché;volailles et lapins;0.669034743;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_2;diner;all;boeuf en pièces ou haché;poissons de mer;0.665162032;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_2;diner;all;volailles et lapins;poissons de mer;0.492527285;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_3;diner;all;boeuf en pièces ou haché;volailles et lapins;0.960555849;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_3;diner;all;boeuf en pièces ou haché;poissons de mer;0.950196219;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_3;diner;all;volailles et lapins;poissons de mer;0.491349981;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_4;diner;all;boeuf en pièces ou haché;volailles et lapins;0.842917885;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_4;diner;all;boeuf en pièces ou haché;poissons de mer;0.839567762;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_4;diner;all;volailles et lapins;poissons de mer;0.482189366;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_5;diner;all;porc;boeuf en pièces ou haché;0.796340635;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_5;diner;all;porc;volailles et lapins;0.774381565;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_5;diner;all;porc;poissons de mer;0.86235774;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_5;diner;all;boeuf en pièces ou haché;volailles et lapins;0.468294998;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_5;diner;all;boeuf en pièces ou haché;poissons de mer;0.630839138;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_5;diner;all;volailles et lapins;poissons de mer;0.655126342;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_6;diner;all;boeuf en pièces ou haché;volailles et lapins;0.465938916;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_6;diner;all;boeuf en pièces ou haché;poissons de mer;0.289377289;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_6;diner;all;volailles et lapins;poissons de mer;0.304431599;97.01598859;97.35574391;0.339755327;0.004562875
+cluster_7;diner;all;porc;boeuf en pièces ou haché;0.9272408;90.63694509;95.10780542;4.470860333;0.060043138
+cluster_7;diner;all;porc;volailles et lapins;0.922250689;90.63694509;97.01598859;6.379043498;0.085669818
+cluster_7;diner;all;porc;poissons de mer;0.666249398;90.63694509;97.35574391;6.718798825;0.090232693
+cluster_7;diner;all;boeuf en pièces ou haché;volailles et lapins;0.485866073;95.10780542;97.01598859;1.908183164;0.02562668
+cluster_7;diner;all;boeuf en pièces ou haché;poissons de mer;0.139256641;95.10780542;97.35574391;2.247938492;0.030189554
+cluster_7;diner;all;volailles et lapins;poissons de mer;0.146719013;97.01598859;97.35574391;0.339755327;0.004562875
+all;dejeuner;all;porc;boeuf en pièces ou haché;0.615102079;90.63694509;95.10780542;4.470860333;0.060043138
+all;dejeuner;all;porc;volailles et lapins;0.6539089;90.63694509;97.01598859;6.379043498;0.085669818
+all;dejeuner;all;porc;poissons de mer;0.57413983;90.63694509;97.35574391;6.718798825;0.090232693
+all;dejeuner;all;porc;légumes secs préparés;0.000647074;90.63694509;99.19941331;8.562468221;0.11499296
+all;dejeuner;all;porc;légumes secs;0.470620328;90.63694509;99.19941331;8.562468221;0.11499296
+all;dejeuner;all;porc;agneau;0.560108179;90.63694509;92.34237363;1.705428546;0.022903709
+all;dejeuner;all;porc;veau;0.111518309;90.63694509;95.10780542;4.470860333;0.060043138
+all;dejeuner;all;porc;crustacés;0.02064549;90.63694509;97.25768605;6.620740963;0.088915787
+all;dejeuner;all;boeuf en pièces ou haché;volailles et lapins;0.512219696;95.10780542;97.01598859;1.908183164;0.02562668
+all;dejeuner;all;boeuf en pièces ou haché;poissons de mer;0.469408256;95.10780542;97.35574391;2.247938492;0.030189554
+all;dejeuner;all;boeuf en pièces ou haché;légumes secs préparés;0.000120872;95.10780542;99.19941331;4.091607888;0.054949822
+all;dejeuner;all;boeuf en pièces ou haché;légumes secs;0.380998085;95.10780542;99.19941331;4.091607888;0.054949822
+all;dejeuner;all;boeuf en pièces ou haché;veau;0.028985843;95.10780542;95.10780542;0;0
+all;dejeuner;all;boeuf en pièces ou haché;crustacés;0.004480299;95.10780542;97.25768605;2.14988063;0.028872649
+all;dejeuner;all;volailles et lapins;poissons de mer;0.4567155;97.01598859;97.35574391;0.339755327;0.004562875
+all;dejeuner;all;volailles et lapins;légumes secs préparés;0.000100427;97.01598859;99.19941331;2.183424724;0.029323142
+all;dejeuner;all;volailles et lapins;légumes secs;0.365732905;97.01598859;99.19941331;2.183424724;0.029323142
+all;dejeuner;all;volailles et lapins;crustacés;0.003698498;97.01598859;97.25768605;0.241697465;0.003245969
+all;dejeuner;all;poissons de mer;légumes secs préparés;0.000231752;97.35574391;99.19941331;1.843669396;0.024760267
+all;dejeuner;all;poissons de mer;légumes secs;0.43367273;97.35574391;99.19941331;1.843669396;0.024760267
+all;dejeuner;all;légumes secs préparés;légumes secs;0.99123471;99.19941331;99.19941331;0;0
+all;dejeuner;all;légumes secs;légumes secs préparés;0.00876529;99.19941331;99.19941331;0;0
+all;dejeuner;all;agneau;boeuf en pièces ou haché;0.54398297;92.34237363;95.10780542;2.765431788;0.03713943
+all;dejeuner;all;agneau;volailles et lapins;0.533765677;92.34237363;97.01598859;4.673614952;0.062766109
+all;dejeuner;all;agneau;poissons de mer;0.511592129;92.34237363;97.35574391;5.013370279;0.067328984
+all;dejeuner;all;agneau;légumes secs préparés;0.009343322;92.34237363;99.19941331;6.857039676;0.092089251
+all;dejeuner;all;agneau;légumes secs;0.513412508;92.34237363;99.19941331;6.857039676;0.092089251
+all;dejeuner;all;agneau;veau;0.484717443;92.34237363;95.10780542;2.765431788;0.03713943
+all;dejeuner;all;agneau;crustacés;0.197383857;92.34237363;97.25768605;4.915312418;0.066012078
+all;dejeuner;all;veau;boeuf en pièces ou haché;0.971014157;95.10780542;95.10780542;0;0
+all;dejeuner;all;veau;volailles et lapins;0.976302008;95.10780542;97.01598859;1.908183164;0.02562668
+all;dejeuner;all;veau;poissons de mer;0.95381515;95.10780542;97.35574391;2.247938492;0.030189554
+all;dejeuner;all;veau;légumes secs préparés;0.006651133;95.10780542;99.19941331;4.091607888;0.054949822
+all;dejeuner;all;veau;légumes secs;0.525839265;95.10780542;99.19941331;4.091607888;0.054949822
+all;dejeuner;all;veau;crustacés;0.149508686;95.10780542;97.25768605;2.14988063;0.028872649
+all;dejeuner;all;crustacés;poissons de mer;0.992279651;97.25768605;97.35574391;0.098057862;0.001316906
+all;dejeuner;all;crustacés;légumes secs préparés;0.037849481;97.25768605;99.19941331;1.941727258;0.026077173
+all;dejeuner;all;crustacés;légumes secs;0.650273345;97.25768605;99.19941331;1.941727258;0.026077173
+all;diner;all;porc;poissons de mer;0.891185997;90.63694509;97.35574391;6.718798825;0.090232693
+all;diner;all;porc;volailles et lapins;0.896289635;90.63694509;97.01598859;6.379043498;0.085669818
+all;diner;all;porc;boeuf en pièces ou haché;0.813044051;90.63694509;95.10780542;4.470860333;0.060043138
+all;diner;all;porc;légumes secs préparés;0.002826916;90.63694509;99.19941331;8.562468221;0.11499296
+all;diner;all;porc;légumes secs;0.104715376;90.63694509;99.19941331;8.562468221;0.11499296
+all;diner;all;porc;agneau;0.037338743;90.63694509;92.34237363;1.705428546;0.022903709
+all;diner;all;porc;veau;0.028136781;90.63694509;95.10780542;4.470860333;0.060043138
+all;diner;all;porc;crustacés;0.154047609;90.63694509;97.25768605;6.620740963;0.088915787
+all;diner;all;poissons de mer;légumes secs préparés;0.000267352;97.35574391;99.19941331;1.843669396;0.024760267
+all;diner;all;poissons de mer;légumes secs;0.012848685;97.35574391;99.19941331;1.843669396;0.024760267
+all;diner;all;volailles et lapins;poissons de mer;0.49816083;97.01598859;97.35574391;0.339755327;0.004562875
+all;diner;all;volailles et lapins;légumes secs préparés;0.000259109;97.01598859;99.19941331;2.183424724;0.029323142
+all;diner;all;volailles et lapins;légumes secs;0.012648233;97.01598859;99.19941331;2.183424724;0.029323142
+all;diner;all;volailles et lapins;crustacés;0.020000262;97.01598859;97.25768605;0.241697465;0.003245969
+all;diner;all;boeuf en pièces ou haché;poissons de mer;0.530875786;95.10780542;97.35574391;2.247938492;0.030189554
+all;diner;all;boeuf en pièces ou haché;volailles et lapins;0.518615201;95.10780542;97.01598859;1.908183164;0.02562668
+all;diner;all;boeuf en pièces ou haché;légumes secs préparés;0.000528656;95.10780542;99.19941331;4.091607888;0.054949822
+all;diner;all;boeuf en pièces ou haché;légumes secs;0.02663363;95.10780542;99.19941331;4.091607888;0.054949822
+all;diner;all;boeuf en pièces ou haché;veau;0.006110858;95.10780542;95.10780542;0;0
+all;diner;all;boeuf en pièces ou haché;crustacés;0.041843984;95.10780542;97.25768605;2.14988063;0.028872649
+all;diner;all;légumes secs préparés;légumes secs;0.975487465;99.19941331;99.19941331;0;0
+all;diner;all;légumes secs;légumes secs préparés;0.024512535;99.19941331;99.19941331;0;0
+all;diner;all;agneau;poissons de mer;0.996033539;92.34237363;97.35574391;5.013370279;0.067328984
+all;diner;all;agneau;volailles et lapins;0.996036436;92.34237363;97.01598859;4.673614952;0.062766109
+all;diner;all;agneau;boeuf en pièces ou haché;0.991458879;92.34237363;95.10780542;2.765431788;0.03713943
+all;diner;all;agneau;légumes secs préparés;0.078900179;92.34237363;99.19941331;6.857039676;0.092089251
+all;diner;all;agneau;légumes secs;0.762446629;92.34237363;99.19941331;6.857039676;0.092089251
+all;diner;all;agneau;veau;0.433047586;92.34237363;95.10780542;2.765431788;0.03713943
+all;diner;all;agneau;crustacés;0.825094945;92.34237363;97.25768605;4.915312418;0.066012078
+all;diner;all;veau;poissons de mer;0.997129228;95.10780542;97.35574391;2.247938492;0.030189554
+all;diner;all;veau;volailles et lapins;0.997168506;95.10780542;97.01598859;1.908183164;0.02562668
+all;diner;all;veau;boeuf en pièces ou haché;0.993889142;95.10780542;95.10780542;0;0
+all;diner;all;veau;légumes secs préparés;0.103286385;95.10780542;99.19941331;4.091607888;0.054949822
+all;diner;all;veau;légumes secs;0.812040449;95.10780542;99.19941331;4.091607888;0.054949822
+all;diner;all;veau;crustacés;0.852488086;95.10780542;97.25768605;2.14988063;0.028872649
+all;diner;all;crustacés;poissons de mer;0.980424494;97.25768605;97.35574391;0.098057862;0.001316906
+all;diner;all;crustacés;légumes secs préparés;0.017837838;97.25768605;99.19941331;1.941727258;0.026077173
+all;diner;all;crustacés;légumes secs;0.46160129;97.25768605;99.19941331;1.941727258;0.026077173
