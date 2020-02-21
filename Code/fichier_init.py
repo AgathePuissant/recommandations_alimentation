@@ -24,6 +24,7 @@ config['USERDATA']={
                 'epsilon':0.5,
                 'omega1':0.5,
                 'omega2':0.5,
+                'last5Subs':[],
                 }
 with open('init.ini', 'w') as configfile:
     config.write(configfile)

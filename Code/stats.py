@@ -46,5 +46,7 @@ omega=0.5
 dfLai['S'] = Malus*(ScoreSubst**omega+ScoreNutri**(1-omega))
 result=dfLai.loc[dfLai['S'].idxmax()]
 result
-nutri_result=dataNutri[dataNutri['libsougr']==result['aliment_2']][['libsougr','SAIN 5 opt','LIM3']]
+nutri_result=dataNutri[dataNutri['libsougr']==result['aliment_2']][['libsougr','SAIN 5 opt','LIM3']].values.tolist()[0]
+print(dataNutri[dataNutri['libsougr']==result['aliment_2']]['libsougr'].values[0])
+nutri_result.append(result['S'])
 nutri_result

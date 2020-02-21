@@ -180,6 +180,7 @@ class Application(tk.Frame):
         info['id']=str(uuid.uuid4())
         info['epsilon']=0.5
         info['omega']=0.5
+        info['last5Subs']=[]
    
         
 
@@ -203,6 +204,7 @@ class Application(tk.Frame):
         if self.currentUser==None:  #pas de user prédéfini            
             if self.current_user_id=='default': #pas de current User
                 info=self.getInfoFromFile('init.ini','DEFAULTDATA')
+                print(info)
                 self.currentUser=User(info)                
             else : #user pré-enregistré
                 info=self.getInfoFromFile(os.path.join('UserData',self.current_user_id,str(self.current_user_id)+'.ini'),'USERDATA')
@@ -337,7 +339,7 @@ class Application(tk.Frame):
         
         """
         repasLib=[]
-        repasCod=[] #[code groupe, code sous groupe, libellé sous groupe]
+        repasCod=[] #[{code groupe, code sous groupe, libellé sous groupe}]
         for alim in _repasEntre:
             repasLib.append((_repasEntre[alim][0].get(),_repasEntre[alim][1].get()))
        
@@ -345,10 +347,13 @@ class Application(tk.Frame):
         
 
         for alim in repasLib:
+            dicalim={}
             codeGrp=dataCodesGr[dataCodesGr['libgr']==alim[0]]['codgr'].unique()[0]
             codeSgrp=dataCodesGr[dataCodesGr['libsougr']==alim[1]]['sougr'].unique()[0]
-            repasCod.append((int(codeGrp),int(codeSgrp),alim[1]))
-        
+            dicalim['codeGrp']=int(codeGrp)
+            dicalim['codeSgrp']=int(codeSgrp)
+            dicalim['libsougr']=alim[1]
+            repasCod.append(dicalim)
         
         if not os.path.exists(os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')):
             dataSubs=pd.read_csv(os.path.join("Base_Gestion_Systeme","score_par_contextes.csv"), sep=';',encoding = 'ISO-8859-1')
@@ -356,11 +361,14 @@ class Application(tk.Frame):
         self.currentUser.dataSubs=pd.read_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=';',encoding = "utf-8")
        
         param=[self.currentUser.epsilon,self.currentUser.omega]
-        repas=Aliments(repasCod,self.currentUser.contexte,self.currentUser.dataSubs,param) 
+        repas=Aliments(repasCod,
+                       self.currentUser.contexte,
+                       self.currentUser.dataSubs,
+                       param) 
         alimentASubstituer=repas.alimentASubstituer #(libellé sgrp,SAIN,LIM)
-        alimentPropose=repas.subsProposee #(libellé sgrp,SAIN,LIM)
+        alimentPropose=repas.subsProposee['alimPropose'] #(libellé sgrp,SAIN,LIM)
         
-        print(alimentASubstituer, alimentPropose)
+        
         self.clean_widgets()
         
         texte=tk.Label(self,
@@ -374,7 +382,11 @@ class Application(tk.Frame):
         texte.grid(row=2,column=1,columnspan=4)
         
         texte=tk.Label(self,
-                       text=str(alimentASubstituer[2])+'\n'+' Score SAIN : '+str(alimentASubstituer[3])+'\n'+' Score LIM : '+str(alimentASubstituer[4]))
+                       text=str(alimentASubstituer['libsougr'])+
+                       '\n'+' Score SAIN : '+
+                       str(alimentASubstituer['SAIN'])+
+                       '\n'+' Score LIM : '+
+                       str(alimentASubstituer['LIM']))
         texte.grid(row=3,column=1,columnspan=4)
         
        
@@ -384,13 +396,17 @@ class Application(tk.Frame):
         texte.grid(row=2,column=6,columnspan=4)
         
         texte=tk.Label(self,
-                       text=str(alimentPropose[0])+'\n'+' Score SAIN : '+str(alimentPropose[1])+'\n'+' Score LIM : '+str(alimentPropose[2]))
+                       text=str(alimentPropose['libsougr'])+
+                       '\n'+' Score SAIN : '+
+                       str(round(alimentPropose['SAIN'],3))+
+                       '\n'+' Score LIM : '+
+                       str(round(alimentPropose['LIM'],3)))
         texte.grid(row=3,column=6,columnspan=4)
         
         self.buttonAccept= tk.Button(self,
                        text="Accepter",
                        fg='green',
-                       command= lambda : repas.acceptation(alimentASubstituer,alimentPropose))
+                       command= lambda : repas.acceptation(alimentPropose))
         self.buttonAccept.grid(column=1,
                                row=30,
                                padx=10,
@@ -399,19 +415,13 @@ class Application(tk.Frame):
         buttonRefuse= tk.Button(self,
                        text="Refuser",
                        fg='purple',
-                       command= lambda : repas.refus(alimentASubstituer,alimentPropose))
+                       command= lambda : repas.refus(alimentPropose))
         buttonRefuse.grid(column=3,
                           row=30,
                           padx=10,
                           pady=5)
         
-        buttonMenu=tk.Button(self,
-                             text="Retour menu",
-                             command=self.menu_widgets)
-        buttonMenu.grid(column=4,
-                        row=30,
-                        padx=10,
-                        pady=5)
+
         
 
 
@@ -433,6 +443,11 @@ class User():
             self.pref=ast.literal_eval(_info['pref']) #conversion en liste
         else:
             self.pref=_info['pref']
+            
+        if type(_info['last5Subs'])==str:
+            self.last5Subs=ast.literal_eval(_info['last5Subs']) #conversion en liste
+        else:
+            self.pref=_info['last5Subs']
         print(self.id)
         
         if not os.path.exists('UserData'):
@@ -461,7 +476,8 @@ class User():
                 'poids':self.poids,
                 'pref':self.pref,
                 'epsilon':self.epsilon,
-                'omega':self.omega
+                'omega':self.omega,
+                'last5Subs':self.last5Subs
                 }
         with open(os.path.join(self.userdir,self.id+'.ini'), 'w') as configfile:
             config.write(configfile)
@@ -572,7 +588,7 @@ class Aliments() :
     
     def __init__(self,_repasEntre,_contexte,_tabSubst,param):
         """
-        _repasEntre : [(code grp,code sgrp,libelle sgrp)]
+        _repasEntre :{code grp,code sgrp,libelle sgrp}
         _contexte : {repas:petit-dejeuner, dejeuner, diner,cluster:,compagnie:}
         _tabSubst : dataframe sur lequel on se base pour les scores de subs
         """
@@ -585,7 +601,7 @@ class Aliments() :
         
         self.gamma=0.2 #Malus
         self.dataSubs['malus']=False #ajout colonne malus
-        self.dataSubs['Valeur_malus']=0 #malus à 0 pour tous
+        self.dataSubs['Valeur_malus']=1#malus à 0 pour tous
         self.dataSubs.loc[self.dataSubs['malus']==True,'Valeur_malus']=self.gamma #actualisation de la valeur du malus
         
         self.NutriScore(_repasEntre,dataNutri)
@@ -594,35 +610,59 @@ class Aliments() :
      
         repasScore=[] #[(grpAlim1,sgrpAlim1,libAlim1,SAINAlim1,LIMAlim1),...]
         for alim in _repasEntre:    
-            scoreSain=dataNutri[(dataNutri['codgr']==alim[0])&(dataNutri['sougr']==alim[1])]['SAIN 5 opt'].values[0]
-            scoreLim=dataNutri[(dataNutri['codgr']==alim[0]) & (dataNutri['sougr']==alim[1])]['LIM3'].values[0]
-            scoreDist=dataNutri[(dataNutri['codgr']==alim[0]) & (dataNutri['sougr']==alim[1])]['distance_origine'].values[0]
-            repasScore.append((alim[0],alim[1],alim[2],round(scoreSain,3),round(scoreLim,3),round(scoreDist,3)))
-        
+            scoreSain=dataNutri[(dataNutri['codgr']==alim['codeGrp'])&(dataNutri['sougr']==alim['codeSgrp'])]['SAIN 5 opt'].values[0]
+            scoreLim=dataNutri[(dataNutri['codgr']==alim['codeGrp']) & (dataNutri['sougr']==alim['codeSgrp'])]['LIM3'].values[0]
+            scoreDist=dataNutri[(dataNutri['codgr']==alim['codeGrp']) & (dataNutri['sougr']==alim['codeSgrp'])]['distance_origine'].values[0]
+            alim['SAIN']=round(scoreSain,3)
+            alim['LIM']=round(scoreLim,3)
+            alim['scoreDist']=round(scoreDist,3)
+            repasScore.append(alim)
+            
 
-        repasScoreSort=sorted(repasScore,key=lambda alim:alim[5],reverse=True) #sort by distance SAIN/LIM
+        repasScoreSort=sorted(repasScore,key=lambda alim:alim['scoreDist'],reverse=True) #sort by distance SAIN/LIM
         print(repasScoreSort)
         
 # =============================================================================
 #       Continuer à prendre le pire, deuxième pire, troisième pire etc mais jusqu'à un certain seuil, 
 # i.e tronquer la liste des aliments avec score aliment[0]= seuil
 # =============================================================================
-        if repasScoreSort[-1][5]<80:
+        if repasScoreSort[-1]['scoreDist']<80 : #plusieurs aliments potentiellement mauvais
             i=len(repasScoreSort)-1 #dernier aliment
-            while repasScoreSort[i][5]<80:
+            ListeAlimPropose=[] #liste de tous les aliments pour lesquels on cherche une substitution
+                
+            while repasScoreSort[i]['scoreDist']<80 and i>=0:
                 self.alimentASubstituer=repasScoreSort[i] #(libellé,scoreSAIN,scoreLIM)
                 self.calculSubstitution(repasScoreSort,dataNutri)
+                ListeAlimPropose.append(self.subsProposee)
+                i-=1
+            print('listeAlim',ListeAlimPropose)
+            self.subsProposee=max(ListeAlimPropose, key = lambda x: x['Score S'])
+            self.alimentASubstituer=self.subsProposee['alimASubstituer']
+            
                 
         else: #on ne substitue que le pire aliment
             self.alimentASubstituer=repasScoreSort[-1] #(libellé,scoreSAIN,scoreLIM)
             self.calculSubstitution(repasScoreSort,dataNutri)
     
-    def findSubstitution(self,subData):
-        Subst_envisageables=subData[subData['aliment_1']==self.alimentASubstituer[2]][['aliment_2','score_substitution','Valeur_malus','score_sainlim_nor']]       
+    def findSubstitution(self,subData,dataNutri):
+        Subst_envisageables=subData[subData['aliment_1']==self.alimentASubstituer['libsougr']][['aliment_2','score_substitution','Valeur_malus','score_sainlim_nor']]       
         Subst_envisageables['S'] = Subst_envisageables['Valeur_malus']*(Subst_envisageables['score_substitution']**self.omega+Subst_envisageables['score_sainlim_nor']**(1-self.omega))
         
-        return Subst_envisageables.loc[Subst_envisageables['S'].idxmax()]
-        print('existe',self.alimentASubstituer,Subst_envisageables)
+        alimPropose=Subst_envisageables.loc[Subst_envisageables['S'].idxmax()]
+        nutriAlimPropose=dataNutri[dataNutri['libsougr']==alimPropose['aliment_2']][['libsougr','SAIN 5 opt','LIM3']]
+        self.subsProposee={'alimASubstituer':self.alimentASubstituer,
+                           'alimPropose':
+                               {'libsougr':nutriAlimPropose['libsougr'].values[0],
+                                'SAIN':nutriAlimPropose['SAIN 5 opt'].values[0],
+                                'LIM' :nutriAlimPropose['LIM3'].values[0]
+                                },
+                            'Score S':round(alimPropose['S'],4),
+                            'NouvelleSubst':False}
+    
+        print('existe')
+        
+        return self.subsProposee 
+    
         
     def calculSubstitution(self,_repasEntre,dataNutri):
         """
@@ -643,33 +683,50 @@ class Aliments() :
         """
          
 # =============================================================================
-# Incorporer la nouvelle table avec scores nutris intégrés, voir quels filtres on applique
+# Différents niveaux de filtres
 # =============================================================================
         #Test existence substitution, filtre = repas,cluster,compagnie
         subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&(self.dataSubs['cluster']==self.contexte['cluster'])&(self.dataSubs['avecqui']==self.contexte['compagnie'])]
-        if not (subData[subData['aliment_1']==self.alimentASubstituer[2]]).dropna(subset=['aliment_2']).empty: 
-            self.subsProposee=self.findSubstitution(subData)['aliment_2']
-            self.subsProposee.append(dataNutri[dataNutri['libsougr']==self.subsProposee[0]][['SAIN 5 opt','LIM3']])
-              
+        if not (subData[subData['aliment_1']==self.alimentASubstituer['libsougr']]).dropna(subset=['aliment_2']).empty: 
+            self.subsProposee=self.findSubstitution(subData,dataNutri)
+            
         else:
             subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&(self.dataSubs['cluster']==self.contexte['cluster'])&(self.dataSubs['avecqui']=='all')]    
-            if not (subData[subData['aliment_1']==self.alimentASubstituer[2]]).dropna(subset=['aliment_2']).empty:
-                self.subsProposee=self.findSubstitution(subData)['aliment_2']
-                self.subsProposee.append(dataNutri[dataNutri['libsougr']==self.subsProposee[0]][['SAIN 5 opt','LIM3']])
-              
+            if not (subData[subData['aliment_1']==self.alimentASubstituer['libsougr']]).dropna(subset=['aliment_2']).empty:
+                self.subsProposee=self.findSubstitution(subData,dataNutri)
+               
             else:
                 subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&(self.dataSubs['cluster']=='all')&(self.dataSubs['avecqui']=='all')]
-                if not (subData[subData['aliment_1']==self.alimentASubstituer[2]]).dropna(subset=['aliment_2']).empty:
-                    self.subsProposee=[self.findSubstitution(subData)['aliment_2']]
-                    self.subsProposee.append(dataNutri[dataNutri['libsougr']==self.subsProposee[0]][['SAIN 5 opt','LIM3']])
+                if not (subData[subData['aliment_1']==self.alimentASubstituer['libsougr']]).dropna(subset=['aliment_2']).empty:
+                    self.subsProposee=self.findSubstitution(subData,dataNutri)
+                    
                 else:
                     #Essai substitution du même groupe
                     if (dataNutri[dataNutri['codgr']==self.alimentASubstituer[0]]).dropna(subset=['libsougr']).shape[0]>1: #si contient autres aliments du mm groupe
                         Subst_secours=dataNutri[(dataNutri['codgr']==self.alimentASubstituer[0])&(dataNutri['sougr']!=self.alimentASubstituer[1])]
-                        print('secours',Subst_secours)
+                        alimPropose=Subst_secours.loc[Subst_secours['distance_origine'].idxmax()]['libsougr'] #on prend le max nutritionnel
+                       
+                        nutriAlimPropose=dataNutri[dataNutri['libsougr']==alimPropose['aliment_2']][['libsougr','SAIN 5 opt','LIM3']]
+                        self.subsProposee={'alimASubstituer':self.alimentASubstituer,
+                           'alimPropose':
+                               {'libsougr':nutriAlimPropose['libsougr'].values[0],
+                                'SAIN':nutriAlimPropose['SAIN 5 opt'].values[0],
+                                'LIM' :nutriAlimPropose['LIM3'].values[0]
+                                },
+                            'Score S':0,
+                            'NouvelleSubst':True}
+                        
+                        print('secours')
                     else: #si seul aliment du groupe et aucune substitution possible
                         print('deso on peut rien faire')
-
+                        self.subsProposee={'alimASubstituer':self.alimentASubstituer,
+                           'alimPropose':
+                               {'libsougr':"Pas mieux",
+                                'SAIN':0,
+                                'LIM' :0
+                                },
+                            'Score S':0,
+                            'NouvelleSubst':False}
 
         print(self.epsilon, self.omega)
         #self.subsProposee=('vin', 1.084, 1.430) #test
@@ -678,14 +735,23 @@ class Aliments() :
 # Incorporer ici la notion de epsilon avec exploration/Exploitation
 # ajouter dans le dataframe une colonne pour chaque subs proposée
 # =============================================================================
-    def acceptation(self,_antec,_conseq):
+    def acceptation(self,_conseq):
         """mise à jour du score avec alpha et beta"""
         print("c'est un oui !!!")
+        if _conseq['NouvelleSubst']==True:
+            #ajouter subst dans table
+            pass
+        #Actualiser malus
+        #Actualiser alpha beta
+        app.menu_widgets()
         pass
     
-    def refus(self,_antec,_conseq):
+    def refus(self,_conseq):
         """mise à jour du score avec alpha et beta"""
         print("dommaaaaaage")
+        #Actualiser malus
+        #Actualiser alpha beta
+        app.menu_widgets()
         pass
 
 # =============================================================================
