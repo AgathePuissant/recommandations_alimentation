@@ -16,7 +16,6 @@ def construct_table_preference(data_conso, data_nomen) :
     pref = data_conso.drop(['avecqui', 'petit-dejeuner', 'dejeuner', 'gouter', 'diner',
                       'seul', 'accompagne', 'autre', 'cluster_1', 'cluster_2','cluster_3','cluster_4','cluster_5','cluster_6','cluster_7','cluster_8'], axis = 1)
     
-    
     # Transformation de colonne à ligne
     pref = pref.melt(id_vars = ['cluster_consommateur', 'nomen', 'nojour', 'tyrep'],
                      var_name = 'libsougr',
@@ -24,7 +23,13 @@ def construct_table_preference(data_conso, data_nomen) :
     pref = pref[pref.consommation == 1]
     
     # Merge conso_pattern et nomenclature
-    pref = pd.DataFrame.merge(pref, data_nomen.loc[:,['code_role', 'libsougr']].drop_duplicates(), on = 'libsougr', how = 'left')
+    pref = pd.DataFrame.merge(pref, data_nomen.loc[:,['code_role', 'libsougr']].drop_duplicates(), on = 'libsougr', how = 'left') 
+    
+    # Nombre d'utilisateur par cluster
+    pref = pd.DataFrame.merge(pref.groupby('cluster_consommateur')['nomen'].nunique().reset_index().rename(
+                                        columns = {'nomen' : 'nbre_user'}),
+                              pref,
+                              on = 'cluster_consommateur')
     
     # Nbre de repas par cluster de consommateur et par type de repas : nbre_repas_grp
     conso_by_grp = pref.groupby(['cluster_consommateur', 'nojour', 'tyrep'])['nomen'].nunique().reset_index().rename(
@@ -45,13 +50,17 @@ def construct_table_preference(data_conso, data_nomen) :
                               conso_by_code, 
                               on = ['cluster_consommateur', 'tyrep', 'code_role'] )
     
+    # Calcul de la consommation hebdomadaire d'un utilisateur en moyenne
+    pref['nbre_repas_code'] = pref['nbre_repas_code'] / pref['nbre_user']
+    pref['nbre_repas_grp'] = pref['nbre_repas_grp'] / pref['nbre_user']
+    pref['consommation'] = pref['consommation'] / pref['nbre_user']
+    
     # Nombre de repas qui contient chaque sous-groupe d'aliments par cluster de consommateur, type de repas, code de role
-    pref = pref.groupby(['cluster_consommateur', 'tyrep', 'nbre_repas_grp', 'code_role',
+    pref = pref.groupby(['cluster_consommateur', 'nbre_user', 'tyrep', 'nbre_repas_grp', 'code_role',
                          'nbre_repas_code', 'taux_code_apparaitre', 'libsougr'])['consommation'].apply(sum).reset_index()
     
     # Taux_conso_par_code : nombre de repas qui contient chaque sous-groupe d'aliments divisé par nombre de repas de chaque code de role
     pref['taux_conso_par_code'] = round(100*pref['consommation']/pref['nbre_repas_code'], 2)
-    #pref['taux_conso_par_grp'] = round(100*pref['consommation']/pref['nbre_repas_grp'], 2)
     
     return pref
 
