@@ -406,7 +406,11 @@ class System() :
             self.table_suivi[['substitution', 'reponse', 'omega', 'epsilon']] = self.table_suivi.apply(
                 lambda row : self.processus_recommandation(row['user'], row['tyrep'], row['avecqui'], row['repas'])
                 if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega'], row['epsilon']]), axis = 1)
-    
+            
+            # Mise à jour de la table préférence
+            if self.jour_courant % 7 == 0 :
+                self.mise_a_jour_df()
+            
             # Passe à la journée suivante
             self.jour_courant += 1
 
@@ -414,9 +418,11 @@ class System() :
     
     def mise_a_jour_df(self) :
         """
-        La fonction qui met à jour les tables de conso_pattern_sougr, preference, etc. après chaque pas de temps de simulation
-        si ca fait 5% de la base conso_pattern_sougr total (if >= 5% then ...)
+        La fonction qui met à jour les tables de fréquence de consommasion de l'utilisateur après chaque SEMAINE
         """
+        sem = self.jour_courant // 7
+        jour_depart = self.jour_courant - 6
+        
         pass
 
 # TEST
