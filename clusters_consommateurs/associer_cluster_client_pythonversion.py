@@ -12,7 +12,7 @@ from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 from scipy.spatial.distance import pdist
 #________________________Mise en forme table_______________________
 
-file="C:/Users/lili-/Desktop/PROJET_FIL_ROUGE/clusters_consommateurs/table_analyse_3.csv"
+file="C:/Users/agaca/Documents/GitHub/recommandations_alimentation/clusters_consommateurs/table_analyse_3.csv"
 table_analyser = pd.read_csv(file, sep = ",", encoding = 'latin-1')
 
 cols = list(table_analyser.columns)
@@ -60,8 +60,7 @@ def booleaniser_table(df, modalites): #[3,2,2,2,2,3,5,2,2,2]
         #print("i2 : ",i," j2 : ",j, " mod2 : ", mod)
         bool_col(df, names, valeurs)
             
-creer_colonnes_table(df_18, [3,5,3,2,2,2,2,2,2,2])        
-booleaniser_table(df_18, [3,2,2,2,2,3,5,2,2,2])
+
 
 def fonction_gower(x_1,x_2):
     n_1 = len(x_1)
@@ -93,8 +92,11 @@ def distances(df, distance=None):
 
 
 #________________________Classif hierarchique ascendante_______________________
-#df_skip = df_18.drop(columns=['nomen'])
-#df_skip.reset_index(drop=True)
+df_skip = df_18.drop(columns=['nomen'])
+df_skip.reset_index(drop=True)
+
+creer_colonnes_table(df_18, [3,5,3,2,2,2,2,2,2,2])        
+booleaniser_table(df_18, [3,2,2,2,2,3,5,2,2,2])
 
 #X = distances(df_skip, 'Gower')
 df_18 = df_18.drop(columns=['nomen'])
@@ -105,7 +107,10 @@ Z= linkage(X, method='ward')
 Zprime = linkage(Xprime, method='ward')
 
 dendrogram(Zprime,labels=df_18.index,orientation='left')
-fcluster(Zprime, t=4.3, criterion='distance')
-dendrogram(Z,labels=df_18.index,orientation='left')
+#fcluster(Z, t=0.95, criterion='distance')
+
+#0.98410
+
+dendrogram(Z,labels=df_18.index,orientation='top', color_threshold = 0.98410*max(Z[:,2]), truncate_mode = 'level', p=6)
 
 plt.show()        
