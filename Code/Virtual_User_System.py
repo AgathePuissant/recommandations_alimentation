@@ -8,6 +8,7 @@ Created on Mon Feb  3 09:36:39 2020
 # FUNCTION IMPORT
 import random
 import pandas as pd
+import numpy as np
 #import numpy as np
 #from mlxtend.frequent_patterns import fpgrowth
 #import preference_consommateur as pref
@@ -148,6 +149,7 @@ class System() :
         
         # Création de table de préférence
         self.tab_pref = pd.read_csv('Base_Gestion_Systeme/preference_consommation.csv', sep = ";", encoding = 'latin-1')
+        self.tab_pref = self.tab_pref.drop('nbre_user', axis = 1)
         
         # Score de nutrition
         self.score_nutri = pd.read_csv('Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv',sep=';', encoding="latin-1")
@@ -408,8 +410,7 @@ class System() :
                 if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega'], row['epsilon']]), axis = 1)
             
             # Mise à jour de la table préférence
-            if self.jour_courant % 7 == 0 :
-                self.mise_a_jour_df()
+            self.mise_a_jour_df()
             
             # Passe à la journée suivante
             self.jour_courant += 1
@@ -420,17 +421,44 @@ class System() :
         """
         La fonction qui met à jour les tables de fréquence de consommasion de l'utilisateur après chaque SEMAINE
         """
-        sem = self.jour_courant // 7
-        jour_depart = self.jour_courant - 6
-        
+#        if self.jour_courant % 7 == 0 :            
+#            tab_pref = self.table_suivi[(self.table_suivi['nojour'] > self.jour_courant - 7) &
+#                                        (self.table_suivi['nojour'] <= self.jour_courant)]
+#            
+#        lst_col = 'repas'
+#        tab_pref = pd.DataFrame({
+#              col:np.repeat(tab_pref[col].values, tab_pref[lst_col].str.len())
+#              for col in tab_pref.columns.drop(lst_col)}
+#            ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_pref[lst_col].values))})
+#        
+#        
         pass
+    
+def test_f(table_suivi, jour_courant) :
+    """
+    La fonction qui met à jour les tables de fréquence de consommasion de l'utilisateur après chaque SEMAINE
+    """
+    if jour_courant % 7 == 0 :            
+        tab_pref = table_suivi[(table_suivi['nojour'] > jour_courant - 7) &
+                               (table_suivi['nojour'] <= jour_courant)]
+        
+        tab_pref_t = tab_pref[tab_pref.reponse == True]
+#        lst_col = 'repas'
+#        tab_pref = pd.DataFrame({
+#              col:np.repeat(tab_pref[col].values, tab_pref[lst_col].str.len())
+#              for col in tab_pref.columns.drop(lst_col)}
+#            ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_pref[lst_col].values))})
+    
+    return tab_pref_t
+
+test = test_f(suivi_df, 7)
 
 # TEST
-#sys_test = System(10, 5) # 10 utilisateurs, 5 jours d'entrainement
+#sys_test = System(3, 8) # 10 utilisateurs, 7 jours d'entrainement
 #
 #sys_test.entrainement()
 #
-#test = sys_test.table_suivi
+#suivi_df = sys_test.table_suivi
 
 
 # =============================================================================

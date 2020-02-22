@@ -6,6 +6,7 @@ Created on Tue Jan 28 11:50:29 2020
 """
 
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 from copy import deepcopy
 
@@ -32,38 +33,40 @@ def construct_table_preference(data_conso, data_nomen) :
                               on = 'cluster_consommateur')
     
     # Nbre de repas par cluster de consommateur et par type de repas : nbre_repas_grp
-    conso_by_grp = pref.groupby(['cluster_consommateur', 'nojour', 'tyrep'])['nomen'].nunique().reset_index().rename(
+    conso_by_grp = pref.groupby(['cluster_consommateur', 'nbre_user', 'nojour', 'tyrep'])['nomen'].nunique().reset_index().rename(
             columns = {'nomen' : 'nbre_repas_grp'})
-    conso_by_grp = conso_by_grp.groupby(['cluster_consommateur', 'tyrep'])['nbre_repas_grp'].apply(sum).reset_index()
+    conso_by_grp = conso_by_grp.groupby(['cluster_consommateur', 'nbre_user', 'tyrep'])['nbre_repas_grp'].apply(sum).reset_index()
     
     # Nombre de repas qui ont les aliments de chaque code_role par cluster de consommateur et par type de repas : nbre_repas_code
-    conso_by_code = pref.groupby(['cluster_consommateur', 'nojour', 'tyrep', 'code_role'])['nomen'].nunique().reset_index().rename(
+    conso_by_code = pref.groupby(['cluster_consommateur', 'nbre_user', 'nojour', 'tyrep', 'code_role'])['nomen'].nunique().reset_index().rename(
         columns = {'nomen' : 'nbre_repas_code'})
-    conso_by_code = conso_by_code.groupby(['cluster_consommateur', 'tyrep', 'code_role'])['nbre_repas_code'].apply(sum).reset_index()
+    conso_by_code = conso_by_code.groupby(['cluster_consommateur', 'nbre_user', 'tyrep', 'code_role'])['nbre_repas_code'].apply(sum).reset_index()
     
-    # Taux_code_apparaitre = nombre de repas qui contient chaque code de role divisé par nombre de repas par groupe de cluster + type de repas
+    # Merge conso_by_code et conso_by_grp
     conso_by_code = pd.DataFrame.merge(conso_by_code, conso_by_grp, on = ['cluster_consommateur', 'tyrep'])
-    conso_by_code['taux_code_apparaitre'] = round(100*conso_by_code['nbre_repas_code']/conso_by_code['nbre_repas_grp'], 2)
+
+    #conso_by_code['taux_code_apparaitre'] = round(100*conso_by_code['nbre_repas_code']/conso_by_code['nbre_repas_grp'], 2)
     
     # Ajout des nouvelles colonnes dans la table
     pref = pd.DataFrame.merge(pref.drop(['nomen', 'nojour'], axis = 1), 
                               conso_by_code, 
                               on = ['cluster_consommateur', 'tyrep', 'code_role'] )
     
-    # Calcul de la consommation hebdomadaire d'un utilisateur en moyenne
-    pref['nbre_repas_code'] = pref['nbre_repas_code'] / pref['nbre_user']
-    pref['nbre_repas_grp'] = pref['nbre_repas_grp'] / pref['nbre_user']
-    pref['consommation'] = pref['consommation'] / pref['nbre_user']
+    # Calcul de la consommation hebdomadaire d'un utilisateur en moyenne et ...
+    # ... Taux_code_apparaitre = nombre de repas qui contient chaque code de role divisé par nombre de repas par groupe de cluster + type de repas
+    pref['nbre_repas_grp'] = np.ceil(pref['nbre_repas_grp'] / pref['nbre_user'])
+    pref['nbre_repas_code'] = round(pref['nbre_repas_code'] / pref['nbre_user'], 3)
+    pref['taux_code_apparaitre'] = round(100*pref['nbre_repas_code']/pref['nbre_repas_grp'], 2)
     
     # Nombre de repas qui contient chaque sous-groupe d'aliments par cluster de consommateur, type de repas, code de role
     pref = pref.groupby(['cluster_consommateur', 'nbre_user', 'tyrep', 'nbre_repas_grp', 'code_role',
                          'nbre_repas_code', 'taux_code_apparaitre', 'libsougr'])['consommation'].apply(sum).reset_index()
+    pref['consommation'] = round(pref['consommation'] / pref['nbre_user'], 3)
     
     # Taux_conso_par_code : nombre de repas qui contient chaque sous-groupe d'aliments divisé par nombre de repas de chaque code de role
     pref['taux_conso_par_code'] = round(100*pref['consommation']/pref['nbre_repas_code'], 2)
     
     return pref
-
 
 ## DONNÉES
 #conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
@@ -74,7 +77,7 @@ def construct_table_preference(data_conso, data_nomen) :
 #table_preference.to_csv('Base_Gestion_Systeme/preference_consommation.csv', sep = ";", encoding = 'latin-1', index = False)
 
 def diversite(pref):
-    
+
     pourc = [90,80,70,60,50,40,30,20,10,5,2,1]
     init = [0 for i in range(len(pourc))]
     init1 = [1 for i in range(len(pourc))]
