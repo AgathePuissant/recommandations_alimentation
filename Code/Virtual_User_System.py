@@ -142,7 +142,7 @@ class System() :
         
         # LOAD DATAFRAME
         #self.conso_pattern_sougr = pd.read_csv('Base_a_analyser/conso_pattern_sougr_transfo.csv',sep = ";",encoding = 'latin-1')
-        #self.nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
+        self.nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
         
         # Regles : supp = 0.001, conf = 0.01
         self.regles = pd.read_csv("Base_Gestion_Systeme/regles.csv", sep = ";", encoding = 'latin-1')
@@ -433,25 +433,33 @@ class System() :
 #        
 #        
         pass
-    
+nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
 def test_f(table_suivi, jour_courant) :
     """
     La fonction qui met à jour les tables de fréquence de consommasion de l'utilisateur après chaque SEMAINE
     """
     if jour_courant % 7 == 0 :            
         tab_pref = table_suivi[(table_suivi['nojour'] > jour_courant - 7) &
-                               (table_suivi['nojour'] <= jour_courant)]
+                               (table_suivi['nojour'] <= jour_courant)].reset_index(drop = True)
         
-        tab_pref_t = tab_pref[tab_pref.reponse == True]
-#        lst_col = 'repas'
-#        tab_pref = pd.DataFrame({
-#              col:np.repeat(tab_pref[col].values, tab_pref[lst_col].str.len())
-#              for col in tab_pref.columns.drop(lst_col)}
-#            ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_pref[lst_col].values))})
-    
-    return tab_pref_t
+        tab_pref[['alim_a_subst', 'alim_subst']] = pd.DataFrame(tab_pref['substitution'].tolist(), index = tab_pref.index)
+        
+        lst_col = 'repas'
+        tab_pref = pd.DataFrame({
+              col:np.repeat(tab_pref[col].values, tab_pref[lst_col].str.len())
+              for col in tab_pref.columns.drop(lst_col)}
+            ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_pref[lst_col].values))})
+        
+        tab_pref.loc[(tab_pref.reponse == True) &
+                     (tab_pref.repas == tab_pref.alim_a_subst),
+                     'repas'] = tab_pref.loc[(tab_pref.reponse == True) &
+                                             (tab_pref.repas == tab_pref.alim_a_subst),
+                                             'alim_subst']
+        
+        tab_pref = pd.DataFrame.merge(tab_pref, nomenclature[['libsougr', 'code_role']].drop_duplicates(),
+                                      left_on = 'repas', right_on = 'libsougr', how = 'left')
 
-test = test_f(suivi_df, 7)
+    return tab_pref
 
 # TEST
 #sys_test = System(3, 8) # 10 utilisateurs, 7 jours d'entrainement
@@ -459,6 +467,12 @@ test = test_f(suivi_df, 7)
 #sys_test.entrainement()
 #
 #suivi_df = sys_test.table_suivi
+    
+test = test_f(suivi_df, 7)
+
+test['repas'] = map(lambda liste : map(liste), test['repas'].tolist())
+x = test['repas'].tolist()
+
 
 
 # =============================================================================

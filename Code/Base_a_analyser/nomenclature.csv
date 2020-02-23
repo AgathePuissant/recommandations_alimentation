@@ -86,8 +86,7 @@ codgr;libgr;sougr;libsougr;codal;libal;group_alim;code_role;code_role2
 7;biscuits sucrés ou salés et barres;1;biscuits sucrés;24038.0;biscuit sec nappé de chocolat type pépito ou mikado lu;biscuits;PS;PS
 7;biscuits sucrés ou salés et barres;1;biscuits sucrés;24049.0;galette ou sablé ou palet type galette du mont saint michel;biscuits;PS;PS
 7;biscuits sucrés ou salés et barres;1;biscuits sucrés;24231.0;goûter sec fourré au chocolat type prince ou bn au chocolat;biscuits;PS;PS
-7;biscuits sucrés ou salés et barres;1;biscuits sucrés;24310.0;gaufrette fourrée fourrage autre qu'aux fruits (chocolat vanille noisette;;;
-7;biscuits;1;PS;;;;;
+7;biscuits sucrés ou salés et barres;1;biscuits sucrés;24310.0;gaufrette fourrée fourrage autre qu'aux fruits (chocolat vanille noisette;biscuits;PS;PS
 7;biscuits sucrés ou salés et barres;1;biscuits sucrés;24320.0;gaufrette fourrée aux fruits type paille d'or aux framboises;biscuits;PS;PS
 7;biscuits sucrés ou salés et barres;1;biscuits sucrés;24430.0;biscuit sec aux œufs à la cuillère ou boudoir;biscuits;PS;PS
 7;biscuits sucrés ou salés et barres;1;biscuits sucrés;24441.0;langue de chat;biscuits;PS;PS
@@ -1081,8 +1080,7 @@ codgr;libgr;sougr;libsougr;codal;libal;group_alim;code_role;code_role2
 36;pizzas, quiches et pâtisseries salées;1;pizzas;25516.0;pizza sans précision;pizzas;PC;PC
 36;pizzas, quiches et pâtisseries salées;1;pizzas;25548.0;pizza royale (jambon fromage champignon);pizzas;PC;PC
 36;pizzas, quiches et pâtisseries salées;1;pizzas;92051.0;autre pizza;pizzas;PC;PC
-36;pizzas, quiches et pâtisseries salées;2;quiches et tartes salées;7814.0;cake salé avec garniture (viande poisson volaille fromage légumes ;;;
-);pizzas;PC;PC;;;;;
+36;pizzas, quiches et pâtisseries salées;2;quiches et tartes salées;7814.0;cake salé avec garniture (viande poisson volaille fromage légumes ;pizzas;PC;PC
 36;pizzas, quiches et pâtisseries salées;2;quiches et tartes salées;25405.0;quiche lorraine;pizzas;PC;PC
 36;pizzas, quiches et pâtisseries salées;2;quiches et tartes salées;25417.0;tarte aux légumes;pizzas;PC;PC
 36;pizzas, quiches et pâtisseries salées;2;quiches et tartes salées;25444.0;tarte au fromage ou quiche au fromage;pizzas;PC;PC
@@ -1184,8 +1182,7 @@ codgr;libgr;sougr;libsougr;codal;libal;group_alim;code_role;code_role2
 39;plats composés;3;beignets, crêpes et bouchées à la reine;25419.0;rouleau de printemps;plats composés;PC;PC
 39;plats composés;3;beignets, crêpes et bouchées à la reine;25420.0;nem ou pâté impérial;plats composés;PC;PC
 39;plats composés;3;beignets, crêpes et bouchées à la reine;25433.0;acra de morue;plats composés;PC;PC
-39;plats composés;3;beignets, crêpes et bouchées à la reine;25438.0;brick garni (garniture : crevettes légumes volaille viande poisson;;;
-);plats composés;PC;PC;;;;;
+39;plats composés;3;beignets, crêpes et bouchées à la reine;25438.0;brick garni (garniture : crevettes légumes volaille viande poisson;plats composés;PC;PC
 39;plats composés;3;beignets, crêpes et bouchées à la reine;25503.0;bouchée à la reine au poisson et fruits de mer;plats composés;PC;PC
 39;plats composés;3;beignets, crêpes et bouchées à la reine;25512.0;nugget de volaille;plats composés;PC;PC
 39;plats composés;3;beignets, crêpes et bouchées à la reine;25549.0;crêpe fourrée béchamel fromage;plats composés;PC;PC
