@@ -490,13 +490,20 @@ class User():
         with open('init.ini', 'w') as configfile:
             config.write(configfile)
             
+    def classif(self, valeur, seuils, classes):
+        
+        pass
+            
     def get_new_row(self):
         """
         """
-        sexeps = self.sex
-        tage = self.age
-        bmi = self.poids / self.taille**2
-        [fromages, fruits, legumes, poissons, ultra_frais, viande, volaille] = self.pref
+        if self.sex=="Homme" :
+            sexeps = 1 
+        sexeps = 2
+        tage = classif(self.age)
+        true_bmi = self.poids / self.taille**2
+        bmi = classif(true_bmi)
+        [fromages, fruits, legumes, poissons, ultra_frais, viande, volaille] = [classif(i) for i in self.pref]
         self.modalites_vect = [sexeps, tage, bmi, fromages, fruits, legumes, poissons, ultra_frais, viande, volaille]
 
     def association(self, df):
