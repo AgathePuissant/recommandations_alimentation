@@ -13,7 +13,7 @@ import os
 import uuid #pour créer des id uniques
 import ast
 import configparser
-from assoc_clust import distances_nid 
+from assoc_clust import distances_nid, classif
 
 
 
@@ -490,20 +490,16 @@ class User():
         with open('init.ini', 'w') as configfile:
             config.write(configfile)
             
-    def classif(self, valeur, seuils, classes):
-        
-        pass
-            
     def get_new_row(self):
         """
         """
         if self.sex=="Homme" :
             sexeps = 1 
         sexeps = 2
-        tage = classif(self.age)
+        tage = classif(self.age, [4,5,6,7,8], [17,24,34,49,64])
         true_bmi = self.poids / self.taille**2
-        bmi = classif(true_bmi)
-        [fromages, fruits, legumes, poissons, ultra_frais, viande, volaille] = [classif(i) for i in self.pref]
+        bmi = classif(true_bmi, [0,1,2], [18.5, 25, 30])
+        [fromages, fruits, legumes, poissons, ultra_frais, viande, volaille] = [classif(i,[0,1],[0,5]) for i in self.pref]
         self.modalites_vect = [sexeps, tage, bmi, fromages, fruits, legumes, poissons, ultra_frais, viande, volaille]
 
     def association(self, df):
