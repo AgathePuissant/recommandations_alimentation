@@ -489,8 +489,6 @@ class User():
         config.set('CURRENTUSER','current_user_id',self.id) #actualisation current user
         with open('init.ini', 'w') as configfile:
             config.write(configfile)
-        
-        
             
     def get_new_row(self):
         """
@@ -516,7 +514,7 @@ class User():
         X = distances_nid(df_ss, x_n,'Gower')
         i = X.index(max(X))
         cluster = df.clust[i]
-        return(cluster)
+        self.cluster = cluster
 
 
     def modifier_info(self) :
