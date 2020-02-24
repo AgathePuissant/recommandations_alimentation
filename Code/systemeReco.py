@@ -13,6 +13,7 @@ import os
 import uuid #pour créer des id uniques
 import ast
 import configparser
+from assoc_clust import distances_nid 
 
 
 
@@ -491,86 +492,31 @@ class User():
         
         
             
-    def get_new_row(nouveau_client, modalites):
+    def get_new_row(self):
         """
+        """
+        sexeps = self.sex
+        tage = self.age
+        bmi = self.poids / self.taille**2
+        [fromages, fruits, legumes, poissons, ultra_frais, viande, volaille] = self.pref
+        self.modalites_vect = [sexeps, tage, bmi, fromages, fruits, legumes, poissons, ultra_frais, viande, volaille]
 
-        Parameters
-        ----------
-        nouveau_client : list
-            Avec le numéro associé à sa modalité.
-            Par exemple, dans ce cas on a 10 variables :
-            nouveau_client = [2,4,1,0,1,1,0,1,0,0]
-            le sexe du nouveau client est associé a la modalité 2
-            la classe d'age est 4 donc 18-24 ans
-            sa bmi est normale
-            etc....
-                
-        modalites : list
-            Dans notre cas 
-            modalites = [3,8,3,2,2,2,2,2,2,2]
-            car on a :  3 mods pour sexe
-                        8 mods pour la classe d'age
-                        3 mods pour la bmi
-                        2 mods pour les 7 préférences alim qui nous intéressent
-        
-        Returns 
+    def association(self, df):
+        """
+        df : data_frame
+            data frame contenant les valeurs des autres individus (ceux de la table INCA2)
+        x_n : vecteur
+            contenant les modalités associées au nouvel individu n
+        Returns
         -------
-        new_row : list
-            sous le format voulu pour affect_cluster
-            une liste avec 28 éléments avec un 1 là où sa modalité se trouve
-            exemple :
-                [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1,0, 1, 1, 0, 0, 1]
-                     sex                    tage      bmi from fruits..................viand....vol
-
+        cluster auquel appartient l'individu n
         """
-        n = len(modalites)
-        new_row = []
-        for i in range(n) :
-            l = [0 for j in range(modalites[i])]
-            l[nouveau_client[i]] = 1
-            new_row += l
-        return(new_row)
-
-    def affect_cluster(cluster_data, new_row_bf, modalites) :
-        """
-        Parameters
-        ----------
-        cluster_data : numpy array
-            tableau avec les poids de chaque modalité pour chaque cluster
-        
-        new_row_bf : list
-            Avec le numéro associé à sa modalité.
-            Par exemple, dans ce cas on a 10 variables :
-            nouveau_client = [2,4,1,0,1,1,0,1,0,0]
-            le sexe du nouveau client est associé a la modalité 2
-            la classe d'age est 4 donc 18-24 ans
-            sa bmi est normale
-            etc....
-            
-        modalites : list
-            Dans notre cas 
-            modalites = [3,8,3,2,2,2,2,2,2,2]
-            car on a :  3 mods pour sexe
-                        8 mods pour la classe d'age
-                        3 mods pour la bmi
-                        2 mods pour les 7 préférences alim qui nous intéressent
-        
-
-        Returns 
-        -------
-            cluster : int numero du cluster auquel le nouveau client est associé
-            
-
-        """
-        new_row = get_new_row(new_row_bf, modalites)
-        liste = []
-        dim = cluster_data.shape
-        for i in range(dim[1]):
-            x = new_row - cluster_data[:,i]
-            liste+=[math.sqrt(sum(abs(x)))]
-            minim = min(liste)
-        cluster = liste.index(minim)+1
-        return (cluster)
+        x_n = self.modalites_vect
+        df_ss = df.drop(columns=['nomen','clust'])
+        X = distances_nid(df_ss, x_n,'Gower')
+        i = X.index(max(X))
+        cluster = df.clust[i]
+        return(cluster)
 
 
     def modifier_info(self) :
