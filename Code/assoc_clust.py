@@ -69,3 +69,8 @@ def distances_nid(df, n_id, distance="Gower"):
             dist = fonction_gower(n_id,list(df.loc[j]))
             X+=[dist]
     return(X)
+
+def actualiser(df, x_n, nomen, clust):
+    last_ind = df.index[-1]
+    df.loc[last_ind+1] = [nomen]+x_n+[clust]
+    df.to_csv('clusters_8.csv', index=False)
