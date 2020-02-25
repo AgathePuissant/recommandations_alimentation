@@ -311,7 +311,7 @@ class Application(tk.Frame):
         """
         Affiche autant de combobox qu'il y a d'alims dans le repas
         """
-        self.currentUser.contexte={'cluster':None}
+        self.currentUser.contexte={'cluster':self.currentUser.cluster}
         self.currentUser.contexte['compagnie']=_cie.get()
         self.currentUser.contexte['repas']=_repas.get()
         self.grpbox={}
@@ -451,6 +451,7 @@ class User():
             self.pref=_info['last5Subs']
         print(self.id)
         
+        
         if not os.path.exists('UserData'):
             os.mkdir('UserData')
         self.userdir=(os.path.join('UserData',self.id)) #crée un dossier pour le newUser
@@ -476,6 +477,7 @@ class User():
                 'taille':self.taille,
                 'poids':self.poids,
                 'pref':self.pref,
+                'cluster':self.cluster,
                 'epsilon':self.epsilon,
                 'omega':self.omega,
                 'last5Subs':self.last5Subs
@@ -513,10 +515,10 @@ class User():
         cluster auquel appartient l'individu n
         """
         x_n = self.modalites_vect
-        df_ss = df.drop(columns=['nomen','clust'])
+        df_ss = df.drop(columns=['nomen','clust.num'])
         X = distances_nid(df_ss, x_n,'Gower')
         i = X.index(max(X))
-        cluster = df.clust[i]
+        cluster = df.clust.num[i]
         self.cluster = cluster
 
 
