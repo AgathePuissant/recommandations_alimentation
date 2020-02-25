@@ -10,13 +10,15 @@ file="clusters_8.csv"
 df_18 = pd.read_csv(file, sep = ";", encoding = 'latin-1')
 
 def classif(caracteristique, liste_cat, liste_seuils):
-    n = len(liste_cat)
-    for i in range(0,n-1):
-        if (caracteristique>=liste_seuils[i]+1) and (caracteristique<=liste_seuils[i+1]):
-            return(liste_cat[i])
+    n = len(liste_seuils)
+    if caracteristique<=liste_seuils[0]:
+        return(liste_cat[0])
     if caracteristique>liste_seuils[n-1]:
-        return(liste_cat[n-1])
-
+        return(liste_cat[n])
+    for i in range(0,n-2):
+        if (caracteristique>liste_seuils[i]) and (caracteristique<=liste_seuils[i+1]):
+            return(liste_cat[i+1])
+        
 def fonction_gower(x_1,x_2):
     """
 
@@ -69,3 +71,8 @@ def distances_nid(df, n_id, distance="Gower"):
             dist = fonction_gower(n_id,list(df.loc[j]))
             X+=[dist]
     return(X)
+
+def actualiser_table_clusters(df, x_n, nomen, clust):
+    last_ind = df.index[-1]
+    df.loc[last_ind+1] = [nomen]+x_n+[clust]
+    df.to_csv('clusters_8.csv', index=False)
