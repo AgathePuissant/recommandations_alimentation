@@ -506,10 +506,10 @@ class User():
         if self.sex=="Homme" :
             sexeps = 1 
         sexeps = 2
-        tage = classif(self.age, [4,5,6,7,8], [17,24,34,49,64])
+        tage = classif(self.age, [4,5,6,7,8], [24,34,49,64])
         true_bmi = self.poids / self.taille**2
-        bmi = classif(true_bmi, [0,1,2], [18.5, 25, 30])
-        [fromages, fruits, legumes,viande, poissons, volaille, ultra_frais] = [classif(i,[0,1],[0,5]) for i in list(self.pref.values())]
+        bmi = classif(true_bmi, [0,1,2], [18.5, 25])
+        [fromages, fruits, legumes,viande, poissons, volaille, ultra_frais] = [classif(i,[0,1],[5]) for i in list(self.pref.values())]
         self.modalites_vect = [sexeps, tage, bmi, fromages, fruits, legumes,viande, poissons,volaille, ultra_frais]
         print(self.modalites_vect)
         self.association()
