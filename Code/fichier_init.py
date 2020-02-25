@@ -13,18 +13,24 @@ config['CURRENTUSER']={
         'current_user_id':'default',
       }
 
-config['USERDATA']={
+config['DEFAULTDATA']={
                 'id':'defaultid',
                 'name':'ana',
                 'age':21,
                 'sexe':'F',
                 'taille':165,
                 'poids':58,
-                'pref':[],
+                'pref':{'from':3,
+        'fruits':3,
+        'legume':4,
+        'viande':7,
+        'poiss':2,
+        'volGib':0,
+        'prodLait':10},
+                'cluster':'None',
                 'epsilon':0.5,
-                'omega1':0.5,
-                'omega2':0.5,
-                'last5Subs':[],
+                'omega':0.5,
+                'last5subs':[],
                 }
 with open('init.ini', 'w') as configfile:
     config.write(configfile)

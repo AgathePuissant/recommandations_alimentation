@@ -13,7 +13,7 @@ import os
 import uuid #pour créer des id uniques
 import ast
 import configparser
-from assoc_clust import distances_nid, classif
+from assoc_clust import distances_nid, classif, actualiser_table_clusters
 
 
 
@@ -181,9 +181,8 @@ class Application(tk.Frame):
         info['id']=str(uuid.uuid4())
         info['epsilon']=0.5
         info['omega']=0.5
-        info['last5Subs']=[]
-   
-        
+        info['last5subs']=[]  
+        info['cluster']='None'
 
         self.currentUser = User(info)
         
@@ -205,11 +204,11 @@ class Application(tk.Frame):
         if self.currentUser==None:  #pas de user prédéfini            
             if self.current_user_id=='default': #pas de current User
                 info=self.getInfoFromFile('init.ini','DEFAULTDATA')
-                print(info)
-                self.currentUser=User(info)                
+                            
             else : #user pré-enregistré
                 info=self.getInfoFromFile(os.path.join('UserData',self.current_user_id,str(self.current_user_id)+'.ini'),'USERDATA')
-                self.currentUser = User(info)
+        
+            self.currentUser = User(info)
                         
 
         self.clean_widgets()
@@ -433,23 +432,29 @@ class User():
     def __init__(self,_info):
         self.name=_info['name']
         self.sex=_info['sexe']
-        self.age=_info['age']
+        self.age=int(_info['age'])
         self.id=_info['id']
-        self.taille=_info['taille']
-        self.poids=_info['poids']
-        self.epsilon=_info['epsilon']
-        self.omega=_info['omega']
+        self.taille=int(_info['taille'])
+        self.poids=int(_info['poids'])
+        self.epsilon=float(_info['epsilon'])
+        self.omega=float(_info['omega'])
 
+        
         if type(_info['pref'])==str:
             self.pref=ast.literal_eval(_info['pref']) #conversion en liste
         else:
             self.pref=_info['pref']
             
-        if type(_info['last5Subs'])==str:
-            self.last5Subs=ast.literal_eval(_info['last5Subs']) #conversion en liste
+        if type(_info['last5subs'])==str:
+            self.last5subs=ast.literal_eval(_info['last5subs']) #conversion str->dic
         else:
-            self.pref=_info['last5Subs']
-        print(self.id)
+            self.last5subs=_info['last5subs']
+        
+        
+        if _info['cluster']=='None':
+            self.get_new_row() #affectation à un cluster
+        else:
+            self.cluster=_info['cluster']
         
         
         if not os.path.exists('UserData'):
@@ -457,6 +462,7 @@ class User():
         self.userdir=(os.path.join('UserData',self.id)) #crée un dossier pour le newUser
         if not os.path.exists(self.userdir): #si n'existe pas de dossier user
             os.mkdir(self.userdir)
+        
         
         self.saveUserInfo()            
         
@@ -468,6 +474,8 @@ class User():
         """
         permet de sauvegarder le fichier ini
         """
+        print(self.pref)
+        print(str(self.last5subs))
         config = configparser.ConfigParser() #sauvegarde des éléments relatifs au user
         config['USERDATA']={
                 'id':self.id,
@@ -480,7 +488,7 @@ class User():
                 'cluster':self.cluster,
                 'epsilon':self.epsilon,
                 'omega':self.omega,
-                'last5Subs':self.last5Subs
+                'last5subs':str(self.last5subs)
                 }
         with open(os.path.join(self.userdir,self.id+'.ini'), 'w') as configfile:
             config.write(configfile)
@@ -501,10 +509,12 @@ class User():
         tage = classif(self.age, [4,5,6,7,8], [17,24,34,49,64])
         true_bmi = self.poids / self.taille**2
         bmi = classif(true_bmi, [0,1,2], [18.5, 25, 30])
-        [fromages, fruits, legumes, poissons, ultra_frais, viande, volaille] = [classif(i,[0,1],[0,5]) for i in self.pref]
-        self.modalites_vect = [sexeps, tage, bmi, fromages, fruits, legumes, poissons, ultra_frais, viande, volaille]
+        [fromages, fruits, legumes,viande, poissons, volaille, ultra_frais] = [classif(i,[0,1],[0,5]) for i in list(self.pref.values())]
+        self.modalites_vect = [sexeps, tage, bmi, fromages, fruits, legumes,viande, poissons,volaille, ultra_frais]
+        print(self.modalites_vect)
+        self.association()
 
-    def association(self, df):
+    def association(self):
         """
         df : data_frame
             data frame contenant les valeurs des autres individus (ceux de la table INCA2)
@@ -514,11 +524,13 @@ class User():
         -------
         cluster auquel appartient l'individu n
         """
+        df= pd.read_csv('clusters_8.csv', sep=',',encoding='latin-1')
         x_n = self.modalites_vect
         df_ss = df.drop(columns=['nomen','clust.num'])
         X = distances_nid(df_ss, x_n,'Gower')
         i = X.index(max(X))
-        cluster = df.clust.num[i]
+        cluster = df['clust.num'][i]
+        actualiser_table_clusters(df,x_n,self.id,cluster)
         self.cluster = cluster
 
 
