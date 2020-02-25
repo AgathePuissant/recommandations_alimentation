@@ -11,10 +11,14 @@ df_18 = pd.read_csv(file, sep = ";", encoding = 'latin-1')
 
 def classif(caracteristique, liste_cat, liste_seuils):
     n = len(liste_cat)
+    if n==2 :
+        if caracteristique<liste_seuils[1]:
+            return(liste_cat[0])
+        return(liste_cat[1])
     if caracteristique<=liste_seuils[0]:
         return(liste_cat[0])
-    for i in range(0,n-1):
-        if (caracteristique>=liste_seuils[i]) and (caracteristique<=liste_seuils[i+1]):
+    for i in range(1,n-1):
+        if (caracteristique>liste_seuils[i-1]) and (caracteristique<=liste_seuils[i]):
             return(liste_cat[i])
     if caracteristique>liste_seuils[n-1]:
         return(liste_cat[n-1])
