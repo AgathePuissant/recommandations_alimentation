@@ -13,7 +13,7 @@ import os
 import uuid #pour créer des id uniques
 import ast
 import configparser
-from assoc_clust import distances_nid, classif
+from assoc_clust import distances_nid, classif, actualiser_table_clusters
 
 
 
@@ -183,7 +183,7 @@ class Application(tk.Frame):
         info['omega']=0.5
         info['last5Subs']=[]
    
-        
+        info['cluster']=None
 
         self.currentUser = User(info)
         
@@ -451,12 +451,18 @@ class User():
             self.pref=_info['last5Subs']
         print(self.id)
         
+        if _info['cluster']=='None':
+            self.get_new_row(self.pref) #affectation à un cluster
+        else:
+            self.cluster=_info['cluster']
+        
         
         if not os.path.exists('UserData'):
             os.mkdir('UserData')
         self.userdir=(os.path.join('UserData',self.id)) #crée un dossier pour le newUser
         if not os.path.exists(self.userdir): #si n'existe pas de dossier user
             os.mkdir(self.userdir)
+        
         
         self.saveUserInfo()            
         
@@ -503,8 +509,9 @@ class User():
         bmi = classif(true_bmi, [0,1,2], [18.5, 25, 30])
         [fromages, fruits, legumes, poissons, ultra_frais, viande, volaille] = [classif(i,[0,1],[0,5]) for i in self.pref]
         self.modalites_vect = [sexeps, tage, bmi, fromages, fruits, legumes, poissons, ultra_frais, viande, volaille]
+        self.association()
 
-    def association(self, df):
+    def association(self):
         """
         df : data_frame
             data frame contenant les valeurs des autres individus (ceux de la table INCA2)
@@ -514,11 +521,13 @@ class User():
         -------
         cluster auquel appartient l'individu n
         """
+        df= pd.read_csv('cluster_8.csv', sep=';',encoding='latin-1')
         x_n = self.modalites_vect
         df_ss = df.drop(columns=['nomen','clust.num'])
         X = distances_nid(df_ss, x_n,'Gower')
         i = X.index(max(X))
         cluster = df.clust.num[i]
+        actualiser_table_clusters(df,x_n,self.id,cluster)
         self.cluster = cluster
 
 
