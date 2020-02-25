@@ -7,7 +7,7 @@ Created on Mon Feb 24 21:12:53 2020
 import pandas as pd
 
 file="clusters_8.csv"
-df_18 = pd.read_csv(file, sep = ",", encoding = 'latin-1')
+df_18 = pd.read_csv(file, sep = ";", encoding = 'latin-1')
 
 def classif(caracteristique, liste_cat, liste_seuils):
     n = len(liste_cat)
