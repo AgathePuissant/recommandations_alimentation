@@ -50,3 +50,9 @@ nutri_result=dataNutri[dataNutri['libsougr']==result['aliment_2']][['libsougr','
 print(dataNutri[dataNutri['libsougr']==result['aliment_2']]['libsougr'].values[0])
 nutri_result.append(result['S'])
 nutri_result
+
+
+Subst_secours=dataNutri[(dataNutri['codgr']==33)&(dataNutri['sougr']!=2)]
+alimPropose=Subst_secours.loc[Subst_secours['distance_origine'].idxmax()] #on prend le max nutritionnel
+nutriAlimPropose=dataNutri[dataNutri['libsougr']==alimPropose['libsougr']][['libsougr','SAIN 5 opt','LIM3']]
+                                               

@@ -31,18 +31,20 @@ class VirtualUser():
         # Création de la table de préférence individuelle
         self.creation_tab_indi(tab_pref, tab_sub)
         
+        # Vitesse de modification de epsilon
+        self.ep_speed = round(2 / sum(self.tab_rep_indi['score_substitution'] > 0.5), 4)
+        
         # score de substitution**w*score de nutrition**(1-w) (score entre 0 et 1)
         self.w = w #w initial petit -> on privilégie score de substitution (comme score appartient entre 0 et 1)
         
         # malus de diversité des recommandations
         self.diversite = []
-
+        
     def affect_cluster(self):
         """
         Permet d'affecter l'utilisateur à un cluster de consommateur
         """
         self.cluster = random.randint(1,8)
-
 
     def creation_tab_indi(self, tab_pref, tab_sub) :
         """
@@ -50,16 +52,27 @@ class VirtualUser():
         .. et une table de score de substitution individuelle des sous-groupes d'aliments
         """
         # TABLE DE PRÉFÉRENCE
+        # ========================
+        
         # Filtrage de table de préférence du cluster
         self.tab_pref_indi = tab_pref[tab_pref['cluster_consommateur'] == self.cluster].reset_index(drop = True)
+        self.tab_pref_indi = self.tab_pref_indi.drop('cluster_consommateur', axis = 1)
         
         # Personnalisation de table de préférence : ajoute aléatoirement -10 à 10% du taux de consommation par groupe
-        self.tab_pref_indi = self.tab_pref_indi.drop('cluster_consommateur', axis = 1)
-        self.tab_pref_indi['taux_conso_par_code'] = self.tab_pref_indi['taux_conso_par_code'].apply(
-                lambda taux : round(taux*(1+random.uniform(-0.1, 0.1)), 2)).apply(
-                        lambda taux : taux if taux <= 100 else 100)
+        self.tab_pref_indi['customize'] = [1 + random.uniform(-0.1, 0.1) for i in range(len(self.tab_pref_indi))]
+        
+        # Application sur les colonnes
+        self.tab_pref_indi['nbre_repas_grp'] = self.tab_pref_indi['nbre_repas_grp']*self.tab_pref_indi['customize']
+        self.tab_pref_indi['nbre_repas_code'] = self.tab_pref_indi['nbre_repas_code']*self.tab_pref_indi['customize']
+        self.tab_pref_indi['consommation'] = self.tab_pref_indi['consommation']*self.tab_pref_indi['customize']
+        
+        # Recalcul des taux 
+        self.tab_pref_indi['taux_code_apparaitre'] = round(100*self.tab_pref_indi['nbre_repas_code']/self.tab_pref_indi['nbre_repas_grp'], 2)
+        self.tab_pref_indi['taux_conso_par_code'] = round(100*self.tab_pref_indi['consommation']/self.tab_pref_indi['nbre_repas_code'], 2)
+        
         
         # TABLE DE SUBSTITUTION (PERMETTRE AU SYSTÈME DE RECOMMANDER DES SUBSTITUTIONS)
+        # ================================================================================
         # Filtrage de table de substitution du cluster
         self.tab_sub_indi = tab_sub[tab_sub['cluster'].isin(['cluster_'+str(self.cluster), 'all'])].reset_index(drop = True)
         
@@ -70,7 +83,9 @@ class VirtualUser():
         
         self.tab_sub_indi['histoire_recomm'] = False
         
+        
         # TABLE DE RÉPONSE (PERMETTRE AUX CONSOMMATEURX DE RÉPONDRE À LA RECOMMANDATION)
+        # ================================================================================
         self.tab_rep_indi = self.tab_sub_indi.copy()
         
     
@@ -98,8 +113,8 @@ class VirtualUser():
             self.repas['filter_conso'] = self.repas['filter_code'].apply(lambda taux : round(100*random.random(),2))
             self.repas = self.repas[self.repas['filter_conso'] <= self.repas['taux_conso_par_code']]
 
-            nbre_plat = self.repas.shape[0]
-        
+            nbre_plat = len(self.repas)        
+
         # Création du début du repas proposé
         self.repas_propose = self.repas.libsougr.tolist()
         
@@ -147,7 +162,7 @@ class VirtualUser():
                                                 conso_code_sem[conso_code_sem['id_user'] == self.id].drop(
                                                         'id_user', axis = 1),
                                                 on = ['tyrep', 'code_role'],
-                                                how = 'left')
+                                                how = 'left').fillna(0)
         self.tab_pref_indi['nbre_repas_code'] += self.tab_pref_indi['conso_code_sem']
         
         # Ajout du nombre de repas d'une semaine par sous-groupe d'aliments
@@ -155,12 +170,12 @@ class VirtualUser():
                                                 conso_lib_sem[conso_lib_sem['id_user'] == self.id].drop(
                                                         'id_user', axis = 1),
                                                 on = ['tyrep', 'libsougr'],
-                                                how = 'left')
+                                                how = 'left').fillna(0)
         self.tab_pref_indi['consommation'] += self.tab_pref_indi['consommation_sem']
         
         # Mise à jour les taux
-        self.tab_pref_indi['taux_code_apparaitre'] = round(self.tab_pref_indi['nbre_repas_code'] / self.tab_pref_indi['nbre_repas_grp'], 2)
-        self.tab_pref_indi['taux_conso_par_code'] = round(self.tab_pref_indi['consommation'] / self.tab_pref_indi['nbre_repas_code'], 2)
+        self.tab_pref_indi['taux_code_apparaitre'] = round(100*self.tab_pref_indi['nbre_repas_code'] / self.tab_pref_indi['nbre_repas_grp'], 2)
+        self.tab_pref_indi['taux_conso_par_code'] = round(100*self.tab_pref_indi['consommation'] / self.tab_pref_indi['nbre_repas_code'], 2)
         
         # Drop des colones ajoutées
         self.tab_pref_indi.drop(['conso_code_sem', 'consommation_sem'], axis = 1, inplace = True)
@@ -224,22 +239,24 @@ class System() :
         La fonction qui propose les repas de tous les consommateurs du jour self.jour_courant
         """
         
+        
         # Table d'un repas pour tous les utilisateurs
         for type_repas in self.liste_tyrep :
+
             self.conso_repas = pd.DataFrame(data = {
                     'user' : self.liste_user,
                     'id_user' : [i for i in range(1, self.nbre_user + 1)],
                     'nojour' : self.jour_courant,
                     'tyrep' : type_repas,
                     'avecqui' : [random.choice(self.liste_avecqui) for i in range(self.nbre_user)]})
-            
+
             # Proposition de repas
             self.conso_repas['repas'] = self.conso_repas['user'].apply(
                     lambda user : user.enter_repas(type_repas, self.conso_repas['avecqui'][user.id - 1], self.regles))
-            
+
             # Enregistrement de l'information dans la table de suivi de consommation
             self.table_suivi = self.table_suivi.append(self.conso_repas, sort = False)
-        
+
         # Reset index de la table de suivi de consommation
         self.table_suivi.reset_index(drop = True, inplace = True)
 
@@ -313,7 +330,7 @@ class System() :
                 recomm_df['score'] = (recomm_df['diversite']*recomm_df['score_substitution']**user.w) * (recomm_df['score_sainlim_nor']**(1 - user.w))
                 recomm_df = recomm_df[recomm_df['score'] == recomm_df['score'].max()]
                 recomm_df.reset_index(drop = True, inplace = True)
-                
+            
                 # Recommandation
                 try :
                     recommandation = (recomm_df['aliment_1'][0], recomm_df['aliment_2'][0])
@@ -321,6 +338,27 @@ class System() :
                     pass
                 
                 niveau += 1
+            
+            # Si le système trouve pas de substitution dans la table de substitution, on cherche le meilleur gain nutri dans la table nutrition
+            if len(recommandation) == 0 :
+                
+                cluster, avecqui = niveau_contexte[1]
+                tab_nutri = self.score_nutri.copy()
+                
+                # Liste des code groupe
+                liste_codgr = self.score_nutri[self.score_nutri['libsougr'].isin(aliment_a_substituer)]
+                liste_codgr = liste_codgr[['libsougr', 'codgr', 'distance_origine']].rename(
+                        columns = {'libsougr' : 'alim_a_subst'})
+                
+                # Filtrage des aliments dans ce codgr
+                tab_nutri = pd.DataFrame.merge(tab_nutri[~ tab_nutri['libsougr'].isin(aliment_a_substituer)],
+                                               liste_codgr,
+                                               on = 'codgr')
+                tab_nutri['gain_sainlim'] = tab_nutri['distance_origine_x'] - tab_nutri['distance_origine_y']
+                
+                # Recommandation
+                tab_nutri = tab_nutri[tab_nutri['gain_sainlim'] == max(tab_nutri['gain_sainlim'])].reset_index(drop = True)
+                recommandation = (tab_nutri['alim_a_subst'][0], tab_nutri['libsougr'][0])
 
         return recommandation, cluster, type_repas, avecqui
     
@@ -367,7 +405,7 @@ class System() :
             
             # MISE À JOUR EPSILON 
             # ======================
-            user.epsilon = 1 - user.tab_sub_indi['histoire_recomm'].sum() / len(user.tab_sub_indi)
+            user.epsilon = user.epsilon - user.ep_speed
             
     def ponderation(self, user, recommandation, reponse) :
         """
@@ -429,7 +467,7 @@ class System() :
         
         while self.jour_courant <= self.nbre_jour :
             
-            print('Entrainement du jour : ', self.jour_courant)
+            print('Entrainement du jour : ', self.jour_courant , ' / ', self.nbre_jour)
             
             #Propose de repas
             self.propose_repas()
@@ -440,7 +478,8 @@ class System() :
                 if row['nojour'] == self.jour_courant else pd.Series([row['substitution'], row['reponse'], row['omega'], row['epsilon']]), axis = 1)
             
             # Mise à jour de la table préférence
-            self.update_pref_sys()
+            if self.jour_courant % 7 == 0 :
+                self.update_pref_sys()
             
             # Passe à la journée suivante
             self.jour_courant += 1
@@ -453,68 +492,9 @@ class System() :
         """
         
         # Quand les données d'une semaine sont collectées
-        if self.jour_courant % 7 == 0 :
-            
-            # Filtrage des données de consommation de cette semaine
-            tab_pref = self.table_suivi[(self.table_suivi['nojour'] > self.jour_courant - 7) &
-                                        (self.table_suivi['nojour'] <= self.jour_courant)].reset_index(drop = True)
-            
-            # Transformation de la subsitution en deux colonnes
-            tab_pref[['alim_a_subst', 'alim_subst']] = pd.DataFrame(tab_pref['substitution'].tolist(), index = tab_pref.index)
-            
-            # Transformation des repas du format liste à des lignes
-            lst_col = 'repas'
-            tab_pref = pd.DataFrame({
-                    col:np.repeat(tab_pref[col].values, tab_pref[lst_col].str.len())
-                    for col in tab_pref.columns.drop(lst_col)}
-                ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_pref[lst_col].values))})
-            
-            # Réalisation des substitutions si la réponse est positive
-            tab_pref.loc[(tab_pref.reponse == True) &
-                         (tab_pref.repas == tab_pref.alim_a_subst),
-                         'repas'] = tab_pref.loc[(tab_pref.reponse == True) &
-                                                 (tab_pref.repas == tab_pref.alim_a_subst),
-                                                 'alim_subst']
-            
-            # Remplacement tyrep (string à code)
-            dict_tyrep = {'petit-dejeuner' : 1, 'dejeuner' : 3, 'gouter' : 4, 'diner' : 5}
-            tab_pref['tyrep'] = tab_pref['tyrep'].map(dict_tyrep)
-            
-            # Merge avec la table nomenclature pour avoir les informations sur code_role
-            tab_pref = pd.DataFrame.merge(tab_pref, self.nomenclature[['libsougr', 'code_role']].drop_duplicates(),
-                                          left_on = 'repas', right_on = 'libsougr', how = 'left')
-            
-            # Calcul de la consommation par code_role pendant une semaine
-            conso_code_sem = tab_pref.groupby(['id_user', 'tyrep', 'code_role'])['nojour'].nunique(
-                    ).reset_index(
-                            ).rename(
-                                    columns = {'nojour' : 'conso_code_sem'})
-            
-            # Calcul de la consommation par sous-groupe d'aliments pendant une semaine
-            conso_lib_sem = tab_pref.groupby(['id_user', 'tyrep', 'libsougr'])['nojour'].nunique(
-                    ).reset_index(
-                            ).rename(
-                                    columns = {'nojour' : 'consommation_sem'})
-            
-            # Ajout de l'information dans la table de fréquence de chaque utilisateur
-            for user in self.liste_user :
-                user.update_pref(conso_code_sem, conso_lib_sem)
-    
-    
-    
-    
-nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
-
-def test_f(table_suivi, jour_courant) :
-    """
-    La fonction qui met à jour les tables de fréquence de consommasion de l'utilisateur après chaque SEMAINE
-    """
-    # Quand les données d'une semaine sont collectées
-    if jour_courant % 7 == 0 :
-        
         # Filtrage des données de consommation de cette semaine
-        tab_pref = table_suivi[(table_suivi['nojour'] > jour_courant - 7) &
-                               (table_suivi['nojour'] <= jour_courant)].reset_index(drop = True)
+        tab_pref = self.table_suivi[(self.table_suivi['nojour'] > self.jour_courant - 7) &
+                                    (self.table_suivi['nojour'] <= self.jour_courant)].reset_index(drop = True)
         
         # Transformation de la subsitution en deux colonnes
         tab_pref[['alim_a_subst', 'alim_subst']] = pd.DataFrame(tab_pref['substitution'].tolist(), index = tab_pref.index)
@@ -522,8 +502,8 @@ def test_f(table_suivi, jour_courant) :
         # Transformation des repas du format liste à des lignes
         lst_col = 'repas'
         tab_pref = pd.DataFrame({
-              col:np.repeat(tab_pref[col].values, tab_pref[lst_col].str.len())
-              for col in tab_pref.columns.drop(lst_col)}
+                col:np.repeat(tab_pref[col].values, tab_pref[lst_col].str.len())
+                for col in tab_pref.columns.drop(lst_col)}
             ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_pref[lst_col].values))})
         
         # Réalisation des substitutions si la réponse est positive
@@ -538,9 +518,8 @@ def test_f(table_suivi, jour_courant) :
         tab_pref['tyrep'] = tab_pref['tyrep'].map(dict_tyrep)
         
         # Merge avec la table nomenclature pour avoir les informations sur code_role
-        tab_pref = pd.DataFrame.merge(tab_pref, nomenclature[['libsougr', 'code_role']].drop_duplicates(),
+        tab_pref = pd.DataFrame.merge(tab_pref, self.nomenclature[['libsougr', 'code_role']].drop_duplicates(),
                                       left_on = 'repas', right_on = 'libsougr', how = 'left')
-        
         
         # Calcul de la consommation par code_role pendant une semaine
         conso_code_sem = tab_pref.groupby(['id_user', 'tyrep', 'code_role'])['nojour'].nunique(
@@ -554,77 +533,44 @@ def test_f(table_suivi, jour_courant) :
                         ).rename(
                                 columns = {'nojour' : 'consommation_sem'})
         
-        
         # Ajout de l'information dans la table de fréquence de chaque utilisateur
-#        for user in liste_user :
-#            user.mise_a_jour_pref()
-        
-    return conso_code_sem, conso_lib_sem
-
-
-
-def update_pref_user(tab_user, conso_code_sem, conso_lib_sem) :
-
-    # Ajout du nombre de repas d'une semaine par type de repas
-    tab_user['nbre_repas_grp'] = tab_user['nbre_repas_grp'] + 7
-    
-    # Ajout du nombre de repas d'une semaine par code de role
-    tab_user = pd.DataFrame.merge(tab_user,
-                                  conso_code_sem[conso_code_sem['id_user'] == 1].drop(
-                                          'id_user', axis = 1),
-                                  on = ['tyrep', 'code_role'],
-                                  how = 'left')
-    tab_user['nbre_repas_code'] += tab_user['conso_code_sem']
-    
-    # Ajout du nombre de repas d'une semaine par sous-groupe d'aliments
-    tab_user = pd.DataFrame.merge(tab_user,
-                                  conso_lib_sem[conso_lib_sem['id_user'] == 1].drop(
-                                          'id_user', axis = 1),
-                                  on = ['tyrep', 'libsougr'],
-                                  how = 'left')
-    tab_user['consommation'] += tab_user['consommation_sem']
-    
-    # Mise à jour les taux
-    tab_user['taux_code_apparaitre'] = round(tab_user['nbre_repas_code'] / tab_user['nbre_repas_grp'], 2)
-    tab_user['taux_conso_par_code'] = round(tab_user['consommation'] / tab_user['nbre_repas_code'], 2)
-    
-    # Drop des colones ajoutées
-    tab_user.drop(['conso_code_sem', 'consommation_sem'], axis = 1, inplace = True)
-    
-    return tab_user
+        for user in self.liste_user :
+            user.update_pref(conso_code_sem, conso_lib_sem)
 
     
 # TEST
-#sys_test = System(3, 8) # 10 utilisateurs, 7 jours d'entrainement
+#sys_test = System(2, 15) # 10 utilisateurs, 7 jours d'entrainement
 #
 #sys_test.entrainement()
 #
 #suivi_df = sys_test.table_suivi
 
-test, test1 = test_f(suivi_df, 7)
-tab_user = sys_test.liste_user[0].tab_pref_indi
+subst_a_change = ['légumes feuilles', 'huile', 'fromages affinés']
 
-x = update_pref_user(tab_user, test, test1)
+def test_f(tab_nutri, aliment_a_subst) :
+    
+    # Liste des code groupe
+    liste_codgr = tab_nutri[tab_nutri['libsougr'].isin(aliment_a_subst)]
+    liste_codgr = liste_codgr[['libsougr', 'codgr', 'distance_origine']].rename(
+            columns = {'libsougr' : 'alim_a_subst'})
+    
+    # Filtrage des aliments dans ce codgr
+    tab_nutri = pd.DataFrame.merge(tab_nutri[~ tab_nutri['libsougr'].isin(aliment_a_subst)],
+                                   liste_codgr,
+                                   on = 'codgr')
+    tab_nutri['gain_sainlim'] = tab_nutri['distance_origine_x'] - tab_nutri['distance_origine_y']
+    
+    return tab_nutri
+    
+    # Recommandation
+    tab_nutri = tab_nutri[tab_nutri['gain_sainlim'] == max(tab_nutri['gain_sainlim'])].reset_index(drop = True)
+    recommandation = (tab_nutri['alim_a_subst'][0], tab_nutri['libsougr'][0])
+    
+    return recommandation
 
-
-test['nbre_repas_grp'] = 7
-test['cluster'] = test['user'].apply(lambda user : user.cluster)
-
-conso_code_sem = pd.DataFrame.merge(test[['user', 'id_user', 'tyrep']].drop_duplicates(),
-                                    test.groupby(['id_user', 'tyrep', 'code_role'])['nojour'].nunique().reset_index().rename(
-                                            columns = {'nojour' : 'conso_code_sem'}))
-
-x = pd.DataFrame.merge(conso_code_sem,
-                          test.groupby(['id_user', 'tyrep', 'code_role', 'libsougr'])['nojour'].nunique().reset_index().rename(
-                                  columns = {'nojour' : 'consommation_sem'}))
-
-x.drop_duplicates()
-
-
-
-conso_lib = test.groupby(['id_user', 'tyrep', 'libsougr'])['nojour'].nunique().reset_index().rename(
-        columns = {'nojour' : 'consommation_sem'})
-
+test = test_f(score_nutri, subst_a_change)
+test['libsougr'][0]
+test['codgr'].tolist()
 
 # =============================================================================
 # FONCTION D'ENTRAINEMENT
