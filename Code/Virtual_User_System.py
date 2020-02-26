@@ -54,7 +54,7 @@ class VirtualUser():
         self.tab_pref_indi = tab_pref[tab_pref['cluster_consommateur'] == self.cluster].reset_index(drop = True)
         
         # Personnalisation de table de préférence : ajoute aléatoirement -10 à 10% du taux de consommation par groupe
-        self.tab_pref_indi = self.tab_pref_indi.loc[:, ['tyrep', 'code_role', 'taux_code_apparaitre', 'libsougr', 'taux_conso_par_code']]
+        self.tab_pref_indi = self.tab_pref_indi.drop('cluster_consommateur', axis = 1)
         self.tab_pref_indi['taux_conso_par_code'] = self.tab_pref_indi['taux_conso_par_code'].apply(
                 lambda taux : round(taux*(1+random.uniform(-0.1, 0.1)), 2)).apply(
                         lambda taux : taux if taux <= 100 else 100)
@@ -139,24 +139,33 @@ class VirtualUser():
     
     def update_pref(self, conso_code_sem, conso_lib_sem) :
         
-        self.test = self.tab_pref_indi
+        # Ajout du nombre de repas d'une semaine par type de repas
+        self.tab_pref_indi['nbre_repas_grp'] = self.tab_pref_indi['nbre_repas_grp'] + 7
         
-        # Filtrage de la consommation du l'utilisateur pendant une semaine
-        tab_update = tab_pref[tab_pref['id_user'] == self.id]
+        # Ajout du nombre de repas d'une semaine par code de role
+        self.tab_pref_indi = pd.DataFrame.merge(self.tab_pref_indi,
+                                                conso_code_sem[conso_code_sem['id_user'] == self.id].drop(
+                                                        'id_user', axis = 1),
+                                                on = ['tyrep', 'code_role'],
+                                                how = 'left')
+        self.tab_pref_indi['nbre_repas_code'] += self.tab_pref_indi['conso_code_sem']
         
-        # Ajout le nombre de repas d'une semaine par type de repas
-        self.test['nbre_repas_grp'] = self.test['nbre_repas_grp'] + 7
+        # Ajout du nombre de repas d'une semaine par sous-groupe d'aliments
+        self.tab_pref_indi = pd.DataFrame.merge(self.tab_pref_indi,
+                                                conso_lib_sem[conso_lib_sem['id_user'] == self.id].drop(
+                                                        'id_user', axis = 1),
+                                                on = ['tyrep', 'libsougr'],
+                                                how = 'left')
+        self.tab_pref_indi['consommation'] += self.tab_pref_indi['consommation_sem']
         
-        # Merge info de conso_par_code  
-        self.test = pd.DataFrame.merge(self.test,
-                                       conso_code_sem[conso_code_sem['id_user'] == self.id].drop(
-                                               ['id_user']),
-                                       on = ['tyrep', 'code_role', ])
+        # Mise à jour les taux
+        self.tab_pref_indi['taux_code_apparaitre'] = round(self.tab_pref_indi['nbre_repas_code'] / self.tab_pref_indi['nbre_repas_grp'], 2)
+        self.tab_pref_indi['taux_conso_par_code'] = round(self.tab_pref_indi['consommation'] / self.tab_pref_indi['nbre_repas_code'], 2)
         
-        # Merge self.tab_pref_indi avec tab_update pour intégrer les infos de conso_par_code  
-        self.test = pd.DataFrame.merge(self.test,
-                                       tab_update.drop('id_user', axis = 1),
-                                       on = ['tyrep', 'code_role', ])
+        # Drop des colones ajoutées
+        self.tab_pref_indi.drop(['conso_code_sem', 'consommation_sem'], axis = 1, inplace = True)
+
+
         
 class System() :
     
@@ -437,7 +446,7 @@ class System() :
             self.jour_courant += 1
 
 
-    def update_pref_sys(self, table_suivi, jour_courant) :
+    def update_pref_sys(self) :
         
         """
         La fonction qui met à jour les tables de fréquence de consommasion de l'utilisateur après chaque SEMAINE
@@ -467,31 +476,32 @@ class System() :
                                                  (tab_pref.repas == tab_pref.alim_a_subst),
                                                  'alim_subst']
             
+            # Remplacement tyrep (string à code)
+            dict_tyrep = {'petit-dejeuner' : 1, 'dejeuner' : 3, 'gouter' : 4, 'diner' : 5}
+            tab_pref['tyrep'] = tab_pref['tyrep'].map(dict_tyrep)
+            
             # Merge avec la table nomenclature pour avoir les informations sur code_role
             tab_pref = pd.DataFrame.merge(tab_pref, self.nomenclature[['libsougr', 'code_role']].drop_duplicates(),
                                           left_on = 'repas', right_on = 'libsougr', how = 'left')
             
             # Calcul de la consommation par code_role pendant une semaine
-            conso_role_sem = pd.DataFrame.merge(tab_pref[['user', 'id_user', 'tyrep']].drop_duplicates(),
-                                                tab_pref.groupby(['id_user', 'tyrep', 'code_role'])['nojour'].nunique(
-                                                        ).reset_index(
-                                                                ).rename(
-                                                                        columns = {'nojour' : 'conso_code_sem'}))
+            conso_code_sem = tab_pref.groupby(['id_user', 'tyrep', 'code_role'])['nojour'].nunique(
+                    ).reset_index(
+                            ).rename(
+                                    columns = {'nojour' : 'conso_code_sem'})
             
             # Calcul de la consommation par sous-groupe d'aliments pendant une semaine
-            tab_pref = pd.DataFrame.merge(conso_role_sem,
-                                          tab_pref.groupby(['id_user', 'tyrep', 'code_role', 'libsougr'])['nojour'].nunique(
-                                                  ).reset_index(
-                                                          ).rename(
-                                                                  columns = {'nojour' : 'conso_lib_sem'}))
-            
-            # Remplacement tyrep (string à code)
-            dict_tyrep = {'petit-dejeuner' : 1, 'dejeuner' : 3, 'gouter' : 4, 'diner' : 5}
-            tab_pref['tyrep'] = tab_pref['tyrep'].map(dict_tyrep)
+            conso_lib_sem = tab_pref.groupby(['id_user', 'tyrep', 'libsougr'])['nojour'].nunique(
+                    ).reset_index(
+                            ).rename(
+                                    columns = {'nojour' : 'consommation_sem'})
             
             # Ajout de l'information dans la table de fréquence de chaque utilisateur
-#            for user in self.liste_user :
-#                user.update_pref(tab_pref)
+            for user in self.liste_user :
+                user.update_pref(conso_code_sem, conso_lib_sem)
+    
+    
+    
     
 nomenclature = pd.read_csv("Base_a_analyser/nomenclature.csv",sep = ";",encoding = 'latin-1')
 
@@ -554,24 +564,35 @@ def test_f(table_suivi, jour_courant) :
 
 
 def update_pref_user(tab_user, conso_code_sem, conso_lib_sem) :
-    
 
-
-    # Ajout le nombre de repas d'une semaine par type de repas
+    # Ajout du nombre de repas d'une semaine par type de repas
     tab_user['nbre_repas_grp'] = tab_user['nbre_repas_grp'] + 7
     
-    # Merge info de conso_par_code  
+    # Ajout du nombre de repas d'une semaine par code de role
     tab_user = pd.DataFrame.merge(tab_user,
-                                  conso_code_sem[conso_code_sem['id_user'] == iden].drop(
+                                  conso_code_sem[conso_code_sem['id_user'] == 1].drop(
                                           'id_user', axis = 1),
                                   on = ['tyrep', 'code_role'],
                                   how = 'left')
-    tab_user.drop(['conso_code_sem', 'conso_lib_sem'])
+    tab_user['nbre_repas_code'] += tab_user['conso_code_sem']
     
-    # Merge self.tab_pref_indi avec tab_update pour intégrer les infos de conso_par_code  
-    self.test = pd.DataFrame.merge(self.test,
-                                   tab_update.drop('id_user', axis = 1),
-                                   on = ['tyrep', 'code_role', ])
+    # Ajout du nombre de repas d'une semaine par sous-groupe d'aliments
+    tab_user = pd.DataFrame.merge(tab_user,
+                                  conso_lib_sem[conso_lib_sem['id_user'] == 1].drop(
+                                          'id_user', axis = 1),
+                                  on = ['tyrep', 'libsougr'],
+                                  how = 'left')
+    tab_user['consommation'] += tab_user['consommation_sem']
+    
+    # Mise à jour les taux
+    tab_user['taux_code_apparaitre'] = round(tab_user['nbre_repas_code'] / tab_user['nbre_repas_grp'], 2)
+    tab_user['taux_conso_par_code'] = round(tab_user['consommation'] / tab_user['nbre_repas_code'], 2)
+    
+    # Drop des colones ajoutées
+    tab_user.drop(['conso_code_sem', 'consommation_sem'], axis = 1, inplace = True)
+    
+    return tab_user
+
     
 # TEST
 #sys_test = System(3, 8) # 10 utilisateurs, 7 jours d'entrainement
@@ -582,7 +603,7 @@ def update_pref_user(tab_user, conso_code_sem, conso_lib_sem) :
 
 test, test1 = test_f(suivi_df, 7)
 tab_user = sys_test.liste_user[0].tab_pref_indi
-iden = sys_test.liste_user[0].id
+
 x = update_pref_user(tab_user, test, test1)
 
 
