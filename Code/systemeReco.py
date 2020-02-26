@@ -129,8 +129,8 @@ class Application(tk.Frame):
                         fg='blue')
         textePref.grid(columnspan=3,padx=5)
         
-        alim=['fromage','fruits','légumes','viande','poisson','volaille et gibier','produits laitiers']
-        alimNam=['from','fruits','legume','viande','poiss','volGib','prodLait']
+        alim=['fromage','fruits','légumes','poisson','produits laitiers','viande','volaille et gibier']
+        alimNam=['from','fruits','legume','poiss','prodLait','viande','volGib']
         _row=6
         for c, v in enumerate(alim):
             s_pref=tk.Scale(self, label=v, name=alimNam[c],
