@@ -65,6 +65,7 @@ def construct_table_preference(data_conso, data_nomen) :
     
     # Taux_conso_par_code : nombre de repas qui contient chaque sous-groupe d'aliments divisé par nombre de repas de chaque code de role
     pref['taux_conso_par_code'] = round(100*pref['consommation']/pref['nbre_repas_code'], 2)
+    pref = pref.drop('nbre_user', axis = 1)
     
     return pref
 
