@@ -712,6 +712,7 @@ class Aliments() :
         print(_conseq)
         if _conseq['NouvelleSubst']==True:
             #ajouter subst dans table
+            self.ajouter_substition(_conseq)
             pass
         
         Ssubs = self.alpha*self.getSsub()
@@ -772,7 +773,7 @@ class Aliments() :
             self.dataSubs.iloc[i]['score_substitution']= cons[i]
             
             
-    def ajouter_substition(self):
+    def ajouter_substition(self,_conseq):
         pass
 
     
