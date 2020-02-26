@@ -92,22 +92,52 @@ def manipulation3(data,nutri) :
             'codgr','libgr','sougr','sougr ciqual correspondant',
        'SAIN 5 opt', 'LIM3', '100_LIM3'], axis = 1)
     
-    moyenne = data.groupby(['alpha','beta','omega_ini','seuil_acc','id_user', 'nojour', 'tyrep'])['distance_origine'].apply(np.mean).reset_index().rename(
-                    columns = {'distance_origine' : 'scorenutri_moyenne'})
+    moyenne_rep = data.groupby(['alpha','beta','omega_ini','seuil_acc','id_user', 'nojour', 'tyrep'])['distance_origine'].apply(np.mean).reset_index().rename(
+                    columns = {'distance_origine' : 'scorenutri_rep'})
     
-    data = pd.DataFrame.merge(data, moyenne, on = ['alpha','beta','omega_ini','seuil_acc','id_user','nojour','tyrep'], how = 'left')
+    data = pd.DataFrame.merge(data, moyenne_rep, on = ['alpha','beta','omega_ini','seuil_acc','id_user','nojour','tyrep'], how = 'left')
     
-    return data
+    moyenne_jour = data.groupby(['alpha','beta','omega_ini','seuil_acc','nojour'])['distance_origine'].apply(np.mean).reset_index().rename(
+            columns = {'distance_origine' : 'scorenutri_jour'})
+    
+    std_jour = data.groupby(['alpha','beta','omega_ini','seuil_acc','nojour'])['distance_origine'].apply(np.std).reset_index().rename(
+            columns = {'distance_origine' : 'scorenutri_stdjour'})
+    
+    
+    score_nutri = pd.DataFrame.merge(moyenne_jour, std_jour, on = ['alpha','beta','omega_ini','seuil_acc','nojour'], how = 'left')
 
-def visualisation3() :
-    pass
+    #data = pd.DataFrame.merge(data, moyenne_jour, on = ['alpha','beta','omega_ini','seuil_acc','nojour'], how = 'left')
+    #data = pd.DataFrame.merge(data, std_jour, on = ['alpha','beta','omega_ini','seuil_acc','nojour'], how = 'left')
+
+    
+    score_nutri['param'] = list(zip(score_nutri['alpha'], score_nutri['beta'],score_nutri['omega_ini'],score_nutri['seuil_acc']))
+    score_nutri['alpha_beta'] = list(zip(score_nutri['alpha'], score_nutri['beta']))
+
+    return(score_nutri)
+
+
+
+
+
+def visualisation_nutri_continu(data,alpha= 1.0005,beta=1.0001,omega_ini=0.1,seuil_acc=0.8) :
+    
+    alpha_beta = list(score_nutri["alpha_beta"].unique())
+    data = data[data.omega_ini == omega_ini] 
+    data = data[data.seuil_acc == seuil_acc]
+    
+    for val in alpha_beta:
+        df = data[data.alpha_beta == val]
+        plt.plot(df.nojour, df.scorenutri_jour, label = val)
+        plt.title("Evolution de la qualité nutritionnelle des repas en fonction des paramètres")
+        plt.xlabel("jour")
+        plt.ylabel("Moyenne du score SAIN-LIM")
+        plt.legend()
+        
     
 # ==============================================
     
 #score_nutri = manipulation3(train_global_df,nutri_df)
-
-
-
+#test = visualisation3(score_nutri)
 
 
 
