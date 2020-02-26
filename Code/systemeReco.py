@@ -713,22 +713,22 @@ class Aliments() :
         if _conseq['NouvelleSubst']==True:
             #ajouter subst dans table
             pass
-        Ssubs = self.getSsub()*self.alpha
+        
+        Ssubs = self.alpha*self.getSsub()
         self.dataSubs['score_substitution'] = Ssubs
+        self.update_beta(_conseq, refus=False)
+        self.actualiser_malus(_conseq)
         
         app.menu_widgets()
-        pass
+        
     
     def refus(self,_conseq):
         """mise à jour du score avec alpha et beta"""
         print("dommaaaaaage")
-
-        Ssubs = self.dataSubs['score_substitution']
-
-        Ssubs = (1/self.alpha)*self.getSsub()*self.alpha
+        Ssubs = (1/self.alpha)*self.getSsub()
         self.dataSubs['score_substitution'] = Ssubs
-        
-        #Actualiser avec beta
+        self.update_beta(_conseq, refus=True)
+        self.actualiser_malus(_conseq)
         
         app.menu_widgets()
         pass
@@ -750,13 +750,28 @@ class Aliments() :
         compagnie = self.contexte['compagnie']
         
         #update des antecedents
+        coef = self.beta
         if refus :
-            self.dataSubs.loc[(self.dataSubs['aliment_1']==self)&
-                                  (self.dataSubs['aliment_2']==_conseq)&
+            coef = 1/self.beta
+        
+        #antecedents
+        ant = self.dataSubs.loc[(self.dataSubs['aliment_1']==self)&
+                                (self.dataSubs['cluster']==cluster)&
+                                  (self.dataSubs['tyrep']==repas)&
+                                  (self.dataSubs['avecqui']==compagnie)]['score_substitution']
+        ant = ant*coef
+        for i in ant.index:
+            self.dataSubs.iloc[i]['score_substitution']= ant[i]
+            
+        cons = self.dataSubs.loc[(self.dataSubs['aliment_2']==_conseq)&
                                   (self.dataSubs['cluster']==cluster)&
                                   (self.dataSubs['tyrep']==repas)&
-                                  (self.dataSubs['avecqui']==compagnie), 'score_substitution']
-    
+                                  (self.dataSubs['avecqui']==compagnie)]['score_substitution']
+        cons = cons*coef
+        for i in cons.index:
+            self.dataSubs.iloc[i]['score_substitution']= cons[i]
+            
+            
     def ajouter_substition(self):
         pass
 
