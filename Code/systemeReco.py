@@ -568,13 +568,11 @@ class Aliments() :
         dataNutri=pd.read_csv(os.path.join('Base_Gestion_Systeme','scores_sainlim_ssgroupes.csv'),sep=';',encoding="ISO-8859-1")
         
         self.gamma=0.2 #Malus
-<<<<<<< HEAD
         self.alpha=alpha
         self.beta=beta
         self.dataSubs['malus']=False #ajout colonne malus
         self.dataSubs['Valeur_malus']=1#malus à 0 pour tous
-=======
->>>>>>> b291497ae5e99d0f075544ca3a3581f568e89103
+
         self.dataSubs.loc[self.dataSubs['malus']==True,'Valeur_malus']=self.gamma #actualisation de la valeur du malus
         
         self.NutriScore(_repasEntre,dataNutri)
@@ -715,27 +713,18 @@ class Aliments() :
         if _conseq['NouvelleSubst']==True:
             #ajouter subst dans table
             pass
-<<<<<<< HEAD
         Ssubs = self.getSsub()*self.alpha
         self.dataSubs['score_substitution'] = Ssubs
         
-        #Actualiser  beta
-        
-=======
-        
-        #Actualiser malus
-        self.actualiser_malus(_conseq)
-        #Actualiser alpha beta
->>>>>>> b291497ae5e99d0f075544ca3a3581f568e89103
         app.menu_widgets()
         pass
     
     def refus(self,_conseq):
         """mise à jour du score avec alpha et beta"""
         print("dommaaaaaage")
-<<<<<<< HEAD
+
         Ssubs = self.dataSubs['score_substitution']
-        
+
         Ssubs = (1/self.alpha)*self.getSsub()*self.alpha
         self.dataSubs['score_substitution'] = Ssubs
         
@@ -771,13 +760,6 @@ class Aliments() :
     def ajouter_substition(self):
         pass
 
-=======
-
-        #Actualiser malus
-        self.actualiser_malus(_conseq)
-        #Actualiser alpha beta
-        app.menu_widgets()
-        pass
     
     def actualiser_malus(self,_conseq):
         self.dataSubs.loc[self.dataSubs['aliment_2']==_conseq['alimPropose']['libsougr'],'malus']=True
@@ -788,7 +770,6 @@ class Aliments() :
         
         app.currentUser.dataSubs=self.dataSubs
         
->>>>>>> b291497ae5e99d0f075544ca3a3581f568e89103
 # =============================================================================
 # Créer un dataframe Historique de l'utilisateur avec ses repas proposés, 
 # son score nutri => On voit l'évolution du score nutri
