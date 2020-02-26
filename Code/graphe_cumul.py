@@ -35,12 +35,22 @@ def visualisation1() :
 def taux_acceptation_df(data) :
     
     data = data[data['substitution'].str.len() > 2]
-    data = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc', 'reponse'])['user'].count().reset_index().rename(
+    data = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc', 'reponse','nojour'])['user'].count().reset_index().rename(
             columns = {'user' : 'count_True'})
-    data['count_reponse'] = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc'])['count_True'].transform('sum')
+    data['count_reponse'] = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc','nojour'])['count_True'].transform('sum')
     data = data[data['reponse'] == True].drop(
-                    'reponse', axis = 1)
-    data['taux_acceptation'] = round(100*data['count_True'] / data['count_reponse'], 2)
+                    'reponse', axis = 1).reset_index(drop=True)
+    
+    tx_accept =[]
+    
+    for i in range(0,len(data)//30) :
+        subset = data.loc[i*30:i*30+30]
+        for j in range(30) :
+            tx_accept.append(np.sum(subset['count_True'][:j+1])/np.sum(subset['count_reponse'][:j+1]))
+            
+    data['taux_acceptation'] = tx_accept
+    
+    del data['nojour']
     
     data['alpha_beta'] = list(zip(data['alpha'], data['beta']))
     
