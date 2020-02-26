@@ -129,8 +129,8 @@ class Application(tk.Frame):
                         fg='blue')
         textePref.grid(columnspan=3,padx=5)
         
-        alim=['fromage','fruits','légumes','viande','poisson','volaille et gibier','produits laitiers']
-        alimNam=['from','fruits','legume','viande','poiss','volGib','prodLait']
+        alim=['fromage','fruits','légumes','poisson','produits laitiers','viande','volaille et gibier']
+        alimNam=['from','fruits','legume','poiss','prodLait','viande','volGib']
         _row=6
         for c, v in enumerate(alim):
             s_pref=tk.Scale(self, label=v, name=alimNam[c],
@@ -355,11 +355,7 @@ class Application(tk.Frame):
             dicalim['libsougr']=alim[1]
             repasCod.append(dicalim)
         
-        if not os.path.exists(os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')):
-            dataSubs=pd.read_csv(os.path.join("Base_Gestion_Systeme","score_par_contextes.csv"), sep=';',encoding = 'ISO-8859-1')
-            dataSubs.to_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=';', encoding='utf-8')
-        self.currentUser.dataSubs=pd.read_csv((os.path.join('UserData',str(self.currentUser.id),'TabSubstUser.csv')), sep=';',encoding = "utf-8")
-       
+         
         param=[self.currentUser.epsilon,self.currentUser.omega]
         repas=Aliments(repasCod,
                        self.currentUser.contexte,
@@ -406,7 +402,7 @@ class Application(tk.Frame):
         self.buttonAccept= tk.Button(self,
                        text="Accepter",
                        fg='green',
-                       command= lambda : repas.acceptation(alimentPropose))
+                       command= lambda : repas.acceptation(repas.subsProposee))
         self.buttonAccept.grid(column=1,
                                row=30,
                                padx=10,
@@ -415,7 +411,7 @@ class Application(tk.Frame):
         buttonRefuse= tk.Button(self,
                        text="Refuser",
                        fg='purple',
-                       command= lambda : repas.refus(alimentPropose))
+                       command= lambda : repas.refus(repas.subsProposee))
         buttonRefuse.grid(column=3,
                           row=30,
                           padx=10,
@@ -462,6 +458,15 @@ class User():
         self.userdir=(os.path.join('UserData',self.id)) #crée un dossier pour le newUser
         if not os.path.exists(self.userdir): #si n'existe pas de dossier user
             os.mkdir(self.userdir)
+            
+        if not os.path.exists(os.path.join('UserData',str(self.id),'TabSubstUser.csv')):
+            dataSubs=pd.read_csv(os.path.join("Base_Gestion_Systeme","score_par_contextes.csv"), sep=';',encoding = 'ISO-8859-1')
+            dataSubs['malus']=False #ajout colonne malus
+            dataSubs['Valeur_malus']=1
+            dataSubs['Compteur_malus']=0
+            dataSubs.to_csv((os.path.join('UserData',str(self.id),'TabSubstUser.csv')), sep=';', encoding='utf-8')
+        self.dataSubs=pd.read_csv((os.path.join('UserData',str(self.id),'TabSubstUser.csv')), sep=';',encoding = "utf-8")
+      
         
         
         self.saveUserInfo()            
@@ -474,8 +479,7 @@ class User():
         """
         permet de sauvegarder le fichier ini
         """
-        print(self.pref)
-        print(str(self.last5subs))
+
         config = configparser.ConfigParser() #sauvegarde des éléments relatifs au user
         config['USERDATA']={
                 'id':self.id,
@@ -500,6 +504,10 @@ class User():
         with open('init.ini', 'w') as configfile:
             config.write(configfile)
             
+    
+        self.dataSubs.to_csv((os.path.join('UserData',str(self.id),'TabSubstUser.csv')), sep=';', encoding='utf-8')
+        
+            
     def get_new_row(self):
         """
         """
@@ -511,7 +519,6 @@ class User():
         bmi = classif(true_bmi, [0,1,2], [18.5, 25])
         [fromages, fruits, legumes,viande, poissons, volaille, ultra_frais] = [classif(i,[0,1],[5]) for i in list(self.pref.values())]
         self.modalites_vect = [sexeps, tage, bmi, fromages, fruits, legumes,viande, poissons,volaille, ultra_frais]
-        print(self.modalites_vect)
         self.association()
 
     def association(self):
@@ -561,8 +568,6 @@ class Aliments() :
         dataNutri=pd.read_csv(os.path.join('Base_Gestion_Systeme','scores_sainlim_ssgroupes.csv'),sep=';',encoding="ISO-8859-1")
         
         self.gamma=0.2 #Malus
-        self.dataSubs['malus']=False #ajout colonne malus
-        self.dataSubs['Valeur_malus']=1#malus à 0 pour tous
         self.dataSubs.loc[self.dataSubs['malus']==True,'Valeur_malus']=self.gamma #actualisation de la valeur du malus
         
         self.NutriScore(_repasEntre,dataNutri)
@@ -581,7 +586,7 @@ class Aliments() :
             
 
         repasScoreSort=sorted(repasScore,key=lambda alim:alim['scoreDist'],reverse=True) #sort by distance SAIN/LIM
-        print(repasScoreSort)
+
         
 # =============================================================================
 #       Continuer à prendre le pire, deuxième pire, troisième pire etc mais jusqu'à un certain seuil, 
@@ -663,11 +668,11 @@ class Aliments() :
                     
                 else:
                     #Essai substitution du même groupe
-                    if (dataNutri[dataNutri['codgr']==self.alimentASubstituer[0]]).dropna(subset=['libsougr']).shape[0]>1: #si contient autres aliments du mm groupe
-                        Subst_secours=dataNutri[(dataNutri['codgr']==self.alimentASubstituer[0])&(dataNutri['sougr']!=self.alimentASubstituer[1])]
-                        alimPropose=Subst_secours.loc[Subst_secours['distance_origine'].idxmax()]['libsougr'] #on prend le max nutritionnel
-                       
-                        nutriAlimPropose=dataNutri[dataNutri['libsougr']==alimPropose['aliment_2']][['libsougr','SAIN 5 opt','LIM3']]
+                    if (dataNutri[dataNutri['codgr']==self.alimentASubstituer['codeGrp']]).dropna(subset=['libsougr']).shape[0]>1: #si contient autres aliments du mm groupe
+                        Subst_secours=dataNutri[(dataNutri['codgr']==self.alimentASubstituer["codeGrp"])&(dataNutri['sougr']!=self.alimentASubstituer['codeSgrp'])]
+                        alimPropose=Subst_secours.loc[Subst_secours['distance_origine'].idxmax()] #on prend le max nutritionnel
+                        print("alimPropos: ",alimPropose)
+                        nutriAlimPropose=dataNutri[dataNutri['libsougr']==alimPropose['libsougr']][['libsougr','SAIN 5 opt','LIM3']]
                         self.subsProposee={'alimASubstituer':self.alimentASubstituer,
                            'alimPropose':
                                {'libsougr':nutriAlimPropose['libsougr'].values[0],
@@ -699,10 +704,13 @@ class Aliments() :
     def acceptation(self,_conseq):
         """mise à jour du score avec alpha et beta"""
         print("c'est un oui !!!")
+        print(_conseq)
         if _conseq['NouvelleSubst']==True:
             #ajouter subst dans table
             pass
+        
         #Actualiser malus
+        self.actualiser_malus(_conseq)
         #Actualiser alpha beta
         app.menu_widgets()
         pass
@@ -710,11 +718,22 @@ class Aliments() :
     def refus(self,_conseq):
         """mise à jour du score avec alpha et beta"""
         print("dommaaaaaage")
+
         #Actualiser malus
+        self.actualiser_malus(_conseq)
         #Actualiser alpha beta
         app.menu_widgets()
         pass
-
+    
+    def actualiser_malus(self,_conseq):
+        self.dataSubs.loc[self.dataSubs['aliment_2']==_conseq['alimPropose']['libsougr'],'malus']=True
+        self.dataSubs.loc[self.dataSubs['malus']==True,'Compteur_malus']+=1
+        self.dataSubs.loc[self.dataSubs['Compteur_malus']>3,'malus']=False #délai dépassé on réinitialise
+        self.dataSubs.loc[self.dataSubs['malus']==False,'Compteur_malus']=0 #on réinitialise le compteur
+        self.dataSubs.loc[self.dataSubs['malus']==True,'Valeur_malus']=self.gamma #actualisation de la valeur du malus
+        
+        app.currentUser.dataSubs=self.dataSubs
+        
 # =============================================================================
 # Créer un dataframe Historique de l'utilisateur avec ses repas proposés, 
 # son score nutri => On voit l'évolution du score nutri
