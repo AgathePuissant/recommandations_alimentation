@@ -587,8 +587,8 @@ def entrainement_systeme(nbre_user) :
 ## ADD TRAINING_USER #
 ######################
     
-train_df = entrainement_systeme(5)
-train_global_df = pd.read_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
+#train_df = entrainement_systeme(10)
+#train_global_df = pd.read_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
 
 def join_training_user(tab_ori, tab_add) :
     
