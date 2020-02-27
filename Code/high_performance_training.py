@@ -66,9 +66,11 @@ def func(nbre_user) :
 
 seq = ['seuil_acc', nb.float64]   
 @jit(seq, target = "cuda")
-@nb.njit()
 
+@jit(parallel = True)
 def func2(nbre_user) :
+    
+    global nbre_user
     
     # Les constants 
     nbre_jour = 5
@@ -96,7 +98,7 @@ def func2(nbre_user) :
                                systeme.table_suivi], axis = 1)
                 data = data.append(df, sort = False)
     return data
-
+nbre_user = 1
 start = timer()
 test = func(1)
 print("without GPU:", timer()-start)     
@@ -106,3 +108,25 @@ start = timer()
 test1 = func2(1)
 print("with GPU:", timer()-start)
 # autojit is deprecated and will be removed in a future release. Use jit instead.
+
+
+import multiprocessing as mp
+
+pool = mp.Pool(mp.cpu_count())
+start = timer()
+result = pool.apply_async(func2, [1]).get()
+print("multiprocessing_test:", timer()-start)
+
+
+def func() :
+    return 2**3**4
+
+start = timer()
+result = func()
+print("multiprocessing_test:", timer()-start)
+
+start = timer()
+result = pool.apply_async(func).get()
+print("multiprocessing_test:", timer()-start)
+
+

@@ -595,12 +595,10 @@ def join_training_user(tab_ori, tab_add) :
     
     return tab_ori
 
-#train_df.to_pickle("Base_Gestion_Systeme/base_entrainement_chulai_1.pkl")
 #train_global_df = join_training_user(train_global_df, train_df)
 #train_global_df.to_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
-#test = pd.read_pickle("Base_Gestion_Systeme/base_entrainement_chulai_1.pkl")
 
 
-#train_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
+#train_df.to_pickle("Base_Gestion_Systeme/base_entrainement_chulai_2.pkl")
 # =============================================================================
 
