@@ -15,11 +15,11 @@ config['CURRENTUSER']={
 
 config['DEFAULTDATA']={
                 'id':'defaultid',
-                'name':'ana',
-                'age':21,
-                'sexe':'F',
-                'taille':165,
-                'poids':58,
+                'name':'MangerMieux',
+                'age':48,
+                'sexe':'H',
+                'taille':185,
+                'poids':80,
                 'pref':{'from':3,
         'fruits':3,
         'legume':4,
@@ -30,7 +30,10 @@ config['DEFAULTDATA']={
                 'cluster':'None',
                 'epsilon':0.5,
                 'omega':0.5,
-                'last5subs':[],
+                'last10subs':{
+                        'compteur':0,
+                        'accept':0,
+                        },
                 }
 with open('init.ini', 'w') as configfile:
     config.write(configfile)

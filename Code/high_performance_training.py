@@ -2,10 +2,12 @@
 """
 Created on Thu Feb 27 14:57:18 2020
 
-@author: ADMIN
+@author: chulai
 """
 
 import multiprocessing as mp
+import Virtual_User_System as vir
+
 print("Number of processors: ", mp.cpu_count())
 
 # Parallelizing using Pool.apply()
@@ -15,9 +17,9 @@ print("Number of processors: ", mp.cpu_count())
 pool = mp.Pool(mp.cpu_count())
 
 # Step 2: `pool.apply` the `howmany_within_range()`
-result = pool.apply(entrainement_systeme, args=(2))
+result = pool.apply(vir.entrainement_systeme, args=(2))
 
-results = [pool.apply(entrainement_systeme, args=(2)) for i in range(2)]
+results = [pool.apply(vir.entrainement_systeme, args=(2)) for i in range(2)]
 
 # Step 3: Don't forget to close
 pool.close()    
