@@ -27,6 +27,7 @@ class Application(tk.Frame):
         """
         super().__init__(master)
         self.master = master
+        self.master.title('Application')
         self.grid()
         self.grid_columnconfigure(0,weight=1)
         self.grid_columnconfigure(1,weight=1)
@@ -47,18 +48,18 @@ class Application(tk.Frame):
         self.BnewUser = tk.Button(self,
                                   text='Nouvel utilisateur',
                                   command=self.getnew)
-        self.BnewUser.grid(padx=5)
+        self.BnewUser.grid(padx=10,pady=10,ipadx=40)
 
         self.Blaunch=tk.Button(self,
                               text='Proposer repas',
                               command=self.launch)
-        self.Blaunch.grid(padx=5)
+        self.Blaunch.grid(padx=10,pady=10,ipadx=40)
 
         self.quit = tk.Button(self,
                               text="QUIT",
                               fg="red",
                               command=self.quitApp)
-        self.quit.grid(padx=5)
+        self.quit.grid(padx=10,pady=10,ipadx=40)
 
     def clean_widgets(self):
         """
@@ -150,13 +151,13 @@ class Application(tk.Frame):
                               text="QUIT",
                               fg="red",
                               command=self.quitApp)
-        self.quit.grid(column=1,row=15)
+        self.quit.grid(column=1,row=15,pady=10)
 
 
         self.val=tk.Button(self,
                            text="Valider",
                            command= lambda:self.newUser(varGr,alimNam))
-        self.val.grid(column=0,row=15)
+        self.val.grid(column=0,row=15,padx=10)
 
 
     def newUser(self, _sexe,_alimNam):
@@ -181,7 +182,7 @@ class Application(tk.Frame):
         info['id']=str(uuid.uuid4())
         info['epsilon']=0.5
         info['omega']=0.5
-        info['last5subs']=[]  
+        info['last10subs']={'compteur':0,'accept':0}  #actualisation omega
         info['cluster']='None'
 
         self.currentUser = User(info)
@@ -214,7 +215,7 @@ class Application(tk.Frame):
         self.clean_widgets()
         texte=tk.Label(self,
                        text = "Bonjour "+self.currentUser.name+'. Nous aurions besoin d\'en savoir plus sur votre contexte de consommation pour ce repas')
-        texte.grid(columnspan=4)
+        texte.grid(columnspan=4,padx=20)
 
         vals = ['seul', 'accompagne']
         etiqs = ['Seul', 'Accompagné']
@@ -227,7 +228,8 @@ class Application(tk.Frame):
                                text = etiqs[i],
                                value = vals[i],
                                name = 'compagnie'+ vals[i])
-            b.grid(row = 2, column = i)
+
+            b.grid(row = 2, column = i+1,ipadx=10,sticky='W')
 
         vals = ['petit-dejeuner','dejeuner','collation','diner']
         etiqs = ['Petit-dejeuner', 'Déjeuner','Collation','Dîner']
@@ -240,18 +242,18 @@ class Application(tk.Frame):
                                text = etiqs[i],
                                value = vals[i],
                                name = 'repas'+vals[i])
-            b.grid(row=3,column=i)
+            b.grid(row=3,column=i,ipadx=10,sticky='W')
 
         self.val=tk.Button(self,
                        text="Valider",
                        command= lambda:self.propose_repas(varGr_compagnie,varGr_repas))
-        self.val.grid(column=0,row=4)
+        self.val.grid(column=0,row=4,pady=10)
 
         self.quit = tk.Button(self,
                           text="QUIT",
                           fg="red",
                           command=self.quitApp)
-        self.quit.grid(column=1,row=4)
+        self.quit.grid(column=1,row=4,pady=10)
     
     def quitApp(self):
         if self.currentUser!=None:
@@ -441,10 +443,10 @@ class User():
         else:
             self.pref=_info['pref']
             
-        if type(_info['last5subs'])==str:
-            self.last5subs=ast.literal_eval(_info['last5subs']) #conversion str->dic
+        if type(_info['last10subs'])==str:
+            self.last10subs=ast.literal_eval(_info['last10subs']) #conversion str->dic
         else:
-            self.last5subs=_info['last5subs']
+            self.last10subs=_info['last10subs']
         
         
         if _info['cluster']=='None':
@@ -492,7 +494,7 @@ class User():
                 'cluster':self.cluster,
                 'epsilon':self.epsilon,
                 'omega':self.omega,
-                'last5subs':str(self.last5subs)
+                'last10subs':str(self.last10subs)
                 }
         with open(os.path.join(self.userdir,self.id+'.ini'), 'w') as configfile:
             config.write(configfile)
@@ -510,6 +512,7 @@ class User():
             
     def get_new_row(self):
         """
+        Pour l'affectation de cluster
         """
         if self.sex=="Homme" :
             sexeps = 1 
@@ -547,6 +550,20 @@ class User():
         """
         pass
     
+    def last10subs_increment(self,accept):
+        if self.last10subs['compteur']==9: #on est à la 10e proposition
+            self.last10subs['compteur']=0 #réinitialisation du compteur
+            self.last10subs['accept']=0
+            if int(self.last10subs['accept'])/int(self.last10subs['compteur'])>=0.8:
+                self.omega+=0.01
+            if int(self.last10subs['accept'])/int(self.last10subs['compteur'])<=0.2:
+                self.omega-=0.01
+        else:
+            self.last10subs['compteur']+=1
+            if accept:
+                self.last10subs['accept']+=1
+
+            
 
 
 class Aliments() :
@@ -577,8 +594,11 @@ class Aliments() :
         
         self.NutriScore(_repasEntre,dataNutri)
         
-    def NutriScore(self,_repasEntre,dataNutri,indPireScore=0):
-     
+    def NutriScore(self,_repasEntre,dataNutri):
+        """
+        Détermine l'aliment à substituer dans le repas
+        Lance la fonction de recherche de substitution
+        """
         repasScore=[] #[(grpAlim1,sgrpAlim1,libAlim1,SAINAlim1,LIMAlim1),...]
         for alim in _repasEntre:    
             scoreSain=dataNutri[(dataNutri['codgr']==alim['codeGrp'])&(dataNutri['sougr']==alim['codeSgrp'])]['SAIN 5 opt'].values[0]
@@ -606,7 +626,7 @@ class Aliments() :
                 self.calculSubstitution(repasScoreSort,dataNutri)
                 ListeAlimPropose.append(self.subsProposee)
                 i-=1
-            print('listeAlim',ListeAlimPropose)
+            
             self.subsProposee=max(ListeAlimPropose, key = lambda x: x['Score S'])
             self.alimentASubstituer=self.subsProposee['alimASubstituer']
             
@@ -616,6 +636,9 @@ class Aliments() :
             self.calculSubstitution(repasScoreSort,dataNutri)
     
     def findSubstitution(self,subData,dataNutri):
+        """
+        Cherche une substitution dans la table
+        """
         Subst_envisageables=subData[subData['aliment_1']==self.alimentASubstituer['libsougr']][['aliment_2','score_substitution','Valeur_malus','score_sainlim_nor']]       
         Subst_envisageables['S'] = Subst_envisageables['Valeur_malus']*(Subst_envisageables['score_substitution']**self.omega+Subst_envisageables['score_sainlim_nor']**(1-self.omega))
         
@@ -639,13 +662,10 @@ class Aliments() :
         """
         renvoie liste des aliments scorés
         _repasEntre : 
-            list
-            liste d'alims ordonnés par score SAIN
+            list de dictionnaires d'aliments
         dataNutri :
             pandas df
             pandas df scores alim
-        _indPireAlim : 
-            int
         poids en paramètre
         soit exploitation = Max aliments scorés,
         soit exploration = random Aliments non explorés
@@ -657,17 +677,23 @@ class Aliments() :
 # Différents niveaux de filtres
 # =============================================================================
         #Test existence substitution, filtre = repas,cluster,compagnie
-        subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&(self.dataSubs['cluster']==self.contexte['cluster'])&(self.dataSubs['avecqui']==self.contexte['compagnie'])]
+        subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&
+                              (self.dataSubs['cluster']==self.contexte['cluster'])&
+                              (self.dataSubs['avecqui']==self.contexte['compagnie'])]
         if not (subData[subData['aliment_1']==self.alimentASubstituer['libsougr']]).dropna(subset=['aliment_2']).empty: 
             self.subsProposee=self.findSubstitution(subData,dataNutri)
             
         else:
-            subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&(self.dataSubs['cluster']==self.contexte['cluster'])&(self.dataSubs['avecqui']=='all')]    
+            subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&
+                                  (self.dataSubs['cluster']==self.contexte['cluster'])&
+                                  (self.dataSubs['avecqui']=='all')]    
             if not (subData[subData['aliment_1']==self.alimentASubstituer['libsougr']]).dropna(subset=['aliment_2']).empty:
                 self.subsProposee=self.findSubstitution(subData,dataNutri)
                
             else:
-                subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&(self.dataSubs['cluster']=='all')&(self.dataSubs['avecqui']=='all')]
+                subData=self.dataSubs[(self.dataSubs['tyrep']==self.contexte['repas'])&
+                                      (self.dataSubs['cluster']=='all')&
+                                      (self.dataSubs['avecqui']=='all')]
                 if not (subData[subData['aliment_1']==self.alimentASubstituer['libsougr']]).dropna(subset=['aliment_2']).empty:
                     self.subsProposee=self.findSubstitution(subData,dataNutri)
                     
@@ -699,8 +725,9 @@ class Aliments() :
                             'Score S':0,
                             'NouvelleSubst':False}
 
+        
         print(self.epsilon, self.omega)
-        #self.subsProposee=('vin', 1.084, 1.430) #test
+        
      
 # =============================================================================
 # Incorporer ici la notion de epsilon avec exploration/Exploitation
@@ -718,7 +745,7 @@ class Aliments() :
         self.update_alpha(_conseq, refus=False)
         self.update_beta(_conseq, refus=False)
         self.actualiser_malus(_conseq)
-        
+        app.currentUser.last10subs_increment(accept=True)
         app.menu_widgets()
         
     
@@ -728,28 +755,30 @@ class Aliments() :
         self.update_alpha(_conseq, refus=True)
         self.update_beta(_conseq, refus=True)
         self.actualiser_malus(_conseq)
-        
+        app.currentUser.last10subs_increment(accept=False)
         app.menu_widgets()
         pass
     
     def getSsub(self,_conseq):
+        
         repas = self.contexte['repas']
         cluster = self.contexte['cluster']
         compagnie = self.contexte['compagnie']
-        series_subs = self.dataSubs.loc[(self.dataSubs['aliment_1']==self)&
-                                  (self.dataSubs['aliment_2']==_conseq)&
+        series_subs = self.dataSubs[(self.dataSubs['aliment_1']==_conseq['alimASubstituer']['libsougr'])&
+                                  (self.dataSubs['aliment_2']==_conseq['alimPropose']['libsougr'])&
                                   (self.dataSubs['cluster']==cluster)&
                                   (self.dataSubs['tyrep']==repas)&
                                   (self.dataSubs['avecqui']==compagnie)] #{repas:petit-dejeuner, dejeuner, diner,cluster:,compagnie:}
+        
         return(series_subs)
     
     def update_alpha(self,_conseq, refus=True):
         coef = self.alpha
         if refus :
             coef = 1/self.alpha
-        ssubs = self.getSsubs(_conseq)*coef
-        ind = ssubs.index
-        self.dataSubs.iloc[ind[0]]['score_substitution']= ssubs[0]
+        app.currentUser.dataSubs=self.getSsub(_conseq)['score_substitution']=coef*self.getSsub(_conseq)['score_substitution']
+        
+         #on met à jour l'attribut
         
     def update_beta(self,_conseq, refus=True):
         repas = self.contexte['repas']
@@ -761,24 +790,18 @@ class Aliments() :
         if refus :
             coef = 1/self.beta
         
-        #antecedents
-        ant = self.dataSubs.loc[(self.dataSubs['aliment_1']==self)&
-                                (self.dataSubs['cluster']==cluster)&
-                                  (self.dataSubs['tyrep']==repas)&
-                                  (self.dataSubs['avecqui']==compagnie)]['score_substitution']
-        ant = ant*coef
-        for i in ant.index:
-            self.dataSubs.iloc[i]['score_substitution']= ant[i]
-            
-        cons = self.dataSubs.loc[(self.dataSubs['aliment_2']==_conseq)&
-                                  (self.dataSubs['cluster']==cluster)&
-                                  (self.dataSubs['tyrep']==repas)&
-                                  (self.dataSubs['avecqui']==compagnie)]['score_substitution']
-        cons = cons*coef
-        for i in cons.index:
-            self.dataSubs.iloc[i]['score_substitution']= cons[i]
-            
-            
+        #selection de la table des antécédents ou conséquents
+        repas = self.contexte['repas']
+        cluster = self.contexte['cluster']
+        compagnie = self.contexte['compagnie']
+        seq=self.dataSubs[(((self.dataSubs['aliment_1']==_conseq['alimASubstituer']['libsougr'])&(self.dataSubs['aliment_2']!=_conseq['alimPropose']['libsougr']))|
+                ((self.dataSubs['aliment_1']!=_conseq['alimASubstituer']['libsougr'])&(self.dataSubs['aliment_2']==_conseq['alimPropose']['libsougr'])))&
+                (self.dataSubs['cluster']==cluster)&
+                (self.dataSubs['tyrep']==repas)&
+                (self.dataSubs['avecqui']==compagnie)]
+        
+        app.currentUser.dataSubs=seq['score_substitution']=coef*seq['score_substitution']
+          
     def ajouter_substition(self,_conseq):
         pass
 
@@ -786,7 +809,7 @@ class Aliments() :
     def actualiser_malus(self,_conseq):
         self.dataSubs.loc[self.dataSubs['aliment_2']==_conseq['alimPropose']['libsougr'],'malus']=True
         self.dataSubs.loc[self.dataSubs['malus']==True,'Compteur_malus']+=1
-        self.dataSubs.loc[self.dataSubs['Compteur_malus']>3,'malus']=False #délai dépassé on réinitialise
+        self.dataSubs.loc[self.dataSubs['Compteur_malus']>5,'malus']=False #délai dépassé on réinitialise
         self.dataSubs.loc[self.dataSubs['malus']==False,'Compteur_malus']=0 #on réinitialise le compteur
         self.dataSubs.loc[self.dataSubs['malus']==True,'Valeur_malus']=self.gamma #actualisation de la valeur du malus
         
