@@ -584,19 +584,23 @@ def entrainement_systeme(nbre_user) :
 
 
 
-def add_training_user(nbre_user) :
+## ADD TRAINING_USER #
+######################
     
-    train_global_df = pd.read_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
-    iden_add = train_global_df['id_user'].max()
-    
-    train_df = entrainement_systeme(nbre_user)
-    train_df['id_user'] = train_df['id_user'].apply(lambda iden : iden + iden_add)
-    
-    train_global_df = train_global_df.append(train_df, sort = False)
-    train_global_df.to_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
+train_df = entrainement_systeme(3)
+train_global_df = pd.read_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
 
-#add_training_user(2)
-#test = pd.read_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
+def join_training_user(tab_ori, tab_add) :
+    
+    iden_add = tab_ori['id_user'].max()
+    tab_add['id_user'] = tab_add['id_user'].apply(lambda iden : iden + iden_add)
+    tab_ori = tab_ori.append(tab_add, sort = False)
+    
+    return tab_ori
+
+train_global_df = join_training_user(train_global_df, train_df)
+#train_global_df.to_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
+
 
 #train_df = entrainement_systeme(10)
 #train_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
