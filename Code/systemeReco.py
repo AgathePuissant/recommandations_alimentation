@@ -715,8 +715,7 @@ class Aliments() :
             self.ajouter_substition(_conseq)
             pass
         
-        Ssubs = self.alpha*self.getSsub()
-        self.dataSubs['score_substitution'] = Ssubs
+        self.update_alpha(_conseq, refus=False)
         self.update_beta(_conseq, refus=False)
         self.actualiser_malus(_conseq)
         
@@ -726,8 +725,7 @@ class Aliments() :
     def refus(self,_conseq):
         """mise à jour du score avec alpha et beta"""
         print("dommaaaaaage")
-        Ssubs = (1/self.alpha)*self.getSsub()
-        self.dataSubs['score_substitution'] = Ssubs
+        self.update_alpha(_conseq, refus=True)
         self.update_beta(_conseq, refus=True)
         self.actualiser_malus(_conseq)
         
@@ -742,8 +740,16 @@ class Aliments() :
                                   (self.dataSubs['aliment_2']==_conseq)&
                                   (self.dataSubs['cluster']==cluster)&
                                   (self.dataSubs['tyrep']==repas)&
-                                  (self.dataSubs['avecqui']==compagnie)].values #{repas:petit-dejeuner, dejeuner, diner,cluster:,compagnie:}
-        return(series_subs[0])
+                                  (self.dataSubs['avecqui']==compagnie)] #{repas:petit-dejeuner, dejeuner, diner,cluster:,compagnie:}
+        return(series_subs)
+    
+    def update_alpha(self,_conseq, refus=True):
+        coef = self.alpha
+        if refus :
+            coef = 1/self.alpha
+        ssubs = self.getSsubs(_conseq)*coef
+        ind = ssubs.index
+        self.dataSubs.iloc[ind[0]]['score_substitution']= ssubs[0]
         
     def update_beta(self,_conseq, refus=True):
         repas = self.contexte['repas']
