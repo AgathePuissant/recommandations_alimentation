@@ -598,7 +598,7 @@ def join_training_user(tab_ori, tab_add) :
     
     return tab_ori
 
-#train_global_df = join_training_user(train_global_df, train_df)
+train_global_df = join_training_user(train_global_df, train_df)
 #train_global_df.to_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
 
 
