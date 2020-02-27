@@ -32,7 +32,8 @@ class VirtualUser():
         self.creation_tab_indi(tab_pref, tab_sub)
         
         # Vitesse de modification de epsilon
-        self.ep_speed = round(2 / sum(self.tab_rep_indi['score_substitution'] > 0.5), 4)
+        # len(....) est le nombre de recommandations "uniques" dont le score est > à 0.5
+        self.ep_speed = round(2 / len(self.tab_rep_indi[self.tab_rep_indi['score_substitution'] > 0.5].groupby(['aliment_1', 'aliment_2']).size()), 4)
         
         # score de substitution**w*score de nutrition**(1-w) (score entre 0 et 1)
         self.w = w #w initial petit -> on privilégie score de substitution (comme score appartient entre 0 et 1)
@@ -224,7 +225,7 @@ class System() :
         # Création de table de suivi de consommation
         self.nbre_jour = nbre_jour
         self.jour_courant = 1
-        self.table_suivi = pd.DataFrame(columns = ['user', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon'])
+        self.table_suivi = pd.DataFrame(columns = ['user', 'cluster', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon'])
         
         
     def add_VirtualUser(self) :
@@ -245,6 +246,7 @@ class System() :
 
             self.conso_repas = pd.DataFrame(data = {
                     'user' : self.liste_user,
+                    'cluster' : [user.cluster for user in self.liste_user],
                     'id_user' : [i for i in range(1, self.nbre_user + 1)],
                     'nojour' : self.jour_courant,
                     'tyrep' : type_repas,
@@ -340,25 +342,25 @@ class System() :
                 niveau += 1
             
             # Si le système trouve pas de substitution dans la table de substitution, on cherche le meilleur gain nutri dans la table nutrition
-            if len(recommandation) == 0 :
-                
-                cluster, avecqui = niveau_contexte[1]
-                tab_nutri = self.score_nutri.copy()
-                
-                # Liste des code groupe
-                liste_codgr = self.score_nutri[self.score_nutri['libsougr'].isin(aliment_a_substituer)]
-                liste_codgr = liste_codgr[['libsougr', 'codgr', 'distance_origine']].rename(
-                        columns = {'libsougr' : 'alim_a_subst'})
-                
-                # Filtrage des aliments dans ce codgr
-                tab_nutri = pd.DataFrame.merge(tab_nutri[~ tab_nutri['libsougr'].isin(aliment_a_substituer)],
-                                               liste_codgr,
-                                               on = 'codgr')
-                tab_nutri['gain_sainlim'] = tab_nutri['distance_origine_x'] - tab_nutri['distance_origine_y']
-                
-                # Recommandation
-                tab_nutri = tab_nutri[tab_nutri['gain_sainlim'] == max(tab_nutri['gain_sainlim'])].reset_index(drop = True)
-                recommandation = (tab_nutri['alim_a_subst'][0], tab_nutri['libsougr'][0])
+#            if len(recommandation) == 0 :
+#                
+#                cluster, avecqui = niveau_contexte[1]
+#                tab_nutri = self.score_nutri.copy()
+#                
+#                # Liste des code groupe
+#                liste_codgr = self.score_nutri[self.score_nutri['libsougr'].isin(aliment_a_substituer)]
+#                liste_codgr = liste_codgr[['libsougr', 'codgr', 'distance_origine']].rename(
+#                        columns = {'libsougr' : 'alim_a_subst'})
+#                
+#                # Filtrage des aliments dans ce codgr
+#                tab_nutri = pd.DataFrame.merge(tab_nutri[~ tab_nutri['libsougr'].isin(aliment_a_substituer)],
+#                                               liste_codgr,
+#                                               on = 'codgr')
+#                tab_nutri['gain_sainlim'] = tab_nutri['distance_origine_x'] - tab_nutri['distance_origine_y']
+#                
+#                # Recommandation
+#                tab_nutri = tab_nutri[tab_nutri['gain_sainlim'] == max(tab_nutri['gain_sainlim'])].reset_index(drop = True)
+#                recommandation = (tab_nutri['alim_a_subst'][0], tab_nutri['libsougr'][0])
 
         return recommandation, cluster, type_repas, avecqui
     
@@ -545,32 +547,6 @@ class System() :
 #
 #suivi_df = sys_test.table_suivi
 
-subst_a_change = ['légumes feuilles', 'huile', 'fromages affinés']
-
-def test_f(tab_nutri, aliment_a_subst) :
-    
-    # Liste des code groupe
-    liste_codgr = tab_nutri[tab_nutri['libsougr'].isin(aliment_a_subst)]
-    liste_codgr = liste_codgr[['libsougr', 'codgr', 'distance_origine']].rename(
-            columns = {'libsougr' : 'alim_a_subst'})
-    
-    # Filtrage des aliments dans ce codgr
-    tab_nutri = pd.DataFrame.merge(tab_nutri[~ tab_nutri['libsougr'].isin(aliment_a_subst)],
-                                   liste_codgr,
-                                   on = 'codgr')
-    tab_nutri['gain_sainlim'] = tab_nutri['distance_origine_x'] - tab_nutri['distance_origine_y']
-    
-    return tab_nutri
-    
-    # Recommandation
-    tab_nutri = tab_nutri[tab_nutri['gain_sainlim'] == max(tab_nutri['gain_sainlim'])].reset_index(drop = True)
-    recommandation = (tab_nutri['alim_a_subst'][0], tab_nutri['libsougr'][0])
-    
-    return recommandation
-
-test = test_f(score_nutri, subst_a_change)
-test['libsougr'][0]
-test['codgr'].tolist()
 
 # =============================================================================
 # FONCTION D'ENTRAINEMENT
@@ -578,43 +554,50 @@ test['codgr'].tolist()
 def entrainement_systeme(nbre_user) :
     
     # Les constants 
-    nbre_test = 1
     nbre_jour = 30
     
-    liste_alpha_beta = [[1.0001, 1.0005], [1.0005, 1.001], [1.001, 1.005], [1.005, 1.01]]
-    liste_omega = [0.05, 0.1, 0.15, 0.2]
-    liste_seuil_acc = [0.5, 0.75, 0.8]
+    liste_alpha_beta = [[1.01, 1.005], [1.1, 1.05], [1.15, 1.075]]
+    # , [1.1, 1.05], [1.15, 1.075]
+    dict_omega = {0 : [0.5], 0.01 : [0.2, 0.3]}
+    seuil_acc = 0.8
     
-    colnames = ['alpha', 'beta', 'omega_ini', 'seuil_acc', 'user','id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon']
+    colnames = ['alpha', 'beta', 'omega_ini', 'seuil_acc', 'user', 'cluster', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon']
     data = pd.DataFrame(columns = colnames)
     
-    for test in range(nbre_test) :
-        for beta, alpha in liste_alpha_beta :
+    for alpha, beta in liste_alpha_beta :
+        for pas_modif, liste_omega in dict_omega.items() :
             for omega in liste_omega :
-                for seuil_acc in liste_seuil_acc :
-                    print(alpha, beta, omega, seuil_acc)
-                    systeme = System(nbre_user, nbre_jour, seuil_nutri = 70, alpha = alpha, beta = beta, omega = omega, seuil_recom = 10, seuil_acc = seuil_acc, pas_modif = 0.01)
-                    systeme.entrainement()
-                    df = pd.concat([pd.DataFrame(data = {'alpha' : alpha, 
-                                                        'beta' : beta, 
-                                                        'omega_ini' : omega, 
-                                                        'seuil_acc' : seuil_acc}, index = range(len(systeme.table_suivi))),
-                                   systeme.table_suivi], axis = 1)
-                    data = data.append(df, sort = False)
+                print(alpha, beta, omega, pas_modif, seuil_acc)
+                systeme = System(nbre_user, nbre_jour, seuil_nutri = 80, alpha = alpha, beta = beta, omega = omega, seuil_recom = 10, seuil_acc = seuil_acc, pas_modif = pas_modif)
+                systeme.entrainement()
+                df = pd.concat([pd.DataFrame(data = {'alpha' : alpha, 
+                                                    'beta' : beta, 
+                                                    'omega_ini' : omega, 
+                                                    'seuil_acc' : seuil_acc}, index = range(len(systeme.table_suivi))),
+                               systeme.table_suivi], axis = 1)
+                data = data.append(df, sort = False)
     return data
 
+# train_global_df = entrainement_systeme(1)
+# train_global_df.to_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
 
-def add_user(nbre_user) :
+
+
+
+def add_training_user(nbre_user) :
     
-    train_global_df = pd.read_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1")
+    train_global_df = pd.read_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
     iden_add = train_global_df['id_user'].max()
     
     train_df = entrainement_systeme(nbre_user)
     train_df['id_user'] = train_df['id_user'].apply(lambda iden : iden + iden_add)
     
     train_global_df = train_global_df.append(train_df, sort = False)
-    train_global_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
-    
+    train_global_df.to_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
+
+#add_training_user(2)
+#test = pd.read_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
+
 #train_df = entrainement_systeme(10)
 #train_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
 # =============================================================================
