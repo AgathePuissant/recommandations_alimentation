@@ -561,7 +561,7 @@ def entrainement_systeme(nbre_user) :
     dict_omega = {0 : [0.5], 0.01 : [0.2, 0.3]}
     seuil_acc = 0.8
     
-    colnames = ['alpha', 'beta', 'omega_ini', 'seuil_acc', 'user', 'cluster', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon']
+    colnames = ['alpha', 'beta', 'omega_ini', 'seuil_acc', 'cluster', 'id_user', 'nojour', 'tyrep', 'avecqui', 'repas', 'substitution', 'reponse', 'omega', 'epsilon']
     data = pd.DataFrame(columns = colnames)
     
     for alpha, beta in liste_alpha_beta :
@@ -574,10 +574,9 @@ def entrainement_systeme(nbre_user) :
                                                     'beta' : beta, 
                                                     'omega_ini' : omega, 
                                                     'seuil_acc' : seuil_acc}, index = range(len(systeme.table_suivi))),
-                               systeme.table_suivi], axis = 1)
+                               systeme.table_suivi.drop('user', axis = 1)], axis = 1)
                 data = data.append(df, sort = False)
     return data
-
 
 
 
