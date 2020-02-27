@@ -578,16 +578,13 @@ def entrainement_systeme(nbre_user) :
                 data = data.append(df, sort = False)
     return data
 
-# train_global_df = entrainement_systeme(1)
-# train_global_df.to_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
-
 
 
 
 ## ADD TRAINING_USER #
 ######################
     
-#train_df = entrainement_systeme(10)
+#train_df = entrainement_systeme(5)
 #train_global_df = pd.read_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
 
 def join_training_user(tab_ori, tab_add) :
@@ -598,11 +595,12 @@ def join_training_user(tab_ori, tab_add) :
     
     return tab_ori
 
-train_global_df = join_training_user(train_global_df, train_df)
+#train_df.to_pickle("Base_Gestion_Systeme/base_entrainement_chulai_1.pkl")
+#train_global_df = join_training_user(train_global_df, train_df)
 #train_global_df.to_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
+#test = pd.read_pickle("Base_Gestion_Systeme/base_entrainement_chulai_1.pkl")
 
 
-#train_df = entrainement_systeme(10)
 #train_df.to_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1", index = False)
 # =============================================================================
 

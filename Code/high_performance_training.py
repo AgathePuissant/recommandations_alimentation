@@ -34,7 +34,7 @@ from numba import jit, cuda, vectorize, typeof
 # to measure exec time
 from timeit import default_timer as timer    
 
-def entrainement_systeme(nbre_user) :
+def func(nbre_user) :
     
     # Les constants 
     nbre_jour = 5
@@ -67,7 +67,8 @@ def entrainement_systeme(nbre_user) :
 seq = ['seuil_acc', nb.float64]   
 @jit(seq, target = "cuda")
 @nb.njit()
-def entrainement_systeme2(nbre_user) :
+
+def func2(nbre_user) :
     
     # Les constants 
     nbre_jour = 5
@@ -97,11 +98,11 @@ def entrainement_systeme2(nbre_user) :
     return data
 
 start = timer()
-test = entrainement_systeme(1)
+test = func(1)
 print("without GPU:", timer()-start)     
 #16.73s
 
 start = timer()
-test1 = entrainement_systeme2(1)
+test1 = func2(1)
 print("with GPU:", timer()-start)
 # autojit is deprecated and will be removed in a future release. Use jit instead.
