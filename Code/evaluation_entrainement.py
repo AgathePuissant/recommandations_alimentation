@@ -170,10 +170,87 @@ visualisation_tx_acc_cl(tx_acc_cl_df)
 
 # =============================================================================
 
+
+
+# =============================================================================
+# % ACCEPTATION / RECOMMANDATIONS EN GÉNÉRALITÉ ET PAR CLUSTER
+
+
+def evol_taux_acceptation_df(data) :
+    
+    # Filtrage des repas dont le système propose une substitution
+    data = data[data['substitution'].str.len() > 0]
+    
+     # Comtage le nombre de réponse True et False
+    data = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc', 'nojour', 'reponse']).size(
+            ).rename('count_True').reset_index()
+    
+    # Comptage le nombre de réponse au total (True + False)
+    data['count_reponse'] = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc', 'nojour'])['count_True'].transform('sum')
+    
+    # Filtrage des réponses True
+    data = data[data['reponse'] == True].drop('reponse', axis = 1)
+    
+    # Calcul du taux d'acceptation
+    data['taux_acceptation'] = round(100*data['count_True'] / data['count_reponse'], 2)
+    
+    # Couple alpha - beta
+    data['alpha_beta'] = list(zip(data['alpha'], data['beta']))
+    
+    return data
+
+def vis_evol_taux_acc(data) :
+    
+    # Plot facet grid    
+    sns.set(style="ticks", color_codes=True)
+    g = sns.FacetGrid(data, col = "alpha_beta", hue = "omega_ini", col_wrap = 3, sharey = False, legend_out = False)
+    g = (g.map(plt.plot, "nojour", "taux_acceptation").add_legend())
+    g.set(xlim = (1, 30), ylim = (20, 60),
+          xticks = np.arange(1, 31, 2), yticks = np.arange(0, 60, 5))
+    
+    # Title and axis title
+    g.fig.suptitle("L'évolution du taux d'acceptation de recommandation selon l'initialisation des paramètres",
+                       fontsize = 25)
+    g.set_xlabels("Jour de l'entrainement", fontsize = 16)
+    g.set_ylabels("Taux d'acceptation (%)", fontsize = 16)
+    
+    plt.show()
+
+def vis_evol_taux_cl_acc(data) :
+    
+    # Plot facet grid    
+    sns.set(style = "ticks", color_codes = True, font_scale = 1)
+    g = sns.FacetGrid(data, row = "alpha_beta", col = "cluster", hue = "omega_ini", sharey = False, margin_titles = True)
+    g = (g.map(plt.plot, "nojour", "taux_acceptation").add_legend())
+    g.set(xlim = (1, 30), ylim = (10, 75),
+          xticks = np.arange(0, 31, 5), yticks = np.arange(0, 80, 5))
+    
+    # Title and axis title
+    g.fig.subplots_adjust(top = .9)
+    g.fig.suptitle("L'évolution du taux d'acceptation de recommandation selon l'initialisation des paramètres",
+                       fontsize = 18)
+    g.set_xlabels("Jour de l'entrainement", fontsize = 12)
+    g.set_ylabels("Taux d'acceptation (%)", fontsize = 12)
+    
+    plt.show()
+
+
+
+# VISUALISATION
+# Data
+evol_tx_acc_df = evol_taux_acceptation_df(train_global_df)
+evol_tx_acc_cl_df = train_global_df.groupby('cluster').apply(lambda df : evol_taux_acceptation_df(df)).reset_index()
+
+vis_evol_taux_acc(evol_tx_acc_df)
+vis_evol_taux_cl_acc(evol_tx_acc_cl_df)
+
+# =============================================================================
+
+
+
 # =============================================================================
 # AMÉLIORATION DU SCORE NUTRI PAR COEFF
 def score_nutri_repas(data,nutri) :
-    # Déplacer chacune des paires d'indices en une ligne séparément 
     
     #Décomposition des repas pour avoir un aliment par ligne
     lst_col = 'repas'
@@ -243,25 +320,42 @@ def score_nutri_repas(data,nutri) :
 
     return(score_nutri)
     
+def pretraitement_nutri(data) :
     
+    # Data preparation
+    data = data[['alpha_beta', 'omega_ini', 'seuil_acc', 'nojour', 'scorenutri_jour_prop', 'scorenutri_jour_cons']]
+    data = data.rename(columns = {'scorenutri_jour_prop' : 'Repas proposé',
+                                  'scorenutri_jour_cons' : 'Repas substitué'})
+    data = data.melt(id_vars=['alpha_beta', 'omega_ini', 'seuil_acc', 'nojour'], value_vars=['Repas proposé', 'Repas substitué'],
+                     var_name = 'repas', value_name='score_nutri')
+    
+    return data
+
 
 def visualisation_nutri_continu(data) :
     
-    param = list(score_nutri["param"].unique())
-
-
-    for val in param:
-        df = data[data.param == val]
-        plt.plot(df.nojour, df.scorenutri_jour, label = val)
-        plt.title("Evolution de la qualité nutritionnelle des repas en fonction des paramètres")
-        plt.xlabel("jour")
-        plt.ylabel("Moyenne du score SAIN-LIM")
-        plt.legend()
+    # Graphiques
+    sns.set(style="ticks", color_codes=True)
+    g = sns.FacetGrid(data, col = "alpha_beta", row = "omega_ini", hue = "repas",
+                      sharey = False, legend_out = False, margin_titles = True)
+    g = (g.map(plt.plot, "nojour", "score_nutri").add_legend())
+    g.set(xlim = (1, 30), ylim = (84.5, 90),
+          xticks = np.arange(1, 31, 2), yticks = np.arange(84.5, 90.1, .5))
+    
+    # Title and axis title
+    g.fig.subplots_adjust(top = .9)
+    g.fig.suptitle("L'évolution du score nutritionnel selon l'initialisation des paramètres",
+                       fontsize = 25)
+    g.set_xlabels("Jour de l'entrainement", fontsize = 16)
+    g.set_ylabels("Score nutritionnel", fontsize = 16)
+    
+    plt.show()
         
     
 # ==============================================
-#score_nutri = score_nutri_repas(train_global_df,nutri_df)
-#test = visualisation_nutri_continu(score_nutri)
+score_nutri = score_nutri_repas(train_global_df,nutri_df)
+score_nutri = pretraitement_nutri(score_nutri)
+visualisation_nutri_continu(score_nutri)
 
 
 

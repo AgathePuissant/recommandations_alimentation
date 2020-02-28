@@ -80,109 +80,11 @@ def filtrage(data, tyrep, cluster, avecqui) :
     
     return data_filtre
 
-#def tableau_substitution(rules_ori, nomen_ori) :
-#    
-#    # data manipulation
-#    rules = rules_ori.copy()
-#    rules = rules.loc[:, ['antecedents', 'consequents', 'confidence']]
-#    
-#    nomen = nomen_ori.copy()
-#    nomen = nomen.loc[:,['code_role', 'libsougr']].drop_duplicates()
-#    
-#    #rules['libsougr'] = [x[0] for x in rules['consequents'].values]
-#    rules['libsougr'] = [x[0] for x in rules['consequents']]
-#    rules = pd.DataFrame.merge(rules, nomen, on = 'libsougr', how = 'left')
-#    
-#    # data sort by values of confidence by group of antecedents
-#    rules = rules.groupby(['antecedents', 'code_role'])
-#    rules = rules.apply(lambda df : df.sort_values('confidence')).reset_index(drop = True)
-#    
-#    # add two columns of union of sous-groupe and confidence by group of antecedents
-#    rules = pd.DataFrame.merge(rules.drop('libsougr', axis=1), rules.groupby(['antecedents', 'code_role'])['libsougr'].apply(tuple).reset_index())
-#    rules = pd.DataFrame.merge(rules.drop('confidence', axis=1),rules.groupby(['antecedents', 'code_role'])['confidence'].apply(tuple).reset_index())
-#    
-#    # remove duplicate rows (transform to tuple...
-#    rules['consequents'] = rules['libsougr'].apply(lambda con : tuple(con))
-#    rules = rules.drop('libsougr', axis = 1)
-#    
-#    #... and drop duplicates)
-#    rules = rules.drop_duplicates(['antecedents', 'consequents'])
-#    #.reset_index(drop = True)
-#    
-#    return rules
-#
-#def score_biblio(aliment_1, aliment_2, rules_ori) :
-#    '''
-#    Fonction qui prend en entrée les 2 aliments dont on veut trouver le score de substituabilité et les règles d'associations entre aliments,
-#    et ressort le score de substituabilité calculé selon le score trouvé dans la bibliographie.
-#    ---------------
-#    Arguments :
-#        -aliment_1 : frozenset de longueur 1
-#        -aliment_2 : frozenset de longueur 1
-#        -regles_original : dataFrame contenant les règles d'association entre aliments et contextes alimentaires
-#    '''
-#    rules = rules_ori[[aliment_1 in x or aliment_2 in x for x in rules_ori['consequents']]]
-#    
-#    # inter : Les contextes dans lesquels aliment_1 ET aliment_2 sont substituables
-#    inter = (rules.groupby('antecedents').size().values == 2).sum()
-#
-#    # union : Les contextes dans lesquels aliment_1 OU aliment_2 sont substituables
-#    union = len(rules)
-#    
-#    # Somme A = A_alim1_alim2 + A_alim2_alim1
-#    # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
-#    # A_alim1_alim2 : Nombre de contextes dans lesquels aliment_1 est substituable (trouvé dans la colonne 'conséquents') et aliment_ 2 apparait (trouvé dans la colonne 'antecedents')
-#    A = rules[[aliment_1 in x or aliment_2 in x for x in rules['antecedents']]]['antecedents'].nunique()
-#    
-#    return inter / (union + A)
-#
-#def matrice_scores_diff_moy(tab_subst_ori, tab_reg) :
-#    '''Fonction qui à partir du tableau des aliments substituables dans un contexte donné et des règles 
-#    d'association, va renvoyer un tableau des scores de substituabilité associés aux couples d'aliments 
-#    substituables.
-#    Méthode : différence des moyennes
-#    ---------------
-#    Arguments :
-#        - tableau : pandas DataFrame contenant les contextes de repas, les aliments substituables 
-#        et les métriques associées.
-#        -regles : pandas DataFrame contenant les règles d'association et permettant de calculer le score
-#        de substituabilité trouvé dans la bibliographie.
-#    '''
-#    
-#    # Nombre d'éléments dans "conséquents" >  1
-#    tab_subst = tab_subst_ori.copy()
-#    tab_subst['pair_index'] = tab_subst['consequents'].str.len()
-#    tab_subst = tab_subst[tab_subst['pair_index'] > 1]
-#    
-#    # La liste des paires d'indices (tuple) d'aliments substituables
-#    tab_subst['pair_index'] = tab_subst['pair_index'].transform(lambda x : [ind for ind in itertools.permutations(range(x), 2)])
-#    
-#    # Déplacer chacune des paires d'indices en une ligne séparément 
-#    lst_col = 'pair_index'
-#    tab_subst = pd.DataFrame({
-#          col:np.repeat(tab_subst[col].values, tab_subst[lst_col].str.len())
-#          for col in tab_subst.columns.drop(lst_col)}
-#        ).assign(**{lst_col:pd.DataFrame(np.concatenate(tab_subst[lst_col].values)).values.tolist()})
-#
-#    # Transforer les colonnes 'conséquents' et 'confidence' en extrayant les éléments qui correspondent à des paires d'indices 
-#    tab_subst['consequents'] = tab_subst.apply(lambda df : (df.consequents[df.pair_index[0]], df.consequents[df.pair_index[1]]), axis = 1)
-#    tab_subst['confidence'] = tab_subst.apply(lambda df : np.array((df.confidence[df.pair_index[0]], df.confidence[df.pair_index[1]])), axis = 1)
-#    
-#    # Calcul du score de confiance comme la différence de la moyenne de la confiance de deux aliments substituables
-#    tab_subst = tab_subst.groupby('consequents')['confidence'].apply(np.mean).reset_index()
-#    tab_subst['Score confiance'] = tab_subst.confidence.apply(lambda conf : conf[0] - conf[1])
-#
-#    # Calcul du score de bibliothèque grace à la fonction score_biblio
-#    tab_subst['Score biblio'] = tab_subst['consequents'].apply(lambda cons : score_biblio(cons[0], cons[1], tab_reg))
-#    
-#    # Calcul du score combiné
-#    tab_subst["Score combiné"] = tab_subst["Score biblio"]+(((tab_subst["Score confiance"])/2)+0.5)
-#    
-#    return tab_subst
-
 
 def creation_couples(rules_ori, nomen_ori) :
-    
+    """
+    La fonction qui crée les couples d'aliments dans un même code_role
+    """
     # data manipulation
     couples = rules_ori.copy()
     
@@ -228,20 +130,8 @@ def calcul_score(aliment_1, aliment_2, rules_ori) :
     '''
     global rules, inter_df, res_df
     # Préparation de la table pour calculer le score de substitution :
-    # Les repas dont le conséquent contient soit aliment_1 soit aliment_2...
+    # Les repas dont le conséquent contient soit aliment_1 soit aliment_2
     rules = rules_ori[[aliment_1 in x or aliment_2 in x for x in rules_ori['consequents']]].reset_index(drop = True)
-    
-    # ...puis enlever les éléments de contexte dans le tuple d'antécédents
-#    liste_contexte = ['seul','accompagne',
-#                      'cluster_1','cluster_2','cluster_3','cluster_4','cluster_5','cluster_6','cluster_7','cluster_8',
-#                      'petit-dejeuner','dejeuner','gouter','diner']
-#    
-#    rules['antecedents'] = rules['antecedents'].apply(
-#            lambda ant : [val for val in ant if val not in liste_contexte]).apply(
-#                    tuple)
-    
-    
-    #rules = rules[rules['antecedents'].str.len() > 0].reset_index(drop = True)
 
     # union : Les contextes dans les quels aliment_1 OU aliment_2 sont substituables
     union = len(rules)
@@ -256,31 +146,29 @@ def calcul_score(aliment_1, aliment_2, rules_ori) :
         # Score de substitution pour les repas exactement en commun
         inter_df = rules.groupby('antecedents').filter(lambda x : len(x) == 2)
         
-        print(inter_df)
-        
         inter = len(inter_df)
         if inter > 0 :
             inter_df = inter_df.groupby('consequents')['confidence'].apply(np.mean)
             inter = inter * inter_df[aliment_2, ] / inter_df.sum()
             
         
-        # Score de substitution pour les repas ressemblants
+        # Score de substitution pour les repas qui restent
         res_df = rules.groupby('antecedents').filter(lambda x : len(x) != 2)
         
         res = len(res_df)
         if res > 0 :
             res_df = res_df.groupby('consequents')['confidence'].apply(np.mean).reset_index()
     
-            if len(res_df) == 1 :
-                res_df = pd.DataFrame.merge(res_df,
-                                          pd.DataFrame(data = {'consequents' : [tuple([aliment_1]), tuple([aliment_2])]}), 
-                                          how = 'outer').fillna(0)
+#            if len(res_df) == 1 :
+#                res_df = pd.DataFrame.merge(res_df,
+#                                          pd.DataFrame(data = {'consequents' : [tuple([aliment_1]), tuple([aliment_2])]}), 
+#                                          how = 'outer').fillna(0)
                 
             res = res*res_df[res_df['consequents'] == tuple([aliment_2])]['confidence'].sum() / res_df['confidence'].sum()
     
     return (inter + res) / (union + penalite)
 
-
+calcul_score('pain', 'biscuits sucrés', regles)
 
 def score_substitution(couples_ori, regles_ori) :
     
