@@ -150,12 +150,11 @@ def score_nutri_repas(data,nutri) :
     
     
 
-def visualisation_nutri_continu(data,alpha= 1.0005,beta=1.0001,omega_ini=0.1,seuil_acc=0.8) :
+def visualisation_nutri_continu(data) :
     
     param = list(score_nutri["param"].unique())
-    #data = data[data.omega_ini == omega_ini] 
-    #data = data[data.seuil_acc == seuil_acc]
-    
+
+
     for val in param:
         df = data[data.param == val]
         plt.plot(df.nojour, df.scorenutri_jour, label = val)
