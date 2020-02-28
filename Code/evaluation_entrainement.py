@@ -162,11 +162,11 @@ def visualisation_tx_acc_cl(data) :
 # VISUALISATION
 # Data
 tx_acc_df = taux_acceptation_df(train_global_df)
-tx_acc_cluster_df = train_global_df.groupby('cluster').apply(lambda df : taux_acceptation_df(df)).reset_index()
+tx_acc_cl_df = train_global_df.groupby('cluster').apply(lambda df : taux_acceptation_df(df)).reset_index()
 
 # Graphiques
 visualisation_tx_acc(tx_acc_df)
-visualisation_tx_acc_cl(tx_acc_cluster_df)
+visualisation_tx_acc_cl(tx_acc_cl_df)
 
 # =============================================================================
 
