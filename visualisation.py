@@ -30,7 +30,6 @@ def histo_cumul_subs(data) :
     g.fig.subplots_adjust(top=.9)
     g.fig.suptitle('Nombre cumulé de substitutions en fonction du score de substitution par cluster',
                        fontsize = 16)
-    g.set_axis_labels(x_var="Percentage Depth", y_var="Number of Defects")
     g.set_axis_labels(x_var="Score de substitution", y_var="Nombre cumulé de substition")
     plt.show()
 

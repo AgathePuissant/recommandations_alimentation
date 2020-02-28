@@ -6,26 +6,87 @@ Created on Tue Feb 18 10:43:31 2020
 """
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from ast import literal_eval
+import seaborn as sns
 import numpy as np
 
-train_global_df = pd.read_csv("Base_Gestion_Systeme/base_entrainement.csv", sep = ";", encoding = "latin-1")
+train_global_df = pd.read_pickle("Base_Gestion_Systeme/base_entrainement.pkl")
 nutri_df = pd.read_csv("Base_Gestion_Systeme/scores_sainlim_ssgroupes.csv", sep = ";", encoding = "latin-1")
-train_global_df['repas'] = train_global_df['repas'].apply(lambda repas : literal_eval(repas))
-train_global_df['substitution'] = train_global_df['substitution'].apply(lambda substitution : literal_eval(substitution))
 
 # =============================================================================
 # % RECOMMANDATIONS / REPAS PAR CLUSTER (IL FAUT AJOUTER LES CLUSTERS DANS LA TABLE AVANT D'ENREGISTRER)
 
-# Global : 
-sum(train_global_df['substitution'].str.len() > 2)/len(train_global_df) # 78,07%
+# Global :
 
-def manipulation1(data) :
-    pass
+def taux_recommandation(data) :
+    
+    data = data.copy()
+    
+    # Comptage du nombre de repas    
+    data['nbre_repas'] = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc'])['id_user'].transform('size')
+    
+    # Filtrage des repas dont le système propose une substitution
+    data = data[data['substitution'].str.len() > 0]
+    
+    # Comptage du nombre de recommandation
+    data = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc', 'nbre_repas'])['substitution'].size()
+    data = data.rename('nbre_recom').reset_index()
+    
+    # Calcul du taux de recommandation
+    data['taux_recommandation'] = round(100*data['nbre_recom'] / data['nbre_repas'], 2)
+    
+    # Couple alpha - beta
+    data['alpha_beta'] = list(zip(data['alpha'], data['beta']))
+    
+    return data
 
-def visualisation1() :
-    pass
+
+def visualisation_tx_recom(data) :
+    
+    # Plot facet grid    
+    sns.set(style="ticks", color_codes=True)
+    g = sns.FacetGrid(data, col = "alpha_beta", hue = "omega_ini", col_wrap = 3, sharey = False, legend_out = False)
+    g = (g.map(plt.bar, "omega_ini", "taux_recommandation", width = 0.08).add_legend())
+    g.set(xlim = (0.1, 0.6), ylim = (0, 80),
+          xticks = np.arange(0.1, 0.6, 0.1), yticks = np.arange(0, 80, 5))
+    
+    # Title and axis title
+    g.fig.suptitle("Taux de recommandation par repas selon l'initialisation des paramètres",
+                       fontsize = 25)
+    g.set_xlabels("Omega initial (sans unité)", fontsize = 16)
+    g.set_ylabels("Taux de recommandation (%)", fontsize = 16)
+    
+    plt.show()
+    
+
+def visualisation_tx_recom_cl(data) :
+    
+    # Plot facet grid    
+    sns.set(style = "ticks", color_codes = True, font_scale = 1)
+    g = sns.FacetGrid(data, row = "alpha_beta", col = "cluster", hue = "omega_ini", sharey = False, margin_titles = True)
+    g = (g.map(plt.bar, "omega_ini", "taux_recommandation", width = 0.08).add_legend())
+    g.set(xlim = (0.1, 0.6), ylim = (0, 80),
+          xticks = np.arange(0.1, 0.6, 0.1), yticks = np.arange(0, 80, 10))
+    
+    # Title and axis title
+    g.fig.subplots_adjust(top = .9)
+    g.fig.suptitle("Taux de recommandation par repas selon l'initialisation des paramètres",
+                       fontsize = 18)
+    g.set_xlabels("Omega initial (sans unité)", fontsize = 12)
+    g.set_ylabels("Taux de recommandation (%)", fontsize = 12)
+    
+    plt.show()
+
+
+## VISUALISATION
+##################
+
+# Data Préparation
+tx_recom_df = taux_recommandation(train_global_df)
+tx_recom_cl_df = train_global_df.groupby('cluster').apply(lambda df : taux_recommandation(df))
+
+# Graphiques
+visualisation_tx_recom(tx_recom_df)
+visualisation_tx_recom_cl(tx_recom_cl_df)
 
 # =============================================================================
 
@@ -34,45 +95,79 @@ def visualisation1() :
 # % SUBSTITUTIONS ACCEPTÉES / PROPOSÉES PAR COEFF
 def taux_acceptation_df(data) :
     
-    data = data[data['substitution'].str.len() > 2]
-    data = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc', 'reponse'])['user'].count().reset_index().rename(
-            columns = {'user' : 'count_True'})
+    # Filtrage des repas dont le système propose une substitution
+    data = data[data['substitution'].str.len() > 0]
+    
+    # Comtage le nombre de réponse True et False
+    data = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc', 'reponse']).size(
+            ).rename('count_True').reset_index()
+    
+    # Comptage le nombre de réponse au total (True + False)
     data['count_reponse'] = data.groupby(['alpha', 'beta', 'omega_ini', 'seuil_acc'])['count_True'].transform('sum')
-    data = data[data['reponse'] == True].drop(
-                    'reponse', axis = 1)
+    
+    # Filtrage des réponses True
+    data = data[data['reponse'] == True].drop('reponse', axis = 1)
+    
+    # Calcul du taux d'acceptation
     data['taux_acceptation'] = round(100*data['count_True'] / data['count_reponse'], 2)
     
+    # Couple alpha - beta
     data['alpha_beta'] = list(zip(data['alpha'], data['beta']))
     
     return data
 
-tx_acc_df = taux_acceptation_df(train_global_df)
+
 
 def visualisation_tx_acc(data) :
     
-    # Color
-    col_dict = {0.5 : 'green', 0.75 : 'blue', 0.8 : 'red'}
-    data['color_col'] = data['seuil_acc'].map(col_dict)
+    # Plot facet grid    
+    sns.set(style="ticks", color_codes=True)
+    g = sns.FacetGrid(data, col = "alpha_beta", hue = "omega_ini", col_wrap = 3, sharey = False, legend_out = False)
+    g = (g.map(plt.bar, "omega_ini", "taux_acceptation", width = 0.08).add_legend())
+    g.set(xlim = (0.1, 0.6), ylim = (20, 50),
+          xticks = np.arange(0.1, 0.6, 0.1), yticks = np.arange(20, 50, 2))
     
-    # Marker shape
-    mkr_dict = {(1.0005, 1.0001) : 'x', (1.001, 1.0005) : 'o', (1.005, 1.001) : '^', (1.01, 1.005) : 's'}
+    # Title and axis title
+    g.fig.suptitle("Taux d'acceptation de recommandation selon l'initialisation des paramètres",
+                       fontsize = 25)
+    g.set_xlabels("Omega initial (sans unité)", fontsize = 16)
+    g.set_ylabels("Taux d'acceptation (%)", fontsize = 16)
     
-    
-    for couple in mkr_dict:
-        df = data[data.alpha_beta == couple]
-
-        plt.scatter(x = df.omega_ini, y = df.taux_acceptation, c = df.color_col, marker = mkr_dict[couple], alpha = 0.5, label = couple)
-        plt.title("Le taux d'acceptation de recommandation selon alpha, beta, omega et seuil d'acceptation", fontsize = 25)
-        plt.xlabel("La valeur initiale de omega", fontsize = 25)
-        plt.ylabel("Le taux d'acceptation", fontsize = 25)
-        plt.legend()
-        
-    leg_el = [mpatches.Patch(facecolor = value, edgecolor = "black", label = key, alpha = 0.4) for key, value in col_dict.items()]
-    plt.legend(handles = leg_el)
+    # Color legend
+#    omega_dict = {0.2 : 'steelblue', 0.3 : 'sandybrown', 0.5 : 'forestgreen'}
+#    handles = [mpatches.Patch(color = col, label = lab) for lab, col in omega_dict.items()]
+#    plt.legend(handles = handles)
     plt.show()
 
+
+
+def visualisation_tx_acc_cl(data) :
     
+    # Plot facet grid    
+    sns.set(style = "ticks", color_codes = True, font_scale = 1)
+    g = sns.FacetGrid(data, row = "alpha_beta", col = "cluster", hue = "omega_ini", sharey = False, margin_titles = True)
+    g = (g.map(plt.bar, "omega_ini", "taux_acceptation", width = 0.08).add_legend())
+    g.set(xlim = (0.1, 0.6), ylim = (20, 50),
+          xticks = np.arange(0.1, 0.6, 0.1), yticks = np.arange(20, 50, 2))
+    
+    # Title and axis title
+    g.fig.subplots_adjust(top = .9)
+    g.fig.suptitle("Taux d'acceptation de recommandation selon l'initialisation des paramètres",
+                       fontsize = 18)
+    g.set_xlabels("Omega initial (sans unité)", fontsize = 12)
+    g.set_ylabels("Taux d'acceptation (%)", fontsize = 12)
+    
+    plt.show()
+    
+# VISUALISATION
+# Data
+tx_acc_df = taux_acceptation_df(train_global_df)
+tx_acc_cluster_df = train_global_df.groupby('cluster').apply(lambda df : taux_acceptation_df(df)).reset_index()
+
+# Graphiques
 visualisation_tx_acc(tx_acc_df)
+visualisation_tx_acc_cl(tx_acc_cluster_df)
+
 # =============================================================================
 
 # =============================================================================
