@@ -10,6 +10,12 @@ from motifs_frequents_substituabilite import *
 import random
 import matplotlib.pyplot as plt
 
+'''
+Code pour comparer les ensembles de règles d'association créés
+par les différentes manières d'explorer la BDD. Les métriques sont basées sur 
+un article de Dudek.
+'''
+
 
 '''
                ###########################################################
@@ -119,7 +125,7 @@ supp = 0.001
 conf = 0.01
 
 #Méthode 1
-#rapport_1 = 1.075
+#rapport_1 = 1.075 #rapport à décommenter quand on veut des ensembles de règles de même taille
 
 rapport_1 = 1
 
@@ -136,7 +142,7 @@ R1['antecedents'] = R1['antecedents'].apply(lambda y : tuple(x for x in y if (x!
 R1 = R1[~(R1['antecedents']==())]
 
 #Méthode 2
-#rapport_2 = 44
+#rapport_2 = 44 #rapport à décommenter quand on veut des ensembles de règles de même taille
 cols = [i for i in range(127,141)]
 
 conso_pattern_sougr_2 = conso_pattern_sougr[(conso_pattern_sougr[tyrep_str]==1) & (conso_pattern_sougr[cluster_str]==1) & (conso_pattern_sougr[avecqui_str]==1)]
@@ -154,7 +160,7 @@ R2=regles_2
 
 #Méthode 3
 
-#rapport_3 = 1
+#rapport_3 = 1 #rapport à décommenter quand on veut des ensembles de règles de même taille
 
 conso_pattern_sougr_3 = conso_pattern_sougr.drop(conso_pattern_sougr.columns[cols],axis=1)
 motifs_3 = find_frequent(conso_pattern_sougr_3, seuil_support = supp, algo = fpgrowth)
@@ -185,6 +191,9 @@ R3=regles_3[(regles_3['support']>supp*rapport_3)]
 R1.reset_index(inplace=True)
 R2.reset_index(inplace=True)
 R3.reset_index(inplace=True)
+
+
+#Partie à décommenter pour créer les métriques Dudek, quand on a des ensembles de règles de même taille.
 
 #res12_rule_overlap = []
 #res13_rule_overlap = []
