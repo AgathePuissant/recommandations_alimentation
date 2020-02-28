@@ -82,7 +82,7 @@ def visualisation_tx_recom_cl(data) :
 
 # Data Préparation
 tx_recom_df = taux_recommandation(train_global_df)
-tx_recom_cl_df = train_global_df.groupby('cluster').apply(lambda df : taux_recommandation(df))
+tx_recom_cl_df = train_global_df.groupby('cluster').apply(lambda df : taux_recommandation(df)).reset_index()
 
 # Graphiques
 visualisation_tx_recom(tx_recom_df)
