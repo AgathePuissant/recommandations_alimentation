@@ -534,7 +534,7 @@ class User():
         -------
         cluster auquel appartient l'individu n
         """
-        df= pd.read_csv('clusters_8.csv', sep=',',encoding='latin-1')
+        df= pd.read_csv(os.path.join('Base_Gestion_Systeme','clusters_8.csv'), sep=',',encoding='latin-1')
         x_n = self.modalites_vect
         df_ss = df.drop(columns=['nomen','clust.num'])
         X = distances_nid(df_ss, x_n,'Gower')
