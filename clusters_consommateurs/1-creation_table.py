@@ -4,36 +4,6 @@ Created on Mon Jan 27 17:08:50 2020
 
 @author: lili-
 
-===============================================================================
-Outline :
-    
-* Step 1 : Python pandas
-    Création de la table à analyser
-    Varibles à prendre en compte pour l'Analyse en composantes multiples
-    (catégoriel)
-    INDIV
-        - bmi         - mfrom       - mpois
-        - bonali      - mfruit      - msoda
-        - nomen       - mglace      - mvian
-        - regvegt     - mjus        - myao
-        - regvegr     - mlait       - mleg
-        - sexe_ps ou sexeps 
-        - clage ou v2_age ou tage (à voir)
-    REPAS
-        - avecqui
-
-        
-    => livrables : une table avec les individus avec une colonne qui représente
-    le cluster auquel il a été associé
-    
-    # onsp:
-    # 0 [plusieurs réponses]
-    # 1 oui
-    # 2 non
-    # 3 ne sait pas
-    # 4 [refus]
-    # 9 [pas de réponse]
-===============================================================================
 """
 
 
