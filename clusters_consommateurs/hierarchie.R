@@ -10,7 +10,13 @@ library("purrr")
 library("dplyr")# let's start with a dendrogram
 library("dendextend")
 
+#on ne prends pas les indiviuds agés de moins de 18 ans
+bilan2 <- filter(bilan, tage > 3)
+
+
 col = colnames(bilan)
+
+#toutes les colonnes sauf nomen as factor
 
 bilan$sexeps<- as.factor(bilan$sexeps)
 bilan$tage<- as.factor(bilan$tage)
@@ -27,18 +33,14 @@ bilan$volaille.et.gibier<- as.factor(bilan$volaille.et.gibier)
 #  "fromages"                        "fruits"                          "lÃ.gumes..hors.pommes.de.terre." "poissons"                       
 #  "ultra.frais.laitier"             "viande"                          "volaille.et.gibier"              
 
-# for (i in 2:length(col))){
-#   bilan$col[i] <- as.factor(bilan$col[i])
-#   }
-
+#calcul matrice des distances
 gower.dist <- daisy(bilan[ ,2:11], metric = c("gower"))
 
-#divisive.clust <- diana(as.matrix(gower.dist), diss = TRUE, keep.diss = TRUE)
-#plot(divisive.clust, main = "Divisive")
-
+# Clustering ascendant
 aggl.clust.c <- hclust(gower.dist, method = "complete")
 plot(aggl.clust.c, main = "Agglomerative, complete linkages")
 
+# Analyse des clusters
 cstats.table <- function(dist, tree, k) {
   clust.assess <- c("cluster.number","n","within.cluster.ss","average.within","average.between",
       "wb.ratio","dunn2","avg.silwidth")
@@ -94,15 +96,6 @@ stats.df.aggl
 
 #------------------------------choisir le nb de clusters --------------------------------
 
-# ggplot(data = data.frame(t(cstats.table(gower.dist, divisive.clust, 10))),
-#        aes(x=cluster.number, y=within.cluster.ss)) +
-#   geom_point()+
-#   geom_line()+
-#   ggtitle("Divisive clustering") +
-#   labs(x = "Num.of clusters", y = "Within clusters sum of squares (SS)") +
-#   theme(plot.title = element_text(hjust = 0.5))
-
-
 ggplot(data = data.frame(t(cstats.table(gower.dist, aggl.clust.c, 12))),
        aes(x=cluster.number, y=within.cluster.ss)) +
   geom_point()+
@@ -111,13 +104,6 @@ ggplot(data = data.frame(t(cstats.table(gower.dist, aggl.clust.c, 12))),
   labs(x = "Num.of clusters", y = "Within clusters sum of squares (SS)") +
   theme(plot.title = element_text(hjust = 0.5))
 
-# ggplot(data = data.frame(t(cstats.table(gower.dist, divisive.clust, 10))),
-#        aes(x=cluster.number, y=avg.silwidth)) +
-#   geom_point()+
-#   geom_line()+
-#   ggtitle("Divisive clustering") +
-#   labs(x = "Num.of clusters", y = "Average silhouette width") +
-#   theme(plot.title = element_text(hjust = 0.5))
 
 ggplot(data = data.frame(t(cstats.table(gower.dist, aggl.clust.c, 12))),
        aes(x=cluster.number, y=avg.silwidth)) +
@@ -137,24 +123,13 @@ dendro.col <- dendro %>%
   set("labels_colors", value = c("darkslategray")) %>%
   set("labels_cex", 0.5)
 
-# "darkslategray", "darkslategray4", "gold3"
-
 ggd1 <- as.ggdend(dendro.col)
 
 ggplot(ggd1, theme = theme_minimal()) +
   labs(x = "Num. observations", y = "Height", title = "Dendrogram, k = 10")
 
-#ggd1 <- as.ggdend(dendro.col)
-
-# ggplot(ggd1, theme = theme_minimal()) +
-#   labs(x = "Num. observations", y = "Height", title = "Dendrogram, k = 8")
-# 
-# ggplot(ggd1, labels = T) + 
-#   scale_y_reverse(expand = c(0.2, 0)) +
-#   coord_polar(theta="x")
-
 
 clust.num <- cutree(aggl.clust.c, k = 10)
 bilan.cl <- cbind(bilan, clust.num)
 
-write.table(bilan.cl, "clusters_enf.csv", sep = ";", row.names = TRUE)
+#write.table(bilan.cl, "clusters_enf.csv", sep = ";", row.names = TRUE)
