@@ -9,13 +9,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-ciqual = pd.read_csv("tableciqual2017.csv",sep = ";",encoding = 'latin-1')
-#print(ciqual.head())
-
-#i = 0
-#for col in ciqual.columns: 
-#    print(i,col)
-#    i += 1
+ciqual = pd.read_csv("Base_a_analyser/tableciqual2017.csv",sep = ";",encoding = 'latin-1')
 
 
 def calcul_sainlim(data):
