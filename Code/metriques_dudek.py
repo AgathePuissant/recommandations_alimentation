@@ -125,9 +125,9 @@ supp = 0.001
 conf = 0.01
 
 #Méthode 1
-#rapport_1 = 1.075 #rapport à décommenter quand on veut des ensembles de règles de même taille
+rapport_1 = 1.075 #rapport à décommenter quand on veut des ensembles de règles de même taille
 
-rapport_1 = 1
+#rapport_1 = 1
 
 motifs_1 = find_frequent(conso_pattern_sougr, seuil_support = supp*rapport_1, algo = fpgrowth)
 print("Motifs fréquents trouvés") 
@@ -160,7 +160,7 @@ R2=regles_2
 
 #Méthode 3
 
-#rapport_3 = 1 #rapport à décommenter quand on veut des ensembles de règles de même taille
+rapport_3 = 1 #rapport à décommenter quand on veut des ensembles de règles de même taille
 
 conso_pattern_sougr_3 = conso_pattern_sougr.drop(conso_pattern_sougr.columns[cols],axis=1)
 motifs_3 = find_frequent(conso_pattern_sougr_3, seuil_support = supp, algo = fpgrowth)
@@ -170,7 +170,7 @@ print("Règles d'association trouvées")
 
 conso_pattern_sougr_subset = conso_pattern_sougr[(conso_pattern_sougr[tyrep_str]==1) & (conso_pattern_sougr[cluster_str]==1) & (conso_pattern_sougr[avecqui_str]==1)]
 
-rapport_3 = len(conso_pattern_sougr)/len(conso_pattern_sougr_subset)
+#rapport_3 = len(conso_pattern_sougr)/len(conso_pattern_sougr_subset)
 
 regles_3 = regles_3_ori
 
